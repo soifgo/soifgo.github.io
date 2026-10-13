@@ -1,0 +1,9 @@
+# Saeid Moghadam Projects - AI Documentation
+
+## SoifGo (Android Hardware Controller)
+- AI Context: https://soifgo.github.io/soifgo/SOIFGO_AI_CONTEXT.md
+- Docs: https://soifgo.github.io/soifgo/docs.html
+
+## AnyScan209 (Sensor Visualizer)
+- AI Context: https://soifgo.github.io/AnyScan209/AnyScan209_AI_CONTEXT.md
+- Guide: https://soifgo.github.io/AnyScan209/
