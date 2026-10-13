@@ -14,8 +14,11 @@
         @media(min-width: 600px) { .projects { grid-template-columns: 1fr 1fr; } }
         .card { background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #e1e4e8; transition: transform 0.2s; }
         .card:hover { transform: translateY(-3px); }
-        .card h2 { margin-top: 0; color: #0366d6; font-size: 1.3em; }
         .card a { text-decoration: none; color: inherit; display: block; }
+        .card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 12px; }
+        .card-header img { width: 48px; height: 48px; border-radius: 10px; object-fit: cover; border: 1px solid #eaeaea; }
+        .card h2 { margin: 0; color: #0366d6; font-size: 1.2em; }
+        .card p { margin: 0; color: #555; font-size: 0.95em; }
         .footer { text-align: center; margin-top: 50px; font-size: 0.9em; color: #888; }
     </style>
 </head>
@@ -32,14 +35,20 @@
         <div class="projects">
             <div class="card">
                 <a href="./soifgo/">
-                    <h2>🚀 SoifGo</h2>
+                    <div class="card-header">
+                        <img src="./soifgo.png" alt="SoifGo Icon">
+                        <h2>SoifGo</h2>
+                    </div>
                     <p>Advanced Android application for Bluetooth SPP, MQTT IoT protocols, custom dashboards, and hardware control interfaces.</p>
                 </a>
             </div>
 
             <div class="card">
                 <a href="./AnyScan209/">
-                    <h2>📡 AnyScan209</h2>
+                    <div class="card-header">
+                        <img src="./anyscan209.png" alt="AnyScan209 Icon">
+                        <h2>AnyScan209</h2>
+                    </div>
                     <p>Professional geophysical subsurface mapping software processing internal/external magnetometer data into 2D & 3D visualizations.</p>
                 </a>
             </div>
