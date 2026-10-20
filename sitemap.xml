@@ -307,28 +307,6 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- ============ PROJECTS & TOOLS ============ -->
-  <url>
-    <loc>https://soifgo.github.io/clamp_meter/</loc>
-    <lastmod>2026-10-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://soifgo.github.io/temp209/temp209_guide.html</loc>
-    <lastmod>2026-10-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://soifgo.github.io/prog209/prog209_gude.html</loc>
-    <lastmod>2026-10-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
   <!-- ============ LEGAL ============ -->
   <url>
     <loc>https://soifgo.github.io/policy_soifgo.html</loc>
