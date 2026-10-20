@@ -1,0 +1,2498 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="color-scheme" content="light dark" />
+
+  <title>SoifGo HTML Guide — Bluetooth, Sensors, Microphone, MQTT, API &amp; Storage with WebView</title>
+  <meta name="description" content="Complete guide for building HTML apps inside SoifGo. Learn Bluetooth send/receive, sensor data (Light, Movement, Magneto), microphone permission, MQTT publish/subscribe, API send/receive, persistent storage with localStorage, and custom UI with WebView." />
+  <meta name="keywords" content="SoifGo guide, HTML Bluetooth, WebView integration, sensor data, MQTT, WebView MQTT, publish subscribe, light sensor, movement sensor, magneto sensor, Bluetooth send receive, API send receive, api_send, api_recive, custom UI, SoifGo tutorial, localStorage, persistent storage, microphone, request_mic_perm" />
+
+  <meta property="og:title" content="SoifGo HTML Guide — Bluetooth, Sensors, Microphone, MQTT, API &amp; Storage" />
+  <meta property="og:description" content="Complete guide for building HTML apps inside SoifGo. Bluetooth, sensors, microphone, MQTT, API, persistent storage, and custom UI." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://soifgo.github.io/send_bluetooth_html/html_guide_1.html" />
+  <meta property="og:image" content="https://soifgo.github.io/html-guide-og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="SoifGo Tutorials" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SoifGo HTML Guide — Bluetooth, Sensors, Microphone, MQTT, API &amp; Storage" />
+  <meta name="twitter:description" content="Complete guide for building HTML apps inside SoifGo. Bluetooth, sensors, microphone, MQTT, API, persistent storage, and custom UI." />
+  <meta name="twitter:image" content="https://soifgo.github.io/html-guide-og.jpg" />
+
+  <link rel="canonical" href="https://soifgo.github.io/send_bluetooth_html/html_guide_1.html" />
+  <link rel="alternate" hreflang="en" href="https://soifgo.github.io/send_bluetooth_html/html_guide_1.html" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "SoifGo HTML Guide — Bluetooth, Sensors, Microphone, MQTT, API & Storage",
+    "description": "Complete guide for building HTML apps inside SoifGo. Bluetooth, sensors, microphone, MQTT, API, persistent storage, and custom UI with WebView.",
+    "author": { "@type": "Person", "name": "Saeid Moghadam" },
+    "publisher": { "@type": "Organization", "name": "SoifGo", "url": "https://soifgo.github.io/" },
+    "datePublished": "2025-01-01",
+    "dateModified": "2025-01-15",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://soifgo.github.io/send_bluetooth_html/html_guide_1.html" },
+    "about": { "@type": "Thing", "name": "HTML WebView Integration with SoifGo" },
+    "teaches": [
+      "Bluetooth send from WebView to SoifGo",
+      "Bluetooth receive from SoifGo to WebView",
+      "Sensor activation (Light, Movement, Magneto)",
+      "Sensor data reception in WebView",
+      "Microphone permission request",
+      "MQTT connect, publish, subscribe from WebView",
+      "MQTT message reception in WebView",
+      "API send with address, key, value",
+      "API receive and handle api_rx callback",
+      "Handling different API response formats",
+      "Persistent storage with localStorage",
+      "Custom UI development with HTML/CSS/JS"
+    ],
+    "inLanguage": "en",
+    "isAccessibleForFree": true,
+    "learningResourceType": "Tutorial"
+  }
+  </script>
+
+  <script>
+    (function() {
+      var savedTheme = localStorage.getItem('soifgo-theme');
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root,
+    [data-theme="dark"] {
+      --primary: #4f8cff;
+      --primary-light: #6aa0ff;
+      --purple: #9b59b6;
+      --purple-light: #c084fc;
+      --arduino-teal: #1abc9c;
+      --orange: #e67e22;
+      --bg: #0f172a;
+      --bg-card: #1e293b;
+      --text: #e8edf5;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.07);
+      --shadow: rgba(0, 0, 0, 0.35);
+      --hover-bg: rgba(255, 255, 255, 0.04);
+      --code-bg: rgba(79, 140, 255, 0.12);
+      --code-text: #a5b4fc;
+      --pre-bg: #0f172a;
+      --pre-text: #e2e8f0;
+      --warning-bg: rgba(245, 158, 11, 0.1);
+      --warning-border: #f59e0b;
+      --warning-text: #fbbf24;
+      --success-bg: rgba(34, 197, 94, 0.1);
+      --success-border: #22c55e;
+      --success-text: #4ade80;
+      --danger-bg: rgba(239, 68, 68, 0.1);
+      --danger-border: #ef4444;
+      --danger-text: #f87171;
+      --radius: 14px;
+      --radius-sm: 10px;
+      --transition: 0.25s ease;
+    }
+
+    [data-theme="light"] {
+      --primary: #2563eb;
+      --primary-light: #3b82f6;
+      --purple: #9333ea;
+      --purple-light: #a855f7;
+      --arduino-teal: #0d9488;
+      --orange: #d97706;
+      --bg: #f8fafc;
+      --bg-card: #ffffff;
+      --text: #1e293b;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: rgba(15, 23, 42, 0.08);
+      --shadow: rgba(15, 23, 42, 0.08);
+      --hover-bg: rgba(37, 99, 235, 0.06);
+      --code-bg: rgba(37, 99, 235, 0.1);
+      --code-text: #1e40af;
+      --pre-bg: #0f172a;
+      --pre-text: #e2e8f0;
+      --warning-bg: rgba(245, 158, 11, 0.1);
+      --warning-border: #d97706;
+      --warning-text: #92400e;
+      --success-bg: rgba(34, 197, 94, 0.1);
+      --success-border: #16a34a;
+      --success-text: #15803d;
+      --danger-bg: rgba(239, 68, 68, 0.1);
+      --danger-border: #dc2626;
+      --danger-text: #b91c1c;
+    }
+
+    .ignore { }
+
+    body {
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .container { max-width: 880px; margin: 0 auto; padding: 20px 16px 60px; }
+
+    h1 {
+      font-size: 1.8rem;
+      color: var(--primary-light);
+      text-align: center;
+      margin: 1rem 0 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      word-break: break-word;
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      color: var(--text-main);
+      margin: 0 0 0.75rem;
+      font-weight: 600;
+      word-break: break-word;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      scroll-margin-top: 80px;
+    }
+
+    h2 .step-num {
+      background: var(--primary);
+      color: #fff;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      color: var(--primary-light);
+      margin: 1.2rem 0 0.5rem;
+      font-weight: 600;
+      word-break: break-word;
+      scroll-margin-top: 80px;
+    }
+
+    h4 {
+      font-size: 1rem;
+      color: var(--text);
+      margin: 0.75rem 0 0.25rem;
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+    p { margin: 0.75em 0; word-break: break-word; color: var(--text); }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      word-break: break-word;
+      transition: color var(--transition);
+    }
+
+    a:hover { text-decoration: underline; }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 1rem;
+      max-width: 100%;
+      overflow: hidden;
+      box-shadow: 0 4px 20px var(--shadow);
+      transition: background 0.3s ease, border 0.3s ease;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: saturate(180%) blur(8px);
+      -webkit-backdrop-filter: saturate(180%) blur(8px);
+      background: color-mix(in oklab, var(--bg) 92%, transparent);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 0;
+      margin: 0 0 18px;
+      border-radius: var(--radius-sm);
+    }
+
+    .nav-inner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0 10px;
+    }
+
+    .nav a {
+      flex: 1 1 auto;
+      text-align: center;
+      font-size: clamp(0.62rem, 1.6vw, 0.82rem);
+      padding: 5px 10px;
+      text-decoration: none;
+      color: var(--primary);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      font-weight: 500;
+    }
+
+    .nav a:hover,
+    .nav a:focus {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      text-decoration: none;
+    }
+
+    .note-warning {
+      background: var(--warning-bg);
+      border: 1px solid var(--warning-border);
+      color: var(--warning-text);
+      padding: 1rem 1.2rem;
+      border-radius: var(--radius-sm);
+      margin: 1rem 0;
+    }
+
+    .note-warning ul, .note-warning ol { padding-left: 1.4em; margin: 0.5em 0; color: inherit; }
+    .note-warning li { margin-bottom: 0.3em; color: inherit; }
+    .note-warning strong { color: inherit; }
+
+    .note-success {
+      background: var(--success-bg);
+      border: 1px solid var(--success-border);
+      color: var(--success-text);
+      padding: 1rem 1.2rem;
+      border-radius: var(--radius-sm);
+      margin: 1rem 0;
+    }
+
+    .note-success ul, .note-success ol { padding-left: 1.4em; margin: 0.5em 0; color: inherit; }
+    .note-success li { margin-bottom: 0.3em; color: inherit; }
+    .note-success strong { color: inherit; }
+
+    .note-danger {
+      background: var(--danger-bg);
+      border: 1px solid var(--danger-border);
+      color: var(--danger-text);
+      padding: 1rem 1.2rem;
+      border-radius: var(--radius-sm);
+      margin: 1rem 0;
+    }
+
+    .note-danger ul, .note-danger ol { padding-left: 1.4em; margin: 0.5em 0; color: inherit; }
+    .note-danger li { margin-bottom: 0.3em; color: inherit; }
+    .note-danger strong { color: inherit; }
+
+    .note-info {
+      background: var(--code-bg);
+      border: 1px solid var(--primary);
+      color: var(--text);
+      padding: 1rem 1.2rem;
+      border-radius: var(--radius-sm);
+      margin: 1rem 0;
+    }
+
+    .note-info strong { color: var(--primary-light); }
+
+    .note-info ul, .note-info ol { padding-left: 1.4em; margin: 0.5em 0; }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius-sm);
+      display: block;
+      margin: 0.8rem 0;
+      background: var(--bg);
+      border: 1px solid var(--border);
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: #0a1a2a;
+      margin: 0.8rem 0;
+      box-shadow: 0 4px 15px var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    pre {
+      border-radius: var(--radius-sm);
+      max-height: 500px;
+      overflow: auto;
+      margin: 0.8rem 0;
+      background: var(--pre-bg) !important;
+      padding: 1rem;
+      font-size: 0.9rem;
+      line-height: 1.7;
+      border: 1px solid var(--border);
+    }
+
+    pre code {
+      background: transparent !important;
+      padding: 0;
+      color: var(--pre-text) !important;
+      font-size: 0.85rem;
+      font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+    }
+
+    code {
+      padding: 0.2em 0.6em;
+      border-radius: 6px;
+      font-size: 0.88em;
+      font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+      color: var(--code-text);
+      word-break: break-word;
+      background: var(--code-bg);
+    }
+
+    ul, ol { padding-left: 1.4em; margin: 0.5em 0; color: var(--text); }
+    li { margin-bottom: 0.4em; word-break: break-word; }
+
+    .btn-home {
+      display: inline-block;
+      background: var(--primary);
+      color: #ffffff;
+      padding: 14px 34px;
+      border-radius: 60px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.05rem;
+      text-align: center;
+      transition: background 0.15s ease, transform 0.1s ease;
+      touch-action: manipulation;
+      border: none;
+      min-width: 140px;
+      box-shadow: 0 4px 14px rgba(79, 140, 255, 0.3);
+    }
+
+    .btn-home:hover {
+      background: var(--primary-light);
+      text-decoration: none;
+      transform: scale(1.02);
+    }
+
+    .btn-home:active { transform: scale(0.97); }
+
+    .btn-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin: 2rem 0 0.5rem 0;
+    }
+
+    .download-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--primary);
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      margin: 0.5em 0.5em 0.5em 0;
+      transition: background 0.15s ease, transform 0.1s ease;
+      touch-action: manipulation;
+      border: none;
+      box-shadow: 0 4px 14px rgba(79, 140, 255, 0.25);
+    }
+
+    .download-link:hover {
+      background: var(--primary-light);
+      text-decoration: none;
+      transform: scale(1.02);
+    }
+
+    .download-link:active { transform: scale(0.97); }
+
+    .download-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0.5rem 0;
+    }
+
+    .btn-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--primary);
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      margin: 0.5em 0;
+      transition: background 0.15s ease, transform 0.1s ease;
+      touch-action: manipulation;
+      border: none;
+      box-shadow: 0 4px 14px rgba(79, 140, 255, 0.25);
+    }
+
+    .btn-link:hover {
+      background: var(--primary-light);
+      text-decoration: none;
+      transform: scale(1.02);
+    }
+
+    .btn-link:active { transform: scale(0.97); }
+
+    .mqtt-note {
+      background: var(--bg-card);
+      border: 2px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      margin: 1rem 0;
+    }
+
+    .mqtt-note h3 {
+      color: var(--primary-light);
+      margin-top: 0;
+    }
+
+    .quick-tip {
+      background: var(--code-bg);
+      border: 1px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      margin: 0 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.92rem;
+      color: var(--text);
+    }
+
+    .quick-tip .icon { font-size: 1.3rem; flex-shrink: 0; }
+    .quick-tip a { color: var(--primary); font-weight: 600; text-decoration: none; }
+    .quick-tip a:hover { text-decoration: underline; }
+
+    .ai-box {
+      border: 2px solid var(--purple);
+      background: color-mix(in oklab, var(--bg-card) 92%, var(--purple));
+      padding: 1.2rem 1.4rem;
+      border-radius: var(--radius);
+      margin: 1rem 0 1.5rem 0;
+    }
+
+    .ai-box h3 {
+      margin-top: 0;
+      color: var(--purple-light);
+    }
+
+    .ai-box strong { color: var(--text-main); }
+
+    .ai-box ol {
+      margin: 0.5rem 0 0.2rem 0;
+    }
+
+    .examples-box {
+      border: 2px solid var(--purple);
+    }
+
+    .examples-box h3 {
+      margin-top: 0;
+      color: var(--purple-light);
+    }
+
+    .download-zip-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--purple);
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin: 8px 0 4px 0;
+      transition: transform 0.15s, background 0.15s;
+      box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
+      cursor: pointer;
+      border: none;
+    }
+
+    .download-zip-btn:hover {
+      background: #8e44ad;
+      transform: translateY(-2px);
+      text-decoration: none;
+      color: #ffffff;
+    }
+
+    .download-zip-btn:active { transform: scale(0.98); }
+
+    .examples-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .example-card {
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      transition: transform 0.2s, border-color 0.2s, background 0.2s;
+    }
+
+    .example-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--purple);
+      background: color-mix(in oklab, var(--bg-card) 92%, var(--purple));
+    }
+
+    .ex-main-link {
+      display: block;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .ex-main-link:hover {
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .example-card .ex-icon {
+      font-size: 1.8rem;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .example-card .ex-title {
+      color: var(--primary-light);
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .example-card .ex-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: block;
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+
+    .ex-badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: auto;
+      padding-top: 8px;
+    }
+
+    .ex-badge {
+      font-size: 0.72rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      text-decoration: none;
+      transition: transform 0.15s, filter 0.15s;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .ex-badge:hover {
+      text-decoration: none;
+      transform: translateY(-1px);
+      filter: brightness(1.1);
+    }
+
+    .ex-badge-html {
+      background: rgba(52, 152, 219, 0.15);
+      color: #3498db;
+      border: 1px solid rgba(52, 152, 219, 0.3);
+    }
+
+    .ex-badge-html:hover {
+      background: rgba(52, 152, 219, 0.25);
+      color: #3498db;
+    }
+
+    .ex-badge-code {
+      background: rgba(155, 89, 182, 0.15);
+      color: var(--purple-light);
+      border: 1px solid rgba(155, 89, 182, 0.3);
+    }
+
+    .ex-badge-code:hover {
+      background: rgba(155, 89, 182, 0.25);
+      color: var(--purple-light);
+    }
+
+    .ex-badge-arduino {
+      background: rgba(0, 151, 156, 0.15);
+      color: var(--arduino-teal);
+      border: 1px solid rgba(0, 151, 156, 0.3);
+    }
+
+    .ex-badge-arduino:hover {
+      background: rgba(0, 151, 156, 0.25);
+      color: var(--arduino-teal);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 1rem 0;
+    }
+
+    .file-name {
+      background: var(--primary);
+      color: #ffffff;
+      padding: 4px 14px;
+      border-radius: 6px;
+      display: inline-block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin: 8px 0;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 14px 0;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      background: var(--bg-card);
+      min-width: 420px;
+    }
+
+    th, td {
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    th {
+      background: var(--code-bg);
+      color: var(--primary-light);
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--hover-bg); }
+
+    .language-switcher {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      right: auto;
+      z-index: 1001;
+      direction: ltr;
+    }
+
+    .lang-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 16px;
+      border-radius: 24px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+
+    .lang-btn:hover {
+      background: var(--hover-bg);
+      border-color: var(--primary);
+      transform: scale(1.03);
+    }
+
+    .lang-dropdown {
+      display: none;
+      position: absolute;
+      top: 48px;
+      left: 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      min-width: 220px;
+      max-height: 400px;
+      overflow-y: auto;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      padding: 8px 0;
+      direction: ltr;
+    }
+
+    .lang-dropdown.show { display: block; }
+
+    .lang-item {
+      display: block;
+      padding: 10px 18px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.92rem;
+      transition: background 0.15s;
+      white-space: nowrap;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .lang-item:hover {
+      background: var(--hover-bg);
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      left: auto;
+      z-index: 1000;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 1.3rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      transition: background 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
+      padding: 0;
+      line-height: 1;
+      direction: ltr;
+    }
+
+    .theme-toggle:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      transform: scale(1.08);
+    }
+
+    .muted { color: var(--text-muted); }
+    .text-center { text-align: center; }
+    .mt-1 { margin-top: 1rem; }
+    .mb-1 { margin-bottom: 1rem; }
+    .arrow { font-size: 1.5rem; color: var(--primary); }
+
+    hr { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+
+    .footer {
+      text-align: center;
+      padding: 1.5rem 0 0.5rem 0;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+      margin-top: 1.5rem;
+    }
+
+    @media (max-width: 700px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .examples-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 14px 12px 40px; }
+      h1 { font-size: 1.5rem; }
+      h2 { font-size: 1.15rem; gap: 8px; }
+      h2 .step-num { width: 26px; height: 26px; font-size: 0.8rem; }
+      h3 { font-size: 1rem; }
+      .card { padding: 1rem 1.1rem; border-radius: 12px; }
+      body { font-size: 0.98rem; }
+      pre { font-size: 0.75rem; padding: 0.8rem; max-height: 320px; }
+      pre code { font-size: 0.75rem; }
+      .btn-home { width: 100%; justify-content: center; padding: 16px 18px; font-size: 1rem; }
+      .btn-wrap { flex-direction: column; gap: 12px; }
+      .btn-link { width: 100%; justify-content: center; padding: 14px 18px; font-size: 0.95rem; }
+      .download-link { width: 100%; justify-content: center; padding: 14px 18px; font-size: 0.95rem; }
+      .download-wrap { flex-direction: column; gap: 8px; }
+      .mqtt-note { padding: 0.8rem 0.9rem; }
+      .quick-tip { font-size: 0.86rem; padding: 12px 14px; }
+      .nav a { font-size: 0.6rem; padding: 4px 6px; }
+      table { font-size: 0.82rem; }
+      th, td { padding: 8px 10px; }
+
+      .theme-toggle { width: 40px; height: 40px; font-size: 1.1rem; top: 12px; right: 12px; }
+      .language-switcher { top: 12px; left: 12px; }
+      .lang-btn { font-size: 0.8rem; padding: 6px 12px; }
+      .lang-dropdown { min-width: 180px; max-height: 300px; }
+      .lang-item { padding: 8px 14px; font-size: 0.85rem; }
+    }
+
+    @media (max-width: 380px) {
+      h1 { font-size: 1.3rem; }
+      h2 { font-size: 1.05rem; }
+      h3 { font-size: 0.95rem; }
+      .card { padding: 0.8rem 0.9rem; }
+      pre { font-size: 0.7rem; padding: 0.6rem; }
+      pre code { font-size: 0.7rem; }
+    }
+
+    pre[class*="language-"] {
+      background: var(--pre-bg) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: var(--radius-sm) !important;
+      margin: 0.8rem 0 !important;
+    }
+
+    :not(pre) > code[class*="language-"] {
+      background: var(--code-bg) !important;
+      color: var(--code-text) !important;
+    }
+  </style>
+</head>
+<body>
+
+<div class="language-switcher ignore" id="languageSwitcher">
+  <button class="lang-btn" id="langBtn" type="button" aria-label="Change language">
+    🌐 <span id="currentLangLabel">English</span>
+  </button>
+  <div class="lang-dropdown" id="langDropdown"></div>
+</div>
+
+<button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme" title="Switch theme">
+  <span id="themeIcon">☀️</span>
+</button>
+
+<div class="container">
+
+  <nav class="nav ignore" aria-label="Table of Contents">
+    <div class="nav-inner">
+      <a href="#overview">Overview</a>
+      <a href="#examples">Examples</a>
+      <a href="#bluetooth-send">BT Send</a>
+      <a href="#bluetooth-receive">BT Receive</a>
+      <a href="#sensors">Sensors</a>
+      <a href="#microphone">Microphone</a>
+      <a href="#mqtt">MQTT</a>
+      <a href="#api">API</a>
+      <a href="#storage">Storage</a>
+    </div>
+  </nav>
+
+  <h1>📱 HTML Guide with <span class="ignore">SoifGo</span></h1>
+
+  <div class="quick-tip">
+    <span class="icon">💡</span>
+    <span>
+      Copy this entire page into an AI assistant (like DeepSeek) and describe what you want — the AI will build the HTML for you.
+    </span>
+  </div>
+
+  <div class="card" id="overview">
+    <h2>📖 Overview</h2>
+
+    <div class="ai-box">
+      <h3>🤖 Build Your Custom App Without Hard Coding!</h3>
+      <p>
+        <strong>Don't stress!</strong> You don't need to be an HTML or JavaScript expert to use this golden feature.
+        Just <strong>copy this entire guide page</strong> (the text you're reading right now) and paste it into an AI assistant like <strong>DeepSeek</strong> or any other AI.
+        Then, simply describe what you want in plain English, for example:
+        <em>"Create an HTML page with 4 directional buttons to control a robot, and display ultrasonic sensor data received via Bluetooth."</em>
+        The AI will generate the complete code for you!
+      </p>
+      <p><strong>📋 How to use it in <span class="ignore">SoifGo</span>:</strong></p>
+      <ol>
+        <li>In <span class="ignore">SoifGo</span>, <strong>create a new button</strong>, set its Behavior to <strong>Web</strong>, select <strong>Web Offline HTML</strong>, and tap <strong>Create</strong>.</li>
+        <li>Tap the <strong>Edit</strong> button, then choose <strong>Play</strong>.</li>
+        <li>In the Play screen, <strong>tap</strong> the button you just created, then open the left‑hand menu (top‑left) and select <strong>Edit</strong>.</li>
+        <li>You are now in the edit screen. You can manually <strong>Select All</strong>, delete everything, and <strong>Paste</strong> your code, or simply use the <strong>"Select All and Paste"</strong> option from the menu to do it all in one step. Wait a moment for the syntax highlighting to appear.</li>
+        <li>Wait until the code changes from solid black to colored (syntax highlighting has finished loading). Once it's ready, tap the <strong>Close (×)</strong> icon to exit the editor and see your custom app in action!</li>
+      </ol>
+      <p style="margin-top:10px; font-weight:bold; color: var(--purple-light);">
+        🎯 That's it! Ask the AI to build any app you want and run it inside <span class="ignore">SoifGo</span> instantly.
+      </p>
+    </div>
+
+    <p style="font-size:1.05rem;">
+      <strong><span class="ignore">SoifGo</span></strong> turns your HTML pages into a real Android app.
+      Inside its WebView, your page can talk to Bluetooth, read phone sensors,
+      request microphone access, connect to MQTT brokers, send/receive API data,
+      and store data — all with plain HTML, CSS, and JavaScript.
+    </p>
+    <p>This guide shows you how to:</p>
+    <ul>
+      <li>✅ Send and receive Bluetooth data</li>
+      <li>✅ Activate and read sensors (Light, Movement, Magneto)</li>
+      <li>✅ Request microphone permission for audio or voice-to-Bluetooth projects</li>
+      <li>✅ Connect, publish, and receive MQTT messages</li>
+      <li>✅ Send and receive data via <span class="ignore">SoifGo</span> API</li>
+      <li>✅ Save and reload data with localStorage</li>
+      <li>✅ Build a custom UI with full control</li>
+    </ul>
+  </div>
+
+  <div class="card examples-box" id="examples">
+    <h3>📦 Working Examples</h3>
+    <p>
+      Ready-to-use controllers. Each example includes:
+      <span class="ex-badge ex-badge-html">HTML</span> live demo,
+      <span class="ex-badge ex-badge-code">HTML Code</span> copyable code,
+      and where available
+      <span class="ex-badge ex-badge-arduino">Arduino ↓</span> sketch.
+    </p>
+
+    <a href="html_sample.zip" class="download-zip-btn" download>
+      📥 Download all examples as ZIP
+    </a>
+
+    <div class="examples-grid">
+      <div class="example-card">
+        <a href="01-led-blink/index.html" class="ex-main-link">
+          <span class="ex-icon">💡</span>
+          <span class="ex-title">LED Blink</span>
+          <span class="ex-desc">Toggle an LED on/off via Bluetooth</span>
+        </a>
+        <div class="ex-badges">
+          <a href="01-led-blink/index.html" class="ex-badge ex-badge-html" title="Live demo">HTML</a>
+          <a href="01-led-blink/code.html" class="ex-badge ex-badge-code" title="View &amp; copy code">HTML Code</a>
+          <a href="01-led-blink/01-led-blink.ino" class="ex-badge ex-badge-arduino" download title="Download Arduino sketch">Arduino ↓</a>
+        </div>
+      </div>
+
+      <div class="example-card">
+        <a href="02-sensor-readout/index.html" class="ex-main-link">
+          <span class="ex-icon">📊</span>
+          <span class="ex-title">Sensor Readout</span>
+          <span class="ex-desc">Read analog sensor values on your phone</span>
+        </a>
+        <div class="ex-badges">
+          <a href="02-sensor-readout/index.html" class="ex-badge ex-badge-html" title="Live demo">HTML</a>
+          <a href="02-sensor-readout/code.html" class="ex-badge ex-badge-code" title="View &amp; copy code">HTML Code</a>
+          <a href="02-sensor-readout/02-sensor-readout.ino" class="ex-badge ex-badge-arduino" download title="Download Arduino sketch">Arduino ↓</a>
+        </div>
+      </div>
+
+      <div class="example-card">
+        <a href="03-speed-control/index.html" class="ex-main-link">
+          <span class="ex-icon">⚙️</span>
+          <span class="ex-title">Speed Control</span>
+          <span class="ex-desc">Independent speed control for two motors</span>
+        </a>
+        <div class="ex-badges">
+          <a href="03-speed-control/index.html" class="ex-badge ex-badge-html" title="Live demo">HTML</a>
+          <a href="03-speed-control/code.html" class="ex-badge ex-badge-code" title="View &amp; copy code">HTML Code</a>
+          <a href="03-speed-control/03-speed-control.ino" class="ex-badge ex-badge-arduino" download title="Download Arduino sketch">Arduino ↓</a>
+        </div>
+      </div>
+
+      <div class="example-card">
+        <a href="04-phone-sensors/index.html" class="ex-main-link">
+          <span class="ex-icon">📱</span>
+          <span class="ex-title">Phone Sensors</span>
+          <span class="ex-desc">Stream phone light / motion / magnetic data</span>
+        </a>
+        <div class="ex-badges">
+          <a href="04-phone-sensors/index.html" class="ex-badge ex-badge-html" title="Live demo">HTML</a>
+          <a href="04-phone-sensors/code.html" class="ex-badge ex-badge-code" title="View &amp; copy code">HTML Code</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🔌 The Bridge — How HTML Talks to <span class="ignore">SoifGo</span></h3>
+    <p>
+      Inside <span class="ignore">SoifGo</span>'s WebView, a JavaScript object called <code>window.soifgo</code>
+      is automatically injected. Use it to call native functions from JavaScript.
+    </p>
+
+    <div class="file-name">📄 Bridge call pattern</div>
+
+    <pre class="line-numbers"><code class="language-javascript">// Basic call pattern
+window.soifgo.CallSub('subName', true, arg1, arg2, arg3);
+
+// Real example — send text to Bluetooth
+window.soifgo.CallSub('html_bluetooth_rx', true, txt);
+
+// Real example — connect to MQTT broker (step 1)
+window.soifgo.CallSub('connecte_mqtt_ai', true, address, id);
+
+// Real example — send data to API
+window.soifgo.CallSub('api_send', true, address, key, value);
+
+// Real example — receive data from API
+window.soifgo.CallSub('api_recive', true, address, key);</code></pre>
+
+    <div class="note-success">
+      <strong>✅ Golden rules:</strong>
+      <ul>
+        <li>Always call <code>window.soifgo.CallSub(...)</code> directly.</li>
+        <li>The second argument is a boolean flag — pass <code>true</code> or <code>false</code>.</li>
+        <li>After the flag, you can pass <strong>up to 3 arguments</strong>.</li>
+        <li>Empty strings must still be passed as <code>''</code> — never omit them.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" id="bluetooth-send">
+    <h2>🔵 1. Bluetooth — Send Data</h2>
+    <p>WebView → <span class="ignore">SoifGo</span> → Bluetooth</p>
+
+    <p>
+      This page allows the user to enter text and send it via Bluetooth.
+      The data goes from the WebView to <span class="ignore">SoifGo</span>, then to the connected Bluetooth device.
+    </p>
+
+    <div class="file-name">📄 html_bluetooth_send.html</div>
+
+    <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+  &lt;title&gt;Send Command&lt;/title&gt;
+&lt;/head&gt;
+&lt;body style="text-align:center; margin-top:50px; font-family:sans-serif;"&gt;
+
+  &lt;h3&gt;📤 Send Command to Bluetooth&lt;/h3&gt;
+  &lt;input type="text" id="txt" placeholder="Enter text..."&gt;
+  &lt;br&gt;&lt;br&gt;
+  &lt;button onclick="sendBluetooth()"
+          style="padding:10px 30px; font-size:16px; background:#2196f3;
+                 color:white; border:none; border-radius:6px; cursor:pointer;"&gt;
+    Send
+  &lt;/button&gt;
+
+  &lt;script&gt;
+    function sendBluetooth() {
+      const txt = document.getElementById('txt').value;
+      window.soifgo.CallSub('html_bluetooth_rx', true, txt);
+    }
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <div class="note-success">
+      <strong>✅ How it works:</strong>
+      <ol>
+        <li>User types text in the input box.</li>
+        <li>Clicks the <strong>Send</strong> button.</li>
+        <li>JavaScript calls <code>window.soifgo.CallSub('html_bluetooth_rx', true, txt)</code>.</li>
+        <li><span class="ignore">SoifGo</span> sends the text to the connected Bluetooth device.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="card" id="bluetooth-receive">
+    <h2>🔵 2. Bluetooth — Receive Data</h2>
+    <p>Bluetooth → <span class="ignore">SoifGo</span> → WebView</p>
+
+    <p>
+      This page displays data received from Bluetooth.
+      <span class="ignore">SoifGo</span> forwards incoming data to the WebView using JavaScript functions.
+    </p>
+
+    <div class="file-name">📄 html_bluetooth_recive.html</div>
+
+    <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;BT Receive&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="output"
+         style="font-size:20px;color:white;background:black;
+                padding:20px;min-height:100vh;"&gt;
+        waiting for data...
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        // This function is called by SoifGo when Bluetooth data arrives
+        function html_bluetooth_tx(data) {
+            document.getElementById('output').innerHTML = data;
+        }
+        // Expose to window so SoifGo can find it
+        window.html_bluetooth_tx = html_bluetooth_tx;
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <div class="note-success">
+      <strong>✅ How it works:</strong>
+      <ol>
+        <li>Bluetooth device sends data to <span class="ignore">SoifGo</span>.</li>
+        <li><span class="ignore">SoifGo</span> calls <code>html_bluetooth_tx(data)</code> in the WebView.</li>
+        <li>JavaScript updates the page with the received data.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="card" id="sensors">
+    <h2>🟢 3. Sensor Data — Receive</h2>
+    <p>Sensors → <span class="ignore">SoifGo</span> → WebView</p>
+
+    <p>This page displays data from 3 sensors:</p>
+    <ul>
+      <li><strong>Light</strong> — Light intensity sensor</li>
+      <li><strong>Move X/Y</strong> — Movement/acceleration sensor (X and Y axis)</li>
+      <li><strong>Magneto</strong> — Magnetic field sensor</li>
+    </ul>
+
+    <div class="note-warning">
+      <strong>⚠️ IMPORTANT:</strong> Each sensor has its own activation command, and the three are <strong>independent</strong> — call only the one(s) for the sensor(s) you use. This demo page shows all three sensors, so it calls all three:
+      <pre style="background:var(--pre-bg); color:var(--pre-text); padding:12px; border-radius:6px; margin:10px 0;"><code>window.soifgo.CallSub('sensor_light', true);   // Activate light sensor
+window.soifgo.CallSub('sensor_move', true);    // Activate movement sensor
+window.soifgo.CallSub('sensor_magno', true);   // Activate magneto sensor</code></pre>
+      <p style="margin-top:8px;">
+        In this demo the 3 commands are called inside <code>window.onload</code> to auto-start the sensors when the page loads. If you only need, for example, the magnetic sensor, call just <code>sensor_magno</code>.
+      </p>
+    </div>
+
+    <div class="file-name">📄 html_sensor_recive.html</div>
+
+    <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Sensor Receive&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="light"  style="font-size:20px;color:white;background:#333;padding:15px;margin:5px;border-radius:8px;"&gt;
+        Light: waiting...
+    &lt;/div&gt;
+    &lt;div id="movex"  style="font-size:20px;color:white;background:#444;padding:15px;margin:5px;border-radius:8px;"&gt;
+        Move X: waiting...
+    &lt;/div&gt;
+    &lt;div id="movey"  style="font-size:20px;color:white;background:#555;padding:15px;margin:5px;border-radius:8px;"&gt;
+        Move Y: waiting...
+    &lt;/div&gt;
+    &lt;div id="magno"  style="font-size:20px;color:white;background:#666;padding:15px;margin:5px;border-radius:8px;"&gt;
+        Magneto: waiting...
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        // ---- Receiver functions (called by SoifGo) ----
+        function html_sensor_light(data) {
+            document.getElementById('light').innerHTML = 'Light: ' + data;
+        }
+        function html_sensor_movex(data) {
+            document.getElementById('movex').innerHTML = 'Move X: ' + data;
+        }
+        function html_sensor_movey(data) {
+            document.getElementById('movey').innerHTML = 'Move Y: ' + data;
+        }
+        function html_sensor_magno(data) {
+            document.getElementById('magno').innerHTML = 'Magneto: ' + data;
+        }
+
+        // Expose them
+        window.html_sensor_light = html_sensor_light;
+        window.html_sensor_movex = html_sensor_movex;
+        window.html_sensor_movey = html_sensor_movey;
+        window.html_sensor_magno = html_sensor_magno;
+
+        // ---- Auto-start sensors on page load ----
+        window.onload = function() {
+            window.soifgo.CallSub('sensor_light', true);
+            window.soifgo.CallSub('sensor_move', true);
+            window.soifgo.CallSub('sensor_magno', true);
+        };
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+  </div>
+
+  <div class="card" id="microphone">
+    <h2>🎤 4. Microphone — Permission Request</h2>
+
+    <p>
+      If your project needs microphone access — for example, to record audio,
+      do speech-to-text conversion, or build a voice → Bluetooth pipeline —
+      you must request permission the first time. After the user allows it once,
+      Android remembers the choice and no dialog appears again.
+    </p>
+
+    <div class="note-success">
+      <strong>✅ Golden rule:</strong> Call <code>request_mic_perm</code> once,
+      before you start using the microphone. That is all you need.
+    </div>
+
+    <div class="file-name">📄 Request microphone permission</div>
+
+    <pre class="line-numbers"><code class="language-javascript">// Call this once, before starting speech recognition or audio recording
+window.soifgo.CallSub('request_mic_perm', true, null);</code></pre>
+
+    <div class="note-info">
+      <strong>⚠️ Notes:</strong>
+      <ul>
+        <li><span class="ignore">SoifGo</span> shows the native Android permission dialog the first time.</li>
+        <li>After the user taps <strong>Allow</strong>, the permission stays granted.</li>
+        <li>On later runs, <span class="ignore">SoifGo</span> silently ignores the call — no dialog appears.</li>
+        <li>If you prefer not to call <code>request_mic_perm</code> in your code,
+            the user can grant microphone permission manually in
+            <strong>Android Settings → Apps → <span class="ignore">SoifGo</span> → Permissions → Microphone</strong>.</li>
+      </ul>
+    </div>
+
+    <div class="file-name">📄 Example — voice command → Bluetooth</div>
+
+    <pre class="line-numbers"><code class="language-markup">&lt;button id="micBtn"&gt;🎤 Start&lt;/button&gt;
+
+&lt;script&gt;
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = new SpeechRecognition();
+recognition.lang = 'en-US';
+
+document.getElementById('micBtn').addEventListener('click', () =&gt; {
+    // 1. Ask for microphone permission (first time only)
+    window.soifgo.CallSub('request_mic_perm', true, null);
+
+    // 2. Start speech recognition
+    recognition.start();
+});
+
+recognition.onresult = (event) =&gt; {
+    const text = event.results[0][0].transcript;
+    if (text.trim()) {
+        // 3. Send recognized text to Bluetooth
+        window.soifgo.CallSub('html_bluetooth_rx', true, text);
+    }
+};
+&lt;/script&gt;</code></pre>
+
+    <div class="note-info">
+      <strong>💡 Tip:</strong> For the full multilingual voice tutorial (22 languages,
+      continuous listening, language switcher), see the official page:
+      <a href="https://soifgo.github.io/serial_voice/serial_voice_tutorials.html">
+        Voice → Serial Bluetooth Tutorial
+      </a>.
+    </div>
+  </div>
+
+  <div class="card" id="mqtt">
+    <h2>🟣 5. MQTT — Connect, Publish &amp; Receive</h2>
+    <p>WebView ↔ Broker</p>
+
+    <p>
+      <span class="ignore">SoifGo</span> has a <strong>built-in MQTT client</strong>. Your HTML page can connect
+      to any MQTT broker, publish messages, and receive them — all through simple
+      JavaScript calls. No WebSocket, no CORS, no external library needed.
+    </p>
+
+    <div class="note-info">
+      <strong>⚠️ IMPORTANT:</strong> MQTT only works inside <span class="ignore">SoifGo</span>'s WebView.
+      If you open the same HTML in a normal browser, the bridge won't exist and
+      nothing will happen (that's by design — the page won't crash either).
+    </div>
+
+    <div class="file-name">📄 MQTT API Reference</div>
+
+    <pre class="line-numbers"><code class="language-javascript">// ============================================================
+// 1. CONNECT — step 1: address + client id
+// ============================================================
+// Native Sub: connecte_mqtt_ai(address, id)
+//
+//  address : "tcp://host:1883"  or  "ssl://host:8883"
+//            Empty → defaults to "tcp://test.mosquitto.org:1883"
+//  id      : any unique string. Empty → auto-generated "soifgo_XXXX"
+//
+window.soifgo.CallSub('connecte_mqtt_ai', true, address, id);
+
+// ============================================================
+// 2. CONNECT — step 2 (optional): username + password
+// ============================================================
+// Native Sub: connecte_mqtt_up(username, password)
+//
+// Only call this if the broker requires authentication.
+// If both are empty, nothing happens.
+//
+window.soifgo.CallSub('connecte_mqtt_up', true, username, password);
+
+// ============================================================
+// 3. PUBLISH a message (also subscribes to the same topic!)
+// ============================================================
+// Native Sub: mqtt_publish(topic, message, qos)
+//
+//  topic   : topic string (e.g. "soifgo/led")
+//  message : text payload
+//  qos     : "0", "1", or "2"  (as a string)
+//
+// 💡 Publishing to a topic also subscribes you to it,
+//    so you receive messages published by other clients.
+//
+window.soifgo.CallSub('mqtt_publish', true, topic, message, qos);
+
+// ============================================================
+// 4. DISCONNECT from the broker
+// ============================================================
+// Native Sub: mqtt_Disconnect  (no arguments)
+//
+window.soifgo.CallSub('mqtt_Disconnect', true);
+
+// ============================================================
+// 5. CHECK connection status
+// ============================================================
+// Native Sub: mqtt_status  (no arguments)
+// SoifGo replies by calling html_mqtt_status('true'/'false')
+//
+window.soifgo.CallSub('mqtt_status', true);
+
+// ============================================================
+// 6. RETAINED option for publish (separate Sub)
+// ============================================================
+// Native Sub: mqtt_retained(value)
+//
+//  value : 1 = retained ON, 0 = retained OFF
+//
+// 💡 This is the retained option of mqtt_publish. It is a separate Sub
+//    because CallSub allows only 3 arguments, so it cannot be a 4th
+//    argument of mqtt_publish. Call it BEFORE mqtt_publish.
+//
+window.soifgo.CallSub('mqtt_retained', true, 1);
+
+// ============================================================
+// RECEIVERS — functions SoifGo calls on your page
+// ============================================================
+
+// Incoming message on a subscribed topic
+function mqtt_rx(topic, message) {
+    // topic   : string
+    // message : string
+}
+window.mqtt_rx = mqtt_rx;
+
+// Connection status changed
+// ⚠️ The value is sent as a STRING ('true' or 'false'),
+//    NOT as a real boolean. Convert it before using it!
+function html_mqtt_status(connected) {
+    const isConnected = (connected === true || connected === 'true');
+    // use isConnected (true/false)
+}
+window.html_mqtt_status = html_mqtt_status;</code></pre>
+
+    <div class="note-success">
+      <strong>✅ How it works:</strong>
+      <ol>
+        <li>Your page calls <code>connecte_mqtt_ai(address, id)</code> to start the connection.</li>
+        <li>If the broker needs auth, call <code>connecte_mqtt_up(username, password)</code> right after.</li>
+        <li>When a message arrives on a subscribed topic, <span class="ignore">SoifGo</span> calls <code>mqtt_rx(topic, message)</code>.</li>
+        <li>Publishing with <code>mqtt_publish</code> also <strong>auto-subscribes</strong> you to that topic — so you receive messages from other clients on it.</li>
+        <li>To query connection state, call <code>mqtt_status</code> — <span class="ignore">SoifGo</span> answers with <code>html_mqtt_status('true')</code> or <code>('false')</code>.</li>
+        <li>To publish with the <strong>retained</strong> flag, call <code>mqtt_retained</code> with <code>1</code> (ON) or <code>0</code> (OFF) before <code>mqtt_publish</code>.</li>
+        <li>To stop, call <code>mqtt_Disconnect</code>.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🟣 MQTT Full Example</h3>
+    <p>
+      Complete working example — connect, publish, receive, and check status
+      from a single page.
+    </p>
+
+    <div class="file-name">📄 html_mqtt_full.html</div>
+
+    <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;MQTT Control&lt;/title&gt;
+    &lt;style&gt;
+        body { font-family: sans-serif; background:#1e1e1e; color:#e0e0e0; padding:16px; }
+        input, button { padding:10px; border-radius:6px; border:1px solid #444;
+                        background:#2b2b2b; color:#fff; font-size:16px; margin:4px 0; width:100%; }
+        button { background:#9b59b6; border:none; cursor:pointer; font-weight:600; }
+        button:hover { background:#8e44ad; }
+        button.on  { background:#27ae60; }
+        button.off { background:#c0392b; }
+        button.check { background:#f39c12; color:#10131a; }
+        .status { padding:10px; border-radius:6px; margin:10px 0; font-weight:600; }
+        .status.connected    { background:#1a2a1a; color:#4caf50; border:1px solid #4caf50; }
+        .status.disconnected { background:#2a1a1a; color:#e74c3c; border:1px solid #e74c3c; }
+        #log { background:#111; padding:12px; border-radius:8px; height:220px;
+               overflow-y:auto; font-family:monospace; font-size:0.85rem; margin-top:12px; }
+        #log div { margin:2px 0; }
+        .row { display:flex; gap:8px; }
+        .row button { flex:1; }
+        label { font-size:0.8rem; color:#888; display:block; margin-top:6px; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;h3&gt;🟣 MQTT Control Panel&lt;/h3&gt;
+
+    &lt;!-- Connection --&gt;
+    &lt;label&gt;Broker URL&lt;/label&gt;
+    &lt;input type="text" id="broker" value="tcp://test.mosquitto.org:1883"&gt;
+
+    &lt;label&gt;Client ID (empty = auto)&lt;/label&gt;
+    &lt;input type="text" id="clientId" placeholder="myTest_001"&gt;
+
+    &lt;label&gt;Username (optional)&lt;/label&gt;
+    &lt;input type="text" id="username" placeholder=""&gt;
+
+    &lt;label&gt;Password (optional)&lt;/label&gt;
+    &lt;input type="password" id="password" placeholder=""&gt;
+
+    &lt;label&gt;QoS (0, 1, 2)&lt;/label&gt;
+    &lt;input type="text" id="qos" value="0"&gt;
+
+    &lt;div class="row"&gt;
+        &lt;button onclick="connectMQTT()"&gt;Connect&lt;/button&gt;
+        &lt;button class="check" onclick="checkStatus()"&gt;Check&lt;/button&gt;
+        &lt;button onclick="disconnectMQTT()"&gt;Disconnect&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;div id="status" class="status disconnected"&gt;Disconnected&lt;/div&gt;
+
+    &lt;label&gt;Topic&lt;/label&gt;
+    &lt;input type="text" id="pubTopic" value="soifgo/demo/tx"&gt;
+
+    &lt;label&gt;Message&lt;/label&gt;
+    &lt;input type="text" id="pubMsg" value="ON"&gt;
+
+    &lt;div class="row"&gt;
+        &lt;button class="on"  onclick="publishMsg('ON')"&gt;Publish ON&lt;/button&gt;
+        &lt;button class="off" onclick="publishMsg('OFF')"&gt;Publish OFF&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class="row"&gt;
+        &lt;button onclick="publishMsg()"&gt;Send Custom&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;div id="log"&gt;&lt;/div&gt;
+
+    &lt;script&gt;
+        function log(msg) {
+            const el = document.getElementById('log');
+            const t  = new Date().toLocaleTimeString();
+            el.innerHTML += `&lt;div&gt;[${t}] ${msg}&lt;/div&gt;`;
+            el.scrollTop = el.scrollHeight;
+        }
+
+        function setStatus(connected) {
+            const el = document.getElementById('status');
+            el.className = 'status ' + (connected ? 'connected' : 'disconnected');
+            el.textContent = connected ? 'Connected' : 'Disconnected';
+        }
+
+        /* ---- Connect (two calls: address+id, then user+pass) ---- */
+        function connectMQTT() {
+            const broker = document.getElementById('broker').value.trim();
+            const cid    = document.getElementById('clientId').value.trim();
+            const user   = document.getElementById('username').value.trim();
+            const pass   = document.getElementById('password').value;
+            log('Connect → ' + broker + (cid ? ' as ' + cid : ' (auto ID)'));
+            window.soifgo.CallSub('connecte_mqtt_ai', true, broker, cid);
+            if (user || pass) {
+                window.soifgo.CallSub('connecte_mqtt_up', true, user, pass);
+            }
+        }
+
+        function disconnectMQTT() {
+            log('Disconnect');
+            window.soifgo.CallSub('mqtt_Disconnect', true);
+            setStatus(false);
+        }
+
+        function checkStatus() {
+            log('Check status');
+            window.soifgo.CallSub('mqtt_status', true);
+        }
+
+        function publishMsg(preset) {
+            const topic = document.getElementById('pubTopic').value.trim();
+            const qos   = document.getElementById('qos').value.trim() || '0';
+            const text  = (preset !== undefined) ? preset : document.getElementById('pubMsg').value;
+            if (!topic) { alert('Enter a topic'); return; }
+            log('TX → ' + topic + ' : ' + text + ' (QoS ' + qos + ')');
+            window.soifgo.CallSub('mqtt_publish', true, topic, text, qos);
+        }
+
+        /* ---- Receivers (called by SoifGo) ---- */
+        function mqtt_rx(topic, message) {
+            log('RX ← ' + topic + ' : ' + message);
+        }
+        window.mqtt_rx = mqtt_rx;
+
+        function html_mqtt_status(connected) {
+            const isConnected = (connected === true || connected === 'true');
+            setStatus(isConnected);
+            log('Status: ' + (isConnected ? 'CONNECTED' : 'DISCONNECTED'));
+        }
+        window.html_mqtt_status = html_mqtt_status;
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <div class="note-success">
+      <strong>✅ Key points:</strong>
+      <ul>
+        <li><strong>Built-in MQTT</strong> — no external library, no WebSocket, no CORS.</li>
+        <li><strong>Two-step connect</strong> — first <code>connecte_mqtt_ai</code>, then <code>connecte_mqtt_up</code> if auth needed.</li>
+        <li><strong>Publish auto-subscribes</strong> — you receive messages on the topic you publish to.</li>
+        <li><strong>Retained is a separate Sub</strong> — <code>mqtt_retained</code> (<code>1</code>/<code>0</code>) sets the retained option of <code>mqtt_publish</code>, because <code>CallSub</code> allows only 3 arguments.</li>
+        <li><strong>Client ID auto-generated</strong> if left empty.</li>
+        <li><strong>Status is a string</strong> — always convert with <code>=== 'true'</code>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🔗 MQTT ↔ Bluetooth Relay</h3>
+    <p>
+      Combine MQTT and Bluetooth on the same page. For example: forward incoming
+      Bluetooth data to MQTT, or the other way around.
+    </p>
+
+    <div class="file-name">📄 html_mqtt_relay.html — Bluetooth ↔ MQTT relay</div>
+
+    <pre class="line-numbers"><code class="language-javascript">/* ---- Bluetooth → MQTT ---- */
+function html_bluetooth_tx(data) {
+    window.soifgo.CallSub('mqtt_publish', true, 'soifgo/relay/from_bt', data, '0');
+}
+window.html_bluetooth_tx = html_bluetooth_tx;
+
+/* ---- MQTT → Bluetooth ---- */
+function mqtt_rx(topic, message) {
+    window.soifgo.CallSub('html_bluetooth_rx', true, message);
+}
+window.mqtt_rx = mqtt_rx;</code></pre>
+
+    <div class="note-info">
+      <strong>💡 Use case:</strong> a robot with an HC-05 module can be controlled
+      locally via Bluetooth and simultaneously report status to an MQTT dashboard —
+      all from one HTML page.
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🔧 MQTT Troubleshooting</h3>
+
+    <div class="note-warning">
+      <strong>Connection fails immediately</strong><br>
+      Check the broker URL. Use <code>tcp://</code> for plain, <code>ssl://</code>
+      for TLS. Default ports: <code>1883</code> (plain), <code>8883</code> (TLS).
+    </div>
+
+    <div class="note-warning">
+      <strong>Messages not arriving</strong><br>
+      Publish at least once to the topic you want to listen to — publishing
+      auto-subscribes you. Also verify the topic name is exactly the same
+      (MQTT is case-sensitive).
+    </div>
+
+    <div class="note-warning">
+      <strong>Status always shows "Connected"</strong><br>
+      The status value arrives as a string (<code>'true'</code> / <code>'false'</code>).
+      In JavaScript the string <code>'false'</code> is truthy — always compare with
+      <code>=== 'true'</code>.
+    </div>
+
+    <div class="note-warning">
+      <strong>Client ID conflict</strong><br>
+      If two clients use the same ID, the broker kicks one off. Leave the ID
+      empty to get a unique auto-generated one.
+    </div>
+
+    <div class="note-warning">
+      <strong>Bridge not found</strong><br>
+      If <code>window.soifgo</code> is undefined, you're running in a normal
+      browser — the bridge only exists inside <span class="ignore">SoifGo</span>.
+    </div>
+  </div>
+
+  <div class="card" id="api">
+    <h2>🟠 6. API — Send &amp; Receive</h2>
+    <p>WebView ↔ Server</p>
+
+    <p>
+      <span class="ignore">SoifGo</span> has a <strong>built-in API bridge</strong>. Your HTML page can send
+      key/value data to a server and request data back — no <code>fetch</code>,
+      no CORS, no external library.
+    </p>
+
+    <div class="note-info">
+      <strong>⚠️ IMPORTANT:</strong> API only works inside <span class="ignore">SoifGo</span>'s WebView.
+      In a normal browser the bridge doesn't exist — nothing will happen
+      (and nothing will crash).
+    </div>
+
+    <div class="file-name">📄 API Reference</div>
+
+    <pre class="line-numbers"><code class="language-javascript">// ============================================================
+// 1. SEND — POST a key/value pair to a server
+// ============================================================
+// Native Sub: api_send(address, key, value)
+//
+//  Sends:   POST <address>
+//  Body:    {"<key>":"<value>"}
+//  Header:  Content-Type: application/json
+//
+window.soifgo.CallSub('api_send', true, address, key, value);
+
+// ============================================================
+// 2. RECEIVE — GET data from a server
+// ============================================================
+// Native Sub: api_recive(address, key)
+//
+//  Sends:   GET <address>
+//  Returns: the "<key>" branch of the JSON response,
+//           passed to api_rx() as a string
+//
+// ⚠️  The second parameter "key" is REQUIRED — it tells
+//     SoifGo which branch of the JSON you want.
+//
+window.soifgo.CallSub('api_recive', true, address, key);
+
+// ============================================================
+// 3. RECEIVER — SoifGo calls this with the response
+// ============================================================
+// SoifGo calls:  api_rx('<value>')
+//
+// ⚠️  The response format depends on the API provider.
+//     See the section below — "Two Response Formats".
+//
+function api_rx(number) {
+    // number : string — either a plain value or a wrapped one
+}
+window.api_rx = api_rx;</code></pre>
+
+    <div class="note-success">
+      <strong>✅ How it works:</strong>
+      <ol>
+        <li><strong>Send:</strong> <code>api_send(address, key, value)</code> → POST with JSON body.</li>
+        <li><strong>Receive:</strong> <code>api_recive(address, key)</code> → GET request. The <code>key</code> tells <span class="ignore">SoifGo</span> which branch of the JSON to extract.</li>
+        <li><strong>Response:</strong> passed to <code>api_rx(number)</code> as a string.</li>
+        <li><strong>Format varies:</strong> see the section below.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📥 Two Response Formats — Read This Carefully</h3>
+
+    <p>
+      <strong>Different API providers return their data in different shapes.</strong>
+      When <span class="ignore">SoifGo</span> extracts the value at the given <code>key</code>, it can arrive
+      at <code>api_rx</code> in <strong>two very different forms</strong>:
+    </p>
+
+    <div class="grid-2">
+      <div>
+        <h4 style="margin-top:0; color:var(--primary-light);">Format A — Plain value</h4>
+        <p style="font-size:0.9rem;">
+          The API returns a <strong>flat JSON</strong> where the key points
+          directly to a primitive value.
+        </p>
+        <p style="font-size:0.85rem;">
+          <strong>Example API:</strong> DIA<br>
+          <strong>Raw JSON:</strong>
+        </p>
+        <pre style="font-size:0.7rem;"><code class="language-json">{
+  "Symbol": "BTC",
+  "Price": 86846.51694166221
+}</code></pre>
+        <p style="font-size:0.85rem;">
+          <strong>What <code>api_rx</code> receives:</strong>
+        </p>
+        <pre style="font-size:0.7rem;"><code class="language-json">86846.51694166221</code></pre>
+        <p style="font-size:0.8rem; color:var(--text-muted);">
+          Just the raw value. No braces, no key name.
+        </p>
+      </div>
+
+      <div>
+        <h4 style="margin-top:0; color:var(--primary-light);">Format B — Wrapped value</h4>
+        <p style="font-size:0.9rem;">
+          The API returns a <strong>nested JSON</strong> where the key points
+          to another object.
+        </p>
+        <p style="font-size:0.85rem;">
+          <strong>Example API:</strong> CoinGecko<br>
+          <strong>Raw JSON:</strong>
+        </p>
+        <pre style="font-size:0.7rem;"><code class="language-json">{
+  "bitcoin": {
+    "usd": 86750
+  }
+}</code></pre>
+        <p style="font-size:0.85rem;">
+          <strong>What <code>api_rx</code> receives:</strong>
+        </p>
+        <pre style="font-size:0.7rem;"><code class="language-json">{usd=86750}</code></pre>
+        <p style="font-size:0.8rem; color:var(--text-muted);">
+          The inner object, wrapped in B4A Map format.
+        </p>
+      </div>
+    </div>
+
+    <div class="note-info">
+      <strong>💡 Why this matters:</strong> Your code must handle <em>both</em> cases.
+      If you only handle Format A, CoinGecko will break your parser.
+      If you only handle Format B, DIA will break your parser.
+      Write a <strong>robust extractor</strong> that detects the format automatically.
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🧪 Live Example — Bitcoin Price (DIA)</h3>
+
+    <p>
+      DIA is used here because it has <strong>no strict rate limit</strong> and
+      returns a simple, flat JSON. This makes it perfect for testing.
+    </p>
+
+    <div class="note-info">
+      <strong>⏱ Why does the code use a timer?</strong><br>
+      Price APIs return a new value every few seconds. A timer
+      (<code>setInterval</code>) lets the page refresh the price automatically
+      without the user tapping a button. But polling too fast will trigger rate
+      limits and the API will start rejecting your requests.
+      Choose a <strong>safe interval</strong> for the API you're using
+      (see the Rate Limits section below).
+    </div>
+
+    <div class="file-name">📄 html_api_btc.html</div>
+
+    <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;BTC Price&lt;/title&gt;
+    &lt;style&gt;
+        body { font-family: sans-serif; background:#1e1e1e; color:#e0e0e0;
+               padding:20px; text-align:center; }
+        h2 { color:#f7931a; }
+        .price { font-size:2.5rem; font-weight:bold; color:#f7931a;
+                 margin:20px 0; min-height:3rem; }
+        .status { font-size:0.85rem; color:#888; }
+        button { background:#f7931a; color:#fff; border:none;
+                 padding:14px 30px; border-radius:8px; font-size:16px;
+                 font-weight:600; cursor:pointer; margin:6px; }
+        button.stop { background:#c0392b; }
+        #raw { background:#111; padding:12px; border-radius:8px;
+               font-family:monospace; font-size:0.75rem;
+               text-align:left; margin-top:12px;
+               word-break:break-all; max-height:120px; overflow-y:auto; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h2&gt;₿ Bitcoin Price&lt;/h2&gt;
+    &lt;div class="price" id="price"&gt;--&lt;/div&gt;
+    &lt;div class="status" id="status"&gt;Stopped&lt;/div&gt;
+
+    &lt;div style="margin-top:14px;"&gt;
+        &lt;button onclick="startBTC()"&gt;▶ Start&lt;/button&gt;
+        &lt;button class="stop" onclick="stopBTC()"&gt;■ Stop&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;div id="raw"&gt;&lt;/div&gt;
+
+    &lt;script&gt;
+        // DIA endpoint — flat JSON, no rate limit issues
+        const URL = 'https://api.diadata.org/v1/assetQuotation/Bitcoin/0x0000000000000000000000000000000000000000';
+        const KEY = 'Price';
+        const INTERVAL = 5000;   // 5 seconds — safe for DIA
+
+        let timer = null;
+
+        function startBTC() {
+            stopBTC();
+            fetchBTC();
+            timer = setInterval(fetchBTC, INTERVAL);
+            document.getElementById('status').textContent = 'Live · every ' + (INTERVAL/1000) + 's';
+        }
+
+        function stopBTC() {
+            if (timer) { clearInterval(timer); timer = null; }
+            document.getElementById('status').textContent = 'Stopped';
+        }
+
+        function fetchBTC() {
+            window.soifgo.CallSub('api_recive', true, URL, KEY);
+        }
+
+        /* ============================================================
+           Robust extractor — handles BOTH response formats
+           ============================================================ */
+        function extractNumber(raw) {
+            const s = String(raw).trim();
+
+            // Format A — plain number: "86846.51694166221"
+            if (/^-?\d+(\.\d+)?$/.test(s)) {
+                return parseFloat(s);
+            }
+
+            // Format B — B4A Map: "{usd=86750}"
+            const mapMatch = s.match(/[a-zA-Z_]\w*[=:]\s*(-?[\d.]+)/);
+            if (mapMatch) {
+                return parseFloat(mapMatch[1]);
+            }
+
+            // Fallback — any number in the string
+            const anyNum = s.match(/-?\d+(\.\d+)?/);
+            return anyNum ? parseFloat(anyNum[0]) : null;
+        }
+
+        function api_rx(number) {
+            document.getElementById('raw').textContent = String(number);
+
+            const price = extractNumber(number);
+            if (price !== null &amp;&amp; !isNaN(price)) {
+                document.getElementById('price').textContent =
+                    '$' + price.toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+            } else {
+                document.getElementById('price').textContent = '❌ Parse error';
+            }
+        }
+        window.api_rx = api_rx;
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <div class="note-success">
+      <strong>✅ Key points:</strong>
+      <ul>
+        <li><strong>Timer is optional</strong> — you can call <code>fetchBTC()</code> manually without <code>setInterval</code>.</li>
+        <li><strong>Interval is 5 s</strong> — safe for DIA. If using CoinGecko, use ≥ 10 s.</li>
+        <li><strong>Stop button</strong> — always give the user a way to stop polling.</li>
+        <li><strong>Robust extractor</strong> — handles both plain numbers and Map-wrapped values.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>💡 Parsing the Response — The Robust Helper</h3>
+
+    <p>
+      Different providers return different shapes. Use this single helper to
+      handle <strong>both</strong> cases — plain numbers, Map-wrapped values,
+      and JSON.
+    </p>
+
+    <pre class="line-numbers"><code class="language-javascript">function extractValue(raw, fieldName) {
+    const s = String(raw).trim();
+
+    // 1. Plain number:  "86846.51694166221"
+    if (/^-?\d+(\.\d+)?$/.test(s)) return s;
+
+    // 2. B4A Map format:  {usd=86750}  or  {Price=86846.51}
+    const mapMatch = s.match(
+        new RegExp(fieldName + '[=:]\\s*([^,}\\s]+)', 'i')
+    );
+    if (mapMatch) return mapMatch[1];
+
+    // 3. Valid JSON:  {"usd":86750}
+    try {
+        const obj = JSON.parse(s);
+        if (obj[fieldName] !== undefined) return obj[fieldName];
+    } catch (e) {}
+
+    // 4. Fallback: any number
+    const numMatch = s.match(/-?\d+(\.\d+)?/);
+    return numMatch ? numMatch[0] : null;
+}
+
+// Usage in api_rx:
+function api_rx(number) {
+    const price = extractValue(number, 'Price');   // or 'usd'
+    if (price) {
+        document.getElementById('out').textContent = '$' + price;
+    }
+}
+window.api_rx = api_rx;</code></pre>
+
+    <div class="note-info">
+      <strong>💡 Tip:</strong> Put this helper in a shared JS file and reuse it
+      in every page that talks to an API. It will save you a lot of debugging.
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>⚠️ Rate Limits</h3>
+
+    <div class="note-warning">
+      <strong>Don't hammer the API.</strong> Every provider has a limit. If
+      your timer is too fast, the API will start returning error 429:
+      <pre style="margin:8px 0; background:var(--pre-bg); color:var(--pre-text); padding:8px; border-radius:4px; font-size:0.75rem;"><code class="language-json">{"status":{"error_code":429,"error_message":"You've exceeded the Rate Limit"}}</code></pre>
+    </div>
+
+    <div class="note-success">
+      <strong>✅ Safe intervals:</strong>
+      <ul>
+        <li><strong>DIA:</strong> ~ 5 seconds</li>
+        <li><strong>CoinGecko:</strong> ≥ 10 seconds</li>
+        <li><strong>Binance:</strong> ≥ 1 second (1200 req/min)</li>
+        <li><strong>Coinbase:</strong> ≥ 5 seconds</li>
+        <li><strong>Blockchain.info:</strong> ≥ 10 seconds</li>
+      </ul>
+    </div>
+
+    <div class="note-info">
+      <strong>💡 Best practice:</strong> Always include a <strong>Stop</strong>
+      button so the user can halt polling. Never leave a timer running in the
+      background without a way to stop it.
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📌 Classic Method vs WebView Method</h3>
+
+    <p>
+      <span class="ignore">SoifGo</span> supports <strong>two ways</strong> of talking to an API. The
+      <em>Classic</em> method works entirely inside <span class="ignore">SoifGo</span>'s native UI; the
+      <em>WebView</em> method uses the HTML bridge you've been reading about.
+    </p>
+
+    <div class="grid-2">
+      <div>
+        <h4 style="margin-top:0; color:var(--primary-light);">Classic Method</h4>
+        <ul style="font-size:0.9rem;">
+          <li>Configured entirely in <span class="ignore">SoifGo</span>'s button settings.</li>
+          <li>No HTML, no JavaScript.</li>
+          <li>You set the <strong>address</strong>, <strong>key</strong>,
+              <strong>word start</strong>, and <strong>word end</strong> in the UI.</li>
+          <li><span class="ignore">SoifGo</span> extracts the value itself and displays it on the button.</li>
+          <li>Perfect for simple “show one value” cases.</li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="margin-top:0; color:var(--primary-light);">WebView Method</h4>
+        <ul style="font-size:0.9rem;">
+          <li>Configured in HTML/JS inside the page.</li>
+          <li>Full control over parsing, display, and behaviour.</li>
+          <li>You call <code>api_recive(address, key)</code> and handle the
+              response in <code>api_rx</code>.</li>
+          <li>Can combine API + Bluetooth + MQTT + sensors on one page.</li>
+          <li>Perfect for dashboards, custom UIs, and complex logic.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note-info">
+      <strong>💡 Which one should I use?</strong>
+      Use <strong>Classic</strong> if you just need a single value on a button.
+      Use <strong>WebView</strong> if you want custom layout, multiple values,
+      timers, charts, or any interactivity.
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🔧 API Troubleshooting</h3>
+
+    <div class="note-warning">
+      <strong>Nothing happens when api_recive is called</strong><br>
+      Make sure you're passing <strong>both</strong> parameters:
+      <code>api_recive(address, key)</code>. Missing the key will silently fail.
+    </div>
+
+    <div class="note-warning">
+      <strong>api_rx never fires</strong><br>
+      Check that <code>api_rx</code> is registered on <code>window</code>:
+      <code>window.api_rx = api_rx;</code>
+    </div>
+
+    <div class="note-warning">
+      <strong>JSON.parse fails on the response</strong><br>
+      <span class="ignore">SoifGo</span> may send the response as a <strong>B4A Map string</strong>
+      (<code>{usd=86750}</code>) or as a plain value (<code>86846.51</code>) —
+      neither is valid JSON. Use the <code>extractValue()</code> helper above.
+    </div>
+
+    <div class="note-warning">
+      <strong>Response is just a number, not a Map</strong><br>
+      Some APIs return a flat JSON. In that case <code>api_rx</code> receives
+      the raw value (<code>86846.51</code>) with no wrapper. Handle this case
+      with the plain-number branch of the extractor.
+    </div>
+
+    <div class="note-warning">
+      <strong>Rate limit errors (429)</strong><br>
+      Increase the timer interval. See the Rate Limits section above.
+    </div>
+
+    <div class="note-warning">
+      <strong>Bridge not found</strong><br>
+      If <code>window.soifgo</code> is undefined, you're in a normal browser.
+      The bridge only exists inside <span class="ignore">SoifGo</span>.
+    </div>
+  </div>
+
+  <div class="card" id="storage">
+    <h2>💾 7. Save &amp; Reload Data (Persistent Storage)</h2>
+
+    <div class="note-success">
+      <strong>✅ Good news:</strong> <code>alert()</code>, <code>confirm()</code>,
+      and <code>prompt()</code> all <strong>work natively</strong> in <span class="ignore">SoifGo</span>'s WebView.
+      You can use standard browser dialogs in your code.
+    </div>
+
+    <div class="note-info">
+      <strong>💡 Tip:</strong> If you want a fully themed look that matches your
+      UI, build a custom HTML modal.
+    </div>
+
+    <p>
+      Use <code>localStorage</code> to save and reload data. It persists across page
+      reloads and WebView restarts, so your users never lose their settings.
+    </p>
+
+    <div class="file-name">📄 html_storage.html</div>
+
+    <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Save &amp; Reload&lt;/title&gt;
+    &lt;style&gt;
+        body { font-family: sans-serif; background:#1e1e1e; color:#e0e0e0; padding:16px; }
+        input, button { padding:10px; border-radius:6px; border:1px solid #444;
+                        background:#2b2b2b; color:#fff; font-size:16px; margin:4px 0; }
+        button { background:#3498db; border:none; cursor:pointer; }
+        button.danger { background:#c0392b; }
+        .row { display:flex; gap:8px; align-items:center; margin:4px 0; }
+        .row button { flex:0 0 auto; }
+        #output { margin-top:16px; }
+        .item { padding:8px 12px; background:#2b2b2b; border-radius:6px;
+                margin:4px 0; display:flex; justify-content:space-between; }
+        .item .time { color:#888; font-size:0.85rem; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;h3&gt;💾 Save &amp; Reload Demo&lt;/h3&gt;
+
+    &lt;div class="row"&gt;
+        &lt;input type="text" id="nameInput" placeholder="Enter name..."&gt;
+        &lt;button onclick="saveItem()"&gt;Save&lt;/button&gt;
+        &lt;button onclick="loadItems()"&gt;Reload&lt;/button&gt;
+        &lt;button class="danger" onclick="clearAll()"&gt;Clear&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;div id="output"&gt;&lt;/div&gt;
+
+    &lt;script&gt;
+        const KEY = 'my_data';
+
+        /* ---- Save ---- */
+        function saveItem() {
+            const name = document.getElementById('nameInput').value.trim();
+            if (!name) {
+                alert('Please enter a name.');
+                return;
+            }
+            let list = load();
+            list.push({ name: name, time: Date.now() });
+            persist(list);
+            render(list);
+            document.getElementById('nameInput').value = '';
+        }
+
+        /* ---- Delete one item ---- */
+        function removeItem(index) {
+            const list = load();
+            list.splice(index, 1);
+            persist(list);
+            render(list);
+        }
+
+        /* ---- Clear all ---- */
+        function clearAll() {
+            if (!confirm('Delete all saved items?')) return;
+            localStorage.removeItem(KEY);
+            render([]);
+        }
+
+        /* ---- Storage helpers ---- */
+        function load() {
+            try {
+                return JSON.parse(localStorage.getItem(KEY)) || [];
+            } catch (e) {
+                console.error('Load failed:', e);
+                return [];
+            }
+        }
+
+        function persist(list) {
+            try {
+                localStorage.setItem(KEY, JSON.stringify(list));
+            } catch (e) {
+                console.error('Save failed (quota?):', e);
+                alert('Could not save. Storage may be full.');
+            }
+        }
+
+        /* ---- Render ---- */
+        function render(list) {
+            const out = document.getElementById('output');
+            if (!list.length) {
+                out.innerHTML = '&lt;p style="color:#888;"&gt;No items saved yet.&lt;/p&gt;';
+                return;
+            }
+            out.innerHTML = list.map((x, i) =&gt; `
+                &lt;div class="item"&gt;
+                    &lt;span&gt;${i + 1}. ${escapeHtml(x.name)}&lt;/span&gt;
+                    &lt;span&gt;
+                        &lt;span class="time"&gt;${new Date(x.time).toLocaleTimeString()}&lt;/span&gt;
+                        &lt;button class="danger" onclick="removeItem(${i})"&gt;×&lt;/button&gt;
+                    &lt;/span&gt;
+                &lt;/div&gt;`).join('');
+        }
+
+        /* ---- XSS guard ---- */
+        function escapeHtml(s) {
+            return String(s)
+                .replace(/&/g, '&amp;amp;')
+                .replace(/&lt;/g, '&amp;lt;')
+                .replace(/&gt;/g, '&amp;gt;')
+                .replace(/"/g, '&amp;quot;');
+        }
+
+        /* ---- Auto-load on page open ---- */
+        window.onload = function() {
+            render(load());
+        };
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <div class="note-success">
+      <strong>✅ Key points:</strong>
+      <ul>
+        <li><strong><code>alert()</code>, <code>confirm()</code>, <code>prompt()</code> work</strong> — no custom modal needed.</li>
+        <li>Wrap <code>localStorage</code> calls in <code>try/catch</code> to handle quota errors gracefully.</li>
+        <li>Call <code>render(load())</code> inside <code>window.onload</code> so data reloads every time the page opens.</li>
+        <li>Use a unique key like <code>'my_data'</code> per page to avoid clashes with other pages.</li>
+        <li>Always escape user input before injecting it into <code>innerHTML</code> (XSS guard).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <strong><span class="ignore">SoifGo</span> Complete Guide</strong> — Bluetooth, Sensors, Microphone, MQTT &amp; API Integration<br>
+    Custom UI with WebView
+  </div>
+
+  <hr>
+
+  <div class="btn-wrap">
+    <a href="https://soifgo.github.io/" class="btn-home">⬅ Back to Home</a>
+  </div>
+
+</div>
+
+<script>
+  (function() {
+    var themeToggle = document.getElementById('themeToggle');
+    var themeIcon = document.getElementById('themeIcon');
+
+    function updateIcon(theme) {
+      if (theme === 'light') {
+        themeIcon.textContent = '🌙';
+        themeToggle.title = 'Switch to dark mode';
+      } else {
+        themeIcon.textContent = '☀️';
+        themeToggle.title = 'Switch to light mode';
+      }
+    }
+
+    var currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    updateIcon(currentTheme);
+
+    themeToggle.addEventListener('click', function() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('soifgo-theme', next);
+      updateIcon(next);
+    });
+  })();
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-clike.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-c.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-cpp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-json.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-markup.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/plugins/toolbar/prism-toolbar.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+
+<script src="https://cdn.staticfile.net/translate.js/3.18.66/translate.js"></script>
+
+<script>
+(function() {
+  'use strict';
+
+  var LANGUAGES = {
+    'english': { label: 'English', dir: 'ltr' },
+    'spanish': { label: 'Español', dir: 'ltr' },
+    'chinese_simplified': { label: '简体中文', dir: 'ltr' },
+    'french': { label: 'Français', dir: 'ltr' },
+    'deutsch': { label: 'Deutsch', dir: 'ltr' },
+    'japanese': { label: '日本語', dir: 'ltr' },
+    'russian': { label: 'Русский', dir: 'ltr' },
+    'arabic': { label: 'العربية', dir: 'rtl' },
+    'persian': { label: 'فارسی', dir: 'rtl' },
+    'italian': { label: 'Italiano', dir: 'ltr' },
+    'hindi': { label: 'हिन्दी', dir: 'ltr' },
+    'turkish': { label: 'Türkçe', dir: 'ltr' },
+    'korean': { label: '한국어', dir: 'ltr' },
+    'portuguese': { label: 'Português', dir: 'ltr' },
+    'hebrew': { label: 'עברית', dir: 'rtl' },
+    'kurdish_sorani': { label: 'کوردی', dir: 'rtl' },
+    'urdu': { label: 'اردو', dir: 'rtl' },
+    'bengali': { label: 'বাংলা', dir: 'ltr' },
+    'indonesian': { label: 'Bahasa Indonesia', dir: 'ltr' },
+    'tamil': { label: 'தமிழ்', dir: 'ltr' },
+    'thai': { label: 'ไทย', dir: 'ltr' },
+    'swahili': { label: 'Swahili', dir: 'ltr' }
+  };
+
+  var DEFAULT_LANG = 'english';
+  var FALLBACK_CHANNELS = ['giteeAI', 'client.edge', 'siliconflow'];
+
+  var langBtn = document.getElementById('langBtn');
+  var langDropdown = document.getElementById('langDropdown');
+  var currentLangLabel = document.getElementById('currentLangLabel');
+
+  function buildLanguageList() {
+    var html = '';
+    for (var code in LANGUAGES) {
+      if (LANGUAGES.hasOwnProperty(code)) {
+        var lang = LANGUAGES[code];
+        html += '<a href="javascript:void(0)" class="lang-item ignore" data-lang="' + code + '" data-dir="' + lang.dir + '">' + lang.label + '</a>';
+      }
+    }
+    langDropdown.innerHTML = html;
+    var items = langDropdown.querySelectorAll('.lang-item');
+    for (var i = 0; i < items.length; i++) {
+      items[i].addEventListener('click', function(e) {
+        e.preventDefault();
+        changeLanguage(this.getAttribute('data-lang'), this.getAttribute('data-dir'));
+      });
+    }
+  }
+
+  function waitForTranslation(element, originalText, timeoutMs) {
+    return new Promise(function(resolve) {
+      var start = Date.now();
+      var timer = setInterval(function() {
+        if (element.textContent !== originalText) {
+          clearInterval(timer);
+          resolve(true);
+        } else if (Date.now() - start > timeoutMs) {
+          clearInterval(timer);
+          resolve(false);
+        }
+      }, 200);
+    });
+  }
+
+  function applyChannel(channel) {
+    try {
+      translate.service.use(channel);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function resetToEnglish() {
+    try { localStorage.removeItem('soifgo-lang'); } catch (e) {}
+    document.documentElement.setAttribute('dir', 'ltr');
+    document.documentElement.setAttribute('lang', 'en');
+    currentLangLabel.textContent = LANGUAGES.english.label;
+    langDropdown.classList.remove('show');
+    setTimeout(function() {
+      location.reload();
+    }, 100);
+  }
+
+  function changeLanguage(langCode, langDir) {
+    if (langCode === 'english') {
+      resetToEnglish();
+      return;
+    }
+
+    var testElement = document.querySelector('h1');
+    var originalText = testElement ? testElement.textContent : '';
+
+    function tryChannel(index) {
+      if (index >= FALLBACK_CHANNELS.length) {
+        console.warn('All fallback channels failed.');
+        return;
+      }
+
+      var channel = FALLBACK_CHANNELS[index];
+      applyChannel(channel);
+
+      translate.changeLanguage(langCode);
+      if (typeof translate.execute === 'function') {
+        translate.execute();
+      }
+
+      waitForTranslation(testElement, originalText, 3000).then(function(success) {
+        if (!success) {
+          console.warn('Channel ' + channel + ' failed, trying next...');
+          tryChannel(index + 1);
+        } else {
+          try { localStorage.setItem('soifgo-lang', langCode); } catch (e) {}
+          document.documentElement.setAttribute('dir', langDir);
+          document.documentElement.setAttribute('lang', langCode === 'persian' ? 'fa' : langCode);
+          currentLangLabel.textContent = LANGUAGES[langCode].label;
+          langDropdown.classList.remove('show');
+        }
+      });
+    }
+
+    tryChannel(0);
+  }
+
+  langBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    langDropdown.classList.toggle('show');
+  });
+
+  document.addEventListener('click', function() {
+    langDropdown.classList.remove('show');
+  });
+
+  function getSavedLang() {
+    try {
+      var saved = localStorage.getItem('soifgo-lang');
+      if (saved && LANGUAGES[saved] && saved !== 'english') {
+        return saved;
+      }
+    } catch (e) {}
+    return null;
+  }
+
+  function initTranslate() {
+    var savedLang = getSavedLang();
+    if (!savedLang) {
+      document.documentElement.setAttribute('dir', 'ltr');
+      document.documentElement.setAttribute('lang', 'en');
+      currentLangLabel.textContent = LANGUAGES.english.label;
+      return;
+    }
+
+    translate.language.setLocal('english');
+    translate.service.use(FALLBACK_CHANNELS[0]);
+    translate.selectLanguageTag.show = false;
+    translate.execute();
+    if (translate.listener && translate.listener.start) {
+      translate.listener.start();
+    }
+  }
+
+  function restoreLanguageUI() {
+    var savedLang = getSavedLang();
+    if (savedLang) {
+      var lang = LANGUAGES[savedLang];
+      document.documentElement.setAttribute('dir', lang.dir);
+      document.documentElement.setAttribute('lang', savedLang === 'persian' ? 'fa' : savedLang);
+      currentLangLabel.textContent = lang.label;
+      return savedLang;
+    }
+    currentLangLabel.textContent = LANGUAGES[DEFAULT_LANG].label;
+    return null;
+  }
+
+  buildLanguageList();
+  var restored = restoreLanguageUI();
+
+  function bootTranslate() {
+    initTranslate();
+    if (restored) {
+      setTimeout(function() {
+        changeLanguage(restored, LANGUAGES[restored].dir);
+      }, 500);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootTranslate);
+  } else {
+    bootTranslate();
+  }
+})();
+</script>
+
+</body>
+</html>

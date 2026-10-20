@@ -1,0 +1,1940 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes">
+  <meta name="theme-color" content="#1e1e24">
+  <meta name="color-scheme" content="light dark">
+
+  <title>RANGMANG — ATmega128/328 Serial RGB Controller for Addressable LEDs</title>
+  <meta name="description" content="RANGMANG is a professional serial RGB controller based on ATmega128 and ATmega328, supporting addressable LEDs such as WS2811, WS2812B, WS2813, WS2815, SK6812, and TM1814. Features include Dance Mode, Solid Color Mode, Pixel Addressing, and support for up to 999 pixels.">
+  <meta name="keywords" content="RANGMANG, Serial RGB Controller, ATmega128, ATmega328P, WS2812B Controller, Addressable LED, RGB LED Controller, Soifgo, WS2811, SK6812, LED Dance Mode, Pixel Addressing">
+
+  <link rel="canonical" href="https://soifgo.github.io/rangmang/Rangmang.html">
+  <link rel="alternate" hreflang="x-default" href="https://soifgo.github.io/rangmang/Rangmang.html" />
+  <link rel="alternate" hreflang="en" href="https://soifgo.github.io/rangmang/Rangmang.html" />
+
+  <meta property="og:title" content="RANGMANG — Professional Serial RGB Controller for ATmega128/328">
+  <meta property="og:description" content="A professional serial RGB controller supporting WS2811, WS2812B, WS2813, WS2815, SK6812, and TM1814 with Dance Mode, Solid Color Mode, and Pixel Addressing.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://soifgo.github.io/rangmang/Rangmang.html">
+  <meta property="og:image" content="https://soifgo.github.io/rangmang/rangmang_pic.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="SoifGo Tutorials">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="RANGMANG — ATmega Serial RGB Controller for Addressable LEDs">
+  <meta name="twitter:description" content="Serial RGB controller for addressable LEDs with Dance Mode, Solid Color Mode, and Pixel Addressing. Supports WS2811, WS2812B, SK6812, and more.">
+  <meta name="twitter:image" content="https://soifgo.github.io/rangmang/rangmang_pic.jpg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "RANGMANG Serial RGB Controller",
+    "description": "RANGMANG is a serial RGB controller for ATmega128 and ATmega328 supporting addressable LED strips such as WS2811, WS2812B, WS2813, WS2815, SK6812 and TM1814.",
+    "brand": { "@type": "Brand", "name": "SoifGo" },
+    "manufacturer": { "@type": "Organization", "name": "SoifGo" },
+    "applicationCategory": "LED Controller",
+    "operatingSystem": "Embedded / Microcontroller",
+    "url": "https://soifgo.github.io/rangmang/Rangmang.html",
+    "image": "https://soifgo.github.io/rangmang/rangmang_pic.jpg",
+    "creator": { "@type": "Person", "name": "Saeid Moghadam" },
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD", "availability": "https://schema.org/InStock" },
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://soifgo.github.io/rangmang/Rangmang.html" },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://soifgo.github.io/" },
+        { "@type": "ListItem", "position": 2, "name": "Tutorials", "item": "https://soifgo.github.io/#tutorials" },
+        { "@type": "ListItem", "position": 3, "name": "RANGMANG RGB Controller", "item": "https://soifgo.github.io/rangmang/Rangmang.html" }
+      ]
+    }
+  }
+  </script>
+
+  <script>
+    (function() {
+      var savedTheme = localStorage.getItem('soifgo-theme');
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+
+  <style>
+    :root,
+    [data-theme="dark"] {
+      --bg: #1e1e24;
+      --fg: #e0e0e0;
+      --accent: #00ffcc;
+      --accent2: #ff007f;
+      --accent3: #00ccff;
+      --card-bg: #2a2a35;
+      --border: #3a3a47;
+      --muted: #b8b8c4;
+      --btn-home: #8B4513;
+      --code-bg: #22222d;
+      --code-text: #a9ffb4;
+      --pre-bg: #111116;
+      --table-th-bg: #333344;
+      --table-even-bg: #24242d;
+      --img-max-height: 416px;
+      --img-max-height-mobile: 312px;
+      --shadow: rgba(0, 0, 0, 0.5);
+    }
+
+    [data-theme="light"] {
+      --bg: #f4f6fa;
+      --fg: #1f2937;
+      --accent: #007a5e;
+      --accent2: #c2005f;
+      --accent3: #007aa6;
+      --card-bg: #ffffff;
+      --border: #d7dce4;
+      --muted: #4b5563;
+      --btn-home: #7a4a2e;
+      --code-bg: #eef2f7;
+      --code-text: #1e40af;
+      --pre-bg: #0f172a;
+      --table-th-bg: #e6f3fb;
+      --table-even-bg: #f8fafc;
+      --img-max-height: 416px;
+      --img-max-height-mobile: 312px;
+      --shadow: rgba(15, 23, 42, 0.1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    .ignore { /* translation skip marker */ }
+
+    html, body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.7;
+      -webkit-text-size-adjust: 100%;
+      min-height: 100vh;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 16px; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: saturate(180%) blur(8px);
+      -webkit-backdrop-filter: saturate(180%) blur(8px);
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 0;
+    }
+
+    .nav-inner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 10px;
+    }
+
+    .nav a {
+      flex: 1 1 auto;
+      text-align: center;
+      font-size: clamp(0.7rem, 2vw, 0.9rem);
+      padding: 6px 12px;
+      text-decoration: none;
+      color: var(--accent);
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: background 0.15s, color 0.15s;
+      font-weight: 500;
+    }
+
+    .nav a:hover, .nav a:focus {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 10px;
+      text-align: center;
+      margin: 0.5rem 0 0.5rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      word-break: break-word;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      color: var(--accent2);
+      margin-top: 2rem;
+      border-left: 4px solid var(--accent2);
+      padding-left: 12px;
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      color: var(--accent3);
+      margin-top: 1.5rem;
+      border-left: 4px solid var(--accent3);
+      padding-left: 12px;
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+    p { margin: 0.75em 0; color: var(--muted); word-break: break-word; }
+    strong { color: var(--fg); }
+
+    a { color: var(--accent); text-decoration: none; word-break: break-word; transition: color 0.2s; }
+    a:hover { color: var(--accent2); text-decoration: underline; }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1rem;
+      max-width: 100%;
+      overflow: hidden;
+      transition: background 0.3s ease, border 0.3s ease;
+    }
+
+    .card img, .container > img {
+      max-width: 100%;
+      width: auto;
+      height: auto;
+      max-height: var(--img-max-height);
+      object-fit: contain;
+      border-radius: 8px;
+      display: block;
+      margin: 1rem auto;
+      box-shadow: 0 4px 15px var(--shadow);
+      background: var(--bg);
+      padding: 4px;
+    }
+
+    @media (max-width: 480px) {
+      .card img, .container > img {
+        max-height: var(--img-max-height-mobile);
+        padding: 3px;
+        margin: 0.8rem auto;
+      }
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px var(--shadow);
+      background: #0a0a0f;
+      margin: 1rem auto;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .table-container { overflow-x: auto; border-radius: 8px; margin: 1rem 0; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card-bg);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px var(--shadow);
+      min-width: 500px;
+    }
+
+    th, td {
+      padding: 10px 14px;
+      text-align: center;
+      border: 1px solid var(--border);
+      word-break: break-word;
+    }
+
+    th { background: var(--table-th-bg); color: var(--accent); font-weight: 600; }
+    tr:nth-child(even) { background: var(--table-even-bg); }
+    td { color: var(--muted); }
+
+    pre {
+      background: var(--pre-bg);
+      color: var(--code-text);
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: "Consolas", "Courier New", Courier, monospace;
+      border-left: 3px solid var(--accent);
+      font-size: 0.85rem;
+      line-height: 1.7;
+      margin: 0.8rem 0;
+    }
+
+    code {
+      background: var(--code-bg);
+      padding: 0.2em 0.6em;
+      border-radius: 6px;
+      font-family: "Consolas", "Courier New", Courier, monospace;
+      font-size: 0.9em;
+      color: var(--code-text);
+      word-break: break-word;
+    }
+
+    pre code { background: transparent; padding: 0; }
+
+    .code-scroll { max-height: 600px; overflow: auto; white-space: pre; }
+
+    ul, ol { padding-left: 1.4em; margin: 0.5em 0; }
+    li { margin-bottom: 0.4em; color: var(--muted); word-break: break-word; }
+
+    .note-box {
+      background: color-mix(in srgb, var(--accent2) 8%, var(--card-bg));
+      border-left: 4px solid var(--accent2);
+      padding: 1rem 1.2rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+    }
+
+    .note-box h3 { color: var(--accent2); border-left: none; padding-left: 0; margin-top: 0; }
+
+    .color-fix-box {
+      background: color-mix(in srgb, var(--accent) 8%, var(--card-bg));
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      padding: 1.2rem 1.5rem;
+      margin: 1rem 0;
+    }
+
+    .color-fix-box h3 { color: var(--accent); border-left: none; padding-left: 0; margin-top: 0; }
+
+    .download-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      margin: 0.5rem 0;
+    }
+
+    .download-box a { display: inline-block; margin: 4px 0; font-size: 1rem; }
+
+    .btn-home {
+      display: inline-block;
+      background: var(--btn-home);
+      color: white;
+      padding: 14px 34px;
+      border-radius: 60px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.05rem;
+      text-align: center;
+      transition: background 0.15s, transform 0.1s;
+      touch-action: manipulation;
+      border: none;
+      min-width: 140px;
+      box-shadow: 0 4px 10px rgba(80, 45, 20, 0.2);
+    }
+
+    .btn-home:hover {
+      background: #5f3a22;
+      text-decoration: none;
+    }
+
+    .btn-home:active { transform: scale(0.97); }
+
+    .btn-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin: 2rem 0 0.5rem 0;
+    }
+
+    .language-switcher {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      right: auto;
+      z-index: 1001;
+      direction: ltr;
+    }
+
+    .lang-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--fg);
+      padding: 8px 16px;
+      border-radius: 24px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 8px var(--shadow);
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+
+    .lang-btn:hover {
+      background: color-mix(in srgb, var(--accent) 15%, transparent);
+      border-color: var(--accent);
+      transform: scale(1.03);
+    }
+
+    .lang-dropdown {
+      display: none;
+      position: absolute;
+      top: 48px;
+      left: 0;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      min-width: 220px;
+      max-height: 400px;
+      overflow-y: auto;
+      box-shadow: 0 8px 24px var(--shadow);
+      padding: 8px 0;
+      direction: ltr;
+    }
+
+    .lang-dropdown.show { display: block; }
+
+    .lang-item {
+      display: block;
+      padding: 10px 18px;
+      color: var(--fg);
+      text-decoration: none;
+      font-size: 0.92rem;
+      transition: background 0.15s;
+      white-space: nowrap;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .lang-item:hover {
+      background: color-mix(in srgb, var(--accent) 15%, transparent);
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      left: auto;
+      z-index: 1000;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--fg);
+      font-size: 1.3rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px var(--shadow);
+      transition: background 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
+      padding: 0;
+      line-height: 1;
+      direction: ltr;
+    }
+
+    .theme-toggle:hover {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+      transform: scale(1.08);
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 10px; }
+      h1 { font-size: 1.6rem; }
+      h2 { font-size: 1.15rem; }
+      .card { padding: 0.8rem 0.9rem; }
+      .nav a { font-size: 0.65rem; padding: 4px 8px; }
+      pre { font-size: 0.75rem; padding: 0.8rem; }
+      table { font-size: 0.8rem; min-width: 350px; }
+      th, td { padding: 6px 8px; }
+      .btn-home { width: 100%; justify-content: center; padding: 16px 18px; font-size: 1rem; }
+      .btn-wrap { flex-direction: column; gap: 12px; }
+
+      .theme-toggle { width: 40px; height: 40px; font-size: 1.1rem; top: 12px; right: 12px; }
+      .language-switcher { top: 12px; left: 12px; }
+      .lang-btn { font-size: 0.8rem; padding: 6px 12px; }
+      .lang-dropdown { min-width: 180px; max-height: 300px; }
+      .lang-item { padding: 8px 14px; font-size: 0.85rem; }
+    }
+
+    @media (max-width: 380px) {
+      h1 { font-size: 1.3rem; }
+      .card { padding: 0.6rem 0.7rem; }
+      pre { font-size: 0.65rem; padding: 0.6rem; }
+      table { font-size: 0.7rem; min-width: 280px; }
+      th, td { padding: 4px 6px; }
+    }
+
+    hr { border: none; border-top: 2px solid var(--border); margin: 1.5rem 0; }
+    .text-center { text-align: center; }
+  </style>
+</head>
+<body>
+
+  <div class="language-switcher ignore" id="languageSwitcher">
+    <button class="lang-btn" id="langBtn" type="button" aria-label="Change language">
+      🌐 <span id="currentLangLabel">English</span>
+    </button>
+    <div class="lang-dropdown" id="langDropdown"></div>
+  </div>
+
+  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme" title="Switch theme">
+    <span id="themeIcon">☀️</span>
+  </button>
+
+  <nav class="nav" aria-label="Table of Contents">
+    <div class="nav-inner">
+      <a href="#overview">Overview</a>
+      <a href="#features">Features</a>
+      <a href="#dance-mode">Dance Mode</a>
+      <a href="#solid-color">Solid Color</a>
+      <a href="#arduino">Arduino</a>
+      <a href="#addressing">Addressing</a>
+      <a href="#color-fix">Color Fix</a>
+      <a href="#downloads">Downloads</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <h1 id="overview">RANGMANG</h1>
+    <p><strong>RANGMANG</strong> is an RGB controller based on the ATmega128 microcontroller, Programmed with serial communication.</p>
+
+    <img src="rangmang_pic.jpg" alt="RANGMANG RGB Controller Module" loading="lazy">
+
+    <div class="card" id="features">
+      <h2>LED Strip Types and Features</h2>
+      <p>The following table introduces various LED strips and their specifications:</p>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>LED Strip Model</th>
+              <th>Operating Voltage</th>
+              <th>Control Type</th>
+              <th>Addressable</th>
+              <th>Special Features</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>WS2811</td><td>12V</td><td>Digital</td><td>Yes</td><td>Suitable for long strips</td></tr>
+            <tr><td>WS2812B</td><td>5V</td><td>Digital</td><td>Yes</td><td>Built-in chip in each LED</td></tr>
+            <tr><td>WS2813</td><td>5V</td><td>Digital</td><td>Yes</td><td>Resistant to data line failure</td></tr>
+            <tr><td>WS2815</td><td>12V</td><td>Digital</td><td>Yes</td><td>Industrial-grade, low voltage drop</td></tr>
+            <tr><td>SK6812</td><td>5V</td><td>Digital</td><td>Yes</td><td>Supports RGBW (white channel)</td></tr>
+            <tr><td>SK9822</td><td>5V</td><td>Digital</td><td>Yes</td><td>High-speed, similar to APA102</td></tr>
+            <tr><td>APA102</td><td>5V</td><td>Digital (Clock + Data)</td><td>Yes</td><td>Fast animations, dual-wire control</td></tr>
+            <tr><td>TM1814</td><td>12V</td><td>Digital</td><td>Yes</td><td>RGBW, high-power applications</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        Official download link for USBasp Programmer: You can find complete files and information about the USBasp programmer on the developer's official website:
+        <a href="https://www.fischl.de/usbasp" target="_blank" rel="noopener">fischl.de/usbasp</a>.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>PCB and Schematic Files Atmega 128A</h2>
+      <img src="rangmang_schematics_128a.png" alt="ATmega128A PCB Schematic" loading="lazy">
+    </div>
+
+    <div class="card">
+      <h2>PCB and Schematic Files Atmega 328P</h2>
+      <img src="rangmang_schematics_328p.png" alt="ATmega328P PCB Schematic" loading="lazy">
+    </div>
+
+    <div class="card" id="dance-mode">
+      <h2>RANGMANG Dance Mode Demo</h2>
+      <div class="video-wrapper">
+        <iframe src="https://mega.nz/embed/iPYCRZ7b#-Fv0YJGBEis5l-Myd1NdAvD7rAPw5hwcIrfpBKF9qII"
+                allowfullscreen
+                loading="lazy"></iframe>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>RANGMANG Dance Mode Configuration</h2>
+      <p>
+        This configuration defines how the RANGMANG module controls LED dance modes.
+        Each row encodes the following parameters (ADRGBSEM format):
+      </p>
+
+      <ul>
+        <li><strong>A (Address)</strong> – Module address (1–98 for specific module, 99 for all).</li>
+        <li><strong>D (Mode)</strong> – Dance styles (1–55), or 99 for random dance selection.</li>
+        <li><strong>R / G / B</strong> – Color intensity values. Normal range: 0–250.
+          <ul><li>251–255 → Random Red / Green / Blue</li></ul>
+        </li>
+        <li><strong>S (Dance Time 1)</strong> – Milliseconds per pixel move (first timing), range: 0–999.</li>
+        <li><strong>E (Dance Time 2)</strong> – Milliseconds per pixel move (second timing), range: 0–999.</li>
+        <li><strong>M (Pixel Count)</strong> – Number of dancing pixels.
+          <ul>
+            <li>ATmega328: range 1–450</li>
+            <li>ATmega128: range 1–999</li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>A (Channel)</th>
+              <th>D (Mode)</th>
+              <th>R (Red)</th>
+              <th>G (Green)</th>
+              <th>B (Blue)</th>
+              <th>S (Dance Time 1)</th>
+              <th>E (Dance Time 2)</th>
+              <th>M (Pixel Count)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>A1</td><td>D12</td><td>R251</td><td>G251</td><td>B251</td>
+              <td>S1</td><td>E1</td><td>M128</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" id="solid-color">
+      <h2>RANGMANG Fixed Color Mode Configuration (ATmega128 – 999 Pixels)</h2>
+
+      <ul>
+        <li><strong>A (Address)</strong> – Module address (1–98 for specific module, 99 for all).</li>
+        <li><strong>D (Mode)</strong> – Must always be 0 (D0) for solid color.</li>
+        <li><strong>R / G / B</strong> – Color intensity values, range: 0–255.</li>
+        <li><strong>S (Start Pixel)</strong> – Start position for colored pixels, range: 0–999.</li>
+        <li><strong>E (End Pixel)</strong> – End position for colored pixels, range: 0–999.</li>
+        <li><strong>M (Memory Slot)</strong> – Memory control: 0 (M0) without save, 1–99 for saving to slots.</li>
+      </ul>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>A (Channel)</th>
+              <th>D (Mode)</th>
+              <th>R (Red)</th>
+              <th>G (Green)</th>
+              <th>B (Blue)</th>
+              <th>S (Start Pixel)</th>
+              <th>E (End Pixel)</th>
+              <th>M (Memory Slot)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>A1</td><td>D0</td><td>R200</td><td>G50</td><td>B100</td>
+              <td>S1</td><td>E120</td><td>M10</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Power Regulation Notes</h2>
+      <pre>If the module is used individually, connect the Bluetooth power jumper.
+
+If the modules are used in parallel, only connect the jumper for the module linked to Bluetooth and disconnect the rest.
+
+Install a 5V regulator for 12V LED strips; for 5V LED strips, no regulator is needed.
+
+Use a single wire to solder and connect the input and output pins of the regulator directly on the board.</pre>
+
+      <ul>
+        <li>For 5V LED strips: You can remove the regulator and directly power the microcontroller from the strip's 5V socket.</li>
+        <li>For 12V LED strips: You must use a 12V-to-5V regulator to power the microcontroller safely.</li>
+        <li>Note: To prevent reverse connection of the LED strip to the module, use a properly keyed connector. If necessary, add a diode in series with the microcontroller's power input to protect against polarity reversal.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>RANGMANG ATmega128 – 999 Pixels</h2>
+      <pre>' Inputs format: ADRGBSEM (Leading zeros are optional)
+' Example: A1D0R0G0B0S0E0M0
+' A1 TO A98    FOR ADDRESS MODULE   A99 FOR ALL
+' IF D0 THEN SOLID COLOR
+' R: 0 TO 255   RED COLOR
+' G: 0 TO 255   GREEN COLOR
+' B: 0 TO 255   BLUE COLOR
+' S: 0 TO 999   RGB STRIP START POSITION FOR COLORED PIXEL
+' E: 0 TO 999   RGB STRIP END POSITION FOR COLORED PIXEL
+' M: 0 TO 98    M0 WITHOUT MEMORY SAVE   M1 TO M98 SAVE SLOT MEMORY
+
+' IF D1 TO D55   DANCE
+' D99   FOR RANDOM SELECT D1 TO D55 DANCE
+' R: 0 TO 250   RED COLOR   251 TO 255 FOR RANDOM RED COLOR
+' G: 0 TO 250   GREEN COLOR   251 TO 255 FOR RANDOM GREEN COLOR
+' B: 0 TO 250   BLUE COLOR   251 TO 255 FOR RANDOM BLUE COLOR
+' S: 0 TO 999   RGB STRIP FIRST DELAY EFFECT (ms)
+' E: 0 TO 999   RGB STRIP SECOND DELAY EFFECT (ms)
+' M: 1 TO 999   SET HOW MANY PIXELS DANCING</pre>
+    </div>
+
+    <div class="card">
+      <h2>RANGMANG ATmega328 – 450 Pixels</h2>
+      <pre>' Inputs format: ADRGBSEM (Leading zeros are optional)
+' Example: A1D0R0G0B0S0E0M0
+' A1 TO A98    FOR ADDRESS MODULE   A99 FOR ALL
+' IF D0 THEN SOLID COLOR
+' R: 0 TO 255   RED COLOR
+' G: 0 TO 255   GREEN COLOR
+' B: 0 TO 255   BLUE COLOR
+' S: 0 TO 450   RGB STRIP START POSITION FOR COLORED PIXEL
+' E: 0 TO 450   RGB STRIP END POSITION FOR COLORED PIXEL
+' M: 0 TO 98    M0 WITHOUT MEMORY SAVE   M1 TO M98 SAVE SLOT MEMORY
+'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+'M996 performs a full pixel wipe on the LED strip and erases all stored memory.
+'M997 clears all pixels on the LED strip without affecting any memory
+'M998 quickly fills all pixels on the LED strip without using or modifying memory
+'M999 colors all pixels on the LED strip and saves it as memory slot 1
+
+' IF D1 TO D55   DANCE
+' D99   FOR RANDOM SELECT D1 TO D55 DANCE
+' R: 0 TO 250   RED COLOR   251 TO 255 FOR RANDOM RED COLOR
+' G: 0 TO 250   GREEN COLOR   251 TO 255 FOR RANDOM GREEN COLOR
+' B: 0 TO 250   BLUE COLOR   251 TO 255 FOR RANDOM BLUE COLOR
+' S: 0 TO 999   RGB STRIP FIRST DELAY EFFECT (ms)
+' E: 0 TO 999   RGB STRIP SECOND DELAY EFFECT (ms)
+' M: 1 TO 450   SET HOW MANY PIXELS DANCING</pre>
+    </div>
+
+    <div class="card" id="arduino">
+      <h2>RANGMANG Arduino Version (ATmega328P)</h2>
+      <p>This is an Arduino equivalent of the ATmega328 Bascom firmware above. It uses the same serial protocol (9600 baud, <code>ADRGBSEM</code> commands, dance modes D1&ndash;D55 and D99, memory slots M1&ndash;M98, M996&ndash;M999, and address change with <code>CH1=2</code>), so the Soifgo app and your existing commands work the same way.</p>
+      <p><strong>How to use:</strong> install the <em>FastLED</em> library in the Arduino IDE, connect the LED data line to pin <strong>D5</strong>, set <code>NUM_LEDS</code> to your pixel count, and upload. For strips with swapped green/blue (some WS2811), change <code>COLOR_ORDER</code> to <code>RBG</code>.</p>
+      <h3>Wiring</h3>
+      <pre class="ignore">LED strip (WS2812B)      Arduino / power
+  DATA  ----[330 ohm]--->  D5  (digital pin 5)
+  5V    ----------------->  external 5V supply (+)
+  GND   ----------------->  external supply (-)  AND Arduino GND
+
+Bluetooth module (HC-05 / HC-06)
+  VCC   ----------------->  5V
+  GND   ----------------->  GND
+  TX    ----------------->  D0 (RX)
+  RX    <---[1k]---+---[2k]--- GND      (voltage divider)
+                   +------------------  D1 (TX)</pre>
+      <ul>
+        <li><strong>LED strip data</strong> goes to <strong>digital pin 5 (D5)</strong>. All grounds (Arduino, strip, power supply and Bluetooth) must be connected together.</li>
+        <li><strong>Bluetooth:</strong> connect the module TX to Arduino RX (D0) and the module RX to Arduino TX (D1), crossed. The RX pin of the module works at 3.3V, so use the 1k/2k divider shown above. The default baud rate is 9600, the same as this sketch.</li>
+        <li><strong>Uploading:</strong> D0 and D1 are also used by the USB cable. Unplug the Bluetooth TX wire from D0 while uploading the sketch, then connect it again.</li>
+        <li><strong>Maximum pixels:</strong> the protocol supports up to <strong>450 pixels</strong> on the ATmega328 (each pixel uses 3 bytes of RAM). Set <code>NUM_LEDS</code> to your strip length. This sketch was tested with 14 pixels. On very long strips a command may occasionally be missed while the strip is updating.</li>
+        <li><strong>Power:</strong> each pixel can draw up to 60 mA at full white (14 pixels is about 0.85 A). For more than a few pixels, power the strip from a separate 5V supply, and add a 1000 &micro;F capacitor across the strip power.</li>
+      </ul>
+      <p><strong>Please note:</strong> this version may not behave exactly like the Bascom version. Some effects can look slightly different. The code is open source, so if you find a difference or a problem, you are free to paste it into an AI assistant and ask it to fix or optimize it for you.</p>
+      <p><strong>Make it yours:</strong> if you do not like a dance effect, simply delete its <code>case</code> line in the <code>Modh()</code> function, or replace it with another effect. You can also change, shorten or rewrite any effect function to suit your own project.</p>
+      <pre class="ignore code-scroll">/*
+ * Rangmang Controller - Arduino port (revised)
+ * Original: Saeid Moghadam (Bascom AVR, ATmega328P)
+ * Hardware: ATmega328P, WS2812 on D5, serial 9600
+ *
+ * Protocol:  A(adr) D(mode) R G B S E M      e.g. A1D0R255G0B0S0E4M0
+ *            CH&lt;old&gt;=&lt;new&gt;                   address change -&gt; "New Address=&lt;new&gt;"
+ */
+
+#include &lt;FastLED.h&gt;
+#include &lt;EEPROM.h&gt;
+
+#define LED_PIN      5
+#define NUM_LEDS     14        // number of pixels on your strip
+#define COLOR_ORDER  GRB       // WS2812B = GRB, some WS2811 = RBG
+#define DEBUG        0         // 1 = print parsed values (do NOT use on a shared bus)
+
+// Rb_shiftleft/right in Bascom: vacated pixel black (0) or current color (1)?
+// Verify on hardware against the Bascom build (see notes).
+#define SHIFT_FILL_COLOR 0
+
+CRGB leds[NUM_LEDS];
+
+byte  Ch0 = 1, Dan = 0, Danc = 0, Dans = 0;
+byte  Rr = 255, Gg = 255, Bb = 255;
+byte  Rx = 255, Gx = 255, Bx = 255;
+word  Led = NUM_LEDS - 1;
+word  Tim1 = 30, Tim2 = 30;
+word  Ns = 0, Nf = NUM_LEDS - 1;
+byte  Mx = 0, Nnb = 0, Chc = 0;
+word  Ado = 0, T = 0;
+bool  Rainbo = false;
+volatile bool Ina = false;
+
+char  Text[41];
+byte  TextLen = 0;
+
+#define ABORT  if (Ina) return
+
+// ---------------- prototypes ----------------
+void Chekm(); void Time1(); void Time2(); void Modh(); void Red();
+void Snak_run_slow(); void Snak_return_slow(); void Snak_run_fast(); void Snak_return_fast();
+void Snak_run_slow_random(); void Snak_return_slow_random();
+void Snak_run_fast_random(); void Snak_return_fast_random();
+void Snak_runreturn_slow_random(); void Half_snak_out_mid_slow();
+void Half_half_right_slow(); void Half_half_left_slow();
+void Star_runreturn_slow(); void Star_run_slow(); void Star_run_fast(); void Star_return_fast();
+void Snak_growup_slow(); void Star_playful(); void Snak_star_playful(); void Star_fillers();
+void Movable_light(); void Snak_runreturn_colored();
+void Star_diamonds_blink_slow(); void Star_diamonds_blink_fast(); void Star_diamonds_blink_faster();
+void Disco(); void Fillstripe_color(); void Breathing();
+void Percolate_run(); void Percolate_return();
+void Snak_1_2_run(); void Snak_1_2_return(); void Snak_1_2_run_rev(); void Snak_1_2_return_rev();
+void Snak_relax_run(); void Snak_relax_return();
+void Snak_rainbow(); void Snak_rainbow_lp(); void Snak_rainbow_bl();
+
+// ---------------- helpers ----------------
+// Bascom Rnd(n) returns 0..n-1
+static word rnd(word n) { return n ? (word)random(n) : 0; }
+static CRGB rndCol()    { return CRGB(rnd(Rx), rnd(Gx), rnd(Bx)); }
+static void setPx(int i, CRGB c) { if (i &gt;= 0 &amp;&amp; i &lt; NUM_LEDS) leds[i] = c; }
+static CRGB fillCol() { return SHIFT_FILL_COLOR ? CRGB(Rx, Gx, Bx) : CRGB(0, 0, 0); }
+
+static void shR() {                      // shift right over 0..Led
+  for (int i = Led; i &gt; 0; i--) leds[i] = leds[i - 1];
+  leds[0] = fillCol();
+}
+static void shL() {                      // shift left over 0..Led
+  for (int i = 0; i &lt; (int)Led; i++) leds[i] = leds[i + 1];
+  leds[Led] = fillCol();
+}
+static void rotR() {
+  CRGB last = leds[Led];
+  for (int i = Led; i &gt; 0; i--) leds[i] = leds[i - 1];
+  leds[0] = last;
+}
+static void rotL() {
+  CRGB first = leds[0];
+  for (int i = 0; i &lt; (int)Led; i++) leds[i] = leds[i + 1];
+  leds[Led] = first;
+}
+
+static int num(const char* s, byte maxDigits) {
+  int v = 0;
+  while (maxDigits-- &amp;&amp; *s &gt;= '0' &amp;&amp; *s &lt;= '9') { v = v * 10 + (*s - '0'); s++; }
+  return v;
+}
+
+// ---------------- EEPROM (same header addresses as Bascom) ----------------
+// 1:Ch0  2:Dan  3,4,5:R,G,B  6-7:Led  9:Memoclr  10-11:Tim1  12-13:Tim2
+// slot I (1..98): R@100+I  G@200+I  B@300+I  start@396+4I  end@398+4I   (I = 99 - M)
+static word eeGetW(int a) { return (word)EEPROM.read(a) | ((word)EEPROM.read(a + 1) &lt;&lt; 8); }
+static void eePutW(int a, word v) { EEPROM.update(a, v &amp; 0xFF); EEPROM.update(a + 1, v &gt;&gt; 8); }
+
+static void Memclr() {
+  Serial.println(F("   "));
+  Serial.println(F(" Rangmang Wait "));
+  for (int i = 0; i &lt;= 800; i++) EEPROM.update(i, 0);
+  Serial.println(F(" Clear :) "));
+  FastLED.clear(); FastLED.show();
+}
+
+static void saveSlot(word m) {
+  int I = 99 - m;
+  EEPROM.update(100 + I, Rr); EEPROM.update(200 + I, Gg); EEPROM.update(300 + I, Bb);
+  eePutW(396 + 4 * I, Ns);    eePutW(398 + 4 * I, Nf);
+  eePutW(6, Led);
+}
+
+static void restoreFromEeprom() {
+  Ch0 = EEPROM.read(1); Dan = EEPROM.read(2);
+  Rr = EEPROM.read(3);  Gg = EEPROM.read(4); Bb = EEPROM.read(5);
+  Led = eeGetW(6);
+  byte memoclr = EEPROM.read(9);
+  Tim1 = eeGetW(10); Tim2 = eeGetW(12);
+  Chekm();
+  if (Ch0 &gt; 98 || Ch0 &lt; 1) Ch0 = 1;
+  if (Dan &gt; 99) Dan = 0;
+  if (Led &gt; 990) Led = 990;
+  if (memoclr == 0 || memoclr &gt; 1) { Memclr(); EEPROM.update(9, 1); }
+  Danc = Dan;
+
+  if (Dan == 0) {
+    if (Led &gt; 0 &amp;&amp; Led &lt; 99) {
+      for (int I = 1; I &lt;= 98; I++) {
+        CRGB c(EEPROM.read(100 + I), EEPROM.read(200 + I), EEPROM.read(300 + I));
+        word a = eeGetW(396 + 4 * I), b = eeGetW(398 + 4 * I);
+        for (word s = a; s &lt;= b &amp;&amp; s &lt; NUM_LEDS; s++) leds[s] = c;
+      }
+      FastLED.show();
+    } else if (Led == 999) {
+      fill_solid(leds, NUM_LEDS, CRGB(Rr, Gg, Bb));
+      FastLED.show();
+    }
+  }
+}
+
+// ============================================================
+void setup() {
+  Serial.begin(9600);
+  FastLED.addLeds&lt;WS2812B, LED_PIN, COLOR_ORDER&gt;(leds, NUM_LEDS);
+  FastLED.setBrightness(255);
+  FastLED.clear(); FastLED.show();
+  restoreFromEeprom();
+}
+
+// Non-blocking line reader; also called from inside the delays so a new
+// command interrupts a running effect immediately (like Bascom Bytematch=13).
+static void pollSerial() {
+  while (!Ina &amp;&amp; Serial.available()) {
+    char c = Serial.read();
+    if (c == '\r' || c == '\n') {
+      if (TextLen &gt; 0) { Text[TextLen] = 0; Ina = true; }
+    } else if (TextLen &lt; sizeof(Text) - 1) {
+      Text[TextLen++] = c;
+    }
+  }
+}
+
+void loop() {
+  pollSerial();
+  if (Ina) {
+    Red();
+    Ina = false; TextLen = 0; Text[0] = 0;
+    return;
+  }
+  if (Danc &gt; 0) Modh();
+}
+
+// ============================================================
+void Red() {
+  // ---- address change:  CH&lt;old&gt;=&lt;new&gt;
+  if (Text[0] == 'C' &amp;&amp; Text[1] == 'H') {
+    char* eq = strchr(Text, '=');
+    if (eq &amp;&amp; (eq - Text) &gt;= 3 &amp;&amp; num(Text + 2, 3) == Ch0) {
+      int nw = num(eq + 1, 3);
+      if (nw &gt; 0 &amp;&amp; nw &lt; 99) {
+        Ch0 = nw; EEPROM.update(1, Ch0);
+        Serial.print(F("New Address=")); Serial.println(Ch0);
+      }
+    }
+    return;
+  }
+
+  byte Ch = 0;
+  byte n = strlen(Text); if (n &gt; 32) n = 32;
+
+  for (byte i = 0; i &lt; n; i++) {
+    char t = Text[i];
+    if (!strchr("ADRGBMSE", t)) continue;
+    const char* s = Text + i + 1;
+
+    if (t == 'A') { int v = num(s, 2); if (v &gt; 0 &amp;&amp; v &lt; 100) Ch = v; }
+    if (Ch != Ch0 &amp;&amp; Ch != 99) continue;
+
+    int v = num(s, (t == 'D') ? 2 : 3);
+    switch (t) {
+      case 'D': if ((v &gt;= 0 &amp;&amp; v &lt;= 55) || v == 99) { Danc = v; Dan = v; } break;
+      case 'R': if (v &lt; 256) Rr = v; break;
+      case 'G': if (v &lt; 256) Gg = v; break;
+      case 'B': if (v &lt; 256) Bb = v; break;
+      case 'M': Led = v; break;
+      case 'S': if (Dan == 0) Ns = v; else Tim1 = v; break;
+      case 'E': if (Dan == 0) Nf = v; else Tim2 = v; break;
+    }
+  }
+
+#if DEBUG
+  Serial.print(F("A=")); Serial.print(Ch); Serial.print(F(" D=")); Serial.print(Danc);
+  Serial.print(F(" R=")); Serial.print(Rr); Serial.print(F(" G=")); Serial.print(Gg);
+  Serial.print(F(" B=")); Serial.print(Bb); Serial.print(F(" S=")); Serial.print(Ns);
+  Serial.print(F(" E=")); Serial.print(Nf); Serial.print(F(" M=")); Serial.println(Led);
+#endif
+
+  if (Dan &lt; 100) EEPROM.update(2, Dan);
+
+  if (Dan == 0) {
+    CRGB c(Rr, Gg, Bb);
+    if (Led &gt; 0 &amp;&amp; Led &lt; 99) {                 // M1..M98 : paint + save slot
+      saveSlot(Led);
+      for (word i = Ns; i &lt;= Nf &amp;&amp; i &lt; NUM_LEDS; i++) leds[i] = c;
+      FastLED.show();
+    } else {
+      switch (Led) {
+        case 0:                                // preview, no save, NO clear
+          for (word i = Ns; i &lt;= Nf &amp;&amp; i &lt; NUM_LEDS; i++) leds[i] = c;
+          FastLED.show();
+          break;
+        case 996: Memclr(); break;
+        case 997: FastLED.clear(); FastLED.show(); delay(100); break;
+        case 998: fill_solid(leds, NUM_LEDS, c); FastLED.show(); delay(100); break;
+        case 999:
+          fill_solid(leds, NUM_LEDS, c); FastLED.show();
+          EEPROM.update(3, Rr); EEPROM.update(4, Gg); EEPROM.update(5, Bb);
+          eePutW(6, 999);
+          break;
+      }
+    }
+  } else {
+    if (Led &lt; 1) Led = 1;
+    if (Led &gt; 999) Led = 999;
+    Chekm();
+    if (Danc &gt; 0 &amp;&amp; Danc &lt; 100) {
+      EEPROM.update(3, Rr); EEPROM.update(4, Gg); EEPROM.update(5, Bb);
+      eePutW(6, Led); eePutW(10, Tim1); eePutW(12, Tim2);
+    }
+  }
+}
+
+// ============================================================
+void Chekm() {
+  if (Tim1 &gt; 999 || Tim1 &lt; 1) Tim1 = 1;
+  if (Tim2 &gt; 999 || Tim2 &lt; 1) Tim2 = 1;
+}
+
+static void waitMs(word t) {           // t+1 ms, aborts as soon as a full line arrives
+  for (word i = 0; i &lt;= t; i++) {
+    pollSerial();
+    if (Ina) return;
+    delay(1);
+  }
+}
+void Time1() { Chekm(); waitMs(Tim1); }
+void Time2() { Chekm(); waitMs(Tim2); }
+
+// ============================================================
+static byte pickCh(byte v) {
+  if (v &lt; 251) return v;
+  switch (v) {
+    case 251: return rnd(15);
+    case 252: return rnd(30);
+    case 253: return rnd(60);
+    case 254: return rnd(120);
+    default:  return rnd(250);
+  }
+}
+
+void Modh() {
+  if (Led == 0) Led = 1;
+  if (Led &gt;= NUM_LEDS) Led = NUM_LEDS - 1;      // Led = index of last pixel used
+
+  Dans = (Danc == 99) ? random(55) : Danc - 1;
+  Rx = pickCh(Rr); Gx = pickCh(Gg); Bx = pickCh(Bb);
+
+  switch (Dans) {
+    case 0:  Snak_run_slow(); break;
+    case 1:  Snak_return_slow(); break;
+    case 2:  Snak_run_slow(); ABORT; Snak_return_slow(); break;
+    case 3:  Snak_run_fast(); break;
+    case 4:  Snak_return_fast(); break;
+    case 5:  Snak_run_fast(); ABORT; Snak_return_fast(); break;
+    case 6:  Snak_run_slow_random(); break;
+    case 7:  Snak_return_slow_random(); break;
+    case 8:  Snak_run_slow_random(); ABORT; Snak_return_slow_random(); break;
+    case 9:  Snak_run_fast_random(); break;
+    case 10: Snak_return_fast_random(); break;
+    case 11: Snak_run_fast_random(); ABORT; Snak_return_fast_random(); break;
+    case 12: Snak_runreturn_slow_random(); break;
+    case 13: Nnb = 0; Half_snak_out_mid_slow(); break;
+    case 14: Nnb = 1; Half_snak_out_mid_slow(); break;
+    case 15: Half_snak_out_mid_slow(); Nnb ^= 1; break;   // no recursion: loop() calls us again
+    case 16: Half_half_right_slow(); break;
+    case 17: Half_half_left_slow(); break;
+    case 18: Mx = 0; Star_run_slow(); break;
+    case 19: Mx = 1; Star_run_slow(); break;
+    case 20: Star_runreturn_slow(); break;
+    case 21: Star_run_fast(); break;
+    case 22: Star_return_fast(); break;
+    case 23: Star_run_fast(); ABORT; Star_return_fast(); break;
+    case 24: Snak_growup_slow(); break;
+    case 25: Star_playful(); break;
+    case 26: Snak_star_playful(); break;
+    case 27: Star_fillers(); break;
+    case 28: Movable_light(); break;
+    case 29: Snak_runreturn_colored(); break;
+    case 30: Star_diamonds_blink_slow(); break;
+    case 31: Star_diamonds_blink_fast(); break;
+    case 32: Star_diamonds_blink_faster(); break;
+    case 33: Disco(); break;
+    case 34: Fillstripe_color(); break;
+    case 35: Breathing(); break;
+    case 36: Percolate_run(); break;
+    case 37: Percolate_return(); break;
+    case 38: Percolate_run(); ABORT; Percolate_return(); break;
+    case 39: Snak_1_2_run(); break;
+    case 40: Snak_1_2_return(); break;
+    case 41: Snak_1_2_run(); ABORT; Snak_1_2_return(); break;
+    case 42: Snak_1_2_run_rev(); break;
+    case 43: Snak_1_2_return_rev(); break;
+    case 44: Snak_1_2_run_rev(); ABORT; Snak_1_2_return_rev(); break;
+    case 45: Snak_relax_run(); break;
+    case 46: Snak_relax_return(); break;
+    case 47: Snak_relax_run(); ABORT; Snak_relax_return(); break;
+    case 48: Rainbo = false; Snak_rainbow(); break;
+    case 49: Rainbo = true;  Snak_rainbow(); break;
+    case 50: Rainbo = false; Snak_rainbow(); ABORT; Rainbo = true; Snak_rainbow(); break;
+    case 51: Rainbo = false; Snak_rainbow_lp(); break;
+    case 52: Rainbo = true;  Snak_rainbow_lp(); break;
+    case 53: Rainbo = false; Snak_rainbow_lp(); ABORT; Rainbo = true; Snak_rainbow_lp(); break;
+    case 54: Snak_rainbow_bl(); break;
+    default: delay(1); break;               // D56..D98: Bascom does nothing
+  }
+}
+
+// ============================================================
+// Effects (order of Show / Time follows the Bascom source)
+// ============================================================
+void Snak_run_slow() {
+  CRGB c(Rx, Gx, Bx);
+  for (word n = 0; n &lt;= Led; n++) { setPx(n, c); Time1(); FastLED.show(); ABORT; }
+  for (word n = 0; n &lt;= Led; n++) { setPx(n, CRGB::Black); Time2(); FastLED.show(); ABORT; }
+}
+
+void Snak_return_slow() {
+  CRGB c(Rx, Gx, Bx);
+  for (int n = Led; n &gt;= 0; n--) { setPx(n, c); Time1(); FastLED.show(); ABORT; }
+  for (int n = Led; n &gt;= 0; n--) { setPx(n, CRGB::Black); Time2(); FastLED.show(); ABORT; }
+}
+
+void Snak_run_fast() {
+  CRGB c(Rx, Gx, Bx);
+  for (word n = 0; n &lt;= Led; n += 5) {
+    for (byte k = 0; k &lt; 5; k++) setPx(n + k, c);
+    Time1(); FastLED.show(); ABORT;
+  }
+  for (word n = 0; n &lt;= Led; n += 5) {
+    for (byte k = 0; k &lt; 5; k++) setPx(n + k, CRGB::Black);
+    Time2(); FastLED.show(); ABORT;
+  }
+}
+
+// Bascom sets Nd..Nd+4 here (upwards), unlike Snak_return_fast_random (downwards)
+void Snak_return_fast() {
+  CRGB c(Rx, Gx, Bx);
+  for (int n = Led; n &gt;= 0; n -= 5) {
+    for (byte k = 0; k &lt; 5; k++) setPx(n + k, c);
+    Time1(); FastLED.show(); ABORT;
+  }
+  for (int n = Led; n &gt;= 0; n -= 5) {
+    for (byte k = 0; k &lt; 5; k++) setPx(n + k, CRGB::Black);
+    Time2(); FastLED.show(); ABORT;
+  }
+}
+
+void Snak_run_slow_random() {
+  CRGB c;
+  for (word n = 0; n &lt;= Led; n++) {
+    if (n % 2 == 0) c = rndCol();
+    setPx(n, c); Time1(); FastLED.show(); ABORT;
+  }
+  for (word k = 1; k &lt; Led; k++) { shR(); Time2(); FastLED.show(); ABORT; }
+  FastLED.clear(); FastLED.show();
+}
+
+void Snak_return_slow_random() {
+  CRGB c;
+  for (int n = Led; n &gt;= 0; n--) {
+    if (n % 2 == 0) c = rndCol();
+    setPx(n, c); Time1(); FastLED.show(); ABORT;
+  }
+  for (word k = 1; k &lt; Led; k++) { shL(); Time2(); FastLED.show(); ABORT; }
+  FastLED.clear(); FastLED.show();
+}
+
+void Snak_run_fast_random() {
+  CRGB c;
+  for (word n = 0; n &lt;= Led; n += 5) {
+    if (n % 2 == 0) c = rndCol();
+    for (byte k = 0; k &lt; 5; k++) setPx(n + k, c);
+    FastLED.show(); Time1(); ABORT;
+  }
+  for (word n = 0; n &lt;= Led; n += 5) {
+    for (byte k = 0; k &lt; 5; k++) setPx(n + k, CRGB::Black);
+    FastLED.show(); Time2(); ABORT;
+  }
+  FastLED.clear(); FastLED.show();
+}
+
+void Snak_return_fast_random() {
+  CRGB c;
+  for (int n = Led; n &gt;= 4; n -= 5) {
+    if (n % 2 == 0) c = rndCol();
+    for (byte k = 0; k &lt; 5; k++) setPx(n - k, c);
+    Time1(); FastLED.show(); ABORT;
+  }
+  for (int n = Led; n &gt;= 4; n -= 5) {
+    for (byte k = 0; k &lt; 5; k++) setPx(n - k, CRGB::Black);
+    Time2(); FastLED.show(); ABORT;
+  }
+  FastLED.clear(); FastLED.show();
+}
+
+void Snak_runreturn_slow_random() {
+  CRGB c;
+  for (int n = Led; n &gt;= 0; n--) {
+    if (n % 2 == 0) c = rndCol();
+    setPx(n, c); Time1(); FastLED.show(); ABORT;
+  }
+  for (word k = 1; k &lt; Led; k++) { shR(); Time2(); FastLED.show(); ABORT; }
+  for (word n = 0; n &lt;= Led; n++) {
+    if (n % 2 == 0) c = rndCol();
+    setPx(n, c); Time1(); FastLED.show(); ABORT;
+  }
+  for (word k = 1; k &lt; Led; k++) { shL(); Time2(); FastLED.show(); ABORT; }
+}
+
+void Half_snak_out_mid_slow() {
+  CRGB c(Rx, Gx, Bx);
+  word Jk = Led / 2;
+  if (Nnb == 0) {
+    for (word n = 0; n &lt;= Jk; n++) { setPx(n, c); setPx(Led - n, c); Time1(); FastLED.show(); ABORT; }
+  } else {
+    for (int n = Jk; n &gt;= 0; n--)  { setPx(n, c); setPx(Led - n, c); Time1(); FastLED.show(); ABORT; }
+  }
+}
+
+void Half_half_right_slow() {
+  FastLED.clear();
+  CRGB c(Rx, Gx, Bx);
+  word Jk = Led / 2;
+  for (word n = 0; n &lt;= Jk; n++) { setPx(n, c); setPx(Jk + n, c); Time1(); FastLED.show(); ABORT; }
+}
+
+void Half_half_left_slow() {
+  FastLED.clear();
+  CRGB c(Rx, Gx, Bx);
+  word Jk = Led / 2;
+  for (int n = Jk; n &gt;= 0; n--) { setPx(n, c); setPx(Jk + n, c); Time1(); FastLED.show(); ABORT; }
+}
+
+void Star_run_slow() {
+  if (Chc == 0) { Ado = Led; Chc = 1; }
+  if (Ado == 1) Chc = 0;
+  CRGB c;
+  for (word n = 0; n &lt;= Ado; n += 2) {
+    c = (Mx == 0) ? CRGB(Rx, Gx, Bx) : rndCol();
+    setPx(n, c); setPx(n + 1, c);
+    FastLED.show(); Time1(); FastLED.clear(); ABORT;
+  }
+  c = (Mx == 0) ? CRGB(222, 222, 222) : CRGB(rnd(222), rnd(222), rnd(222));
+  word Dv = Ado / 10;
+  if (Ado &gt; 10) { for (word n = Ado; n &lt;= Ado + Dv; n++) setPx(n, c); }
+  else          { setPx(Ado, c); }
+  FastLED.show(); Time2();
+  if (Chc == 1) { if (Ado &gt; 10) Ado -= Dv; else Ado--; }
+}
+
+void Star_runreturn_slow() {
+  CRGB c(Rx, Gx, Bx);
+  for (word n = 0; n &lt;= Led; n += 2) {
+    setPx(n, c); setPx(n + 1, c); setPx(n + 2, c);
+    FastLED.show(); Time1(); FastLED.clear(); ABORT;
+  }
+  for (int n = Led; n &gt;= 0; n -= 2) {
+    setPx(n, c); setPx(n + 1, c); setPx(n + 2, c);
+    FastLED.show(); Time2(); FastLED.clear(); ABORT;
+  }
+}
+
+void Star_run_fast() {
+  CRGB c(Rx, Gx, Bx);
+  for (word n = 0; n &lt;= Led; n += 5) {
+    for (byte k = 0; k &lt; 5; k++) setPx(n + k, c);
+    FastLED.show(); Time1(); FastLED.clear(); ABORT;
+  }
+}
+
+void Star_return_fast() {
+  CRGB c(Rx, Gx, Bx);
+  for (int n = Led; n &gt;= 5; n -= 5) {
+    for (byte k = 0; k &lt; 5; k++) setPx(n - k, c);
+    FastLED.show(); Time2(); FastLED.clear(); ABORT;
+  }
+}
+
+void Snak_growup_slow() {
+  CRGB c(Rx, Gx, Bx);
+  for (byte n = 1; n &lt;= 4; n++) setPx(n, c);
+  FastLED.show();
+  if (T &lt; Led) T += 5;
+  if (T &gt;= Led) T = 1;
+  for (word k = 1; k &lt;= Led - T; k++) { shR(); Time1(); FastLED.show(); ABORT; }
+  for (int n = Led - 1; n &gt;= (int)Led - 3 &amp;&amp; n &gt;= 0; n--) { setPx(n, c); FastLED.show(); }
+  for (word k = 1; k &lt;= Led - T; k++) { shL(); Time2(); FastLED.show(); ABORT; }
+}
+
+void Star_playful() {
+  CRGB c(Rx, Gx, Bx);
+  for (byte n = 1; n &lt;= 4; n++) setPx(n, c);
+  FastLED.show();
+  word Yfd = rnd(5);
+  if (T &lt; Led) T += Yfd;
+  if (T &gt;= Led) T = 1;
+  for (word k = 1; k &lt;= Led - T; k++) { shR(); Time1(); FastLED.show(); ABORT; }
+  word Xfd = rnd(5);
+  for (int n = Led - 1; n &gt;= (int)Led - (int)Xfd; n -= 5) { setPx(n, c); FastLED.show(); }
+  word Vfd = rnd(T);
+  for (word k = 1; k &lt;= Led - Vfd; k++) { shL(); Time2(); FastLED.show(); ABORT; }
+}
+
+// NOTE: forces Led&gt;=22 like Bascom; on a 14-pixel strip part of the motion is off-strip.
+void Snak_star_playful() {
+  if (Led &lt; 22) Led = 22;
+  CRGB c(Rx, Gx, Bx);
+  int  L = Led;
+  byte Pp = rnd(10); if (!Pp) Pp = 1;
+  for (byte n = 1; n &lt;= Pp; n++) setPx(n, c);
+  FastLED.show();
+
+  Pp = rnd(10); if (!Pp) Pp = 1;
+  if (T &lt; Led) T++;
+  if (T &gt;= Led) T = 1;
+  T = rnd(T); T += Pp; if (T == 0) T = 1;
+
+  for (int n = 1; n &lt;= L - (int)T; n += Pp) { shR(); FastLED.show(); Time1(); ABORT; }
+  for (int n = L - 1; n &gt;= L - (int)T; n -= 3) { if (n &gt; 0) { setPx(n, c); FastLED.show(); } }
+
+  Pp = rnd(10); if (!Pp) Pp = 3;
+  for (int n = 1; n &lt;= L - (int)T; n += Pp) { shL(); FastLED.show(); Time2(); ABORT; }
+
+  Pp = rnd(10); if (!Pp) Pp = 1;
+  if (T &lt; Led) T++;
+  if (T &gt;= Led) T = 1;
+  T = rnd(T); T += Pp; if (T == 0) T = 1;
+  int Md = rnd(Led); if (Md &lt; (int)T) Md = T + 1;
+  for (int n = 1; n &lt;= Md - (int)T; n += Pp) {
+    int Jd = L - Pp;
+    if (n &gt; 0) setPx(n, c);
+    if (Jd &gt; 0) setPx(Jd, c);
+    FastLED.show(); Time1(); ABORT;
+  }
+  // Bascom: "For Nd = Led-t To Led-1 Step -3" (start &lt; end with negative step) - ported as ascending
+  for (int n = L - (int)T; n &lt;= L - 1; n += 3) { if (n &gt; 0) setPx(n, c); }
+  FastLED.show();
+
+  Pp = rnd(10); if (!Pp) Pp = 3;
+  for (int n = L - (int)T; n &gt;= 1; n -= Pp) { shR(); FastLED.show(); Time2(); ABORT; }
+  for (byte n = 1; n &lt;= Pp; n++) setPx(n, c);
+  FastLED.show();
+}
+
+void Star_fillers() {
+  if (Ado &lt; Led) Ado++;
+  if (Ado == Led) Ado = 1;
+  CRGB c(Rx, Gx, Bx);
+  for (word n = 1; n &lt;= Ado; n += 4) { setPx(n, c); FastLED.show(); }
+  // Bascom: "For N = 1 To Led-ado Step -4" - ported as ascending (see notes)
+  for (int k = 1; k &lt;= (int)Led - (int)Ado; k += 4) { shR(); Time1(); FastLED.show(); ABORT; }
+  for (int n = Led - 1; n &gt;= (int)Led - (int)Ado; n -= 5) { setPx(n, c); FastLED.show(); }
+  for (word k = 1; k &lt;= Led - Ado; k++) { shL(); Time2(); FastLED.show(); ABORT; }
+}
+
+void Movable_light() {
+  CRGB white(222, 222, 222);
+  CRGB col(rnd(Rx), rnd(Gx), rnd(Bx));
+  for (word n = 0; n &lt;= Led; n++) {
+    setPx(n + 3, white); setPx(n + 2, white); setPx(n + 1, white);
+    setPx(n, col);
+    Time1(); FastLED.show(); ABORT;
+  }
+  col = CRGB(rnd(Rx), rnd(Gx), rnd(Bx));
+  for (int n = Led; n &gt;= 0; n--) {
+    setPx(n, white); setPx(n + 1, white); setPx(n + 2, white);
+    setPx(n + 3, col);
+    Time2(); FastLED.show(); ABORT;
+  }
+}
+
+void Snak_runreturn_colored() {
+  CRGB c = rndCol();
+  for (word n = 0; n &lt;= Led; n++) { setPx(n, c); Time1(); FastLED.show(); ABORT; }
+  c = rndCol();
+  for (int n = Led; n &gt;= 0; n--) { setPx(n, c); Time2(); FastLED.show(); ABORT; }
+}
+
+void Star_diamonds_blink_slow() {
+  CRGB c = rndCol();
+  setPx(rnd(Led), c);
+  Time1(); ABORT;
+  setPx(rnd(Led), c);
+  Time2();
+  FastLED.show();
+}
+
+void Star_diamonds_blink_fast() {
+  CRGB c(Rx, Gx, Bx);
+  Time1(); Time2(); ABORT;
+  setPx(rnd(Led), c);
+  FastLED.show(); FastLED.clear();
+}
+
+void Star_diamonds_blink_faster() {
+  CRGB c(Rx, Gx, Bx);
+  Time1(); Time2(); ABORT;
+  for (byte k = 0; k &lt; 8; k++) setPx(rnd(Led), c);
+  FastLED.show(); FastLED.clear();
+}
+
+void Disco() {
+  CRGB c(Rx, Gx, Bx);
+  for (word i = 0; i &lt;= Led; i++) { Time1(); ABORT; setPx(rnd(Led), c); }
+  FastLED.show();
+  for (word i = 0; i &lt;= Led; i++) { Time2(); ABORT; setPx(rnd(Led), CRGB::Black); }
+  FastLED.show();
+}
+
+void Fillstripe_color() {                    // Rb_fillstripe = whole strip
+  fill_solid(leds, NUM_LEDS, rndCol());
+  FastLED.show();
+  for (word i = 0; i &lt;= 200; i++) { Time1(); ABORT; Time2(); ABORT; }
+}
+
+void Breathing() {
+  byte A1 = Rx, A2 = Gx, A3 = Bx;
+  for (word l = 0; l &lt;= 255; l++) {
+    if (A1 == 1 || A2 == 1 || A3 == 1) break;
+    if (A1 &gt; 1) A1--; if (A2 &gt; 1) A2--; if (A3 &gt; 1) A3--;
+    fill_solid(leds, NUM_LEDS, CRGB(A1, A2, A3));
+    FastLED.show(); Time1(); ABORT;
+  }
+  for (word l = 0; l &lt;= 255; l++) {
+    if (A1 == Rx || A2 == Gx || A3 == Bx) break;
+    if (A1 &lt; Rx) A1++; if (A2 &lt; Gx) A2++; if (A3 &lt; Bx) A3++;
+    fill_solid(leds, NUM_LEDS, CRGB(A1, A2, A3));
+    FastLED.show(); Time2(); ABORT;
+  }
+}
+
+void Percolate_run() {
+  CRGB c(Rx, Gx, Bx);
+  word Jk = Led / 2;
+  for (word n = 0; n &lt;= Jk; n++) {
+    setPx(n, c); setPx(Led - n, c);
+    Time1(); FastLED.show(); FastLED.clear(); ABORT;
+  }
+}
+
+void Percolate_return() {
+  CRGB c(Rx, Gx, Bx);
+  word Jk = Led / 2;
+  for (int n = Jk; n &gt;= 0; n--) {
+    setPx(n, c); setPx(Led - n, c);
+    delay(1); pollSerial(); FastLED.show(); FastLED.clear(); ABORT;
+  }
+}
+
+static void clampMin10(CRGB &amp;c) { if (c.r &lt; 10) c.r = 10; if (c.g &lt; 10) c.g = 10; if (c.b &lt; 10) c.b = 10; }
+
+void Snak_1_2_run() {
+  FastLED.clear();
+  CRGB c(Rx, Gx, Bx);
+  for (word n = 0; n &lt;= Led; n += 2) { setPx(n, c); FastLED.show(); Time1(); ABORT; }
+  c = rndCol(); clampMin10(c);
+  for (word n = 1; n &lt;= Led; n += 2) { setPx(n, c); FastLED.show(); Time2(); ABORT; }
+}
+
+void Snak_1_2_return() {
+  word Dv = Led + 1;
+  FastLED.clear();
+  CRGB c(Rx, Gx, Bx);
+  for (int n = Led; n &gt;= 0; n -= 2) { setPx(n, c); FastLED.show(); Time1(); ABORT; }
+  c = rndCol(); clampMin10(c);
+  for (int n = Dv; n &gt;= 0; n -= 2) { setPx(n, c); FastLED.show(); Time2(); ABORT; }
+}
+
+void Snak_1_2_run_rev() {
+  FastLED.clear();
+  CRGB c(Rx, Gx, Bx);
+  for (word n = 0; n &lt;= Led; n += 2) { setPx(n, c); FastLED.show(); Time1(); ABORT; }
+  c = rndCol(); clampMin10(c);
+  for (int n = Led; n &gt;= 0; n -= 2) { setPx(n, c); FastLED.show(); Time2(); ABORT; }
+}
+
+void Snak_1_2_return_rev() {
+  FastLED.clear();
+  CRGB c(Rx, Gx, Bx);
+  for (int n = Led; n &gt;= 0; n -= 2) { setPx(n, c); FastLED.show(); Time1(); ABORT; }
+  c = rndCol(); clampMin10(c);
+  for (word n = 0; n &lt;= Led; n += 2) { setPx(n, c); FastLED.show(); Time2(); ABORT; }
+}
+
+void Snak_relax_run() {
+  FastLED.clear();
+  byte Xf = (Rx &gt; 10) ? Rx / 10 : 0, Yf = (Gx &gt; 10) ? Gx / 10 : 0, Vf = (Bx &gt; 10) ? Bx / 10 : 0;
+  byte r = 0, g = 0, b = 0;
+  for (int n = Led; n &gt;= (int)Led - 10; n--) { r += Xf; g += Yf; b += Vf; setPx(n, CRGB(r, g, b)); }
+  for (int n = (int)Led - 11; n &gt;= (int)Led - 20; n--) { r -= Xf; g -= Yf; b -= Vf; setPx(n, CRGB(r, g, b)); }
+  FastLED.show();
+  for (word k = 0; k &lt;= Led; k++) { shL(); Time1(); FastLED.show(); ABORT; }
+}
+
+void Snak_relax_return() {
+  FastLED.clear();
+  byte Xf = (Rx &gt; 10) ? Rx / 10 : 0, Yf = (Gx &gt; 10) ? Gx / 10 : 0, Vf = (Bx &gt; 10) ? Bx / 10 : 0;
+  byte r = 0, g = 0, b = 0;
+  for (word n = 0; n &lt;= 10; n++)  { r += Xf; g += Yf; b += Vf; setPx(n, CRGB(r, g, b)); }
+  for (word n = 11; n &lt;= 21; n++) { r -= Xf; g -= Yf; b -= Vf; setPx(n, CRGB(r, g, b)); }
+  FastLED.show();
+  for (word k = 0; k &lt;= Led; k++) { shR(); Time1(); FastLED.show(); ABORT; }
+}
+
+static void rainbowRotate() {                 // Bascom: Rainbo=0 -&gt; Rb_rotateright, 1 -&gt; Rb_rotateleft
+  for (word k = 0; k &lt;= Led; k++) {
+    if (!Rainbo) rotR(); else rotL();
+    Time1(); FastLED.show(); ABORT;
+  }
+}
+
+void Snak_rainbow() {
+  for (byte I = 0; I &lt;= 23; I++) {
+    word Bf = 20 * I;
+    if (Bf &gt;= NUM_LEDS) break;
+    CRGB c = rndCol();
+    byte Xf = (c.r &gt; 10) ? c.r / 10 : 0, Yf = (c.g &gt; 10) ? c.g / 10 : 0, Vf = (c.b &gt; 10) ? c.b / 10 : 0;
+    byte r = 0, g = 0, b = 0;
+    word Jk = 10 + Bf, Lk = 20 + Bf;
+    for (word n = Bf; n &lt;= Jk; n++) { r += Xf; g += Yf; b += Vf; setPx(n, CRGB(r, g, b)); }
+    for (word n = Jk; n &lt;= Lk; n++) { r -= Xf; g -= Yf; b -= Vf; setPx(n, CRGB(r, g, b)); }
+  }
+  FastLED.show();
+  rainbowRotate();
+}
+
+void Snak_rainbow_lp() {
+  for (byte I = 0; I &lt;= 23; I++) {
+    word Bf = 20 * I;
+    if (Bf &gt;= NUM_LEDS) break;
+    for (word n = Bf; n &lt;= 20 + Bf; n++) setPx(n, rndCol());
+  }
+  FastLED.show();
+  rainbowRotate();
+}
+
+void Snak_rainbow_bl() {
+  FastLED.clear();
+  for (byte I = 0; I &lt;= 23; I++) {
+    word Bf = 20 * I;
+    if (Bf &gt;= NUM_LEDS) break;
+    for (word n = Bf; n &lt;= 20 + Bf; n++) setPx(n, rndCol());
+  }
+  FastLED.show();
+  Time1(); ABORT;
+  rotL();
+  FastLED.show();
+  FastLED.clear();
+  Time2();
+}
+</pre>
+    </div>
+
+    <div class="card" id="addressing">
+      <h2>✅ Module Addressing Instructions</h2>
+      <pre>To address a module, simply follow the method below.
+
+For example:
+Old address 1   New Address 2  →  CH1=2
+Old address 23  New Address 47 →  CH23=47
+
+Important:
+After programming, all modules have an initial default address of 1.
+Therefore, during the first addressing, the old (current) address is always 1.
+
+Addressing format:
+CH old_address = new_address
+
+For example:
+CH1=3
+
+After changing the address, the module will respond using its new address.
+For example, if the new address is 3, the module will reply to:
+New Address=3
+
+Please note:
+Valid addresses range from 1 to 98.
+Address 99 is a shared address that applies to all modules.
+
+Therefore, each module will respond and act to its assigned address (between 1 and 98) as well as to the shared address 99.</pre>
+
+      <p>
+        In each microcontroller's folder, the software directory "dude 6.4" is available. Using the file "Program Chip.bat," you simply need to connect the USBasp to the microcontroller and then click on "Program Chip.bat" to program the microcontroller.
+      </p>
+    </div>
+
+    <div class="card">
+      <img src="rangmang_design_soifgo.png" alt="Soifgo Design for RANGMANG" loading="lazy">
+      <img src="rangmang_design_1.jpg" alt="RANGMANG Design 1" loading="lazy">
+      <img src="rangmang_design_2.jpg" alt="RANGMANG Design 2" loading="lazy">
+    </div>
+
+    <div class="card" id="color-fix">
+      <h2>Color Swap Issue: WS2811 vs WS2812</h2>
+      <p>
+        When working with addressable LED strips like the WS2811 and WS2812, you might notice a classic issue: when you test your LEDs, the Red color displays perfectly, but Green and Blue are completely swapped.
+      </p>
+
+      <h3>Why does this happen?</h3>
+      <p>
+        While the Red channel remains in its correct first position, the order of the Green and Blue channels varies due to hardware layout designs:
+      </p>
+      <ul>
+        <li><strong>WS2812</strong> LEDs typically use the internal GRB or standard RGB color ordering profile.</li>
+        <li><strong>WS2811</strong> ICs are external controllers often used in 12V strips or pixel strings. To simplify PCB routing and prevent copper traces from crossing over each other, manufacturers frequently cross-wire the Green and Blue output pins to the LED.</li>
+      </ul>
+      <p>
+        As a result, from a programmer's and user's perspective, the strip ends up behaving as an <strong>RBG (Red, Blue, Green)</strong> device instead of a standard RGB device.
+      </p>
+
+      <h3>Why We Inverted the Logic in the Code</h3>
+      <p>
+        To prevent any confusion or "color dizziness" while designing your light patterns, Soifgo handles all the heavy lifting behind the scenes.
+      </p>
+      <p>
+        Most modern WS2811 strips available on the market today use an internal RBG chip methodology. However, to keep things intuitive for you, the app lets you think and work in the universal RGB standard.
+      </p>
+      <p>
+        When you pick a color in the app—for example, setting R=123, G=22, B=12—you don't have to worry about the strip's internal layout. When the RBG mode is active:
+      </p>
+      <ul>
+        <li>You interact with the familiar RGB values naturally.</li>
+        <li>The microcontroller intentionally and automatically swaps the Green and Blue bytes right before transmitting them over the wire.</li>
+        <li>The flipped data matches the physical cross-wiring of the WS2811 chip perfectly.</li>
+      </ul>
+      <p>
+        In short, we deliberately inverted the software logic for the WS2811 setting so that your workflow remains simple, consistent, and strictly RGB on the screen, while the hardware gets exactly what it needs!
+      </p>
+
+      <div class="color-fix-box">
+        <h3>💡 Solution in Soifgo Settings</h3>
+        <p>
+          If you are experiencing this color mismatch, there is no need to change your hardware wiring. You can fix this instantly via software inside the app:
+        </p>
+        <p>
+          <strong>Important Note for Soifgo Users:</strong>
+          When using certain WS2811 LED strips where the Green and Blue colors are reversed, simply go to the application settings and tap on the <strong>RGB</strong> label to switch it to <strong>RBG</strong>.
+        </p>
+        <p>
+          By changing this setting to RBG, Soifgo will automatically swap the Green and Blue bytes during data transmission, ensuring that your color palette and light animations are applied accurately to your strip!
+        </p>
+      </div>
+
+      <div class="note-box">
+        <h3>💻 Developer Note: Coding Static Colors for WS2811</h3>
+        <p>
+          If you are writing your own custom firmware or setting up static colors directly in your microcontroller code for a WS2811 strip, you must manually swap the Green and Blue values to achieve the correct output.
+        </p>
+        <p>
+          Since the physical hardware layout of these strips interprets data differently than our standard mental model, you need to trick the strip by reversing the variables.
+        </p>
+        <p>
+          <strong>For Example:</strong><br>
+          If your desired color is Red: 10, Green: 123, Blue: 44, writing it in the standard order will result in swapped colors on the strip.
+        </p>
+        <p>To fix this in your code, you must pass the values like this:</p>
+        <pre>Standard RGB Intended Color: R: 10, G: 123, B: 44
+
+Actual Code to Write for WS2811: R: 10, G: 44, B: 123</pre>
+        <p>
+          By intentionally swapping the Green (123) and Blue (44) values inside your code, the WS2811 strip will display the exact shade you originally intended!
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>The default baud rate of the Bluetooth module is 9600</h2>
+    </div>
+
+    <div class="card" id="downloads">
+      <h2>Downloads</h2>
+      <div class="download-box">
+        <p><a href="soifgo_rangmang_design.zip" download>📦 Download soifgo_rangmang_design</a></p>
+        <p><a href="Atmega128.zip" download>📦 Download Atmega128 File</a></p>
+        <p><a href="Atmega328P.zip" download>📦 Download Atmega328P File</a></p>
+        <p><a href="Rangmang_Arduino.ino" download>📦 Download Arduino Sketch (Rangmang_Arduino.ino)</a></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Hardware Assembly Notes</h2>
+      <p>
+        If you need the module as a single unit, you can use regular sockets. However, when using multiple modules in parallel, only the Bluetooth socket should be connected through long-pin headers so that the remaining modules can receive Bluetooth serial data.
+      </p>
+      <p>
+        Next, it is better to mechanically connect the modules together using spacer screws. For the final module, you can insulate the pins or use a suitable cover. Alternatively, if you are certain that you will not expand the number of modules in the future, you may use short-pin headers instead.
+      </p>
+
+      <img src="board01.png" alt="Board Assembly Diagram" loading="lazy">
+
+      <div class="note-box">
+        <h3>⚠️ Important Power Note</h3>
+        <p>
+          When using long RGB strips, make sure to pay attention to the voltage of the microcontroller and Bluetooth. Using an unsuitable regulator or a power supply with insufficient current capacity can cause severe voltage drops, which may lead to the Bluetooth and microcontroller shutting down.
+        </p>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="btn-wrap">
+      <a href="https://soifgo.github.io/" class="btn-home">⬅ Back to Home</a>
+    </div>
+
+  </div>
+
+  <script>
+    (function() {
+      var themeToggle = document.getElementById('themeToggle');
+      var themeIcon = document.getElementById('themeIcon');
+
+      function updateIcon(theme) {
+        if (theme === 'light') {
+          themeIcon.textContent = '🌙';
+          themeToggle.title = 'Switch to dark mode';
+        } else {
+          themeIcon.textContent = '☀️';
+          themeToggle.title = 'Switch to light mode';
+        }
+      }
+
+      var currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+      updateIcon(currentTheme);
+
+      themeToggle.addEventListener('click', function() {
+        var current = document.documentElement.getAttribute('data-theme');
+        var next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('soifgo-theme', next);
+        updateIcon(next);
+      });
+    })();
+  </script>
+
+  <script src="https://cdn.staticfile.net/translate.js/3.18.66/translate.js"></script>
+
+  <script>
+  (function() {
+    'use strict';
+
+    var LANGUAGES = {
+      'english': { label: 'English', dir: 'ltr' },
+      'spanish': { label: 'Español', dir: 'ltr' },
+      'chinese_simplified': { label: '简体中文', dir: 'ltr' },
+      'french': { label: 'Français', dir: 'ltr' },
+      'deutsch': { label: 'Deutsch', dir: 'ltr' },
+      'japanese': { label: '日本語', dir: 'ltr' },
+      'russian': { label: 'Русский', dir: 'ltr' },
+      'arabic': { label: 'العربية', dir: 'rtl' },
+      'persian': { label: 'فارسی', dir: 'rtl' },
+      'italian': { label: 'Italiano', dir: 'ltr' },
+      'hindi': { label: 'हिन्दी', dir: 'ltr' },
+      'turkish': { label: 'Türkçe', dir: 'ltr' },
+      'korean': { label: '한국어', dir: 'ltr' },
+      'portuguese': { label: 'Português', dir: 'ltr' },
+      'hebrew': { label: 'עברית', dir: 'rtl' },
+      'kurdish_sorani': { label: 'کوردی', dir: 'rtl' },
+      'urdu': { label: 'اردو', dir: 'rtl' },
+      'bengali': { label: 'বাংলা', dir: 'ltr' },
+      'indonesian': { label: 'Bahasa Indonesia', dir: 'ltr' },
+      'tamil': { label: 'தமிழ்', dir: 'ltr' },
+      'thai': { label: 'ไทย', dir: 'ltr' },
+      'swahili': { label: 'Swahili', dir: 'ltr' }
+    };
+
+    var DEFAULT_LANG = 'english';
+    var FALLBACK_CHANNELS = ['giteeAI', 'client.edge', 'siliconflow'];
+
+    var langBtn = document.getElementById('langBtn');
+    var langDropdown = document.getElementById('langDropdown');
+    var currentLangLabel = document.getElementById('currentLangLabel');
+
+    function buildLanguageList() {
+      var html = '';
+      for (var code in LANGUAGES) {
+        if (LANGUAGES.hasOwnProperty(code)) {
+          var lang = LANGUAGES[code];
+          html += '<a href="javascript:void(0)" class="lang-item ignore" data-lang="' + code + '" data-dir="' + lang.dir + '">' + lang.label + '</a>';
+        }
+      }
+      langDropdown.innerHTML = html;
+      var items = langDropdown.querySelectorAll('.lang-item');
+      for (var i = 0; i < items.length; i++) {
+        items[i].addEventListener('click', function(e) {
+          e.preventDefault();
+          changeLanguage(this.getAttribute('data-lang'), this.getAttribute('data-dir'));
+        });
+      }
+    }
+
+    function waitForTranslation(element, originalText, timeoutMs) {
+      return new Promise(function(resolve) {
+        var start = Date.now();
+        var timer = setInterval(function() {
+          if (element.textContent !== originalText) {
+            clearInterval(timer);
+            resolve(true);
+          } else if (Date.now() - start > timeoutMs) {
+            clearInterval(timer);
+            resolve(false);
+          }
+        }, 200);
+      });
+    }
+
+    function applyChannel(channel) {
+      try {
+        translate.service.use(channel);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function resetToEnglish() {
+      try { localStorage.removeItem('soifgo-lang'); } catch (e) {}
+      document.documentElement.setAttribute('dir', 'ltr');
+      document.documentElement.setAttribute('lang', 'en');
+      currentLangLabel.textContent = LANGUAGES.english.label;
+      langDropdown.classList.remove('show');
+      setTimeout(function() {
+        location.reload();
+      }, 100);
+    }
+
+    function changeLanguage(langCode, langDir) {
+      if (langCode === 'english') {
+        resetToEnglish();
+        return;
+      }
+
+      var testElement = document.querySelector('h1');
+      var originalText = testElement ? testElement.textContent : '';
+
+      function tryChannel(index) {
+        if (index >= FALLBACK_CHANNELS.length) {
+          console.warn('All fallback channels failed.');
+          return;
+        }
+
+        var channel = FALLBACK_CHANNELS[index];
+        applyChannel(channel);
+
+        translate.changeLanguage(langCode);
+        if (typeof translate.execute === 'function') {
+          translate.execute();
+        }
+
+        waitForTranslation(testElement, originalText, 3000).then(function(success) {
+          if (!success) {
+            console.warn('Channel ' + channel + ' failed, trying next...');
+            tryChannel(index + 1);
+          } else {
+            try { localStorage.setItem('soifgo-lang', langCode); } catch (e) {}
+            document.documentElement.setAttribute('dir', langDir);
+            document.documentElement.setAttribute('lang', langCode === 'persian' ? 'fa' : langCode);
+            currentLangLabel.textContent = LANGUAGES[langCode].label;
+            langDropdown.classList.remove('show');
+          }
+        });
+      }
+
+      tryChannel(0);
+    }
+
+    langBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      langDropdown.classList.toggle('show');
+    });
+
+    document.addEventListener('click', function() {
+      langDropdown.classList.remove('show');
+    });
+
+    function getSavedLang() {
+      try {
+        var saved = localStorage.getItem('soifgo-lang');
+        if (saved && LANGUAGES[saved] && saved !== 'english') {
+          return saved;
+        }
+      } catch (e) {}
+      return null;
+    }
+
+    function initTranslate() {
+      var savedLang = getSavedLang();
+      if (!savedLang) {
+        document.documentElement.setAttribute('dir', 'ltr');
+        document.documentElement.setAttribute('lang', 'en');
+        currentLangLabel.textContent = LANGUAGES.english.label;
+        return;
+      }
+
+      translate.language.setLocal('english');
+      translate.service.use(FALLBACK_CHANNELS[0]);
+      translate.selectLanguageTag.show = false;
+      translate.execute();
+      if (translate.listener && translate.listener.start) {
+        translate.listener.start();
+      }
+    }
+
+    function restoreLanguageUI() {
+      var savedLang = getSavedLang();
+      if (savedLang) {
+        var lang = LANGUAGES[savedLang];
+        document.documentElement.setAttribute('dir', lang.dir);
+        document.documentElement.setAttribute('lang', savedLang === 'persian' ? 'fa' : savedLang);
+        currentLangLabel.textContent = lang.label;
+        return savedLang;
+      }
+      currentLangLabel.textContent = LANGUAGES[DEFAULT_LANG].label;
+      return null;
+    }
+
+    buildLanguageList();
+    var restored = restoreLanguageUI();
+
+    function bootTranslate() {
+      initTranslate();
+      if (restored) {
+        setTimeout(function() {
+          changeLanguage(restored, LANGUAGES[restored].dir);
+        }, 500);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootTranslate);
+    } else {
+      bootTranslate();
+    }
+  })();
+  </script>
+
+</body>
+</html>

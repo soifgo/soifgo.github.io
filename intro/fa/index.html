@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Theme boot: same storage key as the main page, so the choice is shared -->
+  <script>
+    (function () {
+      var t = 'dark';
+      try { var s = localStorage.getItem('soifgo-theme'); if (s === 'light' || s === 'dark') { t = s; } } catch (e) {}
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <!-- ============ PRIMARY SEO ============ -->
+  <title>SoifGo — راحت‌ترین راه ساخت اپ اندروید؛ با کمک هوش مصنوعی، بدون کدنویسی سخت</title>
+  <meta name="description" content="ایده‌تان را به یک دستیار هوش مصنوعی بگویید، کد HTML بگیرید، و در SoifGo اجرا کنید. رایگان و بدون نیاز به دانش برنامه‌نویسی حرفه‌ای." />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
+
+  <!-- ============ CANONICAL & HREFLANG ============ -->
+  <link rel="canonical" href="https://soifgo.github.io/intro/fa/" />
+  <link rel="alternate" hreflang="x-default" href="https://soifgo.github.io/" />
+  <link rel="alternate" hreflang="en" href="https://soifgo.github.io/intro/en/" />
+  <link rel="alternate" hreflang="fa" href="https://soifgo.github.io/intro/fa/" />
+  <link rel="alternate" hreflang="ar" href="https://soifgo.github.io/intro/ar/" />
+  <link rel="alternate" hreflang="he" href="https://soifgo.github.io/intro/he/" />
+  <link rel="alternate" hreflang="ur" href="https://soifgo.github.io/intro/ur/" />
+  <link rel="alternate" hreflang="ckb" href="https://soifgo.github.io/intro/ckb/" />
+  <link rel="alternate" hreflang="es" href="https://soifgo.github.io/intro/es/" />
+  <link rel="alternate" hreflang="fr" href="https://soifgo.github.io/intro/fr/" />
+  <link rel="alternate" hreflang="de" href="https://soifgo.github.io/intro/de/" />
+  <link rel="alternate" hreflang="it" href="https://soifgo.github.io/intro/it/" />
+  <link rel="alternate" hreflang="pt" href="https://soifgo.github.io/intro/pt/" />
+  <link rel="alternate" hreflang="ru" href="https://soifgo.github.io/intro/ru/" />
+  <link rel="alternate" hreflang="zh-CN" href="https://soifgo.github.io/intro/zh/" />
+  <link rel="alternate" hreflang="ja" href="https://soifgo.github.io/intro/ja/" />
+  <link rel="alternate" hreflang="ko" href="https://soifgo.github.io/intro/ko/" />
+  <link rel="alternate" hreflang="hi" href="https://soifgo.github.io/intro/hi/" />
+  <link rel="alternate" hreflang="bn" href="https://soifgo.github.io/intro/bn/" />
+  <link rel="alternate" hreflang="ta" href="https://soifgo.github.io/intro/ta/" />
+  <link rel="alternate" hreflang="th" href="https://soifgo.github.io/intro/th/" />
+  <link rel="alternate" hreflang="id" href="https://soifgo.github.io/intro/id/" />
+  <link rel="alternate" hreflang="tr" href="https://soifgo.github.io/intro/tr/" />
+  <link rel="alternate" hreflang="sw" href="https://soifgo.github.io/intro/sw/" />
+
+  <!-- ============ OPEN GRAPH ============ -->
+  <meta property="og:title" content="SoifGo — ایده‌تان را بگویید، هوش مصنوعی کد بدهد، SoifGo اجرا کند" />
+  <meta property="og:description" content="ایده‌تان را به یک دستیار هوش مصنوعی بگویید، کد HTML بگیرید و در SoifGo اجرا کنید. رایگان و بدون نیاز به دانش برنامه‌نویسی حرفه‌ای." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://soifgo.github.io/intro/fa/" />
+  <meta property="og:image" content="https://soifgo.github.io/soifgo-logo.png" />
+  <meta property="og:image:alt" content="SoifGo — پلتفرم ساخت اپ اندروید با HTML" />
+  <meta property="og:locale" content="fa_IR" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:site_name" content="SoifGo" />
+
+  <!-- ============ TWITTER ============ -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SoifGo — ایده‌تان را بگویید، هوش مصنوعی کد بدهد، SoifGo اجرا کند" />
+  <meta name="twitter:description" content="ایده‌تان را به دستیار هوش مصنوعی بگویید، کد HTML بگیرید و در SoifGo اجرا کنید. رایگان." />
+  <meta name="twitter:image" content="https://soifgo.github.io/soifgo-logo.png" />
+
+  <!-- ============ PERFORMANCE HINTS ============ -->
+  <link rel="preconnect" href="https://cdn.staticfile.net" crossorigin />
+  <link rel="dns-prefetch" href="https://cdn.staticfile.net" />
+
+  <!-- ============ JSON-LD: SoftwareApplication ============ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "SoifGo",
+    "operatingSystem": "Android 7.0+",
+    "applicationCategory": "DeveloperApplication",
+    "description": "پلتفرم اندروید برای ساخت اپ و ابزار دلخواه با HTML، CSS و جاوااسکریپت؛ همراه با کنترلر بلوتوث و MQTT برای آردوینو، ESP32 و ESP8266.",
+    "url": "https://soifgo.github.io/intro/fa/",
+    "downloadUrl": "https://soifgo.github.io/soifgo.zip",
+    "installUrl": "https://apkpure.com/soifgo/soifgo.saeidmoghadam",
+    "softwareVersion": "1.42",
+    "inLanguage": "fa-IR",
+    "isAccessibleForFree": true,
+    "author": {
+      "@type": "Person",
+      "name": "saeid moghadam",
+      "email": "ssmqqmss@gmail.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "SoifGo",
+      "url": "https://soifgo.github.io/"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
+    },
+    "featureList": [
+      "WebView کامل با پشتیبانی HTML/CSS/JS",
+      "کنترلر بلوتوث سریال (HC-05, HC-06, JDY-31)",
+      "کلاینت MQTT با publish و subscribe",
+      "ارسال و دریافت HTTP API",
+      "سنسورهای گوشی: نور، حرکت، مغناطیس‌سنج",
+      "میکروفون و تشخیص گفتار",
+      "۴۰ دکمه و ۱۰ اسلایدر در هر صفحه",
+      "بایگانی پوشه و صفحه",
+      "رایگان، آفلاین و بدون تبلیغات"
+    ],
+    "screenshot": [
+      "https://soifgo.github.io/icon/pic9.jpg",
+      "https://soifgo.github.io/icon/pic7.jpg",
+      "https://soifgo.github.io/icon/pic12.jpg"
+    ],
+    "softwareRequirements": "Android 7.0 (Nougat) یا بالاتر"
+  }
+  </script>
+
+  <!-- ============ JSON-LD: FAQPage ============ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "inLanguage": "fa-IR",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "آیا SoifGo فقط برای آردوینو و الکترونیک است؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "خیر. اتصال به سخت‌افزار فقط یکی از قابلیت‌هاست. چون ابزارها HTML هستند، هر چیزی که در یک صفحه‌ی وب ممکن است، مثل محاسبه، نمودار، شبیه‌سازی و ابزار آموزشی، در SoifGo هم قابل اجراست."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "آیا SoifGo رایگان است؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "بله. رایگان است و تبلیغات و خرید درون‌برنامه‌ای ندارد."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "آیا بدون اینترنت کار می‌کند؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ابزارهای HTML، بلوتوث و سنسورهای گوشی بدون اینترنت کار می‌کنند. فقط MQTT و HTTP به اینترنت یا شبکه نیاز دارند."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "اگر بخواهم به سخت‌افزار وصل کنم، با چه چیزی سازگار است؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "هر دستگاهی که از بلوتوث SPP (مثل HC-05 و HC-06)، MQTT یا HTTP REST استفاده کند؛ از جمله آردوینو، ESP32، ESP8266 و Raspberry Pi."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "برای شروع به چه چیزی نیاز دارم؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "دانش پایه‌ی HTML کافی است. حتی بدون آن هم می‌توانید خواسته‌تان را به یک دستیار هوش مصنوعی بگویید و کد HTML بگیرید."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- ============ JSON-LD: BreadcrumbList ============ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "SoifGo",
+        "item": "https://soifgo.github.io/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "معرفی فارسی",
+        "item": "https://soifgo.github.io/intro/fa/"
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "چطور کد HTML هوش مصنوعی را در SoifGo اجرا کنم؟",
+    "inLanguage": "fa",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "باز کردن حالت ویرایش",
+        "text": "برنامه‌ی SoifGo را باز کنید. بالا سمت چپ روی آیکون منو بزنید و از لیست، گزینه‌ی Edit را انتخاب کنید تا وارد صفحه‌ی ویرایش شوید."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "ساختن پوشه",
+        "text": "دوباره منوی بالا سمت چپ را بزنید، Select Design (انتخاب طراحی) و بعد Folder (پوشه) را انتخاب کنید و روی Create (ایجاد) بزنید. اگر خواستید نام پوشه را عوض کنید، وگرنه OK بزنید."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "ساختن صفحه",
+        "text": "حالا کنار گزینه‌ی پوشه، گزینه‌ی Page (صفحه) هم اضافه شده است. روی آن بزنید و New Page (صفحه‌ی جدید) را انتخاب کنید. نام صفحه را اگر خواستید عوض کنید و OK بزنید."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 4,
+        "name": "گذاشتن دکمه روی صفحه",
+        "text": "در لیست، دکمه‌ها ظاهر می‌شوند؛ هر صفحه ۴۰ دکمه دارد و با برداشتن هر دکمه یکی از آن‌ها کم می‌شود. روی یک دکمه بزنید و با انگشت جایش را روی صفحه مشخص کنید."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 5,
+        "name": "تنظیم رفتار دکمه",
+        "text": "روی دکمه بزنید، منو را باز کنید، از لیست دکمه گزینه‌ی Behavior (رفتار) را انتخاب کنید و بعد Browser or HTML files را بزنید. در این‌جا دو حالت دارید: رفتار مثل یک مرورگر، یا بارگذاری فایل HTML. گزینه‌ی دوم، یعنی Open or edit local HTML file in WebView، را انتخاب کنید."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 6,
+        "name": "ساختن فایل HTML",
+        "text": "راحت‌ترین کار این است که اولین گزینه، یعنی Create (ایجاد)، را بزنید. اگر خواستید نام فایل HTML را عوض کنید، وگرنه OK بزنید. گزینه‌ی نمونه‌ها (Sample) چند نمونه‌ی آماده می‌دهد، گزینه‌ی File Explorer فایلی را از حافظه‌ی گوشی بارگذاری می‌کند و گزینه‌ی ذخیره‌شده‌ها (Saved) به پوشه‌ی HTML داخل پوشه‌ای که در SoifGo ساخته‌اید اشاره می‌کند."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 7,
+        "name": "اجرای دکمه",
+        "text": "با آیکون منوی بالا به صفحه‌ی Play بروید و روی دکمه‌ای که ساخته‌اید بزنید. یک صفحه‌ی خالی با نوشته‌ی «Hello SoifGo» باز می‌شود."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 8,
+        "name": "چسباندن کد هوش مصنوعی",
+        "text": "دوباره منو را بزنید و Edit را انتخاب کنید تا صفحه‌ی ویرایش WebView باز شود. کد HTML را که از دستیار هوش مصنوعی گرفته‌اید این‌جا پیست کنید. می‌توانید دستی همه‌چیز را انتخاب (Select All) و پیست کنید، یا منو را بزنید و آخرین گزینه، یعنی Select All and Paste، را انتخاب کنید تا کد به‌صورت خودکار جایگزین شود."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 9,
+        "name": "اجرای کد",
+        "text": "حالا دکمه‌ی زرد بالای صفحه (Close) را بزنید. کد شما اجرا می‌شود. می‌توانید صفحه را ببندید و هر بار فقط دکمه را بزنید تا ابزارتان اجرا شود."
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg:#0f172a; --card:#1e293b; --text:#e2e8f0; --muted:#94a3b8;
+      --primary:#38bdf8; --primary-strong:#0ea5e9; --border:#334155;
+      --success:#4ade80;
+    }
+    :root[data-theme="light"] {
+        --bg:#f8fafc; --card:#ffffff; --text:#0f172a; --muted:#475569;
+        --primary:#0369a1; --primary-strong:#0284c7; --border:#e2e8f0;
+        --success:#16a34a;
+      }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body {
+      background:var(--bg); color:var(--text); line-height:1.9;
+      font-family:Vazirmatn,Tahoma,"Segoe UI",sans-serif;
+      font-size:17px;
+    }
+    .wrap { max-width:860px; margin:0 auto; padding:24px 18px 48px; }
+
+    /* === Header === */
+    header { text-align:center; padding:24px 0 8px; }
+    header img.logo { width:84px; height:84px; border-radius:18px; }
+    h1 { font-size:1.7rem; line-height:1.5; margin:14px 0 10px; }
+    .lead { color:var(--muted); font-size:1.05rem; }
+    p { margin-bottom:10px; }
+
+    /* === Top CTA === */
+    .top-cta {
+      display:flex; justify-content:center; gap:10px; flex-wrap:wrap;
+      margin:20px 0 4px;
+    }
+    .top-cta .btn { padding:10px 22px; font-size:.95rem; }
+    .top-cta .btn.ghost {
+      background:transparent; color:var(--primary);
+      border:2px solid var(--primary);
+    }
+    .top-cta .btn.ghost:hover {
+      background:var(--primary); color:#fff;
+    }
+
+    /* === Version badge === */
+    .version-badge {
+      display:inline-block; margin:10px auto 0;
+      font-size:.82rem; color:var(--muted);
+      background:var(--card); border:1px solid var(--border);
+      padding:4px 12px; border-radius:20px;
+    }
+    .version-badge code { background:transparent; border:none; padding:0; }
+
+    /* === Headings === */
+    h2 {
+      font-size:1.3rem; margin:36px 0 12px; color:var(--primary);
+      line-height:1.5;
+    }
+    h2 .kw { color:var(--text); }
+
+    /* === Screenshots with captions === */
+    .shots {
+      display:grid; grid-template-columns:repeat(3,1fr); gap:10px;
+      margin:22px 0 4px; direction:ltr;
+    }
+    .shots figure { margin:0; }
+    .shots img {
+      width:100%; border-radius:12px; border:1px solid var(--border);
+      display:block;
+    }
+    .shots figcaption {
+      font-size:.82rem; color:var(--muted); text-align:center;
+      margin-top:6px; line-height:1.5;
+    }
+
+    /* === Grid & Cards === */
+    .grid {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:12px;
+    }
+    .card {
+      background:var(--card); border:1px solid var(--border);
+      border-radius:12px; padding:14px 16px;
+    }
+    .card h3 { font-size:1rem; margin-bottom:4px; }
+    .card p { color:var(--muted); font-size:.93rem; margin:0; }
+
+    /* === Lists === */
+    ul.use { padding-inline-start:22px; }
+    ul.use li { margin-bottom:6px; }
+    ol.use { padding-inline-start:22px; }
+    ol.use li { margin-bottom:10px; }
+
+    /* === FAQ === */
+    details {
+      background:var(--card); border:1px solid var(--border);
+      border-radius:12px; padding:12px 16px; margin-bottom:10px;
+    }
+    summary { cursor:pointer; font-weight:bold; }
+    details p { margin:8px 0 0; color:var(--muted); }
+
+    /* === Inline code === */
+    code {
+      direction:ltr; unicode-bidi:isolate;
+      background:var(--card); border:1px solid var(--border);
+      border-radius:6px; padding:1px 6px; font-size:.9em;
+    }
+
+    /* === CTA blocks === */
+    .cta {
+      text-align:center; margin-top:40px;
+      padding:28px 20px;
+      background:var(--card); border:1px solid var(--border);
+      border-radius:16px;
+    }
+    .cta h2 { margin-top:0; }
+    .btn {
+      display:inline-block; background:var(--primary); color:#fff;
+      text-decoration:none; font-weight:bold;
+      padding:14px 34px; border-radius:12px; font-size:1.1rem;
+      transition:background .2s, transform .15s;
+    }
+    .btn:hover { background:var(--primary-strong); transform:translateY(-2px); }
+    .btn.secondary {
+      background:transparent; color:var(--primary);
+      border:2px solid var(--primary);
+      padding:12px 30px; font-size:1rem;
+    }
+    .btn.secondary:hover { background:var(--primary); color:#fff; }
+    .cta small { display:block; margin-top:10px; color:var(--muted); }
+
+    /* === Mid CTA === */
+    .mid-cta {
+      text-align:center; margin:26px 0 6px;
+      padding:18px;
+      background:linear-gradient(135deg, rgba(56,189,248,.08), rgba(56,189,248,.02));
+      border:1px solid var(--border); border-radius:12px;
+    }
+    .mid-cta p { color:var(--muted); margin:0 0 12px; }
+
+    /* === Trust row === */
+    .trust {
+      display:flex; justify-content:center; gap:18px; flex-wrap:wrap;
+      margin-top:14px; font-size:.88rem; color:var(--muted);
+    }
+    .trust span::before { content:"✓ "; color:var(--success); font-weight:800; }
+
+    /* === Footer === */
+    footer {
+      text-align:center; margin-top:32px; color:var(--muted); font-size:.9rem;
+      padding-top:20px; border-top:1px solid var(--border);
+    }
+    footer a { color:var(--primary); text-decoration:none; }
+    footer a:hover { text-decoration:underline; }
+
+    @media (max-width:560px) {
+      h1 { font-size:1.4rem; }
+      .shots { grid-template-columns:1fr 1fr; }
+      .shots figure:nth-child(3) { grid-column:1 / -1; }
+      .shots figure:nth-child(3) img { max-width:60%; margin:0 auto; }
+      .top-cta .btn { width:100%; max-width:320px; }
+    }
+    @media (max-width:380px) {
+      .shots { grid-template-columns:1fr; }
+      .shots figure:nth-child(3) img { max-width:100%; }
+    }
+  
+    /* === Theme toggle (day / night) === */
+    .theme-toggle {
+      position:fixed; top:12px; inset-inline-end:12px; z-index:50;
+      width:42px; height:42px; border-radius:50%; cursor:pointer;
+      background:var(--card); color:var(--text); border:1px solid var(--border);
+      font-size:1.15rem; display:flex; align-items:center; justify-content:center;
+      transition:transform .15s, background .2s;
+    }
+    .theme-toggle:hover { transform:scale(1.1); background:var(--primary); color:#fff; border-color:var(--primary); }
+  </style>
+</head>
+<body>
+<button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme" title="Switch theme"><span id="themeIcon">☀️</span></button>
+
+<div class="wrap">
+
+  <header>
+    <img class="logo" src="../../soifgo-logo.png" alt="لوگوی SoifGo — پلتفرم ساخت اپ اندروید با HTML" />
+    <h1>SoifGo — ایده‌تان را بگویید، هوش مصنوعی کد بدهد، SoifGo اجرا کند</h1>
+    <p class="lead">
+      به یک دستیار هوش مصنوعی بگویید چه ابزاری می‌خواهید، کد HTML آن را بگیرید و در SoifGo بارگذاری کنید؛
+      از ماشین‌حساب و ابزار آموزشی ساده تا، برای علاقه‌مندان به الکترونیک، کنترل آردوینو و ESP32.
+    </p>
+
+    <div class="top-cta">
+      <a class="btn" href="https://soifgo.github.io/?lang=persian" data-lang="persian">
+        دریافت SoifGo
+      </a>
+      <a class="btn ghost" href="#features">مشاهده‌ی قابلیت‌ها</a>
+    </div>
+
+    <div class="trust">
+      <span>رایگان</span>
+      <span>آفلاین</span>
+      <span>بدون تبلیغات</span>
+      <span>۲۲ زبان</span>
+    </div>
+
+  </header>
+
+<div class="shots">
+  <figure>
+    <img src="../../icon/pic9.jpg"
+         alt="پنل صنعتی SoifGo — کنترل تانک، پمپ و دریچه با آردوینو"
+         loading="eager" />
+    <figcaption>پنل صنعتی — تانک، پمپ و دریچه</figcaption>
+  </figure>
+  <figure>
+    <img src="../../icon/pic7.jpg"
+         alt="خانه‌ی هوشمند SoifGo — کنترل چراغ، فن، کولر و امنیت"
+         loading="lazy" />
+    <figcaption>خانه‌ی هوشمند — چراغ، فن، کولر</figcaption>
+  </figure>
+  <figure>
+    <img src="../../icon/pic12.jpg"
+         alt="تراز دیجیتال SoifGo — استفاده از سنسورهای گوشی اندروید"
+         loading="lazy" />
+    <figcaption>تراز دیجیتال — سنسورهای گوشی</figcaption>
+  </figure>
+</div>
+
+  <h2><span class="kw">ساخت اپ اندروید با HTML</span> — بدون کدنویسی native</h2>
+  <p>
+    هر چیزی که در یک صفحه‌ی وب ممکن است، در SoifGo هم ممکن است.
+    SoifGo ابزارهای شما را به‌صورت HTML اجرا و در پوشه‌ها بایگانی می‌کند.
+    از ماشین‌حساب و شبیه‌ساز تا ابزار آموزشی و داشبورد، و در صورت نیاز،
+    کنترل سخت‌افزار از طریق بلوتوث و MQTT.
+  </p>
+  <p>
+    اگر می‌توانید یک صفحه‌ی وب بنویسید، یا خواسته‌تان را به یک دستیار هوش مصنوعی بگویید،
+    می‌توانید ابزار خودتان را بسازید.
+  </p>
+
+  <h2>SoifGo برای چه کسانی است؟</h2>
+  <div class="grid">
+    <div class="card"><h3>📐 ریاضی‌دان‌ها و دانشجوها</h3><p>ماشین‌حساب‌های تخصصی، رسم نمودار و توابع، شبیه‌سازی و ابزار حل مسئله، دقیقاً مطابق نیاز خودتان.</p></div>
+    <div class="card"><h3>🎓 معلم‌ها و مدرس‌ها</h3><p>ابزار تعاملی برای کلاس، تمرین و آزمون. فایل را برای دانش‌آموزان و کارآموزان بفرستید تا خودشان اجرا کنند.</p></div>
+    <div class="card"><h3>🏗️ مهندس‌های همه‌ی رشته‌ها</h3><p>ماشین‌حساب مهندسی، تبدیل واحد و جدول‌های محاسباتی شخصی که در محل کار و بدون اینترنت هم در دسترس‌اند.</p></div>
+    <div class="card"><h3>🔌 مکرها و الکترونیک‌کارها</h3><p>کنترلر و داشبورد بلوتوث و MQTT برای آردوینو، ESP32، ESP8266 و Raspberry Pi.</p></div>
+    <div class="card"><h3>💡 هر کسی که ایده‌ای دارد</h3><p>ایده را به یک دستیار هوش مصنوعی بگویید، کد HTML بگیرید و در SoifGo اجرا کنید.</p></div>
+  </div>
+
+  <div class="mid-cta">
+    <p>آماده‌اید اولین ابزار خودتان را بسازید؟</p>
+    <a class="btn" href="https://soifgo.github.io/?lang=persian" data-lang="persian">
+      دریافت SoifGo ←
+    </a>
+  </div>
+
+  <h2><span class="kw">کنترلر آردوینو و ESP32</span> با بلوتوث و MQTT از گوشی اندروید</h2>
+  <p>
+    هر دستگاهی که از بلوتوث SPP (مثل <code>HC-05</code> و <code>HC-06</code>)،
+    MQTT یا HTTP REST استفاده کند، با SoifGo کار می‌کند:
+    آردوینو، ESP32، ESP8266 و Raspberry Pi.
+  </p>
+  <p>
+    فرمان LED، موتور و رله را با بلوتوث بفرستید، پل بلوتوث به MQTT بسازید،
+    یا داشبورد زنده‌ی سنسورها را بسازید — همه با HTML، بدون کد native.
+  </p>
+
+  <h2>بایگانی پوشه و صفحه</h2>
+  <p>
+    SoifGo به شما پوشه و صفحه می‌دهد تا کارهایتان را مرتب بایگانی کنید.
+    در هر صفحه <strong>۴۰ دکمه</strong> و <strong>۱۰ اسلایدر</strong> دارید و هر دکمه را
+    می‌توانید برای رفتارهای تعریف‌شده تنظیم کنید؛ از جمله پیمایش بین پوشه‌ها و صفحه‌های SoifGo.
+    به این ترتیب می‌توانید منوهای زیادی بسازید.
+  </p>
+  <p>
+    دکمه‌ها طراحی اولیه‌ی آماده دارند: رنگ، آیکون، نام، فونت، صدا و ویبره.
+    با درگ‌ودراپ هم جابه‌جا می‌شوند. هر دکمه می‌تواند رفتارهای اولیه‌ای مثل ارسال و دریافت داشته باشد.
+  </p>
+
+  <h2>رفتار وب، هم آنلاین و هم آفلاین</h2>
+  <p>
+    «رفتار وب» (WebView) به شما کمک می‌کند ایده‌ها و خواسته‌هایتان را با بیشترین قابلیت
+    و به‌صورت HTML داشته باشید، چه آنلاین و چه آفلاین. کافی است خواسته‌تان را به یک
+    دستیار هوش مصنوعی بگویید و کد HTML بخواهید. بعد دو راه دارید:
+  </p>
+  <ul class="use">
+    <li>فایل را دانلود کنید و با رفتار وب آفلاین در SoifGo بارگذاری (ریلود) کنید.</li>
+    <li>یا کد را کپی کنید و در ویرایشگر HTML خود SoifGo پیست کنید.</li>
+  </ul>
+  <p>
+    هر دو روش جواب می‌دهد و وب‌اپ شما در پوشه‌ی SoifGo بایگانی می‌شود.
+    چه یک ماشین‌حساب باشد، چه یک کنترلر بلوتوث، چه مانیتورینگ اینترنت اشیا یا هر چیز دلخواه دیگر.
+  </p>
+
+  <h2 id="howto">چطور کد HTML هوش مصنوعی را در SoifGo اجرا کنم؟</h2>
+  <p>
+    این مراحل را یک‌بار انجام می‌دهید تا یک دکمه‌ی آماده برای اجرای کدهایتان داشته باشید:
+  </p>
+  <ol class="use">
+    <li><strong>باز کردن حالت ویرایش:</strong> برنامه‌ی SoifGo را باز کنید. بالا سمت چپ روی آیکون منو بزنید و از لیست، گزینه‌ی <strong>Edit</strong> را انتخاب کنید تا وارد صفحه‌ی ویرایش شوید.</li>
+    <li><strong>ساختن پوشه:</strong> دوباره منوی بالا سمت چپ را بزنید، <strong>Select Design</strong> (انتخاب طراحی) و بعد <strong>Folder</strong> (پوشه) را انتخاب کنید و روی <strong>Create</strong> (ایجاد) بزنید. اگر خواستید نام پوشه را عوض کنید، وگرنه <strong>OK</strong> بزنید.</li>
+    <li><strong>ساختن صفحه:</strong> حالا کنار گزینه‌ی پوشه، گزینه‌ی <strong>Page</strong> (صفحه) هم اضافه شده است. روی آن بزنید و <strong>New Page</strong> (صفحه‌ی جدید) را انتخاب کنید. نام صفحه را اگر خواستید عوض کنید و <strong>OK</strong> بزنید.</li>
+    <li><strong>گذاشتن دکمه روی صفحه:</strong> در لیست، دکمه‌ها ظاهر می‌شوند؛ هر صفحه ۴۰ دکمه دارد و با برداشتن هر دکمه یکی از آن‌ها کم می‌شود. روی یک دکمه بزنید و با انگشت جایش را روی صفحه مشخص کنید.</li>
+    <li><strong>تنظیم رفتار دکمه:</strong> روی دکمه بزنید، منو را باز کنید، از لیست دکمه گزینه‌ی <strong>Behavior</strong> (رفتار) را انتخاب کنید و بعد <strong>Browser or HTML files</strong> را بزنید. در این‌جا دو حالت دارید: رفتار مثل یک مرورگر، یا بارگذاری فایل HTML. گزینه‌ی دوم، یعنی <strong>Open or edit local HTML file in WebView</strong>، را انتخاب کنید.</li>
+    <li><strong>ساختن فایل HTML:</strong> راحت‌ترین کار این است که اولین گزینه، یعنی <strong>Create</strong> (ایجاد)، را بزنید. اگر خواستید نام فایل HTML را عوض کنید، وگرنه <strong>OK</strong> بزنید. گزینه‌ی نمونه‌ها (Sample) چند نمونه‌ی آماده می‌دهد، گزینه‌ی File Explorer فایلی را از حافظه‌ی گوشی بارگذاری می‌کند و گزینه‌ی ذخیره‌شده‌ها (Saved) به پوشه‌ی HTML داخل پوشه‌ای که در SoifGo ساخته‌اید اشاره می‌کند.</li>
+    <li><strong>اجرای دکمه:</strong> با آیکون منوی بالا به صفحه‌ی <strong>Play</strong> بروید و روی دکمه‌ای که ساخته‌اید بزنید. یک صفحه‌ی خالی با نوشته‌ی «Hello SoifGo» باز می‌شود.</li>
+    <li><strong>چسباندن کد هوش مصنوعی:</strong> دوباره منو را بزنید و <strong>Edit</strong> را انتخاب کنید تا صفحه‌ی ویرایش WebView باز شود. کد HTML را که از دستیار هوش مصنوعی گرفته‌اید این‌جا پیست کنید. می‌توانید دستی همه‌چیز را انتخاب (Select All) و پیست کنید، یا منو را بزنید و آخرین گزینه، یعنی <strong>Select All and Paste</strong>، را انتخاب کنید تا کد به‌صورت خودکار جایگزین شود.</li>
+    <li><strong>اجرای کد:</strong> حالا دکمه‌ی زرد بالای صفحه (Close) را بزنید. کد شما اجرا می‌شود. می‌توانید صفحه را ببندید و هر بار فقط دکمه را بزنید تا ابزارتان اجرا شود.</li>
+  </ol>
+  <p>
+    دفعه‌های بعد که با هوش مصنوعی کد تازه گرفتید، فقط کافی است به همین صفحه بروید،
+    <strong>Edit</strong> را بزنید، در صفحه‌ی ویرایش WebView گزینه‌ی <strong>Select All and Paste</strong> را انتخاب کنید
+    و دوباره دکمه‌ی زرد را بزنید.
+    اگر از File Explorer استفاده می‌کنید، ممکن است گوشی‌تان این قسمت را پشتیبانی نکند؛ در این صورت
+    بهتر است یک فایل‌منیجر مناسب روی گوشی نصب کنید.
+  </p>
+
+  <h2>۴۰ وب‌اپ متفاوت در هر صفحه</h2>
+  <p>
+    می‌توانید در هر صفحه ۴۰ وب‌اپ متفاوت داشته باشید. لازم نیست هر بار آن‌ها را از
+    دستیار هوش مصنوعی بخواهید و در حالت آفلاین هم می‌توانید با آن‌ها کار کنید.
+    حتی می‌توانید آن‌ها را برای همکاران، دوستان یا کارآموزان بفرستید تا دانلود و اجرایشان کنند.
+  </p>
+
+  <h2 id="features">قابلیت‌های SoifGo</h2>
+  <div class="grid">
+    <div class="card"><h3>🌐 WebView کامل</h3><p>موتور مرورگر مدرن: Canvas، SVG، WebGL و کتابخانه‌هایی مثل Chart.js، D3 و Three.js برای نمودار، شبیه‌سازی و نمایش سه‌بعدی.</p></div>
+    <div class="card"><h3>🧩 حالت کلاسیک</h3><p>دکمه و اسلایدر آماده، بدون هیچ کدی، برای کنترل‌ها و منوهای ساده.</p></div>
+    <div class="card"><h3>💾 ذخیره‌سازی محلی</h3><p>نگه‌داری داده‌ها با <code>localStorage</code> حتی بعد از بستن برنامه.</p></div>
+    <div class="card"><h3>🟢 سنسورهای گوشی</h3><p>نور محیط، حرکت (شتاب‌سنج) و مغناطیس‌سنج به‌صورت زنده.</p></div>
+    <div class="card"><h3>🎤 میکروفون و تشخیص گفتار</h3><p>تبدیل گفتار به متن و استفاده از آن در ابزارهایتان یا ارسال به دستگاه‌ها.</p></div>
+    <div class="card"><h3>🔵 بلوتوث سریال</h3><p>ارسال و دریافت متن با HC-05، HC-06، JDY-31، آردوینو، ESP32 و Raspberry Pi.</p></div>
+    <div class="card"><h3>🟣 کلاینت MQTT</h3><p>اتصال به هر بروکر (tcp یا ssl)، publish و subscribe و بررسی وضعیت اتصال.</p></div>
+    <div class="card"><h3>🟠 HTTP API</h3><p>ارسال JSON به هر آدرس و دریافت و استخراج مقدار از پاسخ.</p></div>
+  </div>
+
+  <h2>چه چیزهایی می‌توان ساخت؟</h2>
+  <ul class="use">
+    <li>ماشین‌حساب و ابزارهای محاسباتی تخصصی</li>
+    <li>رسم نمودار، شبیه‌سازی و تصویرسازی داده</li>
+    <li>ابزار آموزشی تعاملی، تمرین و آزمون</li>
+    <li>نمایش سه‌بعدی و ابزارهای علمی</li>
+    <li>داشبورد و پنل‌های خاص برای کار خودتان</li>
+    <li>کنترل LED، موتور، رله و ربات با بلوتوث، و پل ارتباطی بلوتوث به MQTT</li>
+    <li>کنترل صوتی دستگاه‌ها با گفتار</li>
+  </ul>
+
+  <h2>سؤالات متداول</h2>
+  <details>
+    <summary>آیا SoifGo فقط برای آردوینو و الکترونیک است؟</summary>
+    <p>خیر. اتصال به سخت‌افزار فقط یکی از قابلیت‌هاست. چون ابزارها HTML هستند، هر چیزی که در یک صفحه‌ی وب ممکن است، مثل محاسبه، نمودار، شبیه‌سازی و ابزار آموزشی، در SoifGo هم قابل اجراست.</p>
+  </details>
+  <details>
+    <summary>آیا SoifGo رایگان است؟</summary>
+    <p>بله. رایگان است و تبلیغات و خرید درون‌برنامه‌ای ندارد.</p>
+  </details>
+  <details>
+    <summary>آیا بدون اینترنت کار می‌کند؟</summary>
+    <p>ابزارهای HTML، بلوتوث و سنسورهای گوشی بدون اینترنت کار می‌کنند. فقط MQTT و HTTP به اینترنت یا شبکه نیاز دارند.</p>
+  </details>
+  <details>
+    <summary>اگر بخواهم به سخت‌افزار وصل کنم، با چه چیزی سازگار است؟</summary>
+    <p>هر دستگاهی که از بلوتوث SPP (مثل HC-05 و HC-06)، MQTT یا HTTP REST استفاده کند؛ از جمله آردوینو، ESP32، ESP8266 و Raspberry Pi.</p>
+  </details>
+  <details>
+    <summary>برای شروع به چه چیزی نیاز دارم؟</summary>
+    <p>دانش پایه‌ی HTML کافی است. حتی بدون آن هم می‌توانید خواسته‌تان را به یک دستیار هوش مصنوعی بگویید و کد HTML بگیرید. آموزش‌ها و نمونه‌های آماده در صفحه‌ی اصلی موجودند.</p>
+  </details>
+
+  <div class="cta">
+    <h2>آماده‌اید شروع کنید؟</h2>
+    <p style="color:var(--muted); margin-bottom:18px;">
+      صفحه‌ی اصلی با دانلود، آموزش‌ها و مستندات باز می‌شود و ترجمه‌ی فارسی خودکار فعال است.
+    </p>
+    <a class="btn" href="https://soifgo.github.io/?lang=persian" data-lang="persian">
+      ورود به SoifGo ←
+    </a>
+    <div style="margin-top:14px;">
+      <a class="btn secondary" href="https://soifgo.github.io/docs.html">
+        مستندات فنی (انگلیسی)
+      </a>
+    </div>
+    <small>رایگان، آفلاین، بدون تبلیغات — برای اندروید ۷ و بالاتر</small>
+  </div>
+
+  <footer>
+    <p>
+      <a href="../../?lang=english" hreflang="en" lang="en" data-lang="english">English version</a>
+      &nbsp;|&nbsp;
+      <a href="mailto:ssmqqmss@gmail.com">تماس با پشتیبانی</a>
+      &nbsp;|&nbsp;
+      <a href="../../policy_soifgo.html">حریم خصوصی</a>
+    </p>
+    <p style="margin-top:8px;">&copy; ۲۰۲۶ SoifGo — ساخته‌ی سعید مقدم</p>
+  </footer>
+
+</div>
+<script>
+  // Remember the chosen language for the main page.
+  // Both pages share one origin (soifgo.github.io), so localStorage is shared.
+  (function () {
+    function remember(lang) {
+      try {
+        if (lang === 'english') { localStorage.removeItem('soifgo-lang'); }
+        else { localStorage.setItem('soifgo-lang', lang); }
+        localStorage.setItem('soifgo-lang-auto', '1');
+      } catch (e) {}
+    }
+    document.querySelectorAll('a[data-lang]').forEach(function (a) {
+      ['click', 'auxclick'].forEach(function (ev) {
+        a.addEventListener(ev, function () { remember(a.getAttribute('data-lang')); });
+      });
+    });
+  })();
+</script>
+<script>
+  // Day / night toggle (shares the 'soifgo-theme' choice with the main page)
+  (function () {
+    var b = document.getElementById('themeToggle'), ic = document.getElementById('themeIcon');
+    function paint(t) { ic.textContent = t === 'light' ? '🌙' : '☀️'; b.title = t === 'light' ? 'Dark mode' : 'Light mode'; }
+    paint(document.documentElement.getAttribute('data-theme') || 'dark');
+    b.addEventListener('click', function () {
+      var n = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', n);
+      try { localStorage.setItem('soifgo-theme', n); } catch (e) {}
+      paint(n);
+    });
+  })();
+</script>
+</body>
+</html>

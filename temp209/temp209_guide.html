@@ -1,0 +1,2258 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="color-scheme" content="light dark" />
+
+  <title>TEMP209 — Open-Source Temperature Controller | ATmega, DS18B20, RC5, EEPROM Logger</title>
+  <meta name="description" content="TEMP209 — Open-source ATmega temperature controller with DS18B20 sensor, RC5 IR remote, EEPROM data logging, and SoifGo mobile interface." />
+  <meta name="keywords" content="TEMP209, temperature controller, ATmega8, ATmega88, ATmega328, DS18B20, BASCOM-AVR, open source hardware, thermostat, RC5, IR remote, EEPROM logger, SoifGo" />
+
+  <meta property="og:title" content="TEMP209 — Open-Source Temperature Controller" />
+  <meta property="og:description" content="TEMP209 — Open-source ATmega temperature controller with DS18B20 sensor, RC5 IR remote, EEPROM data logging." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://soifgo.github.io/temp209/temp209_guide.html" />
+  <meta property="og:image" content="https://soifgo.github.io/temp209-og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="SoifGo Tutorials" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="TEMP209 — Open-Source Temperature Controller" />
+  <meta name="twitter:description" content="TEMP209 — Open-source ATmega temperature controller with DS18B20 sensor, RC5 IR remote, EEPROM data logging." />
+  <meta name="twitter:image" content="https://soifgo.github.io/temp209-og.jpg" />
+
+  <link rel="canonical" href="https://soifgo.github.io/temp209/temp209_guide.html" />
+  <link rel="alternate" hreflang="en" href="https://soifgo.github.io/temp209/temp209_guide.html" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "TEMP209 — Open-Source Temperature Controller",
+    "description": "TEMP209 — Open-source ATmega temperature controller with DS18B20 sensor, RC5 IR remote, EEPROM data logging, and SoifGo mobile interface.",
+    "author": { "@type": "Person", "name": "Saeid Moghadam" },
+    "publisher": { "@type": "Organization", "name": "SoifGo", "url": "https://soifgo.github.io/" },
+    "datePublished": "2025-01-01",
+    "dateModified": "2025-01-01",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://soifgo.github.io/temp209/temp209_guide.html" },
+    "about": { "@type": "Thing", "name": "Open-Source Temperature Controller" },
+    "teaches": [
+      "ATmega microcontroller programming",
+      "DS18B20 1-Wire temperature sensing",
+      "Multiplexed 7-segment display driving",
+      "RC5 infrared remote control",
+      "EEPROM data logging",
+      "Thermal control with hysteresis",
+      "Fault protection with Hall sensor",
+      "SoifGo mobile integration"
+    ],
+    "inLanguage": "en",
+    "isAccessibleForFree": true,
+    "learningResourceType": "Tutorial"
+  }
+  </script>
+
+  <script>
+    (function() {
+      var savedTheme = localStorage.getItem('soifgo-theme');
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root,
+    [data-theme="dark"] {
+      --primary: #4f8cff;
+      --primary-light: #6aa0ff;
+      --purple: #9b59b6;
+      --purple-light: #c084fc;
+      --arduino-teal: #1abc9c;
+      --orange: #fb923c;
+      --green: #34d399;
+      --yellow: #fbbf24;
+      --pink: #f472b6;
+      --bg: #0f172a;
+      --bg-card: #1e293b;
+      --text: #e8edf5;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.07);
+      --shadow: rgba(0, 0, 0, 0.35);
+      --hover-bg: rgba(255, 255, 255, 0.04);
+      --code-bg: rgba(79, 140, 255, 0.12);
+      --code-text: #a5b4fc;
+      --pre-bg: #0f172a;
+      --pre-text: #e2e8f0;
+      --warning-bg: rgba(245, 158, 11, 0.1);
+      --warning-border: #f59e0b;
+      --warning-text: #fbbf24;
+      --success-bg: rgba(34, 197, 94, 0.1);
+      --success-border: #22c55e;
+      --success-text: #4ade80;
+      --danger-bg: rgba(239, 68, 68, 0.1);
+      --danger-border: #ef4444;
+      --danger-text: #f87171;
+      --header-grad: linear-gradient(145deg, #1a2a4a, #1e3a6a);
+      --radius: 14px;
+      --radius-sm: 10px;
+      --transition: 0.25s ease;
+    }
+
+    [data-theme="light"] {
+      --primary: #2563eb;
+      --primary-light: #3b82f6;
+      --purple: #9333ea;
+      --purple-light: #a855f7;
+      --arduino-teal: #0d9488;
+      --orange: #ea580c;
+      --green: #059669;
+      --yellow: #d97706;
+      --pink: #db2777;
+      --bg: #f8fafc;
+      --bg-card: #ffffff;
+      --text: #1e293b;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: rgba(15, 23, 42, 0.08);
+      --shadow: rgba(15, 23, 42, 0.08);
+      --hover-bg: rgba(37, 99, 235, 0.06);
+      --code-bg: rgba(37, 99, 235, 0.1);
+      --code-text: #1e40af;
+      --pre-bg: #0f172a;
+      --pre-text: #e2e8f0;
+      --warning-bg: rgba(245, 158, 11, 0.1);
+      --warning-border: #d97706;
+      --warning-text: #92400e;
+      --success-bg: rgba(34, 197, 94, 0.1);
+      --success-border: #16a34a;
+      --success-text: #15803d;
+      --danger-bg: rgba(239, 68, 68, 0.1);
+      --danger-border: #dc2626;
+      --danger-text: #b91c1c;
+      --header-grad: linear-gradient(145deg, #dbeafe, #bfdbfe);
+    }
+
+    .ignore { }
+
+    body {
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 20px 16px 60px; }
+
+    h1 {
+      font-size: 1.8rem;
+      color: var(--primary-light);
+      text-align: center;
+      margin: 1rem 0 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      word-break: break-word;
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      color: var(--text-main);
+      margin: 0 0 0.75rem;
+      font-weight: 600;
+      word-break: break-word;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      scroll-margin-top: 80px;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      color: var(--primary-light);
+      margin: 1.2rem 0 0.5rem;
+      font-weight: 600;
+      word-break: break-word;
+      scroll-margin-top: 80px;
+    }
+
+    h4 {
+      font-size: 1rem;
+      color: var(--purple-light);
+      margin: 0.85rem 0 0.35rem;
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+    p { margin: 0.75em 0; word-break: break-word; color: var(--text); }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      word-break: break-word;
+      transition: color var(--transition);
+    }
+
+    a:hover { text-decoration: underline; }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 1rem;
+      max-width: 100%;
+      overflow: hidden;
+      box-shadow: 0 4px 20px var(--shadow);
+      transition: background 0.3s ease, border 0.3s ease;
+      scroll-margin-top: 16px;
+    }
+
+    .card-blue { border-color: rgba(79, 140, 255, 0.2); }
+    .card-green { border-color: rgba(52, 211, 153, 0.2); }
+    .card-purple { border-color: rgba(139, 92, 246, 0.2); }
+    .card-orange { border-color: rgba(251, 146, 60, 0.2); }
+    .card-red { border-color: rgba(244, 114, 182, 0.2); }
+    .card-yellow { border-color: rgba(251, 191, 36, 0.2); }
+
+    .note-warning {
+      background: var(--warning-bg);
+      border: 1px solid var(--warning-border);
+      color: var(--warning-text);
+      padding: 1rem 1.2rem;
+      border-radius: var(--radius-sm);
+      margin: 1rem 0;
+    }
+
+    .note-warning ul, .note-warning ol { padding-left: 1.4em; margin: 0.5em 0; color: inherit; }
+    .note-warning li { margin-bottom: 0.3em; color: inherit; }
+    .note-warning strong { color: inherit; }
+
+    .note-success {
+      background: var(--success-bg);
+      border: 1px solid var(--success-border);
+      color: var(--success-text);
+      padding: 1rem 1.2rem;
+      border-radius: var(--radius-sm);
+      margin: 1rem 0;
+    }
+
+    .note-success ul, .note-success ol { padding-left: 1.4em; margin: 0.5em 0; color: inherit; }
+    .note-success li { margin-bottom: 0.3em; color: inherit; }
+    .note-success strong { color: inherit; }
+
+    .note-danger {
+      background: var(--danger-bg);
+      border: 1px solid var(--danger-border);
+      color: var(--danger-text);
+      padding: 1rem 1.2rem;
+      border-radius: var(--radius-sm);
+      margin: 1rem 0;
+    }
+
+    .note-danger ul, .note-danger ol { padding-left: 1.4em; margin: 0.5em 0; color: inherit; }
+    .note-danger li { margin-bottom: 0.3em; color: inherit; }
+    .note-danger strong { color: inherit; }
+
+    .note-info {
+      background: var(--code-bg);
+      border: 1px solid var(--primary);
+      color: var(--text);
+      padding: 1rem 1.2rem;
+      border-radius: var(--radius-sm);
+      margin: 1rem 0;
+    }
+
+    .note-info strong { color: var(--primary-light); }
+    .note-info ul, .note-info ol { padding-left: 1.4em; margin: 0.5em 0; }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius-sm);
+      display: block;
+      margin: 0.8rem auto;
+      background: var(--bg);
+      border: 1px solid var(--border);
+    }
+
+    video {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius-sm);
+      display: block;
+      margin: 0.8rem auto;
+      background: #000;
+      border: 1px solid var(--border);
+    }
+
+    .image-box {
+      margin: 1rem 0;
+      text-align: center;
+    }
+
+    .image-box .caption {
+      margin-top: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: #0a1a2a;
+      margin: 0.8rem 0;
+      box-shadow: 0 4px 15px var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    pre {
+      border-radius: var(--radius-sm);
+      max-height: 500px;
+      overflow: auto;
+      margin: 0.8rem 0;
+      background: var(--pre-bg) !important;
+      padding: 1rem;
+      font-size: 0.9rem;
+      line-height: 1.7;
+      border: 1px solid var(--border);
+    }
+
+    pre code {
+      background: transparent !important;
+      padding: 0;
+      color: var(--pre-text) !important;
+      font-size: 0.85rem;
+      font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+    }
+
+    code {
+      padding: 0.2em 0.6em;
+      border-radius: 6px;
+      font-size: 0.88em;
+      font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+      color: var(--code-text);
+      word-break: break-word;
+      background: var(--code-bg);
+    }
+
+    ul, ol { padding-left: 1.4em; margin: 0.5em 0; color: var(--text); }
+    li { margin-bottom: 0.4em; word-break: break-word; }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1rem 0;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      background: var(--bg-card);
+      min-width: 420px;
+    }
+
+    th, td {
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    th {
+      background: var(--code-bg);
+      color: var(--primary-light);
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--hover-bg); }
+
+    .btn-home {
+      display: inline-block;
+      background: var(--primary);
+      color: #ffffff;
+      padding: 14px 34px;
+      border-radius: 60px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.05rem;
+      text-align: center;
+      transition: background 0.15s ease, transform 0.1s ease;
+      touch-action: manipulation;
+      border: none;
+      min-width: 140px;
+      box-shadow: 0 4px 14px rgba(79, 140, 255, 0.3);
+    }
+
+    .btn-home:hover {
+      background: var(--primary-light);
+      text-decoration: none;
+      transform: scale(1.02);
+    }
+
+    .btn-home:active { transform: scale(0.97); }
+
+    .btn-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin: 2rem 0 0.5rem 0;
+    }
+
+    .download-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--primary);
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      margin: 0.5em 0.5em 0.5em 0;
+      transition: background 0.15s ease, transform 0.1s ease;
+      touch-action: manipulation;
+      border: none;
+      box-shadow: 0 4px 14px rgba(79, 140, 255, 0.25);
+    }
+
+    .download-link:hover {
+      background: var(--primary-light);
+      text-decoration: none;
+      transform: scale(1.02);
+    }
+
+    .download-link:active { transform: scale(0.97); }
+
+    .download-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0.5rem 0;
+    }
+
+    .btn-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--primary);
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      margin: 0.5em 0;
+      transition: background 0.15s ease, transform 0.1s ease;
+      touch-action: manipulation;
+      border: none;
+      box-shadow: 0 4px 14px rgba(79, 140, 255, 0.25);
+    }
+
+    .btn-link:hover {
+      background: var(--primary-light);
+      text-decoration: none;
+      transform: scale(1.02);
+    }
+
+    .btn-link:active { transform: scale(0.97); }
+
+    .quick-tip {
+      background: var(--code-bg);
+      border: 1px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      margin: 0 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.92rem;
+      color: var(--text);
+    }
+
+    .quick-tip .icon { font-size: 1.3rem; flex-shrink: 0; }
+    .quick-tip a { color: var(--primary); font-weight: 600; text-decoration: none; }
+    .quick-tip a:hover { text-decoration: underline; }
+
+    .header {
+      background: var(--header-grad);
+      padding: 32px 24px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 6px 24px var(--shadow);
+      text-align: center;
+    }
+
+    .header h1 { font-size: 2.4rem; color: var(--text); margin-bottom: 8px; }
+    .header .sub { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 16px; }
+
+    .badges { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+
+    .badge {
+      display: inline-block;
+      background: rgba(79, 140, 255, 0.15);
+      color: var(--primary-light);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .badge-green { background: rgba(52, 211, 153, 0.15); color: var(--green); }
+    .badge-yellow { background: rgba(251, 191, 36, 0.15); color: var(--yellow); }
+
+    .toc {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px var(--shadow);
+    }
+
+    .toc h2 {
+      color: var(--primary-light);
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      border: none;
+      padding: 0;
+    }
+
+    .toc ol { padding-left: 1.6em; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text-muted); text-decoration: none; }
+    .toc a:hover { color: var(--primary); }
+
+    .param {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      margin: 12px 0;
+    }
+
+    .param-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+
+    .param-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      font-weight: bold;
+      font-family: monospace;
+      flex-shrink: 0;
+    }
+
+    .param-title { font-size: 1.05rem; font-weight: 600; color: var(--text); }
+    .param-sub { font-size: 0.85rem; color: var(--text-muted); }
+
+    .pi-p { background: rgba(79, 140, 255, 0.15); color: var(--primary-light); }
+    .pi-l { background: rgba(52, 211, 153, 0.15); color: var(--green); }
+    .pi-d { background: rgba(251, 191, 36, 0.15); color: var(--yellow); }
+    .pi-f { background: rgba(244, 114, 182, 0.15); color: var(--pink); }
+    .pi-h { background: rgba(167, 139, 250, 0.15); color: var(--purple-light); }
+    .pi-b { background: rgba(251, 146, 60, 0.15); color: var(--orange); }
+    .pi-o { background: rgba(203, 213, 225, 0.15); color: #cbd5e1; }
+
+    .download-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .download-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      text-align: center;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.2s;
+      display: block;
+    }
+
+    .download-item:hover {
+      background: var(--hover-bg);
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+
+    .download-item .di-icon { font-size: 2rem; margin-bottom: 8px; }
+    .download-item .di-name { font-weight: 600; color: var(--primary-light); font-size: 0.95rem; }
+    .download-item .di-desc { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+
+    .language-switcher {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      right: auto;
+      z-index: 1001;
+      direction: ltr;
+    }
+
+    .lang-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 16px;
+      border-radius: 24px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+
+    .lang-btn:hover {
+      background: var(--hover-bg);
+      border-color: var(--primary);
+      transform: scale(1.03);
+    }
+
+    .lang-dropdown {
+      display: none;
+      position: absolute;
+      top: 48px;
+      left: 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      min-width: 220px;
+      max-height: 400px;
+      overflow-y: auto;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      padding: 8px 0;
+      direction: ltr;
+    }
+
+    .lang-dropdown.show { display: block; }
+
+    .lang-item {
+      display: block;
+      padding: 10px 18px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.92rem;
+      transition: background 0.15s;
+      white-space: nowrap;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .lang-item:hover {
+      background: var(--hover-bg);
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      left: auto;
+      z-index: 1000;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 1.3rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      transition: background 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
+      padding: 0;
+      line-height: 1;
+      direction: ltr;
+    }
+
+    .theme-toggle:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      transform: scale(1.08);
+    }
+
+    .muted { color: var(--text-muted); }
+    .text-center { text-align: center; }
+    .mt-1 { margin-top: 1rem; }
+    .mb-1 { margin-bottom: 1rem; }
+
+    hr { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+
+    .footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      padding: 24px 0;
+      border-top: 1px solid var(--border);
+      margin-top: 32px;
+    }
+
+    .footer .dev { color: var(--primary-light); }
+
+    @media (max-width: 600px) {
+      .container { padding: 14px 12px 40px; }
+      h1 { font-size: 1.5rem; }
+      h2 { font-size: 1.15rem; gap: 8px; }
+      h3 { font-size: 1rem; }
+      h4 { font-size: 0.92rem; }
+      .card { padding: 1rem 1.1rem; border-radius: 12px; }
+      body { font-size: 0.98rem; }
+      pre { font-size: 0.75rem; padding: 0.8rem; max-height: 320px; }
+      pre code { font-size: 0.75rem; }
+      .btn-home { width: 100%; justify-content: center; padding: 16px 18px; font-size: 1rem; }
+      .btn-wrap { flex-direction: column; gap: 12px; }
+      .btn-link { width: 100%; justify-content: center; padding: 14px 18px; font-size: 0.95rem; }
+      .download-link { width: 100%; justify-content: center; padding: 14px 18px; font-size: 0.95rem; }
+      .download-wrap { flex-direction: column; gap: 8px; }
+      .quick-tip { font-size: 0.86rem; padding: 12px 14px; }
+      table { font-size: 0.78rem; min-width: 480px; }
+      th, td { padding: 8px 10px; white-space: nowrap; }
+
+      .header { padding: 20px 16px; }
+      .header h1 { font-size: 1.6rem; }
+      .header .sub { font-size: 0.95rem; }
+
+      .toc { padding: 14px 18px; }
+      .toc h2 { font-size: 1.05rem; }
+      .toc li { font-size: 0.9rem; margin-bottom: 8px; }
+
+      .param { padding: 12px 14px; }
+      .param-icon { width: 34px; height: 34px; font-size: 1.1rem; }
+      .param-title { font-size: 0.95rem; }
+      .param-sub { font-size: 0.78rem; }
+
+      .download-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .download-item { padding: 12px 8px; }
+      .download-item .di-icon { font-size: 1.5rem; }
+      .download-item .di-name { font-size: 0.82rem; }
+      .download-item .di-desc { font-size: 0.72rem; }
+
+      .theme-toggle { width: 40px; height: 40px; font-size: 1.1rem; top: 12px; right: 12px; }
+      .language-switcher { top: 12px; left: 12px; }
+      .lang-btn { font-size: 0.8rem; padding: 6px 12px; }
+      .lang-dropdown { min-width: 180px; max-height: 300px; }
+      .lang-item { padding: 8px 14px; font-size: 0.85rem; }
+
+      .badges { gap: 6px; }
+      .badge { font-size: 0.7rem; padding: 3px 10px; }
+    }
+
+    @media (max-width: 380px) {
+      h1 { font-size: 1.3rem; }
+      h2 { font-size: 1.05rem; }
+      h3 { font-size: 0.95rem; }
+      .card { padding: 0.8rem 0.9rem; }
+      pre { font-size: 0.7rem; padding: 0.6rem; }
+      pre code { font-size: 0.7rem; }
+      .header h1 { font-size: 1.35rem; }
+      .header { padding: 16px 12px; }
+      .download-grid { grid-template-columns: 1fr; }
+      table { font-size: 0.72rem; }
+    }
+
+    pre[class*="language-"] {
+      background: var(--pre-bg) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: var(--radius-sm) !important;
+      margin: 0.8rem 0 !important;
+    }
+
+    :not(pre) > code[class*="language-"] {
+      background: var(--code-bg) !important;
+      color: var(--code-text) !important;
+    }
+
+    .video-wrapper {
+  max-width: 572px;
+  margin: 1.2rem auto;
+}
+
+.image-box {
+  max-width: 506px;
+  margin: 1.2rem auto;
+}
+
+.image-box.wide {
+  max-width: 792px;
+}
+
+.image-box img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto;
+  display: block;
+  cursor: zoom-in;
+}
+
+@media (min-width: 701px) {
+  .image-box img {
+    max-height: 462px;
+  }
+  .image-box.wide img {
+    max-height: 572px;
+  }
+}
+
+@media (max-width: 700px) {
+  .video-wrapper,
+  .image-box,
+  .image-box.wide {
+    max-width: 100%;
+  }
+}
+  </style>
+</head>
+<body>
+    <div class="language-switcher ignore" id="languageSwitcher">
+  <button class="lang-btn" id="langBtn" type="button" aria-label="Change language">
+    🌐 <span id="currentLangLabel">English</span>
+  </button>
+  <div class="lang-dropdown" id="langDropdown"></div>
+</div>
+
+<button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme" title="Switch theme">
+  <span id="themeIcon">☀️</span>
+</button>
+
+<div class="container">
+
+  <div class="header">
+    <h1>TEMP209</h1>
+    <div class="sub">Open-Source Microcontroller Temperature Controller</div>
+    <div class="badges">
+      <span class="badge">Version 1.0</span>
+      <span class="badge badge-green">Open Source Hardware</span>
+      <span class="badge badge-yellow">ATmega8 / 88P / 328</span>
+    </div>
+  </div>
+
+  <div class="toc ignore">
+    <h2>📑 Table of Contents</h2>
+    <ol>
+      <li><a href="#s1">Project Overview</a></li>
+      <li><a href="#s2">Design Philosophy</a></li>
+      <li><a href="#s3">Key Features</a></li>
+      <li><a href="#s4">MCU Compatibility</a></li>
+      <li><a href="#s5">Pin Mapping</a></li>
+      <li><a href="#s6">7-Segment Display</a></li>
+      <li><a href="#s7">IR Remote Control (RC5)</a></li>
+      <li><a href="#s8">Serial Commands</a></li>
+      <li><a href="#s9">Configuration Menu</a></li>
+      <li><a href="#s10">Thermal Control Logic</a></li>
+      <li><a href="#s11">SoifGo Mobile Interface</a></li>
+      <li><a href="#s12">Fault &amp; Safety</a></li>
+      <li><a href="#s13">Hardware</a></li>
+      <li><a href="#s14">Current Sensing with Hall Sensor</a></li>
+      <li><a href="#s15">8-Hour Temperature Logger</a></li>
+      <li><a href="#s16">Debugging</a></li>
+      <li><a href="#s17">Building &amp; Programming</a></li>
+      <li><a href="#s18">Downloads &amp; Links</a></li>
+      <li><a href="#s19">Test Videos</a></li>
+      <li><a href="#s20">Changelog</a></li>
+      <li><a href="#s21">About &amp; License</a></li>
+    </ol>
+  </div>
+
+  <div class="card card-blue" id="s1">
+    <h2>1. Project Overview</h2>
+    <p>
+      <strong>TEMP209</strong> is a compact, open-source digital temperature controller designed for the
+      <strong>ATmega</strong> microcontroller family (ATmega8 / 88P / 328). It reads temperature from a
+      <strong>DS18B20</strong> sensor, displays it on a multiplexed <strong>2-digit 7-segment display</strong>,
+      and manages thermal and user-defined outputs.
+    </p>
+    <p>
+      The project is written in <strong>BASCOM-AVR</strong> and released for
+      <strong>educational and open-source</strong> purposes.
+    </p>
+
+    <div class="image-box">
+      <img src="temp209_hero.jpg" alt="TEMP209 overview" loading="lazy">
+      <div class="caption">Figure 1: TEMP209 overview</div>
+    </div>
+
+    <div class="note-success">
+      <strong>Key Specifications:</strong>
+      <ul style="margin-top:8px;">
+        <li>Temperature Range: <strong>0°C to 99°C</strong></li>
+        <li>Sensor: <strong>DS18B20</strong> (1-Wire protocol)</li>
+        <li>Display: Multiplexed 2-digit 7-segment</li>
+        <li>Remote Control: <strong>RC5 infrared protocol</strong></li>
+        <li>Outputs: <code>Out1</code> (reserved), <code>Temp_out</code> (thermal control)</li>
+        <li>Safety: Fault input (PORTC.3) — can be disabled or given 1–9 s delay</li>
+        <li>Storage: <strong>EEPROM</strong> for settings and data logging</li>
+        <li>MCU Support: ATmega8, ATmega88P, ATmega328 — separate firmware for each</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card card-purple" id="s2">
+    <h2>2. Design Philosophy</h2>
+
+    <div class="note-warning">
+      <strong>Core question:</strong> There are countless temperature controllers on the market. What makes TEMP209 different?
+    </div>
+
+    <p>
+      TEMP209 uses a simple thermal controller to demonstrate alternative design choices.
+    </p>
+
+    <h3>❓ Why no physical buttons?</h3>
+    <p>
+      On ATmega8 and ATmega88P, the <strong>8 KB flash is fully used</strong> — there is no room left for button-handling code, and there aren't enough free pins either.
+    </p>
+    <p>
+      On ATmega328, physical buttons <strong>can</strong> be added using ADC (analog keypad on a single pin).
+    </p>
+    <p>
+      In this design, however, the preference is toward <strong>remote + Bluetooth control</strong> — not because buttons are impossible, but because it avoids the difficulty of button placement, wiring, and mechanical design. A ready-made, elegant, optimized IR remote offers clean remote control with zero mechanical complexity:
+    </p>
+    <ul>
+      <li>The user can apply settings <strong>without approaching the controller</strong> — comfortably from anywhere.</li>
+      <li>Example: adjusting AC temperature from the couch.</li>
+      <li>Removing physical buttons → cleaner, cheaper, more robust design.</li>
+    </ul>
+
+    <div class="note-success">
+      <strong>In the end, this is a matter of need and taste. Don't follow instructions blindly — decide based on your own requirements.</strong>
+    </div>
+  </div>
+
+  <div class="card card-green" id="s3">
+    <h2>3. Key Features</h2>
+
+    <h3>🌡️ Temperature Measurement</h3>
+    <ul>
+      <li>DS18B20 sensor with 1-Wire protocol</li>
+      <li>Range: <strong>0°C to 99°C</strong></li>
+      <li>1°C resolution</li>
+      <li>Updated every 1 second</li>
+    </ul>
+
+    <h3>🖥️ Display</h3>
+    <ul>
+      <li>Multiplexed 2-digit 7-segment display</li>
+      <li>10-level brightness control</li>
+      <li>Special characters: P, b, d, F, H, L</li>
+    </ul>
+
+    <h3>🎛️ IR Remote Control</h3>
+    <ul>
+      <li><strong>RC5 protocol</strong></li>
+      <li>Full control without touching the device</li>
+      <li>Supports multi-command remotes</li>
+      <li>Any RC5 remote can be defined</li>
+    </ul>
+
+    <h3>🔌 Outputs</h3>
+    <ul>
+      <li><strong>Temp_out</strong> (PORTC.4): thermal control relay output</li>
+      <li><strong>Out1</strong> (PORTC.5): user relay — reserved</li>
+      <li><strong>Buzzer</strong> (PORTC.0): alert buzzer</li>
+    </ul>
+
+    <h3>🌡️ Control Modes</h3>
+    <ul>
+      <li><strong>Heating (Heat):</strong> relay ON when temp &lt; Setpoint</li>
+      <li><strong>Cooling (Cool):</strong> relay ON when temp &gt; Setpoint + Delta</li>
+      <li><strong>Hysteresis (Delta):</strong> prevents relay chatter</li>
+      <li><strong>Protection Delay:</strong> protects compressor</li>
+    </ul>
+
+    <h3>🛡️ Safety &amp; Fault</h3>
+    <ul>
+      <li><strong>Fault input</strong> (PORTC.3) — configurable reaction delay</li>
+      <li>F=0 disables fault monitoring · F=1..9 adds 1–9 second delay</li>
+      <li>Displays blinking "FF" on fault</li>
+      <li>Sends <code>Fault</code> on serial</li>
+      <li>Sensor disconnection detection</li>
+    </ul>
+
+    <h3>💾 Memory &amp; Logging</h3>
+    <ul>
+      <li>Settings stored in <strong>EEPROM</strong></li>
+      <li>Temperature logged every 1 minute</li>
+      <li>Capacity: <strong>480 samples (8 hours)</strong></li>
+      <li>Retrieve with <code>report</code> or IR command</li>
+    </ul>
+
+    <h3>📡 Serial Communication</h3>
+    <ul>
+      <li>UART at <strong>9600 baud</strong> — the standard default for common Bluetooth modules</li>
+      <li>Simple text commands</li>
+      <li>Live debug output</li>
+      <li>Mobile app integration (<span class="ignore">SoifGo</span>)</li>
+    </ul>
+
+    <h3>🔋 Stability</h3>
+    <ul>
+      <li>Auto-save setpoint</li>
+      <li>Restores state after power loss</li>
+      <li>Compatible with 3 MCU models</li>
+    </ul>
+  </div>
+
+  <div class="card" id="s4">
+    <h2>4. MCU Compatibility</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>MCU</th><th>Flash</th><th>SRAM</th><th>EEPROM</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>ATmega8</strong></td><td>8 KB</td><td>1 KB</td><td>512 B</td><td>Supported</td></tr>
+          <tr><td><strong>ATmega88P</strong></td><td>8 KB</td><td>1 KB</td><td>512 B</td><td>Current source target</td></tr>
+          <tr><td><strong>ATmega328</strong></td><td>32 KB</td><td>2 KB</td><td>1 KB</td><td>Supported</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note-info">
+      <strong>Separate firmware for each MCU:</strong>
+      A dedicated HEX file is provided for each of the three microcontrollers. Download the one that matches your chip and program it directly — no modification needed.
+    </div>
+  </div>
+
+  <div class="card card-blue" id="s5">
+    <h2>5. Pin Mapping</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Function</th><th>Pin</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Seg1</td><td>PORTB.3</td><td>Tens digit enable</td></tr>
+          <tr><td>Seg2</td><td>PORTB.4</td><td>Units digit enable</td></tr>
+          <tr><td>A</td><td>PORTB.1</td><td>7-segment A</td></tr>
+          <tr><td>B</td><td>PORTB.2</td><td>7-segment B</td></tr>
+          <tr><td>C</td><td>PORTD.7</td><td>7-segment C</td></tr>
+          <tr><td>D</td><td>PORTB.7</td><td>7-segment D</td></tr>
+          <tr><td>E</td><td>PORTD.5</td><td>7-segment E</td></tr>
+          <tr><td>F</td><td>PORTB.5</td><td>7-segment F</td></tr>
+          <tr><td>G</td><td>PORTB.6</td><td>7-segment G</td></tr>
+          <tr><td>Dp</td><td>PORTD.6</td><td>Decimal point</td></tr>
+          <tr><td><strong>Out1</strong></td><td><strong>PORTC.5</strong></td><td>User relay — reserved</td></tr>
+          <tr><td><strong>Temp_out</strong></td><td><strong>PORTC.4</strong></td><td>Thermal control relay</td></tr>
+          <tr><td><strong>Buzzer</strong></td><td><strong>PORTC.0</strong></td><td>Buzzer</td></tr>
+          <tr><td><strong>Fault</strong></td><td><strong>PORTC.3</strong></td><td>Fault input</td></tr>
+          <tr><td>RC5 IR</td><td>PINB.0</td><td>IR receiver</td></tr>
+          <tr><td>1-Wire</td><td>PORTD.4</td><td>DS18B20 data</td></tr>
+          <tr><td><strong>TX</strong></td><td><strong>PORTD.1</strong></td><td>Serial debug output (9600 baud)</td></tr>
+          <tr><td><strong>RX</strong></td><td><strong>PORTD.0</strong></td><td>Serial command input (9600 baud)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note-warning">
+      <strong>Note:</strong> <code>Out1</code> is a <strong>reserved, unused output</strong>. Wire it up and use it if needed.
+    </div>
+
+    <div class="image-box">
+      <img src="temp209_pinout.jpg" alt="TEMP209 pinout" loading="lazy">
+      <div class="caption">Figure 2: TEMP209 pinout (ATmega8 / 88 / 328 — same DIP-28 layout)</div>
+    </div>
+  </div>
+
+  <div class="card card-yellow" id="s6">
+    <h2>6. 7-Segment Display</h2>
+
+    <h3>Display Type</h3>
+    <p>
+      TEMP209 uses a <strong>2-digit 7-segment display</strong> as listed in the BOM. But don't worry if you don't have this exact part — <strong>any type works</strong>:
+    </p>
+    <ul>
+      <li><strong>Common Cathode</strong></li>
+      <li><strong>Common Anode</strong></li>
+      <li>Even with <strong>pin rearrangement</strong></li>
+    </ul>
+
+    <h3>Why So Flexible?</h3>
+    <div class="note-success">
+      <strong>There are no current-limiting resistors in the connections.</strong>
+      Current is controlled purely by <strong>switching timing</strong> (multiplexing). So you can configure the pins any way you need.
+    </div>
+
+    <h3>Common Display Driving Methods</h3>
+    <p>Displays are typically driven by:</p>
+    <ul>
+      <li><strong>Multiplexers</strong></li>
+      <li><strong>Interface ICs</strong> (e.g., 74HC595, MAX7219)</li>
+    </ul>
+
+    <h3>Why TEMP209 Connects Directly</h3>
+    <p>Instead of using external driver ICs, TEMP209 connects the display <strong>directly to the MCU</strong>. This provides:</p>
+    <ul>
+      <li>📏 <strong>Brevity</strong> — simpler circuit</li>
+      <li>💰 <strong>Lower cost</strong></li>
+      <li>🎛️ <strong>More control</strong></li>
+      <li>💡 <strong>Brightness adjustment</strong> (PWM-based)</li>
+      <li>🔀 <strong>Pin flexibility</strong> — works with different display types</li>
+      <li>🔋 <strong>Component savings</strong></li>
+      <li>🎓 <strong>Educational value</strong> — most important of all</li>
+    </ul>
+
+    <h3>Pin Connections</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Segment</th><th>MCU Pin</th><th>Digit Select</th><th>MCU Pin</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>A</td><td>PORTB.1</td><td>Seg1 (tens)</td><td>PORTB.3</td></tr>
+          <tr><td>B</td><td>PORTB.2</td><td>Seg2 (units)</td><td>PORTB.4</td></tr>
+          <tr><td>C</td><td>PORTD.7</td><td colspan="2" rowspan="6" style="vertical-align:middle; text-align:center;">Multiplexed<br>switching</td></tr>
+          <tr><td>D</td><td>PORTB.7</td></tr>
+          <tr><td>E</td><td>PORTD.5</td></tr>
+          <tr><td>F</td><td>PORTB.5</td></tr>
+          <tr><td>G</td><td>PORTB.6</td></tr>
+          <tr><td>Dp</td><td>PORTD.6</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Character Map</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Value</th><th>Display</th><th>Meaning</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>0–9</td><td>0–9</td><td>Numeric digits</td></tr>
+          <tr><td>10</td><td>P</td><td>Protection Delay menu</td></tr>
+          <tr><td>11</td><td>b</td><td>Beep menu</td></tr>
+          <tr><td>12</td><td>d</td><td>Delta menu</td></tr>
+          <tr><td>13</td><td>F</td><td>Fault Delay menu</td></tr>
+          <tr><td>14</td><td>H</td><td>Heat/Cool menu</td></tr>
+          <tr><td>15</td><td>L</td><td>Light/Brightness menu</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="image-box">
+      <img src="temp209_display.jpg" alt="2-digit 7-segment display" loading="lazy">
+      <div class="caption">Figure 3: 2-digit 7-segment display</div>
+    </div>
+
+    <div class="note-warning">
+      <strong>⚠️ If your display's pins differ:</strong>
+      If your display's pin configuration differs from this layout, you must update the <strong>pin configuration in the source</strong> to match.
+    </div>
+  </div>
+
+  <div class="card card-green" id="s7">
+    <h2>7. IR Remote Control (RC5)</h2>
+    <p>TEMP209 uses the <strong>RC5 protocol</strong> with a 3-slot array structure.</p>
+
+    <div class="note-warning">
+      <strong>RC5 Array Structure (from firmware):</strong>
+      <ul style="margin-top:8px;">
+        <li><code>Irtxt(1)</code> = <strong>Remote Address</strong> — used for filtering (default: 3142)</li>
+        <li><code>Irtxt(2)</code> = <strong>Command 1</strong> — primary command</li>
+        <li><code>Irtxt(3)</code> = <strong>Command 2</strong> — secondary command (optional)</li>
+      </ul>
+    </div>
+
+    <h3>Why Two Commands?</h3>
+    <p>
+      Some RC5 remotes (especially HVAC/AC controls) transmit <strong>multiple parameters</strong> in a single keypress (e.g., temperature <strong>and</strong> fan speed). The 3-slot array captures and processes all transmitted data.
+    </p>
+
+    <div class="note-warning">
+      <strong>⚠️ Important:</strong> Not all remotes use this multi-command format. Verify your remote via serial monitoring.
+    </div>
+
+    <h3>Default Command Codes (from firmware)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Address</th><th>Command 1</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>3142</td><td>735</td><td>Toggle Power</td></tr>
+          <tr><td>3142</td><td>2759</td><td>Toggle Out1</td></tr>
+          <tr><td>3142</td><td>3137</td><td>Report Temperature Log</td></tr>
+          <tr><td>3142</td><td>264</td><td>Toggle Menu</td></tr>
+          <tr><td>3142</td><td>22</td><td>Setpoint +1°C</td></tr>
+          <tr><td>3142</td><td>227</td><td>Setpoint −1°C</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><em>Menu navigation (when Menu = 1):</em></p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Command 1</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>2958</td><td>Menu Up</td></tr>
+          <tr><td>1738</td><td>Menu Down</td></tr>
+          <tr><td>1825</td><td>Increment parameter</td></tr>
+          <tr><td>285</td><td>Decrement parameter</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Any RC5 Remote Works</h3>
+    <p>
+      Worried you can't find the example remote? Don't be. <strong>Most remotes are RC5</strong>, and any remote can be defined. Simply:
+    </p>
+    <ol>
+      <li>Note the address and command in the Bluetooth terminal</li>
+      <li>Replace the values in the code</li>
+      <li>Compile and program</li>
+    </ol>
+    <p>
+      You likely have a few spare remotes lying around at home. In the market, especially <strong>cheap Bluetooth audio module remotes</strong> (like the one used in this project) cost almost nothing.
+    </p>
+
+    <h3>Pairing Procedure</h3>
+    <div class="note-info">
+      <strong>Step 1: Capture Codes</strong>
+      <p>Connect TX to serial terminal at <strong>9600 baud</strong> and press a button. You'll see:</p>
+      <pre class="line-numbers"><code class="language-bash">Address=3142
+command1=735
+command2=22</code></pre>
+    </div>
+    <div class="note-info">
+      <strong>Step 2: Update Firmware</strong>
+      <p>Replace values in the <code>Ir_down</code> subroutine:</p>
+      <pre class="line-numbers"><code class="language-vbnet">If Irtxt(1) = "your_address" Then
+    If Irtxt(2) = "your_command1" Then Call YourFunction()
+    If Irtxt(3) = "your_command2" Then Call YourSecondaryFunction()</code></pre>
+    </div>
+
+    <div class="image-box">
+      <img src="temp209_remote.jpg" alt="Sample RC5 remote" loading="lazy">
+      <div class="caption">Sample RC5 remote</div>
+    </div>
+  </div>
+
+  <div class="card card-blue" id="s8">
+    <h2>8. Serial Commands</h2>
+    <p>9600 baud, 8N1 — the standard default for common Bluetooth modules.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Command</th><th>Function</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>set_temp+</code></td><td>Increase setpoint by 1°C</td></tr>
+          <tr><td><code>set_temp-</code></td><td>Decrease setpoint by 1°C</td></tr>
+          <tr><td><code>power</code></td><td>Toggle power state</td></tr>
+          <tr><td><code>report</code></td><td>Stream temperature log from EEPROM</td></tr>
+          <tr><td><code>out1</code></td><td>Toggle Out1 relay</td></tr>
+          <tr><td><code>menu</code></td><td>Toggle menu mode</td></tr>
+          <tr><td><code>up</code></td><td>Menu up</td></tr>
+          <tr><td><code>down</code></td><td>Menu down</td></tr>
+          <tr><td><code>incr</code></td><td>Increment menu parameter</td></tr>
+          <tr><td><code>decr</code></td><td>Decrement menu parameter</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note-info">
+      <strong>Serial Output Example:</strong>
+      <pre class="line-numbers"><code class="language-bash">Temp209
+relay=1
+temp=25
+Address=3142
+command1=735
+command2=22
+setpoint=26
+Fault</code></pre>
+    </div>
+
+    <div class="note-info">
+      <strong>Temperature Log Output (from <code>report</code> command):</strong>
+      <p>
+        The log starts with <code>live=N</code> — a reference index that points to the position of the newest sample — followed by raw temperature values (0–255), and ends with <code>end</code>.
+      </p>
+      <pre class="line-numbers"><code class="language-bash">live=240
+25
+26
+253
+24
+27
+25
+...
+end</code></pre>
+      <p>
+        The value <code>253</code> is a <strong>position marker</strong> (not the end of the log). There can be more than one <code>253</code> in the stream — the one closest to <code>live</code> is the valid marker. <code>255</code> means an empty/erased EEPROM cell and is shown like any other value.
+      </p>
+    </div>
+  </div>
+
+  <div class="card card-purple" id="s9">
+    <h2>9. Configuration Menu</h2>
+    <p>Navigate using IR or serial commands. Parameters are stored in EEPROM.</p>
+
+    <h3>🎮 Access &amp; Navigation</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Action</th><th>IR / <span class="ignore">SoifGo</span></th><th>Serial</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Enter menu</td><td>Center button / ◉</td><td><code>menu</code></td></tr>
+          <tr><td>Up</td><td>▲</td><td><code>up</code></td></tr>
+          <tr><td>Down</td><td>▼</td><td><code>down</code></td></tr>
+          <tr><td>Increase value</td><td>▶</td><td><code>incr</code></td></tr>
+          <tr><td>Decrease value</td><td>◀</td><td><code>decr</code></td></tr>
+          <tr><td>Exit</td><td>◉ again</td><td>—</td></tr>
+          <tr><td>Auto-exit</td><td>After 8 seconds</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>⚙️ Parameters</h3>
+
+    <div class="param">
+      <div class="param-header">
+        <div class="param-icon pi-p">P</div>
+        <div>
+          <div class="param-title">Protection Delay</div>
+          <div class="param-sub">Protects compressor from rapid cycling</div>
+        </div>
+      </div>
+      <p><strong>What:</strong> Mandatory delay between turning the relay off and back on.</p>
+      <p><strong>Why:</strong> Prevents shock from fast power cycling. Compressors in ACs and fridges (especially low-back-pressure types) may be under pressure and fail to start if switched rapidly — leading to motor stall and damage without protection.</p>
+      <p><strong>Range:</strong> <code>0</code> = disabled · <code>1-9</code> = minutes</p>
+      <div class="note-success">
+        <strong>Smart behavior:</strong> If power doesn't drop and the compressor stops due to temperature control, TEMP209 still counts the delay so the next start isn't delayed unnecessarily. Protection is <strong>always active</strong>.
+      </div>
+    </div>
+
+    <div class="param">
+      <div class="param-header">
+        <div class="param-icon pi-l">L</div>
+        <div>
+          <div class="param-title">Display Light</div>
+          <div class="param-sub">Brightness control</div>
+        </div>
+      </div>
+      <p><strong>What:</strong> Adjusts brightness of the 2-digit display.</p>
+      <p><strong>Why:</strong> Optimize power consumption, or increase brightness in well-lit environments for better visibility.</p>
+      <p><strong>Range:</strong> <code>0</code> = lowest · <code>9</code> = highest</p>
+    </div>
+
+    <div class="param">
+      <div class="param-header">
+        <div class="param-icon pi-d">d</div>
+        <div>
+          <div class="param-title">Delta Temperature</div>
+          <div class="param-sub">Hysteresis / temperature gap</div>
+        </div>
+      </div>
+      <p><strong>What:</strong> Temperature gap between relay ON and OFF.</p>
+      <p><strong>Why:</strong> Sometimes you need to store a bit of heat or cold, or avoid constant switching from rapid temperature changes. Delta lets the controller run a bit warmer or cooler than the setpoint.</p>
+      <p><strong>Example:</strong> Setpoint = 25, Delta = 2</p>
+      <ul>
+        <li>Heating: relay ON below 25, OFF above 27</li>
+        <li>Cooling: relay ON above 27, OFF below 25</li>
+      </ul>
+      <p><strong>Range:</strong> 0-9°C</p>
+    </div>
+
+    <div class="param">
+      <div class="param-header">
+        <div class="param-icon pi-f">F</div>
+        <div>
+          <div class="param-title">Fault Delay</div>
+          <div class="param-sub">Reaction delay to fault input</div>
+        </div>
+      </div>
+      <p><strong>What:</strong> Controls how the controller reacts to the fault input (PORTC.3).</p>
+      <p><strong>Why:</strong> Motors with high inrush current may briefly trigger the fault input on startup. A small delay prevents false trips while still providing protection.</p>
+      <p><strong>Range:</strong></p>
+      <ul>
+        <li><code>0</code> = fault monitoring <strong>disabled</strong></li>
+        <li><code>1-9</code> = delay in <strong>seconds</strong> before reacting to the fault signal</li>
+      </ul>
+      <p><strong>Visual indication:</strong> When a fault occurs, the display shows <strong>"FF" blinking</strong> (eye-catching alert).</p>
+    </div>
+
+    <div class="param">
+      <div class="param-header">
+        <div class="param-icon pi-h">H</div>
+        <div>
+          <div class="param-title">Heat / Cool Mode</div>
+          <div class="param-sub">Heater or cooler behavior</div>
+        </div>
+      </div>
+      <p><strong>Range:</strong> <code>1</code> = Heating (behaves like a heater) · <code>0</code> = Cooling (fridge, AC, ventilation fan)</p>
+    </div>
+
+    <div class="param">
+      <div class="param-header">
+        <div class="param-icon pi-b">b</div>
+        <div>
+          <div class="param-title">Beep / Buzzer</div>
+          <div class="param-sub">Alert volume</div>
+        </div>
+      </div>
+      <p><strong>What:</strong> Buzzer volume for key feedback and sensor-failure alarm.</p>
+      <p><strong>Range:</strong> <code>0</code> = off · <code>1-9</code> = increasing volume</p>
+    </div>
+  </div>
+
+  <div class="card card-orange" id="s10">
+    <h2>10. Thermal Control Logic</h2>
+    <p>The <code>Heat_cool()</code> subroutine manages automatic temperature regulation:</p>
+    <ul>
+      <li><strong>Heating Mode (H=1):</strong> <code>Temp_out = 1</code> when <code>Currenttemp &lt; Settemp</code></li>
+      <li><strong>Cooling Mode (H=0):</strong> <code>Temp_out = 1</code> when <code>Currenttemp &gt; Settemp + Deltatemp</code></li>
+      <li><strong>Protection Delay (P):</strong> Enforces a delay between cycles to protect compressors</li>
+      <li><strong>Sensor Error Override:</strong> If <code>Sensorerr = 1</code>, the relay is forced OFF for safety</li>
+      <li><strong>Fault Override:</strong> If fault input is active (after the configured Fault Delay), <code>Temp_out = 0</code> and display shows blinking <strong>"FF"</strong></li>
+    </ul>
+  </div>
+
+  <div class="card card-blue" id="s11">
+    <h2>11. <span class="ignore">SoifGo</span> Mobile Interface</h2>
+
+    <p>
+      <strong><span class="ignore">SoifGo</span></strong> is a mobile app that connects to TEMP209 via <strong>Bluetooth</strong>, giving you full control from your phone. The UI is <strong>customizable</strong> — you can modify or extend it as you wish.
+    </p>
+
+    <div class="image-box">
+      <img src="soifgo_main.jpg" alt="SoifGo main screen" loading="lazy">
+      <div class="caption">Figure 5: SoifGo main screen</div>
+    </div>
+
+    <h3>🔌 Bluetooth Connection</h3>
+    <p>Pair your phone with the controller's Bluetooth module and connect. The module communicates at the standard default <strong>9600 baud</strong>.</p>
+
+    <h3>📺 Live Display (Top)</h3>
+    <ul>
+      <li><strong>Live temperature</strong> — updated every second</li>
+      <li><strong>Setpoint</strong> — current target temperature</li>
+    </ul>
+
+    <h3>🖥️ Terminal Panel</h3>
+    <p>The most educational feature! When connected, pressing any remote button shows its address and command in the terminal:</p>
+    <pre class="line-numbers"><code class="language-bash">Address=3142
+command1=735
+command2=22</code></pre>
+    <p>Use this to <strong>discover codes for any remote</strong>, then replace them in your source, compile, and program.</p>
+
+    <div class="image-box">
+      <img src="soifgo_terminal.jpg" alt="Terminal showing remote codes" loading="lazy">
+      <div class="caption">Figure 6: Terminal showing remote codes</div>
+    </div>
+
+    <h3>📊 Report Button &amp; Temperature Graph</h3>
+    <ol>
+      <li>Press the <strong>Report</strong> button</li>
+      <li>The command is sent to the controller</li>
+      <li>The controller streams the latest log</li>
+      <li><strong>Wait ~4 seconds</strong></li>
+      <li>The <strong>8-hour temperature graph</strong> appears</li>
+    </ol>
+
+    <p><strong>Graph features:</strong></p>
+    <ul>
+      <li>🔍 <strong>Zoom</strong> in the upper half</li>
+      <li>📍 <strong>Pan</strong> by dragging</li>
+      <li>📏 <strong>Cursor bars</strong> show time and temperature (lower half)</li>
+    </ul>
+
+    <div class="image-box">
+      <img src="soifgo_graph.jpg" alt="8-hour temperature graph" loading="lazy">
+      <div class="caption">Figure 7: 8-hour temperature graph</div>
+    </div>
+
+    <h3>🎮 Bottom Buttons (Mimic Remote)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Button</th><th>Function</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Out1</strong></td><td>Toggle reserved output</td></tr>
+          <tr><td><strong>Power</strong></td><td>Toggle device power</td></tr>
+          <tr><td><strong>+1</strong></td><td>Increase setpoint</td></tr>
+          <tr><td><strong>-1</strong></td><td>Decrease setpoint</td></tr>
+          <tr><td><strong>Report</strong></td><td>Request temperature log</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>◉ Center D-Pad (5 Buttons)</h3>
+    <ul>
+      <li>▲ Up</li>
+      <li>▼ Down</li>
+      <li>◀ Left (decrease)</li>
+      <li>▶ Right (increase)</li>
+      <li>◉ Center (enter / exit menu)</li>
+    </ul>
+
+    <div class="image-box">
+      <img src="soifgo_dpad.jpg" alt="Menu D-Pad" loading="lazy">
+      <div class="caption">Figure 8: Menu D-Pad</div>
+    </div>
+
+    <div class="note-success">
+      <strong><span class="ignore">SoifGo</span> = virtual remote + code-discovery tool + graph viewer.</strong>
+    </div>
+  </div>
+
+  <div class="card card-red" id="s12">
+    <h2>12. Fault &amp; Safety</h2>
+
+    <p>When the fault input on <strong>PORTC.3</strong> receives a <strong>HIGH signal (2.7V–5V)</strong>, and after the configured <strong>Fault Delay</strong> has passed:</p>
+    <ul>
+      <li>Immediately sets <code>Temp_out = 0</code></li>
+      <li>Sets <code>Faultstatus = 1</code></li>
+      <li>Displays blinking <strong>"FF"</strong> on the 7-segment display</li>
+      <li>Sends <code>Fault</code> on serial</li>
+    </ul>
+    <p>Fault clears when the signal returns LOW or the device is reset.</p>
+
+    <h3>Fault Delay (F Parameter)</h3>
+    <ul>
+      <li><code>0</code> = fault monitoring <strong>disabled</strong> (no fault reaction)</li>
+      <li><code>1-9</code> = delay in <strong>seconds</strong> before reacting to the fault signal</li>
+    </ul>
+    <p>This is useful for motors with high inrush current that may briefly trigger the fault input on startup, preventing false trips.</p>
+
+    <h3>Hall Sensor Interface</h3>
+    <p>The Fault input is typically driven by the Hall-sensor current comparator (see Section 14). Any over-current triggers a fault, cutting the relay for protection.</p>
+
+    <p><strong>The choice of detection method is yours.</strong> You can either:</p>
+    <ul>
+      <li>Use a <strong>UGN503 Hall sensor</strong> with a washer and <strong>8-turn wire coil</strong> (the method used here), or</li>
+      <li>Use a <strong>ready-made ACS-series current sensor module</strong> (ACS712, ACS724, etc.)</li>
+    </ul>
+    <p><strong>Recommendation:</strong> The <strong>ACS series</strong> is the better choice — compact, high accuracy, and stable output.</p>
+
+    <div class="note-danger">
+      <strong>⚠️ Critical Safety Warning:</strong>
+      <ul style="margin-top:8px;">
+        <li><strong>Do NOT rely solely on the F (Fault) protection</strong></li>
+        <li>Always add a proper <strong>miniature circuit breaker (MCB)</strong> to the load side</li>
+        <li>Add an <strong>inline glass fuse</strong> for the MCU power supply</li>
+        <li>These are your primary protection; the Fault input is a secondary safety net</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card card-purple" id="s13">
+    <h2>13. Hardware</h2>
+
+    <h3>Two-Board Design</h3>
+    <p>TEMP209 is designed as <strong>two separate boards</strong>:</p>
+    <ul>
+      <li><strong>Board 1:</strong> Display / control / sensor (controller)</li>
+      <li><strong>Board 2:</strong> Motor / relay / power</li>
+    </ul>
+
+    <h3>Mounting Options</h3>
+    <ul>
+      <li><strong>Integrated:</strong> Place both boards side by side in one enclosure</li>
+      <li><strong>Split:</strong> One near the motor, one in the room or control panel</li>
+    </ul>
+
+    <h3>🛡️ Safety Clearance</h3>
+    <p>
+      On the relay board, sufficient <strong>physical spacing</strong> is provided between the <strong>mains AC section</strong> and the <strong>low-voltage MCU power section</strong>. Be careful when handling the board, and always observe electrical safety practices.
+    </p>
+
+    <div class="note-danger">
+      <strong>⚠️ Fusing Recommendation:</strong>
+      <ul style="margin-top:8px;">
+        <li><strong>Load side:</strong> Miniature circuit breaker (MCB) matched to your load</li>
+        <li><strong>MCU supply:</strong> Inline glass fuse (e.g., 500 mA)</li>
+        <li>Never operate without fuses</li>
+      </ul>
+    </div>
+
+    <div class="image-box">
+      <img src="temp209_board1.jpg" alt="Board 1 — controller" loading="lazy">
+      <div class="caption">Figure 9: Board 1 — controller</div>
+    </div>
+
+    <div class="image-box">
+      <img src="temp209_board2.jpg" alt="Board 2 — power/relay" loading="lazy">
+      <div class="caption">Figure 10: Board 2 — power/relay</div>
+    </div>
+
+    <div class="image-box wide">
+      <img src="temp209_pcb.png" alt="PCB layout" loading="lazy">
+      <div class="caption">Figure 11: PCB layout</div>
+    </div>
+
+    <div class="image-box wide">
+      <img src="temp209_schematic.png" alt="Schematic diagram" loading="lazy">
+      <div class="caption">Figure 12: Schematic diagram</div>
+    </div>
+  </div>
+
+  <div class="card card-orange" id="s14">
+    <h2>14. Current Sensing with Hall Sensor</h2>
+
+    <h3>The Challenge</h3>
+    <p>Reading AC/DC current to detect over-current and trigger emergency shutdown.</p>
+
+    <h3>Candidate Methods</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Method</th><th>Pros</th><th>Cons</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Rectification + capacitor</td><td>Simple</td><td>Loses useful signal, complex circuit</td></tr>
+          <tr><td>ADC sampling</td><td>Accurate</td><td>Heavy MCU load, large code</td></tr>
+          <tr><td><strong>Comparator op-amp</strong> ⭐</td><td>Cheap, reliable, compact</td><td>Needs initial calibration</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>🏆 Selected Method: Comparator Op-Amp</h3>
+
+    <h4>Hardware Setup</h4>
+    <ul>
+      <li>Hall sensor sandwiched between two metal washers</li>
+      <li>8 turns of wire wound around it</li>
+      <li>Hall output with <strong>2.56V offset</strong></li>
+    </ul>
+
+    <h4>How It Works</h4>
+    <ul>
+      <li><strong>AC current:</strong> Output oscillates sinusoidally at mains frequency</li>
+      <li><strong>DC current:</strong> Level shifts above/below the 2.56V offset (depending on direction)</li>
+    </ul>
+
+    <div class="image-box">
+      <img src="temp209_hall.jpg" alt="Hall sensor with wound wire" loading="lazy">
+      <div class="caption">Figure 13: Hall sensor with wound wire</div>
+    </div>
+
+    <h4>Calculations</h4>
+    <ul>
+      <li>Each 1 A of current → <strong>60 mV</strong> at the op-amp output</li>
+      <li>4 A → 4 × 60 mV = 240 mV + 2.56 V = <strong>2.80 V</strong></li>
+      <li>5 A → 5 × 60 mV = 300 mV + 2.56 V = <strong>2.86 V</strong></li>
+    </ul>
+
+    <div class="note-warning">
+      <strong>Calibration Procedure:</strong>
+      <ol style="margin-top:8px;">
+        <li>Apply the expected maximum normal current (e.g., 4 A).</li>
+        <li>At 4 A, the Hall output reaches <strong>2.80 V</strong>; the op-amp begins oscillation and the MCU Fault input is triggered.</li>
+        <li>The fault LED indicator should be <strong>OFF</strong> under normal current (e.g., 4 A) — turn the potentiometer until the LED turns off.</li>
+        <li>When an over-current occurs (e.g., above 4 A), the fault LED turns <strong>ON</strong>, the 7-segment display shows blinking <strong>"FF"</strong>, and the relay cuts off.</li>
+        <li>The <code>Fault</code> message is also announced on the serial output.</li>
+      </ol>
+      <p style="margin-top:8px;">Depending on the op-amp and circuit, fine-tuning may be needed — but <strong>one-time calibration is enough</strong>.</p>
+    </div>
+
+    <div class="image-box">
+      <img src="temp209_opamp.jpg" alt="Comparator op-amp circuit" loading="lazy">
+      <div class="caption">Figure 14: Comparator op-amp circuit</div>
+    </div>
+
+    <div class="note-warning">
+      <strong>⚠️ Educational Note</strong>
+      <p>This method (UGN503 + metal washer + wire coil) is <strong>educational</strong> and may introduce some design error.</p>
+      <p><strong>Recommended:</strong> Use an <strong>ACS-series current sensor</strong> instead — cleaner and more reliable.</p>
+      <p>Both methods produce the <strong>same type of output</strong> (analog voltage proportional to current) — only the scaling values differ.</p>
+      <p><strong>Main drawback of the UGN503 method:</strong> A UGN503 with a core and wire coil is <strong>more sensitive to nearby magnetic fields</strong> compared to an ACS sensor.</p>
+    </div>
+  </div>
+  <div class="card card-blue" id="s15">
+    <h2>15. 8-Hour Temperature Logger</h2>
+
+    <p>
+      TEMP209 automatically logs <strong>one temperature sample every minute</strong> to EEPROM.
+      The buffer works like a <strong>CCTV recorder</strong> — a <strong>480-sample circular buffer</strong> that always
+      holds the last 8 hours. The newest sample is always available, even after power loss.
+    </p>
+
+    <h3>How It Works</h3>
+    <ul>
+      <li><strong>Every 1 minute:</strong> a temperature sample is written to EEPROM</li>
+      <li><strong>Capacity:</strong> 480 samples = <strong>last 8 hours</strong></li>
+      <li><strong>Circular buffer:</strong> when full, the oldest sample is overwritten</li>
+      <li><strong>Position marker:</strong> the value <code>253</code> is written right after the newest sample and travels with it</li>
+      <li><strong>Persistent:</strong> samples survive power loss</li>
+    </ul>
+
+    <div class="note-success">
+      <strong>Circular buffer + position marker (CCTV-style):</strong>
+      <ul style="margin-top:8px;">
+        <li>Each minute, the current temperature is written to the next slot, and <code>253</code> is written right after it.</li>
+        <li>The previous <code>253</code> is overwritten by the new temperature sample — so <strong>the marker always sits right after the newest temperature</strong>.</li>
+        <li><code>253</code> is a <strong>position marker</strong> (not the end of the log). It tells the reader where the newest sample is located in the circular buffer.</li>
+        <li><code>255</code> = empty / erased EEPROM cell (all bits = 1). It is displayed in the graph like any other value, so blank areas remain visible.</li>
+      </ul>
+    </div>
+
+    <h3>Viewing the Report</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Method</th><th>How</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Serial command</strong></td><td>Send <code>report</code> via Bluetooth or cable</td></tr>
+          <tr><td><strong>IR remote</strong></td><td>Press the button coded <code>3137</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The full report is sent to the <strong><span class="ignore">SoifGo</span></strong> app, where you can see the temperature graph on your phone. 📊</p>
+
+    <h3>Report Format</h3>
+    <p>
+      The stream starts with <code>live=N</code> — the reference index of the newest sample — followed by raw temperature values (0–255), and ends with <code>end</code>.
+    </p>
+    <pre class="line-numbers"><code class="language-bash">live=240
+25
+26
+253
+24
+27
+25
+...
+end</code></pre>
+    <p>
+      <strong>253</strong> is a position marker, not the end of the log. If more than one <code>253</code> appears in the stream, the reader uses <code>live</code> to pick the correct one (closest to <code>live</code>).
+    </p>
+  </div>
+
+  <div class="card card-green" id="s16">
+    <h2>16. Debugging</h2>
+    <p>Monitor serial output at <strong>9600 baud, 8N1</strong> — the standard default for common Bluetooth modules:</p>
+    <pre class="line-numbers"><code class="language-bash">Temp209                    - Startup message
+relay=1                    - Current relay state
+temp=25                    - Current temperature
+Address=3142               - Remote address
+command1=735               - Primary command
+command2=22                - Secondary command
+setpoint=26                - Setpoint changed
+power=1                    - Power state changed
+Fault                      - Fault condition detected
+live=240                   - Report start (reference index of newest sample)
+25                         - Temperature sample
+26                         - Temperature sample
+253                        - Position marker
+24                         - Temperature sample
+end                        - End of report stream</code></pre>
+
+    <h3>Common Issues</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Symptom</th><th>Possible Cause</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Display shows "--"</td><td>Sensor disconnected or faulty</td></tr>
+          <tr><td>Display shows blinking "FF"</td><td>Fault input triggered (after Fault Delay)</td></tr>
+          <tr><td>No serial output</td><td>Wrong baud rate, TX not connected</td></tr>
+          <tr><td>IR not responding</td><td>Wrong remote codes — verify via terminal</td></tr>
+          <tr><td>Relay chatters</td><td>Delta too small — increase it</td></tr>
+          <tr><td>False fault trips on motor start</td><td>Increase Fault Delay (F parameter) to 1-9 seconds</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card card-green" id="s17">
+    <h2>17. Building &amp; Programming</h2>
+
+    <h3>🔌 On-Board Programmer Socket</h3>
+    <p>
+      The board includes a <strong>programmer socket</strong> for easy development and in-circuit programming. You can use any standard AVR programmer, such as <strong>USBasp</strong>.
+    </p>
+    <div class="note-warning">
+      <strong>Note:</strong> Due to space and layout constraints, the on-board socket is a <strong>single-row 6-pin header</strong>, while the USBasp programmer uses a <strong>2×3 (two-row, 6-pin)</strong> connector. To bridge the difference, use <strong>male-to-female jumper wires</strong>, or build your own <strong>socket adapter</strong>.
+    </div>
+
+    <h3>💾 Ready-to-Flash HEX Files</h3>
+    <div class="note-info">
+      A dedicated HEX file is provided for each of the three supported microcontrollers (ATmega8, ATmega88P, ATmega328). Download the one that matches your chip and program it directly — no modification needed.
+    </div>
+
+    <h3>🔧 Not Familiar with BASCOM?</h3>
+    <div class="note-success">
+      Don't worry. If you don't know <strong>BASCOM-AVR</strong>, simply paste the source code into an <strong>AI assistant</strong> and ask it to translate the code into a language you're familiar with (C, Arduino, MicroPython, etc.).
+    </div>
+
+    <h3>Recommended Workflow</h3>
+    <ol>
+      <li>Pick the HEX file that matches your MCU</li>
+      <li>Connect USBasp to the programmer socket (use jumper wires if needed)</li>
+      <li>Flash the MCU</li>
+      <li>Verify via serial terminal at 9600 baud</li>
+    </ol>
+    <p class="muted">Advanced users who want to modify the source can open the BASCOM project, adjust remote codes or parameters, recompile, and program the resulting HEX.</p>
+
+    <div class="image-box">
+      <img src="temp209_programmer.jpg" alt="On-board programmer socket" loading="lazy">
+      <div class="caption">Figure 15: On-board programmer socket</div>
+    </div>
+  </div>
+
+  <div class="card card-blue" id="s18">
+    <h2>18. Downloads &amp; Links</h2>
+
+    <h2 style="margin-top: 20px;">PCB and Schematic Files Atmega 328P</h2>
+    <a href="https://mega.nz/file/qGBBhA7L#zvyih5jYFUiPFvV89eL14ciSRXZqGcal6AniKaxAeGI"
+       class="download-link"
+       target="_blank"
+       rel="noopener">📦 Download All File (MEGA)</a>
+    </div>
+
+    <h3>🔗 External Links</h3>
+    <div class="download-grid" style="grid-template-columns: 1fr;">
+      <a class="download-item" href="https://soifgo.github.io/" target="_blank" rel="noopener">
+        <div class="di-icon">📱</div>
+        <div class="di-name"><span class="ignore">SoifGo</span> App</div>
+        <div class="di-desc">Mobile interface for TEMP209</div>
+      </a>
+    </div>
+
+    <div class="note-info">
+      <strong>Note:</strong> The ZIP package includes BASCOM source, HEX firmware for all three MCUs, PCB Gerbers, and schematic PDF.
+    </div>
+  </div>
+
+  <div class="card card-green" id="s19">
+    <h2>19. Test Videos</h2>
+    <p>Watch TEMP209 in action. These videos demonstrate real-world testing, programming, remote setup, logging, and fault protection.</p>
+
+    <h3>🎬 Video 1: Programming &amp; Flashing</h3>
+    <div class="video-wrapper">
+      <iframe src="https://mega.nz/embed/6SwRWQLD#8trK-qNfnoRPilDuEp3SeyoC467oX83K_bi9nqSOJQk"
+              allowfullscreen
+              loading="lazy"></iframe>
+    </div>
+    <div class="image-box">
+      <div class="caption">Video 1: Programming &amp; Flashing</div>
+    </div>
+
+    <h3>🎬 Video 2: Setting Up a Different RC5 Remote (Example)</h3>
+    <div class="video-wrapper">
+      <iframe src="https://mega.nz/embed/vDAiSAYb#5fK02I-VtwOqWHDZGloyF2v2JT8RyBhCPbmMEr9Wsf8"
+              allowfullscreen
+              loading="lazy"></iframe>
+    </div>
+    <div class="image-box">
+      <div class="caption">Video 2: Setting Up a Different RC5 Remote (Example)</div>
+    </div>
+
+    <h3>🎬 Video 3: Temperature Logging &amp; SoifGo Connection</h3>
+    <div class="video-wrapper">
+      <iframe src="https://mega.nz/embed/nLRAkQzK#bRq8Da13XlWRSwvfeGePdmUpD-Q9tf-kvRKX4n3rLiA"
+              allowfullscreen
+              loading="lazy"></iframe>
+    </div>
+    <div class="image-box">
+      <div class="caption">Video 3: Temperature Logging &amp; SoifGo Connection</div>
+    </div>
+
+    <h3>🎬 Video 4: Fault Potentiometer Calibration (Example)</h3>
+    <div class="video-wrapper">
+      <iframe src="https://mega.nz/embed/Lbp3lLAZ#t_xhUnfdIFIVrQZUf-NV2hmLfCAWkjFFjRrVLp4Ej2w"
+              allowfullscreen
+              loading="lazy"></iframe>
+    </div>
+    <div class="image-box">
+      <div class="caption">Video 4: Fault Potentiometer Calibration (Example)</div>
+    </div>
+
+    <div class="note-success">
+      <strong>📹 Videos are hosted on MEGA and streamed directly via embed player.</strong>
+      If a video does not load, check your internet connection or open the MEGA link directly in your browser.
+    </div>
+  </div>
+
+  <div class="card card-yellow" id="s20">
+    <h2>20. Changelog</h2>
+
+    <h3>v1.0 — Initial Release</h3>
+    <ul>
+      <li>ATmega8 / ATmega88P / ATmega328 support — dedicated HEX file for each MCU</li>
+      <li>DS18B20 1-Wire temperature sensor</li>
+      <li>Multiplexed 2-digit 7-segment display (direct drive)</li>
+      <li>RC5 infrared remote control with learnable codes</li>
+      <li>6-parameter configuration menu (P, L, d, F, H, b)</li>
+      <li>EEPROM settings storage</li>
+      <li>8-hour circular temperature logger (480 samples)</li>
+      <li>480-sample circular buffer (CCTV-style) with position marker</li>
+      <li>Marker (<code>253</code>) sits right after the newest temperature sample</li>
+      <li>Report stream framed by <code>live=N</code> (start) and <code>end</code> (terminator)</li>
+      <li>All values 0–255 streamed without filtering — <code>255</code> = empty EEPROM cell</li>
+      <li>Fault input for over-current protection — <code>F=0</code> disables monitoring, <code>F=1..9</code> adds 1–9 second reaction delay</li>
+      <li>Sensor error detection — forces relay OFF for safety</li>
+      <li>Serial commands for automation (9600 baud, standard Bluetooth default)</li>
+      <li><span class="ignore">SoifGo</span> mobile interface with live graph</li>
+      <li>Two-board split hardware design</li>
+      <li>On-board programmer socket</li>
+    </ul>
+
+    <div class="note-warning">
+      <strong>Note:</strong> This is the first public release. Future versions will be listed here.
+    </div>
+  </div>
+
+  <div class="card" id="s21">
+    <h2>21. About &amp; License</h2>
+
+    <p><strong>TEMP209</strong> is an open-source educational project by <strong>Saeid Moghadam</strong>.</p>
+
+    <h3>License</h3>
+    <p>Open Source — Educational Purpose.</p>
+
+    <h3>Credits</h3>
+    <ul>
+      <li>Design &amp; firmware: Saeid Moghadam</li>
+      <li>Mobile interface: <span class="ignore">SoifGo</span></li>
+      <li>Developed with assistance from DeepSeek</li>
+    </ul>
+
+    <div class="note-success">
+      <strong>Contributions welcome!</strong> Fork, improve, and share back.
+    </div>
+
+    <p class="muted" style="margin-top:12px; font-size:0.88rem;">
+      For contact and more tutorials, see the main <span class="ignore">SoifGo</span> page.
+    </p>
+  </div>
+
+  <div class="footer">
+    <p><strong>TEMP209</strong> — Open-Source Temperature Controller</p>
+    <p>Developed by <span class="dev">Saeid Moghadam</span> · Open Source Hardware Initiative</p>
+    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px;">
+      BASCOM-AVR · ATmega8 @ 8MHz · RC5 Infrared · DS18B20 · EEPROM Data Logging
+    </p>
+  </div>
+
+  <hr>
+
+  <div class="btn-wrap">
+    <a href="https://soifgo.github.io/" class="btn-home">⬅ Back to Home</a>
+  </div>
+
+</div>
+
+<script>
+  (function() {
+    var themeToggle = document.getElementById('themeToggle');
+    var themeIcon = document.getElementById('themeIcon');
+
+    function updateIcon(theme) {
+      if (theme === 'light') {
+        themeIcon.textContent = '🌙';
+        themeToggle.title = 'Switch to dark mode';
+      } else {
+        themeIcon.textContent = '☀️';
+        themeToggle.title = 'Switch to light mode';
+      }
+    }
+
+    var currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    updateIcon(currentTheme);
+
+    themeToggle.addEventListener('click', function() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('soifgo-theme', next);
+      updateIcon(next);
+    });
+  })();
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-clike.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-c.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-cpp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-json.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-vbnet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/plugins/toolbar/prism-toolbar.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+
+<script src="https://cdn.staticfile.net/translate.js/3.18.66/translate.js"></script>
+
+<script>
+(function() {
+  'use strict';
+
+  var LANGUAGES = {
+    'english': { label: 'English', dir: 'ltr' },
+    'spanish': { label: 'Español', dir: 'ltr' },
+    'chinese_simplified': { label: '简体中文', dir: 'ltr' },
+    'french': { label: 'Français', dir: 'ltr' },
+    'deutsch': { label: 'Deutsch', dir: 'ltr' },
+    'japanese': { label: '日本語', dir: 'ltr' },
+    'russian': { label: 'Русский', dir: 'ltr' },
+    'arabic': { label: 'العربية', dir: 'rtl' },
+    'persian': { label: 'فارسی', dir: 'rtl' },
+    'italian': { label: 'Italiano', dir: 'ltr' },
+    'hindi': { label: 'हिन्दी', dir: 'ltr' },
+    'turkish': { label: 'Türkçe', dir: 'ltr' },
+    'korean': { label: '한국어', dir: 'ltr' },
+    'portuguese': { label: 'Português', dir: 'ltr' },
+    'hebrew': { label: 'עברית', dir: 'rtl' },
+    'kurdish_sorani': { label: 'کوردی', dir: 'rtl' },
+    'urdu': { label: 'اردو', dir: 'rtl' },
+    'bengali': { label: 'বাংলা', dir: 'ltr' },
+    'indonesian': { label: 'Bahasa Indonesia', dir: 'ltr' },
+    'tamil': { label: 'தமிழ்', dir: 'ltr' },
+    'thai': { label: 'ไทย', dir: 'ltr' },
+    'swahili': { label: 'Swahili', dir: 'ltr' }
+  };
+
+  var DEFAULT_LANG = 'english';
+  var FALLBACK_CHANNELS = ['giteeAI', 'client.edge', 'siliconflow'];
+
+  var langBtn = document.getElementById('langBtn');
+  var langDropdown = document.getElementById('langDropdown');
+  var currentLangLabel = document.getElementById('currentLangLabel');
+
+  function buildLanguageList() {
+    var html = '';
+    for (var code in LANGUAGES) {
+      if (LANGUAGES.hasOwnProperty(code)) {
+        var lang = LANGUAGES[code];
+        html += '<a href="javascript:void(0)" class="lang-item ignore" data-lang="' + code + '" data-dir="' + lang.dir + '">' + lang.label + '</a>';
+      }
+    }
+    langDropdown.innerHTML = html;
+    var items = langDropdown.querySelectorAll('.lang-item');
+    for (var i = 0; i < items.length; i++) {
+      items[i].addEventListener('click', function(e) {
+        e.preventDefault();
+        changeLanguage(this.getAttribute('data-lang'), this.getAttribute('data-dir'));
+      });
+    }
+  }
+
+  function waitForTranslation(element, originalText, timeoutMs) {
+    return new Promise(function(resolve) {
+      var start = Date.now();
+      var timer = setInterval(function() {
+        if (element.textContent !== originalText) {
+          clearInterval(timer);
+          resolve(true);
+        } else if (Date.now() - start > timeoutMs) {
+          clearInterval(timer);
+          resolve(false);
+        }
+      }, 200);
+    });
+  }
+
+  function applyChannel(channel) {
+    try {
+      translate.service.use(channel);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function resetToEnglish() {
+    try { localStorage.removeItem('soifgo-lang'); } catch (e) {}
+    document.documentElement.setAttribute('dir', 'ltr');
+    document.documentElement.setAttribute('lang', 'en');
+    currentLangLabel.textContent = LANGUAGES.english.label;
+    langDropdown.classList.remove('show');
+    setTimeout(function() {
+      location.reload();
+    }, 100);
+  }
+
+  function changeLanguage(langCode, langDir) {
+    if (langCode === 'english') {
+      resetToEnglish();
+      return;
+    }
+
+    var testElement = document.querySelector('h1');
+    var originalText = testElement ? testElement.textContent : '';
+
+    function tryChannel(index) {
+      if (index >= FALLBACK_CHANNELS.length) {
+        console.warn('All fallback channels failed.');
+        return;
+      }
+
+      var channel = FALLBACK_CHANNELS[index];
+      applyChannel(channel);
+
+      translate.changeLanguage(langCode);
+      if (typeof translate.execute === 'function') {
+        translate.execute();
+      }
+
+      waitForTranslation(testElement, originalText, 3000).then(function(success) {
+        if (!success) {
+          console.warn('Channel ' + channel + ' failed, trying next...');
+          tryChannel(index + 1);
+        } else {
+          try { localStorage.setItem('soifgo-lang', langCode); } catch (e) {}
+          document.documentElement.setAttribute('dir', langDir);
+          document.documentElement.setAttribute('lang', langCode === 'persian' ? 'fa' : langCode);
+          currentLangLabel.textContent = LANGUAGES[langCode].label;
+          langDropdown.classList.remove('show');
+        }
+      });
+    }
+
+    tryChannel(0);
+  }
+
+  langBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    langDropdown.classList.toggle('show');
+  });
+
+  document.addEventListener('click', function() {
+    langDropdown.classList.remove('show');
+  });
+
+  function getSavedLang() {
+    try {
+      var saved = localStorage.getItem('soifgo-lang');
+      if (saved && LANGUAGES[saved] && saved !== 'english') {
+        return saved;
+      }
+    } catch (e) {}
+    return null;
+  }
+
+  function initTranslate() {
+    var savedLang = getSavedLang();
+    if (!savedLang) {
+      document.documentElement.setAttribute('dir', 'ltr');
+      document.documentElement.setAttribute('lang', 'en');
+      currentLangLabel.textContent = LANGUAGES.english.label;
+      return;
+    }
+
+    translate.language.setLocal('english');
+    translate.service.use(FALLBACK_CHANNELS[0]);
+    translate.selectLanguageTag.show = false;
+    translate.execute();
+    if (translate.listener && translate.listener.start) {
+      translate.listener.start();
+    }
+  }
+
+  function restoreLanguageUI() {
+    var savedLang = getSavedLang();
+    if (savedLang) {
+      var lang = LANGUAGES[savedLang];
+      document.documentElement.setAttribute('dir', lang.dir);
+      document.documentElement.setAttribute('lang', savedLang === 'persian' ? 'fa' : savedLang);
+      currentLangLabel.textContent = lang.label;
+      return savedLang;
+    }
+    currentLangLabel.textContent = LANGUAGES[DEFAULT_LANG].label;
+    return null;
+  }
+
+  buildLanguageList();
+  var restored = restoreLanguageUI();
+
+  function bootTranslate() {
+    initTranslate();
+    if (restored) {
+      setTimeout(function() {
+        changeLanguage(restored, LANGUAGES[restored].dir);
+      }, 500);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootTranslate);
+  } else {
+    bootTranslate();
+  }
+})();
+</script>
+
+<script>
+  document.querySelectorAll('.toc a').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      var target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+
+<script>
+document.querySelectorAll('.image-box img').forEach(function(i){
+  i.title='Click to open full size';
+  i.addEventListener('click',function(){window.open(i.src,'_blank');});
+});
+</script>
+</body>
+</html>

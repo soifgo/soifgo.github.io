@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Theme boot: same storage key as the main page, so the choice is shared -->
+  <script>
+    (function () {
+      var t = 'dark';
+      try { var s = localStorage.getItem('soifgo-theme'); if (s === 'light' || s === 'dark') { t = s; } } catch (e) {}
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <title>SoifGo — بە HTML ئەپی ئەندرۆید دروست بکە | کۆنترۆڵی Arduino و MQTT</title>
+  <meta name="description" content="SoifGo پلاتفۆرمێکی ئەندرۆیدی بێبەرامبەرە بۆ دروستکردنی ئەپ و ئامرازی تایبەت بە HTML و JavaScript: ژمێرەر، داشبۆرد، ئامرازی فێرکاری، و کۆنترۆڵەری Bluetooth و MQTT بۆ Arduino و ESP32، بەبێ کۆدی ناتیڤ." />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+
+  <link rel="canonical" href="https://soifgo.github.io/intro/ckb/" />
+  <link rel="alternate" hreflang="x-default" href="https://soifgo.github.io/" />
+  <link rel="alternate" hreflang="en" href="https://soifgo.github.io/intro/en/" />
+  <link rel="alternate" hreflang="ckb" href="https://soifgo.github.io/intro/ckb/" />
+  <link rel="alternate" hreflang="fa" href="https://soifgo.github.io/intro/fa/" />
+  <link rel="alternate" hreflang="ar" href="https://soifgo.github.io/intro/ar/" />
+  <link rel="alternate" hreflang="es" href="https://soifgo.github.io/intro/es/" />
+  <link rel="alternate" hreflang="zh-CN" href="https://soifgo.github.io/intro/zh/" />
+  <link rel="alternate" hreflang="fr" href="https://soifgo.github.io/intro/fr/" />
+  <link rel="alternate" hreflang="de" href="https://soifgo.github.io/intro/de/" />
+  <link rel="alternate" hreflang="ja" href="https://soifgo.github.io/intro/ja/" />
+  <link rel="alternate" hreflang="ru" href="https://soifgo.github.io/intro/ru/" />
+  <link rel="alternate" hreflang="it" href="https://soifgo.github.io/intro/it/" />
+  <link rel="alternate" hreflang="pt" href="https://soifgo.github.io/intro/pt/" />
+  <link rel="alternate" hreflang="ko" href="https://soifgo.github.io/intro/ko/" />
+  <link rel="alternate" hreflang="hi" href="https://soifgo.github.io/intro/hi/" />
+  <link rel="alternate" hreflang="bn" href="https://soifgo.github.io/intro/bn/" />
+  <link rel="alternate" hreflang="ta" href="https://soifgo.github.io/intro/ta/" />
+  <link rel="alternate" hreflang="th" href="https://soifgo.github.io/intro/th/" />
+  <link rel="alternate" hreflang="id" href="https://soifgo.github.io/intro/id/" />
+  <link rel="alternate" hreflang="tr" href="https://soifgo.github.io/intro/tr/" />
+  <link rel="alternate" hreflang="sw" href="https://soifgo.github.io/intro/sw/" />
+  <link rel="alternate" hreflang="he" href="https://soifgo.github.io/intro/he/" />
+  <link rel="alternate" hreflang="ur" href="https://soifgo.github.io/intro/ur/" />
+
+  <meta property="og:title" content="SoifGo — بە HTML ئەپی ئەندرۆید دروست بکە" />
+  <meta property="og:description" content="ژمێرەر، ئامرازی فێرکاری، داشبۆرد و کۆنترۆڵی ئامێر بە HTML لەسەر ئەندرۆید. بێبەرامبەر، ئۆفلاین و بێ ڕیکلام." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://soifgo.github.io/intro/ckb/" />
+  <meta property="og:image" content="https://soifgo.github.io/soifgo-logo.png" />
+  <meta property="og:locale" content="ckb_IQ" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:site_name" content="SoifGo" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SoifGo — بە HTML ئەپی ئەندرۆید دروست بکە" />
+  <meta name="twitter:description" content="ئامراز، داشبۆرد و کۆنترۆڵی ئامێر بە HTML. بێبەرامبەر و ئۆفلاین." />
+  <meta name="twitter:image" content="https://soifgo.github.io/soifgo-logo.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "SoifGo",
+    "operatingSystem": "Android 7.0+",
+    "applicationCategory": "DeveloperApplication",
+    "description": "پلاتفۆرمی ئەندرۆید بۆ دروستکردنی ئەپ و ئامرازی تایبەت بە HTML، CSS و JavaScript؛ لەگەڵ کۆنترۆڵەری Bluetooth و MQTT بۆ Arduino، ESP32 و ESP8266.",
+    "url": "https://soifgo.github.io/intro/ckb/",
+    "downloadUrl": "https://soifgo.github.io/soifgo.zip",
+    "installUrl": "https://apkpure.com/soifgo/soifgo.saeidmoghadam",
+    "softwareVersion": "1.42",
+    "inLanguage": "ckb",
+    "isAccessibleForFree": true,
+    "author": {
+      "@type": "Person",
+      "name": "saeid moghadam",
+      "email": "ssmqqmss@gmail.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "SoifGo",
+      "url": "https://soifgo.github.io/"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
+    },
+    "featureList": [
+      "WebView ی تەواو لەگەڵ پشتگیری HTML/CSS/JS",
+      "کۆنترۆڵەری Bluetooth ی زنجیرەیی (HC-05, HC-06, JDY-31)",
+      "کڕیاری MQTT لەگەڵ publish و subscribe",
+      "ناردن و وەرگرتنی HTTP API",
+      "هەستەوەرەکانی مۆبایل: ڕووناکی، جوڵە، مەگنەتۆمەتر",
+      "مایکرۆفۆن و ناسینەوەی دەنگ",
+      "40 دوگمە و 10 سلایدەر لە هەر پەڕەیەک",
+      "ئەرشیفی فۆڵدەر و پەڕە",
+      "بێبەرامبەر، ئۆفلاین و بێ ڕیکلام"
+    ],
+    "screenshot": [
+      "https://soifgo.github.io/icon/pic9.jpg",
+      "https://soifgo.github.io/icon/pic7.jpg",
+      "https://soifgo.github.io/icon/pic12.jpg"
+    ],
+    "softwareRequirements": "Android 7.0 (Nougat) یان سەرووتر"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "inLanguage": "ckb",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "ئایا SoifGo تەنها بۆ Arduino و ئەلیکترۆنیکە؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "نەخێر. پەیوەندی بە ئامێرەوە تەنها یەکێکە لە تایبەتمەندییەکان. چونکە ئامرازەکان بە HTML دروستکراون، هەر شتێک کە لە پەڕەی وێبدا دەکرێت — ژمێرکاری، گراف، سیمولەیشن و ئامرازی فێرکاری — لە SoifGo یشدا دەکرێت."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ئایا SoifGo بێبەرامبەرە؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "بەڵێ. بە تەواوی بێبەرامبەر، بێ ڕیکلام و بێ کڕینی ناوەکی."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ئایا بێ ئینتەرنێت کار دەکات؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ئامرازەکانی HTML، Bluetooth و هەستەوەرەکانی مۆبایل بێ ئینتەرنێت کار دەکەن. تەنها MQTT و HTTP پێویستیان بە پەیوەندی تۆڕ هەیە."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "SoifGo لەگەڵ کام ئامێرەکان دەگونجێت؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "هەر ئامێرێک کە Bluetooth SPP (وەک HC-05 و HC-06)، MQTT یان HTTP REST بەکاربهێنێت، لەوانە Arduino، ESP32، ESP8266 و Raspberry Pi."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "بۆ دەستپێکردن پێویستم بە چییە؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "زانیاری بنەڕەتی HTML بەسە. تەنانەت بەبێ ئەویش، دەتوانیت پێداویستییەکەت بۆ یاریدەدەری AI باس بکەیت و کۆدی HTML وەربگریت."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "SoifGo",
+        "item": "https://soifgo.github.io/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "پێشەکی کوردی",
+        "item": "https://soifgo.github.io/intro/ckb/"
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg:#0f172a; --card:#1e293b; --text:#e2e8f0; --muted:#94a3b8;
+      --primary:#38bdf8; --primary-strong:#0ea5e9; --border:#334155;
+      --success:#4ade80;
+    }
+    :root[data-theme="light"] {
+        --bg:#f8fafc; --card:#ffffff; --text:#0f172a; --muted:#475569;
+        --primary:#0369a1; --primary-strong:#0284c7; --border:#e2e8f0;
+        --success:#16a34a;
+      }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body {
+      background:var(--bg); color:var(--text); line-height:1.95;
+      font-family:"Noto Naskh Arabic","Segoe UI",Tahoma,sans-serif;
+      font-size:17px;
+    }
+    .wrap { max-width:860px; margin:0 auto; padding:24px 18px 48px; }
+    header { text-align:center; padding:24px 0 8px; }
+    header img.logo { width:84px; height:84px; border-radius:18px; }
+    h1 { font-size:1.65rem; line-height:1.7; margin:14px 0 10px; }
+    .lead { color:var(--muted); font-size:1.05rem; }
+    p { margin-bottom:10px; }
+    .top-cta { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin:20px 0 4px; }
+    .top-cta .btn { padding:10px 22px; font-size:.95rem; }
+    .top-cta .btn.ghost { background:transparent; color:var(--primary); border:2px solid var(--primary); }
+    .top-cta .btn.ghost:hover { background:var(--primary); color:#fff; }
+    h2 { font-size:1.25rem; margin:36px 0 12px; color:var(--primary); line-height:1.7; }
+    h2 .kw { color:var(--text); }
+    .shots { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:22px 0 4px; direction:ltr; }
+    .shots figure { margin:0; }
+    .shots img { width:100%; border-radius:12px; border:1px solid var(--border); display:block; }
+    .shots figcaption { font-size:.82rem; color:var(--muted); text-align:center; margin-top:6px; line-height:1.6; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px 16px; }
+    .card h3 { font-size:1rem; margin-bottom:4px; }
+    .card p { color:var(--muted); font-size:.93rem; margin:0; }
+    ul.use { padding-inline-start:22px; }
+    ul.use li { margin-bottom:6px; }
+    details { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:12px 16px; margin-bottom:10px; }
+    summary { cursor:pointer; font-weight:bold; }
+    details p { margin:8px 0 0; color:var(--muted); }
+    code { direction:ltr; unicode-bidi:isolate; background:var(--card); border:1px solid var(--border); border-radius:6px; padding:1px 6px; font-size:.9em; font-family:monospace; }
+    .cta { text-align:center; margin-top:40px; padding:28px 20px; background:var(--card); border:1px solid var(--border); border-radius:16px; }
+    .cta h2 { margin-top:0; }
+    .btn { display:inline-block; background:var(--primary); color:#fff; text-decoration:none; font-weight:bold; padding:14px 34px; border-radius:12px; font-size:1.1rem; transition:background .2s, transform .15s; font-family:"Segoe UI",Tahoma,sans-serif; }
+    .btn:hover { background:var(--primary-strong); transform:translateY(-2px); }
+    .btn.secondary { background:transparent; color:var(--primary); border:2px solid var(--primary); padding:12px 30px; font-size:1rem; }
+    .btn.secondary:hover { background:var(--primary); color:#fff; }
+    .cta small { display:block; margin-top:10px; color:var(--muted); }
+    .mid-cta { text-align:center; margin:26px 0 6px; padding:18px; background:linear-gradient(135deg, rgba(56,189,248,.08), rgba(56,189,248,.02)); border:1px solid var(--border); border-radius:12px; }
+    .mid-cta p { color:var(--muted); margin:0 0 12px; }
+    .trust { display:flex; justify-content:center; gap:18px; flex-wrap:wrap; margin-top:14px; font-size:.88rem; color:var(--muted); }
+    .trust span::before { content:"✓ "; color:var(--success); font-weight:800; }
+    footer { text-align:center; margin-top:32px; color:var(--muted); font-size:.9rem; padding-top:20px; border-top:1px solid var(--border); }
+    footer a { color:var(--primary); text-decoration:none; }
+    footer a:hover { text-decoration:underline; }
+    @media (max-width:560px) {
+      h1 { font-size:1.3rem; }
+      .shots { grid-template-columns:1fr 1fr; }
+      .shots figure:nth-child(3) { grid-column:1 / -1; }
+      .shots figure:nth-child(3) img { max-width:60%; margin:0 auto; }
+      .top-cta .btn { width:100%; max-width:320px; }
+    }
+    @media (max-width:380px) {
+      .shots { grid-template-columns:1fr; }
+      .shots figure:nth-child(3) img { max-width:100%; }
+    }
+  
+    /* === Theme toggle (day / night) === */
+    .theme-toggle {
+      position:fixed; top:12px; inset-inline-end:12px; z-index:50;
+      width:42px; height:42px; border-radius:50%; cursor:pointer;
+      background:var(--card); color:var(--text); border:1px solid var(--border);
+      font-size:1.15rem; display:flex; align-items:center; justify-content:center;
+      transition:transform .15s, background .2s;
+    }
+    .theme-toggle:hover { transform:scale(1.1); background:var(--primary); color:#fff; border-color:var(--primary); }
+  </style>
+</head>
+<body>
+<button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme" title="Switch theme"><span id="themeIcon">☀️</span></button>
+
+<div class="wrap">
+
+  <header>
+    <img class="logo" src="../../soifgo-logo.png" alt="لۆگۆی SoifGo — پلاتفۆرمی دروستکردنی ئەپی ئەندرۆید بە HTML" />
+    <h1>SoifGo — هەر ئامرازێک کە لە مێشکتدايە بە HTML دروستی بکە و لەسەر ئەندرۆید جێبەجێی بکە</h1>
+    <p class="lead">
+      SoifGo ئەپێکی ئەندرۆیدی بێبەرامبەرە بۆ دروستکردن و ئەرشیفکردنی ئامرازە تایبەتەکانت:
+      ژمێرەر، سیمولەیتەر، ئامرازی فێرکاری، داشبۆرد، و تەنانەت کۆنترۆڵەری ئامێر،
+      بەبێ نووسینی کۆدی ناتیڤی ئەندرۆید.
+    </p>
+
+    <div class="top-cta">
+      <a class="btn" href="https://soifgo.github.io/?lang=kurdish_sorani" data-lang="kurdish_sorani">
+        SoifGo دابەزێنە
+      </a>
+      <a class="btn ghost" href="#features">تایبەتمەندییەکان ببینە</a>
+    </div>
+
+    <div class="trust">
+      <span>بێبەرامبەر</span>
+      <span>ئۆفلاین</span>
+      <span>بێ ڕیکلام</span>
+      <span>22 زمان</span>
+    </div>
+  </header>
+
+  <div class="shots">
+    <figure>
+      <img src="../../icon/pic9.jpg" alt="پانێلی پیشەسازی SoifGo — کۆنترۆڵی تانک، پۆمپ و ڤاڵڤ" loading="eager" />
+      <figcaption>پانێلی پیشەسازی — تانک، پۆمپ، ڤاڵڤ</figcaption>
+    </figure>
+    <figure>
+      <img src="../../icon/pic7.jpg" alt="ماڵی زیرەکی SoifGo — کۆنترۆڵی ڕووناکی، پانکە، ئێرکەندیشنەر" loading="lazy" />
+      <figcaption>ماڵی زیرەک — ڕووناکی، پانکە، ئێر</figcaption>
+    </figure>
+    <figure>
+      <img src="../../icon/pic12.jpg" alt="ئاستی دیجیتاڵی SoifGo — بەکارهێنانی هەستەوەرەکانی مۆبایل" loading="lazy" />
+      <figcaption>ئاستی دیجیتاڵی — هەستەوەرەکانی مۆبایل</figcaption>
+    </figure>
+  </div>
+
+  <h2><span class="kw">دروستکردنی ئەپی ئەندرۆید بە HTML</span> — بەبێ کۆدی ناتیڤ</h2>
+  <p>
+    هەر شتێک کە لە پەڕەی وێبدا دەکرێت، لە SoifGo یشدا دەکرێت.
+    SoifGo ئامرازەکانت وەک HTML جێبەجێ دەکات و لە فۆڵدەرەکاندا ئەرشیفیان دەکات.
+    لە ژمێرەر و سیمولەیتەرەوە بۆ ئامرازی فێرکاری و داشبۆرد،
+    و ئەگەر پێویست بوو، کۆنترۆڵی ئامێر بە Bluetooth و MQTT.
+  </p>
+  <p>
+    ئەگەر دەتوانیت پەڕەی وێب بنووسیت، یان پێداویستییەکەت بۆ یاریدەدەرێکی AI باس بکەیت،
+    دەتوانیت ئامرازی خۆت دروست بکەیت.
+  </p>
+
+  <h2>SoifGo بۆ کێیە؟</h2>
+  <div class="grid">
+    <div class="card"><h3>📐 بیرکاریزان و قوتابیان</h3><p>ژمێرەری تایبەت، گراف و فەنکشن، سیمولەیشن و ئامرازی چارەسەرکردنی کێشە، بە تەواوی بەپێی پێداویستییەکەت.</p></div>
+    <div class="card"><h3>🎓 مامۆستایان و ڕاهێنەران</h3><p>ئامرازی کارلێکەر بۆ پۆل، ڕاهێنان و تاقیکردنەوە. فایلەکە بۆ قوتابیان بنێرە بۆ ئەوەی خۆیان جێبەجێی بکەن.</p></div>
+    <div class="card"><h3>🏗️ ئەندازیارانی هەموو بوارەکان</h3><p>ژمێرەری ئەندازیاری، گۆڕینی یەکە و خشتەکانی ژمێرکاری کەسی، لە کار و ئۆفلاین بەردەستن.</p></div>
+    <div class="card"><h3>🔌 دروستکەران و ئەلیکترۆنیک</h3><p>کۆنترۆڵەر و داشبۆردی Bluetooth و MQTT بۆ Arduino، ESP32، ESP8266 و Raspberry Pi.</p></div>
+    <div class="card"><h3>💡 هەر کەسێک بیرۆکەیەکی هەیە</h3><p>بیرۆکەکە بۆ یاریدەدەری AI باس بکە، کۆدی HTML وەربگرە و لە SoifGo جێبەجێی بکە.</p></div>
+  </div>
+
+  <div class="mid-cta">
+    <p>ئامادەیت یەکەم ئامرازت دروست بکەیت؟</p>
+    <a class="btn" href="https://soifgo.github.io/?lang=kurdish_sorani" data-lang="kurdish_sorani">
+      SoifGo دابەزێنە →
+    </a>
+  </div>
+
+  <h2><span class="kw">کۆنترۆڵی Arduino و ESP32</span> بە Bluetooth و MQTT لە مۆبایلی ئەندرۆید</h2>
+  <p>
+    هەر ئامێرێک کە Bluetooth SPP بەکاربهێنێت (وەک <code>HC-05</code> و <code>HC-06</code>)،
+    MQTT یان HTTP REST لەگەڵ SoifGo کار دەکات:
+    Arduino، ESP32، ESP8266 و Raspberry Pi.
+  </p>
+  <p>
+    فەرمانی LED، مۆتۆر و ڕیلە بە Bluetooth بنێرە، پردی Bluetooth بۆ MQTT دروست بکە،
+    یان داشبۆردی زیندوو بۆ هەستەوەرەکان دروست بکە — هەمووی بە HTML، بەبێ کۆدی ناتیڤ.
+  </p>
+
+  <h2>ئەرشیفی فۆڵدەر و پەڕە</h2>
+  <p>
+    SoifGo فۆڵدەر و پەڕەت پێدەدات بۆ ئەوەی کارەکەت بە ڕێکوپێکی ئەرشیف بکەیت.
+    لە هەر پەڕەیەکدا <strong>40 دوگمە</strong> و <strong>10 سلایدەر</strong>ت هەیە، و هەر دوگمەیەک
+    دەتوانرێت بۆ ڕەفتارە دیاریکراوەکان ڕێکبخرێت، لەوانە گەڕان لە نێوان فۆڵدەر و پەڕەکان.
+    بەم شێوەیە دەتوانیت زۆر مێنیو دروست بکەیت.
+  </p>
+  <p>
+    دوگمەکان دیزاینی ئامادەیان هەیە: ڕەنگ، ئایکۆن، ناو، فۆنت، دەنگ و لەرینەوە.
+    بە ڕاکێشان و بەردانیش دەگوازرێنەوە. هەر دوگمەیەک دەتوانێت ڕەفتاری بنەڕەتی وەک ناردن و وەرگرتن هەبێت.
+  </p>
+
+  <h2>ڕەفتاری وێب، هەم ئۆنلاین و هەم ئۆفلاین</h2>
+  <p>
+    «ڕەفتاری وێب» (WebView) یارمەتیت دەدات بیرۆکەکانت بە زۆرترین توانا و بە HTML بێیتە دی،
+    چ ئۆنلاین بێت چ ئۆفلاین. تەنها پێداویستییەکەت بۆ یاریدەدەری AI باس بکە و کۆدی HTML داوابکە. پاشان دوو ڕێگەت هەیە:
+  </p>
+  <ul class="use">
+    <li>فایلەکە دابەزێنە و بە ڕەفتاری وێبی ئۆفلاین لە SoifGo بارگەی بکە (دووبارە بارگە).</li>
+    <li>یان کۆدەکە کۆپی بکە و لە دەستکاریکەری HTML ی ناو SoifGo دایبنێ.</li>
+  </ul>
+  <p>
+    هەردوو ڕێگەکە کار دەکەن و وێب ئەپەکەت لە فۆڵدەری SoifGo ئەرشیف دەکرێت.
+    چ ژمێرەر بێت، چ کۆنترۆڵەری Bluetooth، چ چاودێری IoT یان هەر شتێکی تر.
+  </p>
+
+  <h2>40 وێب ئەپی جیاواز لە هەر پەڕەیەک</h2>
+  <p>
+    دەتوانیت 40 وێب ئەپی جیاواز لە هەر پەڕەیەکدا هەبێت. پێویست ناکات هەر جارە
+    لە یاریدەدەری AI داوایان بکەیت، و دەتوانیت ئۆفلاینیشیان بەکاربهێنیت.
+    تەنانەت دەتوانیت بۆ هاوکار و هاوڕێکانیشیان بنێریت بۆ ئەوەی دایبەزێنن و جێبەجێیان بکەن.
+  </p>
+
+  <h2 id="features">تایبەتمەندییەکانی SoifGo</h2>
+  <div class="grid">
+    <div class="card"><h3>🌐 WebView ی تەواو</h3><p>بزوێنەری وێبگەڕی مۆدێرن: Canvas، SVG، WebGL و کتێبخانەکانی وەک Chart.js، D3 و Three.js بۆ گراف، سیمولەیشن و پیشاندانی 3D.</p></div>
+    <div class="card"><h3>🧩 دۆخی کلاسیک</h3><p>دوگمە و سلایدەری ئامادە، بەبێ کۆد، بۆ کۆنترۆڵ و مێنیوی سادە.</p></div>
+    <div class="card"><h3>💾 هەڵگرتنی ناوخۆیی</h3><p>داتا بە <code>localStorage</code> هەڵبگرە، تەنانەت دوای داخستنی ئەپ.</p></div>
+    <div class="card"><h3>🟢 هەستەوەرەکانی مۆبایل</h3><p>ڕووناکی دەوروبەر، جوڵە (پێوەری خێرایی) و مەگنەتۆمەتر بە شێوەی زیندوو.</p></div>
+    <div class="card"><h3>🎤 مایکرۆفۆن و ناسینەوەی دەنگ</h3><p>دەنگ بگۆڕە بۆ دەق و لە ئامرازەکانتدا بەکاری بهێنە یان بۆ ئامێرەکان بنێرە.</p></div>
+    <div class="card"><h3>🔵 Bluetooth ی زنجیرەیی</h3><p>دەق بنێرە و وەریبگرە لەگەڵ HC-05، HC-06، JDY-31، Arduino، ESP32 و Raspberry Pi.</p></div>
+    <div class="card"><h3>🟣 کڕیاری MQTT</h3><p>بە هەر برۆکەرێکەوە ببەستەرەوە (tcp یان ssl)، publish و subscribe و دۆخی پەیوەندی بپشکنە.</p></div>
+    <div class="card"><h3>🟠 HTTP API</h3><p>JSON بۆ هەر ناونیشانێک بنێرە و نرخێک لە وەڵامەکە وەربگرە و دەریبهێنە.</p></div>
+  </div>
+
+  <h2>چی دەتوانرێت دروست بکرێت؟</h2>
+  <ul class="use">
+    <li>ژمێرەر و ئامرازی ژمێرکاری تایبەت</li>
+    <li>گراف، سیمولەیشن و پیشاندانی داتا</li>
+    <li>ئامرازی فێرکاری کارلێکەر، ڕاهێنان و تاقیکردنەوە</li>
+    <li>پیشاندانی 3D و ئامرازی زانستی</li>
+    <li>داشبۆرد و پانێلی تایبەت بۆ کارەکەت</li>
+    <li>کۆنترۆڵی LED، مۆتۆر، ڕیلە و ڕۆبۆت بە Bluetooth، و پردی Bluetooth بۆ MQTT</li>
+    <li>کۆنترۆڵی دەنگی ئامێرەکان بە دەنگ</li>
+  </ul>
+
+  <h2>پرسیارە باوەکان</h2>
+  <details>
+    <summary>ئایا SoifGo تەنها بۆ Arduino و ئەلیکترۆنیکە؟</summary>
+    <p>نەخێر. پەیوەندی بە ئامێرەوە تەنها یەکێکە لە تایبەتمەندییەکان. چونکە ئامرازەکان بە HTML دروستکراون، هەر شتێک کە لە پەڕەی وێبدا دەکرێت — ژمێرکاری، گراف، سیمولەیشن و ئامرازی فێرکاری — لە SoifGo یشدا دەکرێت.</p>
+  </details>
+  <details>
+    <summary>ئایا SoifGo بێبەرامبەرە؟</summary>
+    <p>بەڵێ. بە تەواوی بێبەرامبەر، بێ ڕیکلام و بێ کڕینی ناوەکی.</p>
+  </details>
+  <details>
+    <summary>ئایا بێ ئینتەرنێت کار دەکات؟</summary>
+    <p>ئامرازەکانی HTML، Bluetooth و هەستەوەرەکانی مۆبایل بێ ئینتەرنێت کار دەکەن. تەنها MQTT و HTTP پێویستیان بە پەیوەندی تۆڕ هەیە.</p>
+  </details>
+  <details>
+    <summary>SoifGo لەگەڵ کام ئامێرەکان دەگونجێت؟</summary>
+    <p>هەر ئامێرێک کە Bluetooth SPP (وەک HC-05 و HC-06)، MQTT یان HTTP REST بەکاربهێنێت، لەوانە Arduino، ESP32، ESP8266 و Raspberry Pi.</p>
+  </details>
+  <details>
+    <summary>بۆ دەستپێکردن پێویستم بە چییە؟</summary>
+    <p>زانیاری بنەڕەتی HTML بەسە. تەنانەت بەبێ ئەویش، دەتوانیت پێداویستییەکەت بۆ یاریدەدەری AI باس بکەیت و کۆدی HTML وەربگریت. فێرکاری و نموونەی ئامادە لە پەڕەی سەرەکیدا بەردەستن.</p>
+  </details>
+
+  <div class="cta">
+    <h2>ئامادەیت دەستپێبکەیت؟</h2>
+    <p style="color:var(--muted); margin-bottom:18px;">
+      پەڕەی سەرەکی لەگەڵ دابەزاندن، فێرکاری و بەڵگەنامەکان دەکرێتەوە، و وەرگێڕانی کوردی خۆکارانە چالاک دەکرێت.
+    </p>
+    <a class="btn" href="https://soifgo.github.io/?lang=kurdish_sorani" data-lang="kurdish_sorani">
+      بچۆ ژوورەوە بۆ SoifGo →
+    </a>
+    <div style="margin-top:14px;">
+      <a class="btn secondary" href="https://soifgo.github.io/docs.html">
+        بەڵگەنامەی تەکنیکی (ئینگلیزی)
+      </a>
+    </div>
+    <small>بێبەرامبەر، ئۆفلاین، بێ ڕیکلام — بۆ Android 7 و سەرووتر</small>
+  </div>
+
+  <footer>
+    <p>
+      <a href="../../?lang=english" hreflang="en" lang="en" data-lang="english">English version</a>
+      &nbsp;|&nbsp;
+      <a href="mailto:ssmqqmss@gmail.com">پشتگیری</a>
+      &nbsp;|&nbsp;
+      <a href="../../policy_soifgo.html">تایبەتێتی</a>
+    </p>
+    <p style="margin-top:8px;">&copy; 2026 SoifGo — دروستکراوە لەلایەن saeid moghadam</p>
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    function remember(lang) {
+      try {
+        if (lang === 'english') { localStorage.removeItem('soifgo-lang'); }
+        else { localStorage.setItem('soifgo-lang', lang); }
+        localStorage.setItem('soifgo-lang-auto', '1');
+      } catch (e) {}
+    }
+    document.querySelectorAll('a[data-lang]').forEach(function (a) {
+      ['click', 'auxclick'].forEach(function (ev) {
+        a.addEventListener(ev, function () { remember(a.getAttribute('data-lang')); });
+      });
+    });
+  })();
+</script>
+<script>
+  // Day / night toggle (shares the 'soifgo-theme' choice with the main page)
+  (function () {
+    var b = document.getElementById('themeToggle'), ic = document.getElementById('themeIcon');
+    function paint(t) { ic.textContent = t === 'light' ? '🌙' : '☀️'; b.title = t === 'light' ? 'Dark mode' : 'Light mode'; }
+    paint(document.documentElement.getAttribute('data-theme') || 'dark');
+    b.addEventListener('click', function () {
+      var n = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', n);
+      try { localStorage.setItem('soifgo-theme', n); } catch (e) {}
+      paint(n);
+    });
+  })();
+</script>
+</body>
+</html>
