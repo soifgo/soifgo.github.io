@@ -3,7 +3,7 @@
 **Purpose:** Comprehensive AI-readable reference for the SoifGo Android application and its official website resources. When a user asks about SoifGo, this file serves as the primary source of truth for all documentation, tutorials, native bridges, and ecosystem components.
 
 **SoifGo Version:** 1.42 (VersionCode 142)
-**Document revision:** 3 — added Section 14.10 (AC Clamp Meter).
+**Document revision:** 4 — added Section 14.11 (Download an external library once, reuse it from storage via IndexedDB, based on the 3D File Viewer) and updated rule 0.4-10, the Pre-Send Checklist, Section 9 (Storage) and Section 15.
 **Platform:** Android (built with B4A / Basic4Android)
 **Official Website:** https://soifgo.github.io/
 **GitHub:** https://github.com/soifgo/soifgo.github.io
@@ -340,7 +340,7 @@ When a user says "how do I start" or "how do I add a button", answer in the user
 7. Activate sensors and request microphone permission inside `window.onload`. The three sensor activation Subs (`sensor_light`, `sensor_move`, `sensor_magno`) are **fully independent** — activate **only** the ones the page actually uses; none depends on another.
 8. Wrap `localStorage` access in `try/catch`.
 9. For polling APIs respect the rate limits in Section 8 and provide a **Stop** button.
-10. No external libraries unless the user asks; plain HTML/CSS/JS works offline.
+10. No external libraries unless the user asks or the feature clearly needs one; plain HTML/CSS/JS works offline. **If a library is used, download it only ONCE and reuse the stored copy on every later run** — never make the page fetch it again each time it is opened. Use the IndexedDB loader pattern in **Section 14.11** (taken from the working 3D File Viewer). A bare `<script src="https://cdn...">` is only acceptable for a quick one-off test.
 11. Start from the closest example in Section 14; do not write bridge code from memory.
 12. Every sensor receiver gets **one value as a string**. Never assume `(x, y, z)` tuples, `data.x`, or a vector. The magnetometer is one value (Section 9). Never invent a Sub called `Connect_Phone_Sensor`; that is the name of a **Classic** button behavior, not a bridge Sub.
 
@@ -397,7 +397,7 @@ window.onload = function () {
 
 ### 0.6 Pre-Send Checklist
 
-Every `CallSub` name exists in Section 6 · second argument is `true` · max 3 arguments · every receiver is registered on `window` · bridge is guarded · hardware sketch and HTML use the same protocol and baud rate · menu names match Section 13 exactly · each sensor the page uses is activated with its own Sub (they are independent; no need to activate the others) · the page was based on a Section 14 example · answer is in the user's language.
+Every `CallSub` name exists in Section 6 · second argument is `true` · max 3 arguments · every receiver is registered on `window` · bridge is guarded · hardware sketch and HTML use the same protocol and baud rate · menu names match Section 13 exactly · each sensor the page uses is activated with its own Sub (they are independent; no need to activate the others) · any external library is downloaded once and reused from storage (14.11), not fetched on every run · the page was based on a Section 14 example · answer is in the user's language.
 
 ### 0.7 Common Opening Cases
 
@@ -976,6 +976,7 @@ Always include a **Stop** button so the user can halt polling.
 
 - `localStorage` persists across page reloads and WebView restarts.
 - Wrap `localStorage` calls in `try/catch` to handle quota errors.
+- **Every HTML page is kept in SoifGo's storage.** When a page is created, picked, edited or run, a copy of it is saved in the project's HTML files folder (Section 13.6). Because storage persists, **anything that must be downloaded can be downloaded once** (for example an external JavaScript library) and then reused on later runs instead of being fetched again each time. For library files use **IndexedDB** (works inside SoifGo; proven by the 3D File Viewer). See Section 14.11.
 
 ### File Extensions
 
@@ -1364,6 +1365,7 @@ All examples are self-contained single HTML files for the SoifGo WebView. Paste 
 | Save settings / lists | 14.8 |
 | Arduino LED + sensor dashboard (HTML + sketch) | 14.9 |
 | Measure AC current with the phone magnetometer | 14.10 |
+| Use an external library (chart, math, etc.) without re-downloading it every run | 14.11 |
 
 ### 14.1 Bluetooth — Send
 
@@ -1971,6 +1973,147 @@ window.onload = function () {
 
 ---
 
+### 14.11 Download an External Library Once, Reuse It From Storage (IndexedDB)
+
+**Source:** this pattern comes from the real, working `3d_file_viewer.html` (three.js + loaders), which runs offline after the first launch inside SoifGo. Copy its structure.
+
+**The problem it solves:** a plain `<script src="https://cdn...">` makes the page download the library **on every run**. With no internet the library never loads and the page breaks. Example: the `oscop.html` oscilloscope loaded Tailwind this way (`<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4">`), so it needed internet every time.
+
+**What the 3D viewer does instead (this is the whole trick):**
+
+1. **The library is NOT in a `<script src>`.** The HTML contains no CDN tag. The page's own code is in an inline `<script>`, and the loader is in a separate inline `<script>` at the end of `<body>`.
+2. **Store the library text in IndexedDB** (database + object store, one record per file, key = `name@version/path`). IndexedDB persists across WebView restarts and is better suited than `localStorage` for large files.
+3. **On every launch, read from IndexedDB first.** Only files that are missing are downloaded with `fetch()`, then saved with `put()`.
+4. **Several hosts as fallback** (jsDelivr, then unpkg). If one fails, try the next.
+5. **Validate the download** before saving: reject empty/short text or text that starts with `<` (an HTML error page), so a bad answer is never stored.
+6. **Run the stored text in order:** for each file, create a `<script>` element, set `s.text = code`, append it to `<head>`. Order matters (the core library first, then its add-ons).
+7. **Check the library really exists** (for example `window.THREE`), then start the page's own code (`startViewer()`).
+8. **Friendly messages and a retry:** on the first launch show "downloading (one time only)"; if offline on the first launch show a **Try again** button; afterwards show nothing.
+9. **Ask the browser to keep the data:** `navigator.storage.persist()` inside `try/catch`.
+10. **Pin an exact version** (for example `three@0.147.0`), and put it in the key, so a version change downloads fresh files instead of using an old copy.
+
+**Rules for AI assistants:**
+
+- Whenever a page needs an external library, use this pattern. Do not write a bare `<script src="https://cdn...">`, and tell the user in one line that **only the first run needs internet**.
+- Use libraries that work as **plain script files** (UMD / `.min.js` builds). Do not use `import` / ES-module-only builds.
+- The page's own code must wait: nothing may use the library until the loader has finished (start it from the `onReady` callback).
+- **Tailwind CSS CDN** (`@tailwindcss/browser`) is a runtime compiler and a poor fit for this pattern. Prefer plain CSS in SoifGo pages.
+- This pattern covers libraries made of script files only. Libraries that load extra resources on their own (CSS files, fonts, images, workers) are not covered.
+- Keep the `window.soifgo` guards and receivers exactly as in the other examples; the loader only handles the library.
+
+Generic template (Chart.js as the example; replace `V`, `FILES`, the check and `startPage`):
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Library Once</title>
+<style>
+  body { font-family: sans-serif; background: #111; color: #eee; padding: 16px; text-align: center; }
+  #msg { opacity: .7; font-size: 14px; margin: 8px 0; }
+  #msg.err { color: #e74c3c; opacity: 1; }
+  canvas { max-width: 100%; background: #222; border-radius: 10px; }
+  button { padding: 12px 20px; font-size: 16px; border-radius: 10px; border: 0; }
+</style>
+</head>
+<body>
+  <h3>Chart (library downloaded once)</h3>
+  <canvas id="c" height="200"></canvas>
+  <div id="msg"></div>
+  <div id="retryBox"></div>
+
+<script>
+/* ---- Your page code. Runs only after the library is ready. ---- */
+function startPage() {
+  new Chart(document.getElementById('c'), {
+    type: 'line',
+    data: { labels: ['1','2','3','4','5'],
+            datasets: [{ label: 'Demo', data: [3,7,4,8,6], borderColor: '#2196f3' }] }
+  });
+}
+</script>
+
+<script>
+/* ---- Offline-first loader: download once, store in IndexedDB, reuse. ---- */
+(function () {
+  var V = '4.4.1';                                   // pinned version
+  var HOSTS = ['https://cdn.jsdelivr.net/npm/', 'https://unpkg.com/'];
+  var FILES = ['chart.js@' + V + '/dist/chart.umd.min.js'];   // in execution order
+  var DBN = 'lib-store', STORE = 'src';
+  var msg = document.getElementById('msg');
+  function say(t, err) { msg.textContent = t || ''; msg.className = err ? 'err' : ''; }
+
+  function openDB() { return new Promise(function (res) {
+    try { var r = indexedDB.open(DBN, 1);
+      r.onupgradeneeded = function () { r.result.createObjectStore(STORE); };
+      r.onsuccess = function () { res(r.result); };
+      r.onerror = r.onblocked = function () { res(null); };
+    } catch (e) { res(null); } }); }
+  function get(db, k) { return new Promise(function (res) {
+    if (!db) return res(null);
+    try { var q = db.transaction(STORE, 'readonly').objectStore(STORE).get(k);
+      q.onsuccess = function () { res(typeof q.result === 'string' ? q.result : null); };
+      q.onerror = function () { res(null); };
+    } catch (e) { res(null); } }); }
+  function put(db, k, v) { return new Promise(function (res) {
+    if (!db) return res();
+    try { var tx = db.transaction(STORE, 'readwrite'); tx.objectStore(STORE).put(v, k);
+      tx.oncomplete = tx.onerror = tx.onabort = function () { res(); };
+    } catch (e) { res(); } }); }
+  function net(f) { var i = 0;
+    function next() {
+      if (i >= HOSTS.length) return Promise.reject(new Error('offline'));
+      return fetch(HOSTS[i++] + f)
+        .then(function (r) { if (!r.ok) throw 0; return r.text(); })
+        .then(function (t) { if (t.length < 500 || /^\s*</.test(t)) throw 0; return t; })  // reject error pages
+        .catch(next); }
+    return next(); }
+
+  function run() {
+    var fromNet = false;
+    document.getElementById('retryBox').innerHTML = '';
+    say('Preparing...');
+    openDB().then(function (db) {
+      return Promise.all(FILES.map(function (f) {
+        return get(db, f).then(function (t) {
+          if (t) return t;                                   // already stored
+          if (!fromNet) { fromNet = true; say('First launch: downloading (one time only)...'); }
+          return net(f).then(function (t) { return put(db, f, t).then(function () { return t; }); });
+        });
+      }));
+    }).then(function (texts) {
+      texts.forEach(function (t, i) {                        // run in order
+        var s = document.createElement('script');
+        s.text = t + '\n//# sourceURL=lib/' + FILES[i];
+        document.head.appendChild(s);
+      });
+      if (!window.Chart) throw new Error('incomplete');      // library really loaded?
+      say(fromNet ? 'Saved on this device. From now on it works without internet.' : '');
+      if (fromNet) setTimeout(function () { if (msg.className !== 'err') say(''); }, 6000);
+      try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) {}
+      startPage();
+    }).catch(function () {
+      say('The library has not been downloaded yet. Connect to the internet once, then try again.', true);
+      var b = document.createElement('button'); b.textContent = 'Try again';
+      b.addEventListener('click', run);
+      document.getElementById('retryBox').appendChild(b);
+    });
+  }
+  run();
+})();
+</script>
+</body>
+</html>
+```
+
+**To force a fresh download:** change the pinned version `V` (it is part of the key), so the new files are downloaded and the old copy is ignored.
+
+**Alternative (no internet at all, even the first time):** paste the library's full minified source into a `<script>` block inside the HTML file. The page is already kept in SoifGo's storage (Section 13.6), so the library travels with it. Use for small libraries only; the file becomes large and hard to edit.
+
+---
+
 ## 15. Troubleshooting Table
 
 | Symptom | Likely cause | Fix |
@@ -1990,6 +2133,7 @@ window.onload = function () {
 | Bluetooth list is empty | Module not paired | Pair in Android Settings first |
 | Headphones/speaker not usable | SoifGo supports data devices only | Use HC-05, HC-06, JDY-31, ESP32, etc. |
 | Microphone features fail | Permission denied | Call `request_mic_perm`, or enable the Microphone permission in Android Settings → Apps → SoifGo |
+| Page is slow to open / needs internet every time just to start | The library is loaded with a plain `<script src="https://cdn...">` tag (example: oscilloscope with Tailwind), so it is fetched on every run | Replace the `<script src>` CDN tag with the IndexedDB download-once loader (14.11) |
 | Arduino ignores commands | Baud/protocol mismatch | Use the same baud rate and the exact `ON` / `OFF` + newline protocol (14.9) |
 
 ---
