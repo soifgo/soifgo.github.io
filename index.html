@@ -659,32 +659,6 @@
       margin-top: 1.5em;
     }
 
-    #simple-intro {
-      background: linear-gradient(135deg, var(--story-bg-from), var(--story-bg-to));
-      border: 2px solid var(--primary);
-    }
-
-    #simple-intro h2 {
-      color: var(--text-main);
-    }
-
-    #simple-intro p {
-      font-size: 1.05rem;
-      line-height: 1.8;
-      margin-bottom: 14px;
-    }
-
-    #simple-intro p:last-child {
-      margin-bottom: 0;
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--text-main);
-      text-align: center;
-      padding: 16px;
-      background: var(--hover-bg-card);
-      border-radius: var(--radius-sm);
-    }
-
     #download ul { list-style: none; padding: 0; }
     #download ul li { margin: 12px 0; }
     #download a {
@@ -816,141 +790,6 @@
       color: var(--purple-light);
       font-weight: 700;
       font-size: 1rem;
-    }
-
-    .examples-mini-title {
-      color: var(--text-main);
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin: 28px 0 12px 0;
-      padding-top: 20px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .examples-mini-title .badge-new {
-      font-size: 0.7rem;
-      background: var(--purple);
-      color: white;
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-
-    .examples-mini-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      gap: 12px;
-      margin-top: 12px;
-    }
-
-    .mini-card {
-      display: flex;
-      flex-direction: column;
-      padding: 14px 12px;
-      background: var(--hover-bg);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-      transition: var(--transition);
-    }
-
-    .mini-card:hover {
-      background: var(--hover-bg-card);
-      border-color: var(--purple);
-      transform: translateY(-3px);
-    }
-
-    .mini-main-link {
-      display: block;
-      text-decoration: none;
-      color: var(--text);
-      flex: 1;
-    }
-
-    .mini-main-link:hover {
-      text-decoration: none;
-      color: var(--text);
-    }
-
-    .mini-card .mini-icon {
-      font-size: 1.8rem;
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    .mini-card .mini-title {
-      color: var(--text-main);
-      display: block;
-      font-size: 0.95rem;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .mini-card .mini-desc {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    .mini-badges {
-      display: flex;
-      gap: 4px;
-      flex-wrap: wrap;
-      margin-top: auto;
-      padding-top: 8px;
-      border-top: 1px solid var(--border-card);
-    }
-
-    .mini-badge {
-      font-size: 0.65rem;
-      padding: 3px 7px;
-      border-radius: 4px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: transform 0.15s, filter 0.15s;
-      cursor: pointer;
-      display: inline-block;
-    }
-
-    .mini-badge:hover {
-      text-decoration: none;
-      transform: translateY(-1px);
-      filter: brightness(1.15);
-    }
-
-    .mini-badge.html {
-      background: rgba(52, 152, 219, 0.15);
-      color: #5dade2;
-    }
-
-    .mini-badge.html:hover {
-      background: rgba(52, 152, 219, 0.3);
-      color: #5dade2;
-    }
-
-    .mini-badge.code {
-      background: rgba(155, 89, 182, 0.15);
-      color: var(--purple-light);
-    }
-
-    .mini-badge.code:hover {
-      background: rgba(155, 89, 182, 0.3);
-      color: var(--purple-light);
-    }
-
-    .mini-badge.arduino {
-      background: rgba(26, 188, 156, 0.15);
-      color: var(--arduino-teal);
-    }
-
-    .mini-badge.arduino:hover {
-      background: rgba(26, 188, 156, 0.3);
-      color: var(--arduino-teal);
     }
 
     .start-grid {
@@ -1187,110 +1026,6 @@
     }
     footer a:hover { color: var(--primary); text-decoration: underline; }
 
-    .cap-table {
-      margin-top: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .cap-row {
-      display: grid;
-      grid-template-columns: 44px 1fr minmax(180px, auto);
-      gap: 14px;
-      align-items: center;
-      padding: 12px 14px;
-      background: var(--hover-bg);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-sm);
-      transition: var(--transition);
-      font-size: 0.94rem;
-    }
-
-    .cap-row:hover {
-      background: var(--hover-bg-card);
-      border-color: var(--primary);
-    }
-
-    .cap-row.cap-head {
-      background: transparent;
-      border: none;
-      font-weight: 700;
-      color: var(--text-main);
-      text-transform: uppercase;
-      font-size: 0.78rem;
-      letter-spacing: 0.6px;
-      padding: 4px 14px 0;
-    }
-
-    .cap-icon { font-size: 1.5rem; text-align: center; }
-
-    .cap-row strong {
-      color: var(--text-main);
-      display: block;
-      margin-bottom: 2px;
-      font-size: 0.98rem;
-    }
-
-    .cap-row em {
-      color: var(--text-muted);
-      font-style: normal;
-      font-size: 0.85rem;
-      line-height: 1.45;
-      display: block;
-    }
-
-    .cap-row code {
-      font-family: "SF Mono", Consolas, monospace;
-      font-size: 0.78rem;
-      color: var(--primary-light);
-      background: rgba(79, 140, 255, 0.08);
-      padding: 4px 8px;
-      border-radius: 6px;
-      white-space: nowrap;
-      justify-self: end;
-      display: inline-block;
-      margin: 2px 0;
-      line-height: 1.6;
-    }
-
-    [data-theme="light"] .cap-row code {
-      color: var(--primary);
-      background: rgba(37, 99, 235, 0.08);
-    }
-
-    .cap-code-stack code { display: block; }
-
-    .cap-note {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-top: 10px;
-      line-height: 1.6;
-    }
-
-    .cap-note code {
-      font-family: "SF Mono", Consolas, monospace;
-      font-size: 0.8rem;
-      background: var(--hover-bg);
-      padding: 2px 6px;
-      border-radius: 4px;
-      color: var(--primary-light);
-    }
-
-    .cap-row .cap-code-stack code {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 100%;
-    }
-
-    #capabilities h3:nth-of-type(5) {
-      color: var(--arduino-teal);
-      border-left: 4px solid var(--arduino-teal);
-      padding-left: 12px;
-      margin-top: 2.5em;
-    }
-
     @media (max-width: 700px) {
       header { padding: 60px 20px 40px; }
       .logo-row .brand-name { font-size: 2.2rem; }
@@ -1301,7 +1036,6 @@
       .start-grid { grid-template-columns: 1fr; }
       .tutorial-list { grid-template-columns: 1fr; }
       #ecosystem ul { grid-template-columns: 1fr; }
-      .examples-mini-grid { grid-template-columns: 1fr 1fr; }
       section { padding: 1.4rem; }
       h2 { font-size: 1.3em; }
       nav a { font-size: 0.85rem; padding: 0.5rem 1rem; }
@@ -1311,19 +1045,6 @@
       .story-highlight p { font-size: 1.05rem; }
       .feature-card { padding: 20px 18px; }
       .feature-card h3 { font-size: 1.2rem; }
-
-      .cap-row {
-        grid-template-columns: 36px 1fr;
-        gap: 10px;
-      }
-      .cap-row code {
-        grid-column: 1 / -1;
-        justify-self: start;
-        white-space: normal;
-        margin-top: 4px;
-      }
-      .cap-row.cap-head { display: none; }
-      .cap-row .cap-code-stack code { white-space: normal; }
 
       .language-switcher { top: 12px; left: 12px; }
       .lang-btn { font-size: 0.8rem; padding: 6px 12px; }
@@ -1343,7 +1064,6 @@
       .story-section { padding: 1.1rem; }
       .story-content p { font-size: 0.95rem; }
       .story-highlight p { font-size: 1rem; }
-      .examples-mini-grid { grid-template-columns: 1fr; }
       .feature-card { padding: 18px 16px; }
       .feature-card h3 { font-size: 1.1rem; }
       .cta-row { flex-direction: column; gap: 10px; }
@@ -1351,26 +1071,6 @@
     }
   
   #languages { margin-top: 2.5rem; }
-  #languages .lang-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 12px;
-    margin-top: 16px;
-  }
-  #languages .lang-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 16px;
-    font-size: 0.9rem;
-    line-height: 1.8;
-  }
-  #languages .lang-card strong {
-    display: block;
-    margin-bottom: 6px;
-    color: var(--primary);
-  }
-  #languages .lang-card p { margin: 0; }
   </style>
 </head>
 
@@ -1465,10 +1165,7 @@
 
   <nav id="mainNav">
     <a href="#download">Download</a>
-    <a href="#simple-intro">What it does</a>
     <a href="#story">Story</a>
-    <a href="#about-soifgo">About</a>
-    <a href="#capabilities">Capabilities</a>
     <a href="#ai-context" class="ai-link">AI</a>
     <a href="#start">Get Started</a>
     <a href="#tutorials">Examples & Tutorials</a>
@@ -1495,19 +1192,6 @@
       </div>
     </section>
 
-    <section id="simple-intro">
-      <h2>What is SoifGo in simple words?</h2>
-
-      <p>
-        SoifGo lets you build a custom Android app for your Arduino, ESP32, or IoT project
-        <strong>without writing native Android code</strong>. You write HTML, CSS, and JavaScript —
-        SoifGo handles Bluetooth, MQTT, phone sensors, and the rest.
-      </p>
-
-      <p>
-        If you can write a webpage, you can build a hardware controller.
-      </p>
-    </section>
 
     <section id="story" class="story-section">
       <h2>The Story Behind SoifGo</h2>
@@ -1606,558 +1290,6 @@
         </p>
         <span class="feature-cta">Open the complete guide →</span>
       </a>
-
-      <div class="examples-mini-title">
-        <span>📦</span>
-        <span>Working Examples</span>
-        <span class="badge-new">4 NEW</span>
-      </div>
-
-      <div class="examples-mini-grid">
-        <div class="mini-card">
-          <a href="send_bluetooth_html/01-led-blink/index.html" class="mini-main-link">
-            <span class="mini-icon">💡</span>
-            <span class="mini-title">LED Blink</span>
-            <span class="mini-desc">Toggle an LED on/off via Bluetooth</span>
-          </a>
-          <div class="mini-badges">
-            <a href="send_bluetooth_html/01-led-blink/index.html" class="mini-badge html" title="Live demo">HTML</a>
-            <a href="send_bluetooth_html/01-led-blink/code.html" class="mini-badge code" title="View & copy code">Code</a>
-            <a href="send_bluetooth_html/01-led-blink/01-led-blink.ino" class="mini-badge arduino" download title="Download Arduino sketch">Arduino ↓</a>
-          </div>
-        </div>
-
-        <div class="mini-card">
-          <a href="send_bluetooth_html/02-sensor-readout/index.html" class="mini-main-link">
-            <span class="mini-icon">📊</span>
-            <span class="mini-title">Sensor Readout</span>
-            <span class="mini-desc">Read analog sensor values</span>
-          </a>
-          <div class="mini-badges">
-            <a href="send_bluetooth_html/02-sensor-readout/index.html" class="mini-badge html" title="Live demo">HTML</a>
-            <a href="send_bluetooth_html/02-sensor-readout/code.html" class="mini-badge code" title="View & copy code">Code</a>
-            <a href="send_bluetooth_html/02-sensor-readout/02-sensor-readout.ino" class="mini-badge arduino" download title="Download Arduino sketch">Arduino ↓</a>
-          </div>
-        </div>
-
-        <div class="mini-card">
-          <a href="send_bluetooth_html/speed-control.html" class="mini-main-link">
-            <span class="mini-icon">⚙️</span>
-            <span class="mini-title">Speed Control</span>
-            <span class="mini-desc">Directional buttons for speed</span>
-          </a>
-          <div class="mini-badges">
-            <a href="send_bluetooth_html/03-speed-control/index.html" class="mini-badge html" title="Live demo">HTML</a>
-            <a href="send_bluetooth_html/03-speed-control/code.html" class="mini-badge code" title="View & copy code">Code</a>
-            <a href="send_bluetooth_html/03-speed-control/03-speed-control.ino" class="mini-badge arduino" download title="Download Arduino sketch">Arduino ↓</a>
-          </div>
-        </div>
-
-        <div class="mini-card">
-          <a href="send_bluetooth_html/04-phone-sensors/index.html" class="mini-main-link">
-            <span class="mini-icon">📱</span>
-            <span class="mini-title">Phone Sensors</span>
-            <span class="mini-desc">Stream phone sensor data</span>
-          </a>
-          <div class="mini-badges">
-            <a href="send_bluetooth_html/04-phone-sensors/index.html" class="mini-badge html" title="Live demo">HTML</a>
-            <a href="send_bluetooth_html/04-phone-sensors/code.html" class="mini-badge code" title="View & copy code">Code</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="capabilities">
-      <h2>What's inside the WebView? (Full Capability Map)</h2>
-
-      <p>
-        Every SoifGo project runs inside a WebView that exposes a native bridge
-        called <code>window.soifgo</code>. Through this bridge, your HTML page
-        can talk directly to hardware — no native Android code required.
-        Here is the complete list of what your HTML/JavaScript can access.
-      </p>
-
-      <div class="security-box" style="margin-top:18px;">
-        <strong>⚠️ Reminder:</strong>
-        The bridge only exists inside SoifGo. In a normal browser,
-        <code>window.soifgo</code> is <code>undefined</code>.
-        Always guard with <code>if (window.soifgo) { ... }</code>.
-      </div>
-
-      <h3>1. Capabilities you can call from HTML</h3>
-
-      <div class="cap-table">
-
-        <div class="cap-row cap-head">
-          <span></span>
-          <span>Capability</span>
-          <span>Bridge call</span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🔵</span>
-          <span>
-            <strong>Bluetooth Serial</strong>
-            <em>Send / receive text with HC-05, HC-06, JDY-31, Arduino, ESP32, ESP8266, Raspberry Pi.</em>
-          </span>
-          <span class="cap-code-stack"><code>html_bluetooth_rx</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🟢</span>
-          <span>
-            <strong>Light Sensor</strong>
-            <em>Real-time ambient light value streamed from the phone.</em>
-          </span>
-          <span class="cap-code-stack"><code>sensor_light</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🟢</span>
-          <span>
-            <strong>Motion Sensor</strong>
-            <em>X and Y accelerometer axes, streamed continuously.</em>
-          </span>
-          <span class="cap-code-stack"><code>sensor_move</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🟢</span>
-          <span>
-            <strong>Magnetometer</strong>
-            <em>Magnetic field value from the phone's compass sensor.</em>
-          </span>
-          <span class="cap-code-stack"><code>sensor_magno</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🎤</span>
-          <span>
-            <strong>Microphone + Speech</strong>
-            <em>Request mic permission, then use sound metering and speech-to-text in more languages.</em>
-          </span>
-          <span class="cap-code-stack"><code>request_mic_perm</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🟣</span>
-          <span>
-            <strong>MQTT Client</strong>
-            <em>Connect to any broker (tcp:// or ssl://), publish (with optional retained), subscribe, disconnect, check status.</em>
-          </span>
-          <span class="cap-code-stack">
-            <code>connecte_mqtt_ai</code>
-            <code>connecte_mqtt_up</code>
-            <code>mqtt_publish</code>
-            <code>mqtt_Disconnect</code>
-            <code>mqtt_status</code>
-            <code>mqtt_retained</code>
-          </span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🟠</span>
-          <span>
-            <strong>HTTP API</strong>
-            <em>POST JSON to any endpoint, GET and extract a key from a JSON response.</em>
-          </span>
-          <span class="cap-code-stack">
-            <code>api_send</code>
-            <code>api_recive</code>
-          </span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">💾</span>
-          <span>
-            <strong>Local Storage</strong>
-            <em>Persistent <code>localStorage</code> across reloads and WebView restarts.</em>
-          </span>
-          <span class="cap-code-stack"><code>localStorage</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🪟</span>
-          <span>
-            <strong>Native Dialogs</strong>
-            <em><code>alert()</code>, <code>confirm()</code>, <code>prompt()</code> render as native Android dialogs.</em>
-          </span>
-          <span class="cap-code-stack"><code>alert / confirm / prompt</code></span>
-        </div>
-
-      </div>
-
-      <p class="cap-note">
-        Bridge rule: <code>window.soifgo.CallSub('subName', true, arg1, arg2, arg3)</code> —
-        the second argument is always a boolean, and you can pass up to 3 arguments after it.
-        Empty strings must still be passed as <code>''</code>.
-      </p>
-
-      <h3>2. Data you can receive from hardware</h3>
-
-      <p>
-        SoifGo calls these functions on your page when data arrives.
-        You must register them on <code>window</code>.
-      </p>
-
-      <div class="cap-table">
-
-        <div class="cap-row cap-head">
-          <span></span>
-          <span>Receiver</span>
-          <span>Register as</span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🔵</span>
-          <span><strong>html_bluetooth_tx(data)</strong><em>Bluetooth data arrives.</em></span>
-          <span class="cap-code-stack"><code>window.html_bluetooth_tx = fn;</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🟢</span>
-          <span><strong>html_sensor_light(data)</strong><em>Light value arrives.</em></span>
-          <span class="cap-code-stack"><code>window.html_sensor_light = fn;</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🟢</span>
-          <span><strong>html_sensor_movex(data)</strong><em>X-axis value arrives.</em></span>
-          <span class="cap-code-stack"><code>window.html_sensor_movex = fn;</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🟢</span>
-          <span><strong>html_sensor_movey(data)</strong><em>Y-axis value arrives.</em></span>
-          <span class="cap-code-stack"><code>window.html_sensor_movey = fn;</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🟢</span>
-          <span><strong>html_sensor_magno(data)</strong><em>Magnetic value arrives.</em></span>
-          <span class="cap-code-stack"><code>window.html_sensor_magno = fn;</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🟣</span>
-          <span><strong>mqtt_rx(topic, message)</strong><em>MQTT message arrives on a subscribed topic.</em></span>
-          <span class="cap-code-stack"><code>window.mqtt_rx = fn;</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🟣</span>
-          <span><strong>html_mqtt_status(connected)</strong><em>Status reply arrives (<code>'true'</code>/<code>'false'</code> as string).</em></span>
-          <span class="cap-code-stack"><code>window.html_mqtt_status = fn;</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🟠</span>
-          <span><strong>api_rx(number)</strong><em>API response arrives (plain value or wrapped map).</em></span>
-          <span class="cap-code-stack"><code>window.api_rx = fn;</code></span>
-        </div>
-
-      </div>
-
-      <p class="cap-note">
-        ⚠️ <strong>Important:</strong> <code>html_mqtt_status</code> receives
-        <code>'true'</code>/<code>'false'</code> as a <strong>string</strong>, not a boolean.
-        <code>'false'</code> (the string) is truthy in JavaScript — always compare with
-        <code>=== 'true'</code>.
-      </p>
-
-      <h3>3. Real-world combinations you can build on one page</h3>
-
-      <div class="examples-mini-grid" style="grid-template-columns: 1fr 1fr; margin-top:14px;">
-
-        <div class="mini-card">
-          <span class="mini-icon">🔗</span>
-          <span class="mini-title">Bluetooth + MQTT bridge</span>
-          <span class="mini-desc">
-            Read data from an Arduino over Bluetooth, publish it to an MQTT broker,
-            and display the topic feed on the same HTML page.
-          </span>
-        </div>
-
-        <div class="mini-card">
-          <span class="mini-icon">📈</span>
-          <span class="mini-title">Sensor dashboard</span>
-          <span class="mini-desc">
-            Stream light + motion + magnetometer, draw live charts with
-            <code>&lt;canvas&gt;</code> or SVG, and log to <code>localStorage</code>.
-          </span>
-        </div>
-
-        <div class="mini-card">
-          <span class="mini-icon">🌐</span>
-          <span class="mini-title">Crypto / API ticker</span>
-          <span class="mini-desc">
-            Poll a REST API with <code>api_recive</code>, parse the JSON,
-            and update a price display with a Stop button.
-          </span>
-        </div>
-
-        <div class="mini-card">
-          <span class="mini-icon">🤖</span>
-          <span class="mini-title">Robot control panel</span>
-          <span class="mini-desc">
-            Send motor commands via Bluetooth, receive telemetry via MQTT,
-            and show a live status with animated gauges.
-          </span>
-        </div>
-
-        <div class="mini-card">
-          <span class="mini-icon">🎙️</span>
-          <span class="mini-title">Voice-controlled device</span>
-          <span class="mini-desc">
-            Capture speech in more languages, convert to text, send it
-            over Bluetooth or MQTT to a microcontroller.
-          </span>
-        </div>
-
-        <div class="mini-card">
-          <span class="mini-icon">🏭</span>
-          <span class="mini-title">Industrial HMI</span>
-          <span class="mini-desc">
-            Combine API, MQTT, sensors, and local storage into a single
-            offline-capable control panel that runs on any Android phone.
-          </span>
-        </div>
-
-      </div>
-
-      <h3>4. Two ways to build — Classic Mode vs WebView Mode</h3>
-
-      <div class="start-grid" style="margin-top:16px;">
-
-        <div class="start-btn user" style="cursor:default;">
-          <span class="start-icon">🧩</span>
-          <strong>Classic Mode</strong>
-          <span>
-            Native buttons and sliders. Each button has a behavior
-            (Send, Receive, Note, PDF, Image, Open X, Reload, WebView,
-            Sound, Click, Vibration). No HTML needed.
-          </span>
-        </div>
-
-        <div class="start-btn dev" style="cursor:default;">
-          <span class="start-icon">🌐</span>
-          <strong>WebView Mode</strong>
-          <span>
-            Each button hosts its own HTML page. Full HTML/CSS/JS control,
-            access to <code>window.soifgo</code>, Bluetooth, MQTT, sensors,
-            APIs and storage. Best for complex dashboards.
-          </span>
-        </div>
-
-      </div>
-
-      <h3>5. Beyond SoifGo — What the WebView itself already gives you</h3>
-
-      <p>
-        SoifGo's bridge is only half the story. The WebView that hosts your page is
-        <strong>a full modern browser engine</strong> (Chromium-based on Android). Everything that works
-        in Chrome on a desktop also works inside SoifGo — no bridge required, no plugins, no native code.
-        This is what makes the "mobile sandbox" idea so powerful.
-      </p>
-
-      <div class="cap-table">
-
-        <div class="cap-row cap-head">
-          <span></span>
-          <span>Built-in Web Platform Capability</span>
-          <span>What it unlocks</span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🎨</span>
-          <span>
-            <strong>HTML5 + CSS3 (Flexbox, Grid, Animations)</strong>
-            <em>Full layout engine, transitions, keyframes, transforms, filters, gradients, custom properties.</em>
-          </span>
-          <span class="cap-code-stack"><code>CSS Grid / Flexbox</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">⚡</span>
-          <span>
-            <strong>JavaScript ES2024+</strong>
-            <em>Async/await, modules, classes, generators, destructuring, optional chaining, all modern syntax.</em>
-          </span>
-          <span class="cap-code-stack"><code>ES2024+</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">📊</span>
-          <span>
-            <strong>Canvas 2D</strong>
-            <em>Draw charts, gauges, graphs, animations, image manipulation, pixel-perfect rendering.</em>
-          </span>
-          <span class="cap-code-stack"><code>&lt;canvas&gt;.getContext('2d')</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🧊</span>
-          <span>
-            <strong>WebGL / WebGL2</strong>
-            <em>Hardware-accelerated 3D graphics. Games, 3D dashboards, CAD viewers, data visualization.</em>
-          </span>
-          <span class="cap-code-stack"><code>canvas.getContext('webgl2')</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">📐</span>
-          <span>
-            <strong>SVG</strong>
-            <em>Scalable vector graphics — perfect for gauges, meters, icons, and resolution-independent UI.</em>
-          </span>
-          <span class="cap-code-stack"><code>&lt;svg&gt;</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🖼️</span>
-          <span>
-            <strong>Web Fonts</strong>
-            <em>Any Google Font or custom font. Full typographic control.</em>
-          </span>
-          <span class="cap-code-stack"><code>@font-face</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🎬</span>
-          <span>
-            <strong>Video + Audio (HTML5)</strong>
-            <em>Play MP4, WebM, MP3, OGG. Custom players, sound effects, media dashboards.</em>
-          </span>
-          <span class="cap-code-stack"><code>&lt;video&gt; / &lt;audio&gt;</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">📦</span>
-          <span>
-            <strong>Any JavaScript Library</strong>
-            <em>Chart.js, D3.js, Three.js, Babylon.js, TensorFlow.js, Anime.js, and thousands more — just import and use.</em>
-          </span>
-          <span class="cap-code-stack"><code>&lt;script src="cdn..."&gt;</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🧩</span>
-          <span>
-            <strong>Web Workers</strong>
-            <em>Run heavy computation in background threads without freezing the UI.</em>
-          </span>
-          <span class="cap-code-stack"><code>new Worker('...')</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">💾</span>
-          <span>
-            <strong>IndexedDB / Cache API</strong>
-            <em>Large-scale offline storage, caching assets for fast reload, PWA-style experiences.</em>
-          </span>
-          <span class="cap-code-stack"><code>indexedDB / caches</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">📡</span>
-          <span>
-            <strong>Fetch API / XMLHttpRequest</strong>
-            <em>Direct HTTP requests from JavaScript (in addition to SoifGo's native <code>api_send</code>).</em>
-          </span>
-          <span class="cap-code-stack"><code>fetch()</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🔊</span>
-          <span>
-            <strong>Web Audio API</strong>
-            <em>Generate tones, process sound, build synthesizers, analyze audio streams.</em>
-          </span>
-          <span class="cap-code-stack"><code>AudioContext</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🎮</span>
-          <span>
-            <strong>Gamepad API</strong>
-            <em>Connect Bluetooth/USB game controllers for games and robot control.</em>
-          </span>
-          <span class="cap-code-stack"><code>navigator.getGamepads()</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">📱</span>
-          <span>
-            <strong>Touch + Pointer Events</strong>
-            <em>Multi-touch gestures, pinch, swipe, drag — perfect for control panels.</em>
-          </span>
-          <span class="cap-code-stack"><code>touchstart / pointermove</code></span>
-        </div>
-
-        <div class="cap-row">
-          <span class="cap-icon">🌐</span>
-          <span>
-            <strong>CSS 3D Transforms</strong>
-            <em>Perspective, rotateX/Y/Z, translateZ — 3D effects without WebGL.</em>
-          </span>
-          <span class="cap-code-stack"><code>transform: rotate3d()</code></span>
-        </div>
-
-      </div>
-
-      <div class="security-box" style="margin-top: 20px;">
-        <strong>💡 The Big Idea:</strong>
-        SoifGo's bridge gives you <strong>hardware access</strong> (Bluetooth, MQTT, sensors).
-        The WebView gives you the <strong>entire modern web platform</strong> (3D, games, charts, media, offline storage).
-        <strong>Combine both</strong> and you can build a fully custom dashboard, a 3D robot controller,
-        an IoT game, or a data visualization tool — all inside one HTML page, running on Android.
-      </div>
-
-      <div class="examples-mini-title">
-        <span>🚀</span>
-        <span>What this means in practice</span>
-      </div>
-
-      <div class="examples-mini-grid" style="grid-template-columns: 1fr 1fr; margin-top:12px;">
-
-        <div class="mini-card">
-          <span class="mini-icon">🎮</span>
-          <span class="mini-title">2D / 3D Games</span>
-          <span class="mini-desc">
-            Build games with Canvas 2D, Three.js, or Babylon.js. Connect a Bluetooth
-            gamepad, send scores over MQTT, display a leaderboard.
-          </span>
-        </div>
-
-        <div class="mini-card">
-          <span class="mini-icon">📈</span>
-          <span class="mini-title">Real-time Dashboards</span>
-          <span class="mini-desc">
-            Use Chart.js or D3.js to visualize Bluetooth sensor data, MQTT streams,
-            and API responses — all in one live view.
-          </span>
-        </div>
-
-        <div class="mini-card">
-          <span class="mini-icon">🏭</span>
-          <span class="mini-title">3D Digital Twin</span>
-          <span class="mini-desc">
-            Render a 3D model of your machine with Three.js, color it based on live
-            sensor values, and control it via MQTT.
-          </span>
-        </div>
-
-        <div class="mini-card">
-          <span class="mini-icon">🔬</span>
-          <span class="mini-title">Scientific Tools</span>
-          <span class="mini-desc">
-            FFT audio analysis, image processing, matrix math, TensorFlow.js ML —
-            all running locally on the phone.
-          </span>
-        </div>
-
-      </div>
-
     </section>
 
     <section id="ai-context">
@@ -2179,35 +1311,6 @@
         </p>
         <span class="feature-cta">Open the AI Context file →</span>
       </a>
-
-      <div class="examples-mini-title">
-        <span>📚</span>
-        <span>Also available</span>
-      </div>
-
-      <div class="examples-mini-grid" style="grid-template-columns: 1fr 1fr;">
-        <div class="mini-card">
-          <a href="llms.txt" class="mini-main-link">
-            <span class="mini-icon">📋</span>
-            <span class="mini-title">llms.txt</span>
-            <span class="mini-desc">Quick index for AI assistants</span>
-          </a>
-        </div>
-
-        <div class="mini-card">
-          <a href="serial_voice/serial_voice_tutorials.html" class="mini-main-link">
-            <span class="mini-icon">🎙️</span>
-            <span class="mini-title">Voice Tutorial</span>
-            <span class="mini-desc">Speech recognition with more languages</span>
-          </a>
-        </div>
-      </div>
-
-      <div class="security-box" style="margin-top: 20px;">
-        <strong>⚠️ The bridge only exists inside SoifGo's WebView.</strong>
-        In a normal browser, <code>window.soifgo</code> is <code>undefined</code>.
-        Always guard with <code>if (window.soifgo) { ... }</code>.
-      </div>
     </section>
 
     <section id="start">
@@ -2412,6 +1515,16 @@
             </div>
           </a>
         </li>
+
+                <li>
+          <a href="send_bluetooth_html/speed-control.html">
+            <span class="no-icon">🌀</span>
+            <div>
+              <strong>speed-control</strong>
+              <span>Control two DC motors independently over Bluetooth using a TDA7073A motor driver and software PWM on Arduino Uno.</span>
+            </div>
+          </a>
+        </li>
       </ul>
     </section>
 
@@ -2455,7 +1568,7 @@
 
       <div class="faq-item">
         <strong>What can I actually do inside the WebView?</strong>
-        <p>You can send and receive Bluetooth data, read phone sensors (light, motion, magnetometer), use the microphone and speech recognition in more languages, connect to MQTT brokers, call HTTP APIs, store data with <code>localStorage</code>, and use native <code>alert/confirm/prompt</code> dialogs. On top of that, the WebView itself is a full modern browser engine — so Canvas 2D, WebGL 3D, SVG, Web Audio, Gamepad, Web Workers, and any JavaScript library (Chart.js, Three.js, D3.js, TensorFlow.js…) all work out of the box. See the <a href="#capabilities">Full Capability Map</a> above.</p>
+        <p>You can send and receive Bluetooth data, read phone sensors (light, motion, magnetometer), use the microphone and speech recognition in more languages, connect to MQTT brokers, call HTTP APIs, store data with <code>localStorage</code>, and use native <code>alert/confirm/prompt</code> dialogs. On top of that, the WebView itself is a full modern browser engine — so Canvas 2D, WebGL 3D, SVG, Web Audio, Gamepad, Web Workers, and any JavaScript library (Chart.js, Three.js, D3.js, TensorFlow.js…) all work out of the box.</p>
       </div>
 
       <div class="faq-item">
@@ -2470,7 +1583,7 @@
 
       <div class="faq-item">
         <strong>Are there ready-to-use examples?</strong>
-        <p>Yes. The <a href="send_bluetooth_html/html_guide_1.html">HTML + Bluetooth + MQTT + Sensors</a> guide includes 4 complete examples: LED Blink, Sensor Readout, Speed Control, and Phone Sensors. Each one shows the live demo, the copyable HTML code, and (where relevant) the Arduino sketch.</p>
+        <p>Yes. The <a href="send_bluetooth_html/speed-control.html">Speed Control</a> example shows how to control two DC motors independently over Bluetooth, using a TDA7073A motor driver and software PWM on an Arduino Uno. For the full bridge API, see the <a href="send_bluetooth_html/html_guide_1.html">HTML + Bluetooth + MQTT + Sensors</a> guide.</p>
       </div>
 
       <div class="faq-item">
@@ -2506,91 +1619,6 @@
         <a href="intro/tr/" hreflang="tr" lang="tr">Türkçe</a>
         <a href="intro/sw/" hreflang="sw" lang="sw">Kiswahili</a>
       </p>
-
-      <div class="lang-grid">
-        <div class="lang-card" lang="es">
-          <strong>Español</strong>
-          <p>SoifGo es una plataforma gratuita para Android que permite crear controladores de hardware para Arduino, ESP32 e IoT con HTML y JavaScript: Bluetooth, MQTT y sensores del teléfono, funciona sin conexión y sin código nativo de Android.</p>
-        </div>
-        <div class="lang-card" lang="zh-CN">
-          <strong>简体中文</strong>
-          <p>SoifGo 是一个免费的安卓平台，使用 HTML 和 JavaScript 为 Arduino、ESP32 和物联网制作硬件控制器，支持蓝牙、MQTT 和手机传感器，可离线使用，无需原生安卓开发。</p>
-        </div>
-        <div class="lang-card" lang="fr">
-          <strong>Français</strong>
-          <div class="lang-card" lang="de">
-          <strong>Deutsch</strong>
-          <p>SoifGo ist eine kostenlose Android-Plattform, mit der Sie Hardware-Steuerungen für Arduino, ESP32 und IoT mit HTML und JavaScript erstellen: Bluetooth, MQTT und Handy-Sensoren, offline nutzbar, ohne nativen Android-Code.</p>
-        </div>
-        <div class="lang-card" lang="ja">
-          <strong>日本語</strong>
-          <p>SoifGo は、HTML と JavaScript で Arduino、ESP32、IoT 向けのハードウェアコントローラーを作れる無料の Android プラットフォームです。Bluetooth、MQTT、スマートフォンのセンサーに対応し、オフラインで動作し、ネイティブ Android 開発は不要です。</p>
-        </div>
-        <div class="lang-card" lang="ru">
-          <strong>Русский</strong>
-          <p>SoifGo — бесплатная платформа для Android, позволяющая создавать контроллеры для Arduino, ESP32 и IoT на HTML и JavaScript: Bluetooth, MQTT и датчики телефона, работает офлайн, без нативного кода Android.</p>
-        </div>
-        <div class="lang-card" lang="ar" dir="rtl">
-          <strong>العربية</strong>
-          <p>SoifGo منصة أندرويد مجانية لإنشاء وحدات تحكم في الأجهزة لـ Arduino وESP32 وإنترنت الأشياء باستخدام HTML وJavaScript، مع دعم البلوتوث وMQTT وحساسات الهاتف، وتعمل دون اتصال بالإنترنت ودون كتابة كود أندرويد أصلي.</p>
-        </div>
-        <div class="lang-card" lang="fa" dir="rtl">
-          <strong>فارسی</strong>
-          <p>SoifGo یک پلتفرم رایگان اندروید برای ساخت کنترلر سخت‌افزاری آردوینو، ESP32 و IoT با HTML و جاوااسکریپت است؛ با پشتیبانی از بلوتوث، MQTT و سنسورهای گوشی، قابل استفاده آفلاین و بدون نیاز به کدنویسی native اندروید.</p>
-        </div>
-        <div class="lang-card" lang="it">
-          <strong>Italiano</strong>
-          <p>SoifGo è una piattaforma Android gratuita per creare controller hardware per Arduino, ESP32 e IoT con HTML e JavaScript: Bluetooth, MQTT e sensori del telefono, funziona offline e senza codice Android nativo.</p>
-        </div>
-        <div class="lang-card" lang="hi">
-          <strong>हिन्दी</strong>
-          <p>SoifGo एक मुफ़्त Android प्लेटफ़ॉर्म है, जिससे आप HTML और JavaScript के ज़रिए Arduino, ESP32 और IoT के लिए हार्डवेयर कंट्रोलर बना सकते हैं। यह ब्लूटूथ, MQTT और फ़ोन सेंसर का समर्थन करता है, ऑफ़लाइन चलता है और इसमें नेटिव Android कोड की ज़रूरत नहीं है।</p>
-        </div>
-        <div class="lang-card" lang="tr">
-          <strong>Türkçe</strong>
-          <p>SoifGo, HTML ve JavaScript ile Arduino, ESP32 ve IoT için donanım kontrolcüleri oluşturmanızı sağlayan ücretsiz bir Android platformudur: Bluetooth, MQTT ve telefon sensörleri, çevrimdışı çalışır, yerel Android kodu gerektirmez.</p>
-        </div>
-        <div class="lang-card" lang="ko">
-          <strong>한국어</strong>
-          <p>SoifGo는 HTML과 JavaScript로 Arduino, ESP32, IoT용 하드웨어 컨트롤러를 만들 수 있는 무료 Android 플랫폼입니다. 블루투스, MQTT, 휴대폰 센서를 지원하며 오프라인에서 작동하고 네이티브 Android 코드가 필요 없습니다.</p>
-        </div>
-        <div class="lang-card" lang="pt">
-          <strong>Português</strong>
-          <p>O SoifGo é uma plataforma Android gratuita para criar controladores de hardware para Arduino, ESP32 e IoT com HTML e JavaScript: Bluetooth, MQTT e sensores do celular, funciona offline e sem código Android nativo.</p>
-        </div>
-        <div class="lang-card" lang="he" dir="rtl">
-          <strong>עברית</strong>
-          <p>SoifGo היא פלטפורמת אנדרואיד חינמית ליצירת בקרי חומרה עבור Arduino, ESP32 ו-IoT באמצעות HTML ו-JavaScript, עם תמיכה ב-Bluetooth, ב-MQTT ובחיישני הטלפון. היא פועלת במצב לא מקוון וללא צורך בקוד אנדרואיד מקורי.</p>
-        </div>
-        <div class="lang-card" lang="ckb" dir="rtl">
-          <strong>کوردی</strong>
-          <p>SoifGo پلاتفۆرمێکی ئەندرۆیدی بێبەرامبەرە بۆ دروستکردنی کۆنتڕۆڵەری ھاردوێر بۆ Arduino، ESP32 و IoT بە HTML و JavaScript، لەگەڵ پشتگیری بلوتوس، MQTT و هەستەوەرەکانی مۆبایل. بەبێ ئینتەرنێت کار دەکات و پێویستی بە کۆدی ئەندرۆیدی ناتیڤ نییە.</p>
-        </div>
-        <div class="lang-card" lang="ur" dir="rtl">
-          <strong>اردو</strong>
-          <p>SoifGo ایک مفت اینڈرائیڈ پلیٹ فارم ہے جس کی مدد سے HTML اور JavaScript کے ذریعے Arduino، ESP32 اور IoT کے لیے ہارڈویئر کنٹرولر بنائے جا سکتے ہیں۔ یہ بلوٹوتھ، MQTT اور فون سینسرز کو سپورٹ کرتا ہے، آف لائن کام کرتا ہے اور اس میں نیٹو اینڈرائیڈ کوڈ کی ضرورت نہیں۔</p>
-        </div>
-        <div class="lang-card" lang="bn">
-          <strong>বাংলা</strong>
-          <p>SoifGo একটি বিনামূল্যের Android প্ল্যাটফর্ম, যা দিয়ে HTML ও JavaScript ব্যবহার করে Arduino, ESP32 এবং IoT-এর জন্য হার্ডওয়্যার কন্ট্রোলার তৈরি করা যায়। এটি ব্লুটুথ, MQTT ও ফোনের সেন্সর সমর্থন করে, অফলাইনে কাজ করে এবং নেটিভ Android কোডের প্রয়োজন হয় না.</p>
-        </div>
-        <div class="lang-card" lang="id">
-          <strong>Bahasa Indonesia</strong>
-          <p>SoifGo adalah platform Android gratis untuk membuat pengontrol perangkat keras bagi Arduino, ESP32, dan IoT dengan HTML dan JavaScript: Bluetooth, MQTT, dan sensor ponsel, bisa digunakan offline, tanpa kode Android native.</p>
-        </div>
-        <div class="lang-card" lang="ta">
-          <strong>தமிழ்</strong>
-          <p>SoifGo என்பது HTML மற்றும் JavaScript மூலம் Arduino, ESP32 மற்றும் IoT-க்கான ஹார்டுவேர் கட்டுப்பாட்டாளர்களை உருவாக்க உதவும் இலவச Android தளம். இது புளூடூத், MQTT மற்றும் தொலைபேசி சென்சார்களை ஆதரிக்கிறது, ஆஃப்லைனில் இயங்குகிறது, நேட்டிவ் Android குறியீடு தேவையில்லை.</p>
-        </div>
-        <div class="lang-card" lang="th">
-          <strong>ไทย</strong>
-          <p>SoifGo เป็นแพลตฟอร์ม Android ฟรีสำหรับสร้างตัวควบคุมฮาร์ดแวร์สำหรับ Arduino, ESP32 และ IoT ด้วย HTML และ JavaScript รองรับบลูทูธ, MQTT และเซนเซอร์ของโทรศัพท์ ใช้งานแบบออฟไลน์ได้ และไม่ต้องเขียนโค้ด Android แบบเนทีฟ</p>
-        </div>
-        <div class="lang-card" lang="sw">
-          <strong>Kiswahili</strong>
-          <p>SoifGo ni jukwaa la Android lisilo na malipo la kutengeneza vidhibiti vya vifaa kwa ajili ya Arduino, ESP32 na IoT kwa kutumia HTML na JavaScript: Bluetooth, MQTT na vihisi vya simu, hufanya kazi bila mtandao, na haihitaji msimbo asilia wa Android.</p>
-        </div>
-      </div>
     </section>
 
   </main>
