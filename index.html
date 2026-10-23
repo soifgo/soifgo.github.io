@@ -90,7 +90,7 @@
   <!-- ============ TWITTER ============ -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="SoifGo - Android Hardware Control Platform" />
-  <meta name="twitter:description" content="Build Android hardware controllers for Arduino, ESP32 and IoT with HTML/CSS/JavaScript. Bluetooth, MQTT, sensors. Free." />
+  <meta name="twitter:description" content="Build Android hardware controllers for Arduino, ESP32 and IoT with HTML/CSS/JavaScript. Bluetooth, MQTT, sensors, WebView. Free." />
   <meta name="twitter:image" content="https://soifgo.github.io/soifgo-logo.png" />
   <meta name="twitter:image:alt" content="SoifGo Android Hardware Control Platform" />
 
@@ -1631,25 +1631,25 @@
             (even empty strings) can make the call fail silently. Never drop a required argument either.<br><br>
             <b>Examples:</b><br>
             <button class="copy-btn" type="button" onclick="copyPlain(this)">📋 Copy code</button>
-            <span class="plain-code">// ✅ 0 arguments
+            <pre><code class="plain-code">// 0 arguments
 window.soifgo.CallSub('sensor_light', true);
 
-// ✅ 1 argument
+// 1 argument
 window.soifgo.CallSub('html_bluetooth_rx', true, 'ON');
 
-// ✅ 2 arguments
+// 2 arguments
 window.soifgo.CallSub('api_recive', true, 'https://api.example.com/price', 'Price');
 
-// ✅ 3 arguments
+// 3 arguments
 window.soifgo.CallSub('mqtt_publish', true, 'soifgo/led', 'ON', '0');
 
-// ❌ WRONG — extra empty placeholders
+// WRONG - extra empty placeholders
 window.soifgo.CallSub('html_bluetooth_rx', true, 'ON', '', '');
 window.soifgo.CallSub('api_recive', true, 'https://api.example.com/price', 'Price', '');
 
-// ❌ WRONG — missing required arguments
+// WRONG - missing required arguments
 window.soifgo.CallSub('api_recive', true, 'https://api.example.com/price');
-window.soifgo.CallSub('mqtt_publish', true, 'soifgo/led', 'ON');</span><br>
+window.soifgo.CallSub('mqtt_publish', true, 'soifgo/led', 'ON');</code></pre><br>
             <b>Why this matters:</b> a report that claims "always pass 3 arguments" is wrong.
             The 5 working Bluetooth examples in the context file all use <u>1</u> argument,
             and they work. Copy the exact call shape of the Sub you use.
@@ -1663,8 +1663,7 @@ window.soifgo.CallSub('mqtt_publish', true, 'soifgo/led', 'ON');</span><br>
             <code>html_bluetooth_tx</code>. Do NOT guess — copy them exactly.<br><br>
             <b>Complete script (paste as-is; both directions covered):</b><br>
             <button class="copy-btn" type="button" onclick="copyPlain(this)">📋 Copy code</button>
-            <span class="plain-code">// ── SEND: HTML ➔ Bluetooth ──
-function send(txt) {
+            <pre><code class="plain-code">function send(txt) {
   if (window.soifgo) {
     window.soifgo.CallSub('html_bluetooth_rx', true, txt);
   } else {
@@ -1672,14 +1671,11 @@ function send(txt) {
   }
 }
 
-// ── RECEIVE: Bluetooth ➔ HTML ──
-// The receive callback MUST be registered on window:
 function html_bluetooth_tx(data) {
   document.getElementById('status').textContent = data;
 }
 window.html_bluetooth_tx = html_bluetooth_tx;
 
-// ── OPTIONAL: sensors & microphone (each Sub is independent) ──
 window.onload = function () {
   if (window.soifgo) {
     // window.soifgo.CallSub('sensor_light', true);
@@ -1687,7 +1683,7 @@ window.onload = function () {
     // window.soifgo.CallSub('sensor_magno', true);
     // window.soifgo.CallSub('request_mic_perm', true, null);
   }
-};</span><br>
+};</code></pre><br>
             <b>Real-World Use:</b> send <code>ON\n</code> to Arduino to toggle a relay;
             receive <code>A0=512</code> sensor lines from the microcontroller.
           </li>
@@ -1699,8 +1695,7 @@ window.onload = function () {
             - Activation Subs: <code>sensor_light</code>, <code>sensor_move</code>, <code>sensor_magno</code><br><br>
             <b>Complete script (paste as-is; call only the sensors you use):</b><br>
             <button class="copy-btn" type="button" onclick="copyPlain(this)">📋 Copy code</button>
-            <span class="plain-code">// ── RECEIVE callbacks (one value as a STRING each) ──
-function html_sensor_light(data) { document.getElementById('light').textContent  = 'Light: '   + data; }
+            <pre><code class="plain-code">function html_sensor_light(data) { document.getElementById('light').textContent  = 'Light: '   + data; }
 function html_sensor_movex(data) { document.getElementById('movex').textContent  = 'Move X: '  + data; }
 function html_sensor_movey(data) { document.getElementById('movey').textContent  = 'Move Y: '  + data; }
 function html_sensor_magno(data) { document.getElementById('magno').textContent  = 'Magneto: ' + data; }
@@ -1710,16 +1705,15 @@ window.html_sensor_movex = html_sensor_movex;
 window.html_sensor_movey = html_sensor_movey;
 window.html_sensor_magno = html_sensor_magno;
 
-// ── ACTIVATE: each Sub is independent — call only the ones you use ──
 window.onload = function () {
   if (window.soifgo) {
-    window.soifgo.CallSub('sensor_light', true);   // remove if not needed
-    window.soifgo.CallSub('sensor_move',  true);   // remove if not needed
-    window.soifgo.CallSub('sensor_magno', true);   // remove if not needed
+    window.soifgo.CallSub('sensor_light', true);
+    window.soifgo.CallSub('sensor_move',  true);
+    window.soifgo.CallSub('sensor_magno', true);
   } else {
     document.getElementById('info').textContent = 'Not running inside SoifGo';
   }
-};</span><br>
+};</code></pre><br>
             <b>⚠️ Warning:</b> The magnetometer (<code>html_sensor_magno</code>) delivers
             <u>one single value</u> as a string — never destructure it into x/y/z,
             never use <code>data.x</code>. Accelerometer <b>Z</b> is not forwarded.<br>
@@ -1736,37 +1730,30 @@ window.onload = function () {
             - Other Subs: <code>mqtt_status()</code>, <code>mqtt_Disconnect()</code>.<br><br>
             <b>Complete script (paste as-is):</b><br>
             <button class="copy-btn" type="button" onclick="copyPlain(this)">📋 Copy code</button>
-            <span class="plain-code">// ── CONNECT (step 1 + optional step 2) ──
-function mqttConnect() {
+            <pre><code class="plain-code">function mqttConnect() {
   if (!window.soifgo) return;
   window.soifgo.CallSub('connecte_mqtt_ai', true, 'tcp://test.mosquitto.org:1883', 'client_1');
-  // only if the broker requires credentials:
-  // window.soifgo.CallSub('connecte_mqtt_up', true, 'admin', '1234');
 }
 
-// ── PUBLISH (also auto-subscribes you to the topic) ──
 function mqttSend(topic, msg, qos) {
   if (!window.soifgo) return;
   window.soifgo.CallSub('mqtt_publish', true, topic, msg, qos || '0');
 }
 
-// ── STATUS & DISCONNECT ──
 function mqttCheck() { if (window.soifgo) window.soifgo.CallSub('mqtt_status', true); }
 function mqttBye()   { if (window.soifgo) window.soifgo.CallSub('mqtt_Disconnect', true); }
 
-// ── RECEIVE callback ──
 function mqtt_rx(topic, message) {
   document.getElementById('log').innerHTML +=
     '<div>RX ' + topic + ' : ' + message + '</div>';
 }
 window.mqtt_rx = mqtt_rx;
 
-// ── STATUS callback (⚠️ arrives as STRING 'true' / 'false') ──
 function html_mqtt_status(connected) {
-  var ok = (connected === 'true');   // NEVER use: if (connected)
+  var ok = (connected === 'true');
   document.getElementById('status').textContent = ok ? 'Connected' : 'Disconnected';
 }
-window.html_mqtt_status = html_mqtt_status;</span><br>
+window.html_mqtt_status = html_mqtt_status;</code></pre><br>
             <b>⚠️ Warning:</b> <code>html_mqtt_status</code> receives a <u>string</u>
             (<code>'true'</code> / <code>'false'</code>). The string <code>'false'</code>
             is truthy in JS — always compare with <code>=== 'true'</code>.<br>
@@ -1781,15 +1768,13 @@ window.html_mqtt_status = html_mqtt_status;</span><br>
             - Receive (GET): <code>api_recive(address, key)</code> — <u>both</u> arguments are required; the key is extracted from the JSON and returned via <code>api_rx</code>.<br><br>
             <b>Complete script (paste as-is):</b><br>
             <button class="copy-btn" type="button" onclick="copyPlain(this)">📋 Copy code</button>
-            <span class="plain-code">// ── POST ──
-function apiPost() {
+            <pre><code class="plain-code">function apiPost() {
   if (window.soifgo) {
     window.soifgo.CallSub('api_send', true,
       'https://api.example.com/status', 'relay', 'ON');
   }
 }
 
-// ── GET ──
 function apiGet() {
   if (window.soifgo) {
     window.soifgo.CallSub('api_recive', true,
@@ -1797,11 +1782,10 @@ function apiGet() {
   }
 }
 
-// ── RECEIVE callback (must handle both formats) ──
 function extractValue(raw, field) {
   var s = String(raw).trim();
-  if (/^-?\d+(\.\d+)?$/.test(s)) return s;                                // plain number
-  var m = s.match(new RegExp(field + '[=:]\\s*([^,}\\s]+)', 'i'));        // {usd=86750}
+  if (/^-?\d+(\.\d+)?$/.test(s)) return s;
+  var m = s.match(new RegExp(field + '[=:]\\s*([^,}\\s]+)', 'i'));
   if (m) return m[1];
   try { var o = JSON.parse(s); if (o[field] !== undefined) return o[field]; } catch (e) {}
   var n = s.match(/-?\d+(\.\d+)?/);
@@ -1812,7 +1796,7 @@ function api_rx(number) {
   document.getElementById('out').textContent =
     'Received: ' + extractValue(number, 'usd');
 }
-window.api_rx = api_rx;</span><br>
+window.api_rx = api_rx;</code></pre><br>
             <b>⚠️ Warning:</b> <code>api_recive</code> <u>requires</u> both
             <code>address</code> and <code>key</code> — a missing key fails silently.
             The callback <code>api_rx</code> may deliver a plain value
@@ -1991,8 +1975,8 @@ window.api_rx = api_rx;</span><br>
 
   <script>
     function copyPlain(btn) {
-      var span = btn.parentElement.querySelector('.plain-code');
-      var text = span.innerText || span.textContent;
+      var pre = btn.parentElement.querySelector('pre');
+      var text = pre.innerText || pre.textContent;
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(function () {
           var original = btn.textContent;
