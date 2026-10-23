@@ -2,7 +2,7 @@
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="application-name" content="SoifGo">
   <!-- ============ PRIMARY SEO ============ -->
   <title>SoifGo - Android Hardware Control Platform for Arduino &amp; ESP32</title>
@@ -21,6 +21,8 @@
   <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
 
   <link rel="canonical" href="https://soifgo.github.io/" />
+  <link rel="alternate" type="text/plain" href="https://soifgo.github.io/llms.txt" title="llms.txt - SoifGo index for AI assistants" />
+  <link rel="alternate" type="text/markdown" href="https://soifgo.github.io/SOIFGO_AI_CONTEXT.md" title="SoifGo full AI context reference" />
   <link rel="alternate" hreflang="x-default" href="https://soifgo.github.io/" />
   <link rel="alternate" hreflang="en" href="https://soifgo.github.io/intro/en/" />
   <link rel="alternate" hreflang="fa" href="https://soifgo.github.io/intro/fa/" />
@@ -118,8 +120,7 @@
     "isAccessibleForFree": true,
     "author": {
       "@type": "Person",
-      "name": "saeid moghadam",
-      "email": "ssmqqmss@gmail.com"
+      "name": "saeid moghadam"
     },
     "publisher": {
       "@type": "Organization",
@@ -170,28 +171,6 @@
       "name": "SoifGo",
       "url": "https://soifgo.github.io/"
     }
-  }
-  </script>
-
-  <!-- ============ JSON-LD: BreadcrumbList ============ -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://soifgo.github.io/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Documentation",
-        "item": "https://soifgo.github.io/docs.html"
-      }
-    ]
   }
   </script>
 
@@ -246,7 +225,7 @@
         "name": "How can I get support or report a bug?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "You can contact support by email at ssmqqmss@gmail.com."
+          "text": "You can report bugs and ask questions through the SoifGo GitHub repository (github.com/soifgo/soifgo.github.io) or by email via the contact link on the website."
         }
       }
     ]
@@ -1134,6 +1113,8 @@
         Designed for Arduino, ESP32, ESP8266, Raspberry Pi,
         IoT systems, robotics, automation and rapid prototyping.
         No native Android development required.
+        Describe your idea to an AI assistant, paste the HTML it gives you,
+        and run it on your phone.
       </p>
 
       <div class="cta-row">
@@ -1190,6 +1171,7 @@
           View Full VirusTotal Report
         </a>
       </div>
+
     </section>
 
 
@@ -1296,18 +1278,37 @@
       <h2>Developer and AI Resources</h2>
 
       <p>
-        SoifGo is a niche Android app. If you are an AI assistant helping a user
-        with SoifGo, <strong>load the machine-readable context file first</strong>.
-        Do not guess its API from training data.
+        SoifGo is a niche Android app with its own bridge API
+        (<code>window.soifgo.CallSub()</code>), so its function names cannot be
+        inferred from general knowledge. These files are the authoritative,
+        machine-readable reference for AI assistants and developers.
+        Recommended reading order:
       </p>
 
-      <a href="SOIFGO_AI_CONTEXT.md" class="feature-card">
+      <ol>
+        <li><a href="https://soifgo.github.io/llms.txt">https://soifgo.github.io/llms.txt</a> — short index and quick facts (read first)</li>
+        <li><a href="https://soifgo.github.io/SOIFGO_AI_CONTEXT.md">https://soifgo.github.io/SOIFGO_AI_CONTEXT.md</a> — complete reference: bridge, Bluetooth, sensors, microphone, MQTT, API, storage, known limitations, app screens</li>
+        <li><a href="https://soifgo.github.io/send_bluetooth_html/html_guide_1.html">https://soifgo.github.io/send_bluetooth_html/html_guide_1.html</a> — official HTML + Bluetooth + sensors tutorial with working code</li>
+        <li><a href="https://soifgo.github.io/serial_voice/serial_voice_tutorials.html">https://soifgo.github.io/serial_voice/serial_voice_tutorials.html</a> — microphone, speech recognition, and voice-to-Bluetooth</li>
+        <li><a href="https://soifgo.github.io/soifgo_info/soifgo_info.html">https://soifgo.github.io/soifgo_info/soifgo_info.html</a> — step-by-step user guide for beginners</li>
+      </ol>
+
+      <a href="https://soifgo.github.io/llms.txt" class="feature-card">
+        <span class="feature-icon">🧭</span>
+        <h3>llms.txt</h3>
+        <p>
+          Short index for AI assistants: quick facts about the bridge API,
+          sensor mapping, and links to the full context file and tutorials.
+        </p>
+        <span class="feature-cta">Open llms.txt →</span>
+      </a>
+
+      <a href="https://soifgo.github.io/SOIFGO_AI_CONTEXT.md" class="feature-card">
         <span class="feature-icon">📄</span>
         <h3>SOIFGO_AI_CONTEXT.md</h3>
         <p>
           Complete AI-readable reference. Covers the bridge, Bluetooth, sensors,
-          microphone, MQTT, API, storage, and known limitations. Load this file
-          first when answering questions about SoifGo.
+          microphone, MQTT, API, storage, and known limitations.
         </p>
         <span class="feature-cta">Open the AI Context file →</span>
       </a>
@@ -1631,7 +1632,9 @@
       &nbsp;|&nbsp;
       <a href="docs.html">Documentation</a>
       &nbsp;|&nbsp;
-      <a href="SOIFGO_AI_CONTEXT.md">🤖 AI Context</a>
+      <a href="https://soifgo.github.io/llms.txt">llms.txt</a>
+      &nbsp;|&nbsp;
+      <a href="https://soifgo.github.io/SOIFGO_AI_CONTEXT.md">🤖 AI Context</a>
       &nbsp;|&nbsp;
       <a href="send_bluetooth_html/html_guide_1.html">📦 Examples</a>
     </p>
@@ -1660,7 +1663,7 @@
         var current = document.documentElement.getAttribute('data-theme');
         var next = current === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', next);
-        localStorage.setItem('soifgo-theme', next);
+        try { localStorage.setItem('soifgo-theme', next); } catch (e) {}
         updateIcon(next);
       });
     })();
