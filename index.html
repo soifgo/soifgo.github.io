@@ -1577,17 +1577,15 @@
             - Function: <code>window.soifgo.CallSub('subName', true, arg1, arg2, arg3)</code><br>
             - Rule: Always wrap with <code>if (window.soifgo)</code>, max 3 arguments after <code>true</code>.
           </li>
-           <li style="margin-top: 8px;">
-            <strong>Bluetooth TX (HTML TX ➔ SoifGo RX):</strong><br>
-            - Function: <code>CallSub('html_bluetooth_rx', true, text)</code><br>
-            - Real Code: <code>window.soifgo.CallSub('html_bluetooth_rx', true, 'ON\n');</code><br>
-            - Real-World Use: Sends text command to Arduino/ESP32 via HC-05 to toggle a relay or LED.
-          </li>
-          <li style="margin-top: 8px;">
-            <strong>Bluetooth RX (HTML RX ⬅️ SoifGo TX):</strong><br>
-            - Function: <code>html_bluetooth_tx(data)</code><br>
-            - Real-World Use: Read sensor streams like <code>A0=512</code> from microcontrollers.
-          </li>
+<li>
+  <strong>Bluetooth — Send &amp; Receive (both directions together):</strong><br>
+  - <b>Send (HTML ➔ Bluetooth):</b> <code>window.soifgo.CallSub('html_bluetooth_rx', true, 'ON\n');</code><br>
+  - <b>Receive (Bluetooth ➔ HTML):</b> register a receiver on window:<br>
+    <code>function html_bluetooth_tx(data) { ... }</code><br>
+    <code>window.html_bluetooth_tx = html_bluetooth_tx;</code><br>
+  - <b>Warning:</b> the names look swapped. The <u>send</u> Sub is <code>html_bluetooth_rx</code>; the <u>receive</u> callback is <code>html_bluetooth_tx</code>. Do NOT guess — copy them exactly.<br>
+  - <b>Real-World Use:</b> send <code>ON\n</code> to Arduino to toggle a relay; receive <code>A0=512</code> sensor lines from the microcontroller.
+</li>
 <li style="margin-top: 8px;">
             <strong>Phone Sensors (Independent Activation):</strong><br>
             - Rule: All sensors are completely independent. You only need to activate the specific sensor you need; there is no need to turn on the others if unused.<br>
