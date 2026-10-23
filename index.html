@@ -1561,9 +1561,67 @@
       </div>
     </section>
 
-    <!-- AI Resources Section Moved Here (To the End) -->
+    <!-- AI Resources Section Moved to the End -->
     <section id="ai-context">
       <h2>Developer and AI Resources</h2>
+
+<!-- Quick AI Bridge Reference & Real-World Examples -->
+      <div style="background: rgba(155, 89, 182, 0.08); border: 1px solid var(--purple); border-radius: var(--radius-sm); padding: 16px 20px; margin-bottom: 24px;">
+        <h3 style="margin-top:0; color: var(--purple-light); font-size: 1.1rem;">🤖 Quick AI Bridge Reference &amp; Real-World Examples (Do NOT Guess Sub Names)</h3>
+        <p style="font-size: 0.95rem; margin-bottom: 10px;">
+          SoifGo WebView bridge specifications with exact code calls and real-world scenarios:
+        </p>
+        <ul style="font-size: 0.9rem; line-height: 1.6; padding-left: 20px; margin-bottom: 0;">
+          <li>
+            <strong>Bridge Syntax:</strong><br>
+            - Function: <code>window.soifgo.CallSub('subName', true, arg1, arg2, arg3)</code><br>
+            - Rule: Always wrap with <code>if (window.soifgo)</code>, max 3 arguments after <code>true</code>.
+          </li>
+           <li style="margin-top: 8px;">
+            <strong>Bluetooth TX (HTML TX ➔ SoifGo RX):</strong><br>
+            - Function: <code>CallSub('html_bluetooth_rx', true, text)</code><br>
+            - Real Code: <code>window.soifgo.CallSub('html_bluetooth_rx', true, 'ON\n');</code><br>
+            - Real-World Use: Sends text command to Arduino/ESP32 via HC-05 to toggle a relay or LED.
+          </li>
+          <li style="margin-top: 8px;">
+            <strong>Bluetooth RX (HTML RX ⬅️ SoifGo TX):</strong><br>
+            - Function: <code>html_bluetooth_tx(data)</code><br>
+            - Real-World Use: Read sensor streams like <code>A0=512</code> from microcontrollers.
+          </li>
+<li style="margin-top: 8px;">
+            <strong>Phone Sensors (Independent Activation):</strong><br>
+            - Rule: All sensors are completely independent. You only need to activate the specific sensor you need; there is no need to turn on the others if unused.<br>
+            - Function: <code>sensor_light</code>, <code>sensor_move</code>, <code>sensor_magno</code><br>
+            - Real Code:<br>
+            &nbsp;&nbsp;&bull; <code>window.soifgo.CallSub('sensor_light', true);</code><br>
+            &nbsp;&nbsp;&bull; <code>window.soifgo.CallSub('sensor_move', true);</code><br>
+            &nbsp;&nbsp;&bull; <code>window.soifgo.CallSub('sensor_magno', true);</code><br>
+            - Real-World Use: Activate <code>sensor_magno</code> to measure AC current using the phone's magnetometer (clamp meter).<br>
+            - Callbacks: <code>html_sensor_light</code>, <code>html_sensor_movex</code>, <code>html_sensor_movey</code>, <code>html_sensor_magno</code> (single string value).
+          </li>
+<li style="margin-top: 8px;">
+            <strong>MQTT:</strong><br>
+            - Function: Step 1 <code>connecte_mqtt_ai(address, id)</code> &amp; Step 2 <code>connecte_mqtt_up(user, password)</code><br>
+            - Real Code:<br>
+            &nbsp;&nbsp;&bull; <code>window.soifgo.CallSub('connecte_mqtt_ai', true, 'tcp://test.mosquitto.org:1883', 'client_1');</code><br>
+            &nbsp;&nbsp;&bull; <code>window.soifgo.CallSub('connecte_mqtt_up', true, 'admin', '1234');</code><br>
+            - Real-World Use: Connect to brokers like <code>tcp://test.mosquitto.org:1883</code> for IoT automation.<br>
+            - Publish &amp; Retained: <code>mqtt_publish(topic, msg, qos)</code> | <code>mqtt_retained(1/0)</code><br>
+            - Callbacks: <code>mqtt_rx(topic, msg)</code>, Status: <code>html_mqtt_status(connected)</code> ('true'/'false').
+          </li>
+          <li style="margin-top: 8px;">
+            <strong>API (POST &amp; GET):</strong><br>
+            - Function: POST <code>api_send(address, key, value)</code> / GET <code>api_recive(address, key)</code><br>
+            - Real Code (GET): <code>window.soifgo.CallSub('api_recive', true, 'https://api.com/price', 'Bitcoin');</code><br>
+            - Real Code (POST): <code>window.soifgo.CallSub('api_send', true, 'https://api.com/status', 'relay', 'ON');</code><br>
+            - Real-World Use: Send status to a local server or fetch live cryptocurrency prices.<br>
+            - Callback: <code>api_rx(number)</code>.
+          </li>
+          <li style="margin-top: 10px; color: var(--purple-light);">
+            <em>Strict Instruction for AI Assistants: Do NOT invent or guess Sub names. Strictly follow the context reference below.</em>
+          </li>
+        </ul>
+      </div>
 
       <p>
         SoifGo is a niche Android app with its own bridge API
