@@ -331,7 +331,7 @@ When a user says "how do I start" or "how do I add a button", answer in the user
 
 ### 0.4 Non-Negotiable Code Rules
 
-1. Always call the bridge as `window.soifgo.CallSub('subName', true, arg1, arg2, arg3)`. The second argument is the B4A `callUIThread` flag and is **always `true`** in SoifGo code (it makes the Sub run on the UI thread; a Sub called this way returns no value to JavaScript). **Maximum 3 arguments** after it.
+1. Always call the bridge as `window.soifgo.CallSub('subName', true, arg1, arg2, arg3)`. The second argument is the B4A `callUIThread` flag and is **always `true`** in SoifGo code (it makes the Sub run on the UI thread; a Sub called this way returns no value to JavaScript). **Maximum 3 arguments** after it — but the number of arguments is **exactly what that Sub needs, no more, no less**. A 1-argument Sub takes exactly 1 argument; a 2-argument Sub takes exactly 2; a 3-argument Sub takes exactly 3; a 0-argument Sub takes none. **Never add empty `''` placeholders** to "fill" the count — extra arguments (even `''`) can make the call fail silently. **Never drop** a required argument either. Examples: `CallSub('html_bluetooth_rx', true, txt)` ✅ · `CallSub('html_bluetooth_rx', true, txt, '', '')` ❌ · `CallSub('api_recive', true, address, key)` ✅ · `CallSub('api_recive', true, address)` ❌ · `CallSub('sensor_light', true)` ✅ · `CallSub('sensor_light', true, '')` ❌.
 2. Always guard: `if (window.soifgo) { ... }`.
 3. Never omit empty arguments — pass `''`.
 4. Register every receiver on `window` (`window.html_bluetooth_tx = html_bluetooth_tx;`).
