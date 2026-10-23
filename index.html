@@ -1216,6 +1216,80 @@
 
     </section>
 
+    <section id="ai-quick-rules">
+      <h2>SoifGo Bridge: Quick Rules for AI Assistants (read this first)</h2>
+      <p>
+        The SoifGo bridge names cannot be guessed. Only the Sub names listed in the table below exist.
+        Never invent or guess a name. Sending over Bluetooth is done with
+        <code>html_bluetooth_rx</code>.
+      </p>
+
+      <h3>The one call shape (3 rules)</h3>
+      <p>
+        <code>window.soifgo.CallSub('SubName', true, arg1, arg2, arg3)</code>
+      </p>
+      <ol>
+        <li>The first argument is the Sub name, copied exactly from the table below.</li>
+        <li>The second argument is always <code>true</code>. It is mandatory: it makes the Sub run on the UI thread. Never omit it and never pass <code>false</code>.</li>
+        <li>After <code>true</code>, pass exactly the number of arguments listed in the table for that Sub (0 to 3). If one value is empty, pass <code>''</code> for that argument. Never add extra arguments to reach a count of 3: a call that does not match the Sub&#39;s parameters can raise an error or close the app.</li>
+      </ol>
+
+      <h3>Sub reference: name and exact argument count after <code>true</code></h3>
+      <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:0.9rem;">
+          <thead>
+            <tr>
+              <th style="text-align:left; padding:6px 8px; border:1px solid var(--border);">Sub name</th>
+              <th style="text-align:left; padding:6px 8px; border:1px solid var(--border);">Arguments after true</th>
+              <th style="text-align:left; padding:6px 8px; border:1px solid var(--border);">Exact call and meaning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>html_bluetooth_rx</code></td><td style="padding:6px 8px; border:1px solid var(--border);">1</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('html_bluetooth_rx', true, txt)</code>: SENDS text over Bluetooth (the name looks swapped, but this is the send Sub)</td></tr>
+            <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>sensor_light</code></td><td style="padding:6px 8px; border:1px solid var(--border);">0</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('sensor_light', true)</code>: starts the light sensor</td></tr>
+            <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>sensor_move</code></td><td style="padding:6px 8px; border:1px solid var(--border);">0</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('sensor_move', true)</code>: starts the movement sensor</td></tr>
+            <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>sensor_magno</code></td><td style="padding:6px 8px; border:1px solid var(--border);">0</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('sensor_magno', true)</code>: starts the magnetic sensor</td></tr>
+            <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>request_mic_perm</code></td><td style="padding:6px 8px; border:1px solid var(--border);">1</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('request_mic_perm', true, null)</code>: asks for microphone permission</td></tr>
+            <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>connecte_mqtt_ai</code></td><td style="padding:6px 8px; border:1px solid var(--border);">2</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('connecte_mqtt_ai', true, address, id)</code>: connects to the broker</td></tr>
+            <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>connecte_mqtt_up</code></td><td style="padding:6px 8px; border:1px solid var(--border);">2</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('connecte_mqtt_up', true, username, password)</code>: connects with a login (both values must be non-empty)</td></tr>
+            <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>mqtt_publish</code></td><td style="padding:6px 8px; border:1px solid var(--border);">3</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('mqtt_publish', true, topic, message, qos)</code>: publishes (works only while connected)</td></tr>
+            <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>mqtt_retained</code></td><td style="padding:6px 8px; border:1px solid var(--border);">1</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('mqtt_retained', true, 1)</code>: retained option, 1 = ON, 0 = OFF; call it before mqtt_publish</td></tr>
+            <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>mqtt_status</code></td><td style="padding:6px 8px; border:1px solid var(--border);">0</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('mqtt_status', true)</code>: the answer arrives in html_mqtt_status</td></tr>
+            <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>mqtt_Disconnect</code></td><td style="padding:6px 8px; border:1px solid var(--border);">0</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('mqtt_Disconnect', true)</code>: disconnects (note the capital D)</td></tr>
+            <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>api_send</code></td><td style="padding:6px 8px; border:1px solid var(--border);">3</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('api_send', true, address, key, value)</code>: HTTP POST of {"key":"value"}</td></tr>
+            <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>api_recive</code></td><td style="padding:6px 8px; border:1px solid var(--border);">2</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('api_recive', true, address, key)</code>: HTTP GET (spelled exactly api_recive); the answer arrives in api_rx</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Receivers: functions the app calls in your page (register each on window)</h3>
+      <ul>
+        <li><code>html_bluetooth_tx(data)</code>: RECEIVES Bluetooth text (the name looks swapped, but this is the receive callback)</li>
+        <li><code>html_sensor_light(data)</code>, <code>html_sensor_movex(data)</code>, <code>html_sensor_movey(data)</code>, <code>html_sensor_magno(data)</code>: one value each, as a string</li>
+        <li><code>mqtt_rx(topic, message)</code>, <code>html_mqtt_status(connected)</code> (the string 'true' or 'false'), <code>api_rx(number)</code></li>
+      </ul>
+
+      <h3>Minimal Bluetooth page: send and receive</h3>
+      <div class="plain-code-wrap">
+        <button class="copy-btn" type="button" onclick="copyPlain(this)">📋 Copy code</button>
+        <pre><code class="plain-code">function send(txt) {
+  if (window.soifgo) {
+    window.soifgo.CallSub('html_bluetooth_rx', true, txt);
+  }
+}
+
+function html_bluetooth_tx(data) {
+  document.getElementById('status').textContent = data;
+}
+window.html_bluetooth_tx = html_bluetooth_tx;</code></pre>
+      </div>
+      <p>
+        SoifGo already appends a line ending (CR+LF) to every text sent with
+        <code>html_bluetooth_rx</code>, so do not add <code>\n</code> yourself.
+        Bluetooth sending works only while a Bluetooth module is connected.
+      </p>
+    </section>
+
 
     <section id="story" class="story-section">
       <h2>The Story Behind SoifGo</h2>
@@ -1624,12 +1698,12 @@
 
           <!-- Argument Count -->
           <li style="margin-bottom: 18px;">
-            <strong>⚠️ Argument Count — exact, not "fill the blanks":</strong><br>
-            <code>CallSub</code> accepts <u>up to</u> 3 arguments after <code>true</code>,
-            but each Sub needs <u>exactly</u> the number it was defined with — no more, no less.
-            <b>Never add empty <code>''</code> placeholders to reach 3.</b> Extra arguments
-            (even empty strings) can make the call fail silently. Never drop a required argument either.<br><br>
-            <b>Examples:</b><br>
+            <strong>Argument count: exactly what each Sub defines</strong><br>
+            Every call is <code>CallSub('SubName', true, ...)</code>. After <code>true</code>, pass exactly
+            as many arguments as the Sub has parameters (0 to 3, see the table at the top of this page).
+            If one of those values is empty, pass <code>''</code> for it. Do not add extra arguments to fill
+            the count, and do not leave out a required argument.<br><br>
+            <b>Correct examples (0, 1, 2 and 3 arguments):</b><br>
             <button class="copy-btn" type="button" onclick="copyPlain(this)">📋 Copy code</button>
             <pre><code class="plain-code">// 0 arguments
 window.soifgo.CallSub('sensor_light', true);
@@ -1641,18 +1715,9 @@ window.soifgo.CallSub('html_bluetooth_rx', true, 'ON');
 window.soifgo.CallSub('api_recive', true, 'https://api.example.com/price', 'Price');
 
 // 3 arguments
-window.soifgo.CallSub('mqtt_publish', true, 'soifgo/led', 'ON', '0');
-
-// WRONG - extra empty placeholders
-window.soifgo.CallSub('html_bluetooth_rx', true, 'ON', '', '');
-window.soifgo.CallSub('api_recive', true, 'https://api.example.com/price', 'Price', '');
-
-// WRONG - missing required arguments
-window.soifgo.CallSub('api_recive', true, 'https://api.example.com/price');
-window.soifgo.CallSub('mqtt_publish', true, 'soifgo/led', 'ON');</code></pre><br>
-            <b>Why this matters:</b> a report that claims "always pass 3 arguments" is wrong.
-            The 5 working Bluetooth examples in the context file all use <u>1</u> argument,
-            and they work. Copy the exact call shape of the Sub you use.
+window.soifgo.CallSub('mqtt_publish', true, 'soifgo/led', 'ON', '0');</code></pre><br>
+            <b>Why:</b> the bridge matches the call to the Sub&#39;s parameters. Bluetooth sending takes
+            1 argument, so a call with 3 arguments (or without <code>true</code>) does not match.
           </li>
 
           <!-- ============ Bluetooth ============ -->
@@ -1661,6 +1726,8 @@ window.soifgo.CallSub('mqtt_publish', true, 'soifgo/led', 'ON');</code></pre><br
             <b>⚠️ Warning:</b> the names look swapped. The <u>send</u> Sub is
             <code>html_bluetooth_rx</code>; the <u>receive</u> callback is
             <code>html_bluetooth_tx</code>. Do NOT guess — copy them exactly.<br><br>
+            - Send: <code>html_bluetooth_rx</code>, exactly <b>1 argument</b> after <code>true</code> (<code>txt</code>).<br>
+            - Receive: you define <code>html_bluetooth_tx(data)</code> and register it on <code>window</code>.<br><br>
             <b>Complete script (paste as-is; both directions covered):</b><br>
             <button class="copy-btn" type="button" onclick="copyPlain(this)">📋 Copy code</button>
             <pre><code class="plain-code">function send(txt) {
@@ -1684,7 +1751,7 @@ window.onload = function () {
     // window.soifgo.CallSub('request_mic_perm', true, null);
   }
 };</code></pre><br>
-            <b>Real-World Use:</b> send <code>ON\n</code> to Arduino to toggle a relay;
+            <b>Real-World Use:</b> send <code>ON</code> to Arduino to toggle a relay (SoifGo adds the line ending itself);
             receive <code>A0=512</code> sensor lines from the microcontroller.
           </li>
 
@@ -1692,7 +1759,7 @@ window.onload = function () {
           <li style="margin-bottom: 18px;">
             <strong>Phone Sensors (Independent Activation):</strong><br>
             - Rule: All sensors are completely independent. Activate only the specific sensor you need; there is no need to turn on the others if unused.<br>
-            - Activation Subs: <code>sensor_light</code>, <code>sensor_move</code>, <code>sensor_magno</code><br><br>
+            - Activation Subs, each with <b>0 arguments</b> after <code>true</code>: <code>sensor_light</code>, <code>sensor_move</code>, <code>sensor_magno</code> (example: <code>CallSub('sensor_light', true)</code>)<br><br>
             <b>Complete script (paste as-is; call only the sensors you use):</b><br>
             <button class="copy-btn" type="button" onclick="copyPlain(this)">📋 Copy code</button>
             <pre><code class="plain-code">function html_sensor_light(data) { document.getElementById('light').textContent  = 'Light: '   + data; }
@@ -1724,10 +1791,10 @@ window.onload = function () {
           <!-- ============ MQTT ============ -->
           <li style="margin-bottom: 18px;">
             <strong>MQTT (connect, publish, receive, status):</strong><br>
-            - Two-step connect: Step 1 <code>connecte_mqtt_ai(address, id)</code> &amp; Step 2 (optional auth) <code>connecte_mqtt_up(user, password)</code><br>
-            - Publish: <code>mqtt_publish(topic, msg, qos)</code> — also auto-subscribes you to that topic.<br>
-            - Retained option: call <code>mqtt_retained(1)</code> <u>before</u> <code>mqtt_publish</code> (<code>1</code> = ON, <code>0</code> = OFF).<br>
-            - Other Subs: <code>mqtt_status()</code>, <code>mqtt_Disconnect()</code>.<br><br>
+            - Two-step connect: Step 1 <code>connecte_mqtt_ai</code> (<b>2 arguments</b>: address, id) &amp; Step 2 (optional auth) <code>connecte_mqtt_up</code> (<b>2 arguments</b>: username, password)<br>
+            - Publish: <code>mqtt_publish</code> (<b>3 arguments</b>: topic, message, qos). It also auto-subscribes you to that topic and works only while MQTT is connected.<br>
+            - Retained option: <code>mqtt_retained</code> (<b>1 argument</b>: <code>1</code> = ON, <code>0</code> = OFF); call it <u>before</u> <code>mqtt_publish</code>.<br>
+            - Other Subs, each with <b>0 arguments</b> after <code>true</code>: <code>mqtt_status</code>, <code>mqtt_Disconnect</code>.<br><br>
             <b>Complete script (paste as-is):</b><br>
             <button class="copy-btn" type="button" onclick="copyPlain(this)">📋 Copy code</button>
             <pre><code class="plain-code">function mqttConnect() {
@@ -1764,8 +1831,8 @@ window.html_mqtt_status = html_mqtt_status;</code></pre><br>
           <!-- ============ API ============ -->
           <li style="margin-bottom: 18px;">
             <strong>API (POST &amp; GET):</strong><br>
-            - Send (POST): <code>api_send(address, key, value)</code> — sends body <code>{"key":"value"}</code> as JSON.<br>
-            - Receive (GET): <code>api_recive(address, key)</code> — <u>both</u> arguments are required; the key is extracted from the JSON and returned via <code>api_rx</code>.<br><br>
+            - Send (POST): <code>api_send</code> (<b>3 arguments</b>: address, key, value). Sends the body <code>{"key":"value"}</code> as JSON.<br>
+            - Receive (GET): <code>api_recive</code> (<b>2 arguments</b>: address, key). <u>Both</u> are required; the answer is returned via <code>api_rx</code>.<br><br>
             <b>Complete script (paste as-is):</b><br>
             <button class="copy-btn" type="button" onclick="copyPlain(this)">📋 Copy code</button>
             <pre><code class="plain-code">function apiPost() {
@@ -1798,7 +1865,7 @@ function api_rx(number) {
 }
 window.api_rx = api_rx;</code></pre><br>
             <b>⚠️ Warning:</b> <code>api_recive</code> <u>requires</u> both
-            <code>address</code> and <code>key</code> — a missing key fails silently.
+            <code>address</code> and <code>key</code>. A call with only one of them does not match the Sub and can raise an error or close the app.
             The callback <code>api_rx</code> may deliver a plain value
             (<code>86846.51</code>) <u>or</u> a B4A Map string (<code>{usd=86750}</code>) —
             handle both with <code>extractValue()</code>.<br>
