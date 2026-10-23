@@ -1005,6 +1005,70 @@
     }
     footer a:hover { color: var(--primary); text-decoration: underline; }
 
+    /* ============ Code Box (isolated code + copy button) ============ */
+    .code-box {
+      position: relative;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      overflow: hidden;
+      direction: ltr;
+      text-align: left;
+    }
+    .code-box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: #161b22;
+      border-bottom: 1px solid #30363d;
+    }
+    .code-box-lang {
+      font-size: 0.75rem;
+      color: #8b949e;
+      font-family: monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .code-box-copy {
+      background: #21262d;
+      color: #c9d1d9;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 4px 12px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .code-box-copy:hover {
+      background: #30363d;
+      border-color: #8b949e;
+    }
+    .code-box-copy.copied {
+      background: #238636;
+      border-color: #2ea043;
+      color: #fff;
+    }
+    .code-box pre {
+      margin: 0;
+      padding: 14px 16px;
+      overflow-x: auto;
+      max-height: 420px;
+      overflow-y: auto;
+    }
+    .code-box code {
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      font-size: 0.82rem;
+      line-height: 1.6;
+      color: #c9d1d9;
+      white-space: pre;
+      display: block;
+    }
+    .code-box pre::-webkit-scrollbar { height: 8px; width: 8px; }
+    .code-box pre::-webkit-scrollbar-track { background: #0d1117; }
+    .code-box pre::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
+    .code-box pre::-webkit-scrollbar-thumb:hover { background: #484f58; }
+
     @media (max-width: 700px) {
       header { padding: 60px 20px 40px; }
       .logo-row .brand-name { font-size: 2.2rem; }
@@ -1029,6 +1093,8 @@
       .lang-btn { font-size: 0.8rem; padding: 6px 12px; }
       .lang-dropdown { min-width: 180px; max-height: 300px; }
       .lang-item { padding: 8px 14px; font-size: 0.85rem; }
+      .code-box pre { max-height: 300px; }
+      .code-box code { font-size: 0.75rem; }
     }
 
     @media (max-width: 480px) {
@@ -1047,6 +1113,8 @@
       .feature-card h3 { font-size: 1.1rem; }
       .cta-row { flex-direction: column; gap: 10px; }
       .cta-row .cta-button { width: 100%; max-width: 320px; }
+      .code-box pre { max-height: 240px; }
+      .code-box code { font-size: 0.72rem; }
     }
   
   #languages { margin-top: 2.5rem; }
@@ -1572,49 +1640,205 @@
           SoifGo WebView bridge specifications with exact code calls and real-world scenarios:
         </p>
         <ul style="font-size: 0.9rem; line-height: 1.6; padding-left: 20px; margin-bottom: 0;">
-          <li>
+
+          <!-- Bridge Syntax -->
+          <li style="margin-bottom: 18px;">
             <strong>Bridge Syntax:</strong><br>
             - Function: <code>window.soifgo.CallSub('subName', true, arg1, arg2, arg3)</code><br>
             - Rule: Always wrap with <code>if (window.soifgo)</code>, max 3 arguments after <code>true</code>.
           </li>
-<li>
-  <strong>Bluetooth — Send &amp; Receive (both directions together):</strong><br>
-  - <b>Send (HTML ➔ Bluetooth):</b> <code>window.soifgo.CallSub('html_bluetooth_rx', true, 'ON\n');</code><br>
-  - <b>Receive (Bluetooth ➔ HTML):</b> register a receiver on window:<br>
-    <code>function html_bluetooth_tx(data) { ... }</code><br>
-    <code>window.html_bluetooth_tx = html_bluetooth_tx;</code><br>
-  - <b>Warning:</b> the names look swapped. The <u>send</u> Sub is <code>html_bluetooth_rx</code>; the <u>receive</u> callback is <code>html_bluetooth_tx</code>. Do NOT guess — copy them exactly.<br>
-  - <b>Real-World Use:</b> send <code>ON\n</code> to Arduino to toggle a relay; receive <code>A0=512</code> sensor lines from the microcontroller.
-</li>
-<li style="margin-top: 8px;">
+
+          <!-- ============ Bluetooth ============ -->
+          <li style="margin-bottom: 18px;">
+            <strong>Bluetooth — Send &amp; Receive (both directions together):</strong><br>
+            <b>⚠️ Warning:</b> the names look swapped. The <u>send</u> Sub is
+            <code>html_bluetooth_rx</code>; the <u>receive</u> callback is
+            <code>html_bluetooth_tx</code>. Do NOT guess — copy them exactly.
+            <div class="code-box" style="margin-top: 10px;">
+              <div class="code-box-header">
+                <span class="code-box-lang">JavaScript</span>
+                <button class="code-box-copy" type="button" onclick="copyCodeBox(this)">📋 Copy</button>
+              </div>
+              <pre><code class="language-js">&lt;script&gt;
+// ── SEND: HTML ➔ Bluetooth ──
+function send(txt) {
+  if (window.soifgo) {
+    window.soifgo.CallSub('html_bluetooth_rx', true, txt);
+  } else {
+    document.getElementById('status').textContent = 'Not running inside SoifGo';
+  }
+}
+
+// ── RECEIVE: Bluetooth ➔ HTML ──
+// The receive callback MUST be registered on window:
+function html_bluetooth_tx(data) {
+  document.getElementById('status').textContent = data;
+}
+window.html_bluetooth_tx = html_bluetooth_tx;
+
+// ── OPTIONAL: sensors &amp; microphone (each Sub is independent) ──
+window.onload = function () {
+  if (window.soifgo) {
+    // window.soifgo.CallSub('sensor_light', true);
+    // window.soifgo.CallSub('sensor_move', true);
+    // window.soifgo.CallSub('sensor_magno', true);
+    // window.soifgo.CallSub('request_mic_perm', true, null);
+  }
+};
+&lt;/script&gt;</code></pre>
+            </div>
+            <b>Real-World Use:</b> send <code>ON\n</code> to Arduino to toggle a relay;
+            receive <code>A0=512</code> sensor lines from the microcontroller.
+          </li>
+
+          <!-- ============ Phone Sensors ============ -->
+          <li style="margin-bottom: 18px;">
             <strong>Phone Sensors (Independent Activation):</strong><br>
-            - Rule: All sensors are completely independent. You only need to activate the specific sensor you need; there is no need to turn on the others if unused.<br>
-            - Function: <code>sensor_light</code>, <code>sensor_move</code>, <code>sensor_magno</code><br>
-            - Real Code:<br>
-            &nbsp;&nbsp;&bull; <code>window.soifgo.CallSub('sensor_light', true);</code><br>
-            &nbsp;&nbsp;&bull; <code>window.soifgo.CallSub('sensor_move', true);</code><br>
-            &nbsp;&nbsp;&bull; <code>window.soifgo.CallSub('sensor_magno', true);</code><br>
-            - Real-World Use: Activate <code>sensor_magno</code> to measure AC current using the phone's magnetometer (clamp meter).<br>
-            - Callbacks: <code>html_sensor_light</code>, <code>html_sensor_movex</code>, <code>html_sensor_movey</code>, <code>html_sensor_magno</code> (single string value).
+            - Rule: All sensors are completely independent. Activate only the specific sensor you need; there is no need to turn on the others if unused.<br>
+            - Activation Subs: <code>sensor_light</code>, <code>sensor_move</code>, <code>sensor_magno</code>
+            <div class="code-box" style="margin-top: 10px;">
+              <div class="code-box-header">
+                <span class="code-box-lang">JavaScript</span>
+                <button class="code-box-copy" type="button" onclick="copyCodeBox(this)">📋 Copy</button>
+              </div>
+              <pre><code class="language-js">&lt;script&gt;
+// ── RECEIVE callbacks (one value as a STRING each) ──
+function html_sensor_light(data) { document.getElementById('light').textContent  = 'Light: '   + data; }
+function html_sensor_movex(data) { document.getElementById('movex').textContent  = 'Move X: '  + data; }
+function html_sensor_movey(data) { document.getElementById('movey').textContent  = 'Move Y: '  + data; }
+function html_sensor_magno(data) { document.getElementById('magno').textContent  = 'Magneto: ' + data; }
+
+window.html_sensor_light = html_sensor_light;
+window.html_sensor_movex = html_sensor_movex;
+window.html_sensor_movey = html_sensor_movey;
+window.html_sensor_magno = html_sensor_magno;
+
+// ── ACTIVATE: each Sub is independent — call only the ones you use ──
+window.onload = function () {
+  if (window.soifgo) {
+    window.soifgo.CallSub('sensor_light', true);   // remove if not needed
+    window.soifgo.CallSub('sensor_move',  true);   // remove if not needed
+    window.soifgo.CallSub('sensor_magno', true);   // remove if not needed
+  } else {
+    document.getElementById('info').textContent = 'Not running inside SoifGo';
+  }
+};
+&lt;/script&gt;</code></pre>
+            </div>
+            <b>⚠️ Warning:</b> The magnetometer (<code>html_sensor_magno</code>) delivers
+            <u>one single value</u> as a string — never destructure it into x/y/z,
+            never use <code>data.x</code>. Accelerometer <b>Z</b> is not forwarded.<br>
+            <b>Real-World Use:</b> activate <code>sensor_magno</code> to measure AC current
+            with the phone's magnetometer (clamp meter).
           </li>
-<li style="margin-top: 8px;">
-            <strong>MQTT:</strong><br>
-            - Function: Step 1 <code>connecte_mqtt_ai(address, id)</code> &amp; Step 2 <code>connecte_mqtt_up(user, password)</code><br>
-            - Real Code:<br>
-            &nbsp;&nbsp;&bull; <code>window.soifgo.CallSub('connecte_mqtt_ai', true, 'tcp://test.mosquitto.org:1883', 'client_1');</code><br>
-            &nbsp;&nbsp;&bull; <code>window.soifgo.CallSub('connecte_mqtt_up', true, 'admin', '1234');</code><br>
-            - Real-World Use: Connect to brokers like <code>tcp://test.mosquitto.org:1883</code> for IoT automation.<br>
-            - Publish &amp; Retained: <code>mqtt_publish(topic, msg, qos)</code> | <code>mqtt_retained(1/0)</code><br>
-            - Callbacks: <code>mqtt_rx(topic, msg)</code>, Status: <code>html_mqtt_status(connected)</code> ('true'/'false').
+
+          <!-- ============ MQTT ============ -->
+          <li style="margin-bottom: 18px;">
+            <strong>MQTT (connect, publish, receive, status):</strong><br>
+            - Two-step connect: Step 1 <code>connecte_mqtt_ai(address, id)</code> &amp; Step 2 (optional auth) <code>connecte_mqtt_up(user, password)</code><br>
+            - Publish: <code>mqtt_publish(topic, msg, qos)</code> — also auto-subscribes you to that topic.<br>
+            - Retained option: call <code>mqtt_retained(1)</code> <u>before</u> <code>mqtt_publish</code> (<code>1</code> = ON, <code>0</code> = OFF).<br>
+            - Other Subs: <code>mqtt_status()</code>, <code>mqtt_Disconnect()</code>.
+            <div class="code-box" style="margin-top: 10px;">
+              <div class="code-box-header">
+                <span class="code-box-lang">JavaScript</span>
+                <button class="code-box-copy" type="button" onclick="copyCodeBox(this)">📋 Copy</button>
+              </div>
+              <pre><code class="language-js">&lt;script&gt;
+// ── CONNECT (step 1 + optional step 2) ──
+function mqttConnect() {
+  if (!window.soifgo) return;
+  window.soifgo.CallSub('connecte_mqtt_ai', true, 'tcp://test.mosquitto.org:1883', 'client_1');
+  // only if the broker requires credentials:
+  // window.soifgo.CallSub('connecte_mqtt_up', true, 'admin', '1234');
+}
+
+// ── PUBLISH (also auto-subscribes you to the topic) ──
+function mqttSend(topic, msg, qos) {
+  if (!window.soifgo) return;
+  window.soifgo.CallSub('mqtt_publish', true, topic, msg, qos || '0');
+}
+
+// ── STATUS &amp; DISCONNECT ──
+function mqttCheck() { if (window.soifgo) window.soifgo.CallSub('mqtt_status', true); }
+function mqttBye()   { if (window.soifgo) window.soifgo.CallSub('mqtt_Disconnect', true); }
+
+// ── RECEIVE callback ──
+function mqtt_rx(topic, message) {
+  document.getElementById('log').innerHTML +=
+    '&lt;div&gt;RX ' + topic + ' : ' + message + '&lt;/div&gt;';
+}
+window.mqtt_rx = mqtt_rx;
+
+// ── STATUS callback (⚠️ arrives as STRING 'true' / 'false') ──
+function html_mqtt_status(connected) {
+  var ok = (connected === 'true');   // NEVER use: if (connected)
+  document.getElementById('status').textContent = ok ? 'Connected' : 'Disconnected';
+}
+window.html_mqtt_status = html_mqtt_status;
+&lt;/script&gt;</code></pre>
+            </div>
+            <b>⚠️ Warning:</b> <code>html_mqtt_status</code> receives a <u>string</u>
+            (<code>'true'</code> / <code>'false'</code>). The string <code>'false'</code>
+            is truthy in JS — always compare with <code>=== 'true'</code>.<br>
+            <b>Real-World Use:</b> connect to brokers like <code>tcp://test.mosquitto.org:1883</code>
+            for IoT automation; publish to <code>soifgo/led</code> to toggle a relay.
           </li>
-          <li style="margin-top: 8px;">
+
+          <!-- ============ API ============ -->
+          <li style="margin-bottom: 18px;">
             <strong>API (POST &amp; GET):</strong><br>
-            - Function: POST <code>api_send(address, key, value)</code> / GET <code>api_recive(address, key)</code><br>
-            - Real Code (GET): <code>window.soifgo.CallSub('api_recive', true, 'https://api.com/price', 'Bitcoin');</code><br>
-            - Real Code (POST): <code>window.soifgo.CallSub('api_send', true, 'https://api.com/status', 'relay', 'ON');</code><br>
-            - Real-World Use: Send status to a local server or fetch live cryptocurrency prices.<br>
-            - Callback: <code>api_rx(number)</code>.
+            - Send (POST): <code>api_send(address, key, value)</code> — sends body <code>{"key":"value"}</code> as JSON.<br>
+            - Receive (GET): <code>api_recive(address, key)</code> — <u>both</u> arguments are required; the key is extracted from the JSON and returned via <code>api_rx</code>.
+            <div class="code-box" style="margin-top: 10px;">
+              <div class="code-box-header">
+                <span class="code-box-lang">JavaScript</span>
+                <button class="code-box-copy" type="button" onclick="copyCodeBox(this)">📋 Copy</button>
+              </div>
+              <pre><code class="language-js">&lt;script&gt;
+// ── POST ──
+function apiPost() {
+  if (window.soifgo) {
+    window.soifgo.CallSub('api_send', true,
+      'https://api.example.com/status', 'relay', 'ON');
+  }
+}
+
+// ── GET ──
+function apiGet() {
+  if (window.soifgo) {
+    window.soifgo.CallSub('api_recive', true,
+      'https://api.example.com/price', 'Bitcoin');
+  }
+}
+
+// ── RECEIVE callback (must handle both formats) ──
+function extractValue(raw, field) {
+  var s = String(raw).trim();
+  if (/^-?\d+(\.\d+)?$/.test(s)) return s;                                // plain number
+  var m = s.match(new RegExp(field + '[=:]\\s*([^,}\\s]+)', 'i'));        // {usd=86750}
+  if (m) return m[1];
+  try { var o = JSON.parse(s); if (o[field] !== undefined) return o[field]; } catch (e) {}
+  var n = s.match(/-?\d+(\.\d+)?/);
+  return n ? n[0] : null;
+}
+
+function api_rx(number) {
+  document.getElementById('out').textContent =
+    'Received: ' + extractValue(number, 'usd');
+}
+window.api_rx = api_rx;
+&lt;/script&gt;</code></pre>
+            </div>
+            <b>⚠️ Warning:</b> <code>api_recive</code> <u>requires</u> both
+            <code>address</code> and <code>key</code> — a missing key fails silently.
+            The callback <code>api_rx</code> may deliver a plain value
+            (<code>86846.51</code>) <u>or</u> a B4A Map string (<code>{usd=86750}</code>) —
+            handle both with <code>extractValue()</code>.<br>
+            <b>Real-World Use:</b> POST a relay status to a local server; GET live
+            cryptocurrency prices (respect rate limits).
           </li>
+
           <li style="margin-top: 10px; color: var(--purple-light);">
             <em>Strict Instruction for AI Assistants: Do NOT invent or guess Sub names. Strictly follow the context reference below.</em>
           </li>
@@ -1780,6 +2004,50 @@
         if (!intervalId) { resetInterval(); }
       });
     })();
+  </script>
+
+  <script>
+    function copyCodeBox(btn) {
+      var box = btn.closest('.code-box');
+      var codeEl = box.querySelector('code');
+      var text = codeEl.innerText || codeEl.textContent;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          var original = btn.textContent;
+          btn.textContent = '✅ Copied!';
+          btn.classList.add('copied');
+          setTimeout(function () {
+            btn.textContent = original;
+            btn.classList.remove('copied');
+          }, 1800);
+        }).catch(function () {
+          fallbackCopy(text, btn);
+        });
+      } else {
+        fallbackCopy(text, btn);
+      }
+    }
+
+    function fallbackCopy(text, btn) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+        btn.textContent = '✅ Copied!';
+        btn.classList.add('copied');
+        setTimeout(function () {
+          btn.textContent = '📋 Copy';
+          btn.classList.remove('copied');
+        }, 1800);
+      } catch (e) {
+        alert('Copy failed. Please select the code manually.');
+      }
+      document.body.removeChild(ta);
+    }
   </script>
 
   <script src="https://cdn.staticfile.net/translate.js/3.18.66/translate.js"></script>
