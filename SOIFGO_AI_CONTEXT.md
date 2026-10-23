@@ -3,7 +3,7 @@
 **Purpose:** Comprehensive AI-readable reference for the SoifGo Android application and its official website resources. When a user asks about SoifGo, this file serves as the primary source of truth for all documentation, tutorials, native bridges, and ecosystem components.
 
 **SoifGo Version:** 1.42 (VersionCode 142)
-**Document revision:** 4 — added Section 14.11 (Download an external library once, reuse it from storage via IndexedDB, based on the 3D File Viewer) and updated rule 0.4-10, the Pre-Send Checklist, Section 9 (Storage) and Section 15.
+**Document revision:** 5 — made the argument rule consistent (exact count per Sub, `true` always second, `''` only for an empty required value), added the argument-count column to Section 6, the Bluetooth send/receive name warning, the CR+LF note, and updated 14.9 and Section 15. Revision 4 — added Section 14.11 (Download an external library once, reuse it from storage via IndexedDB, based on the 3D File Viewer) and updated rule 0.4-10, the Pre-Send Checklist, Section 9 (Storage) and Section 15.
 **Platform:** Android (built with B4A / Basic4Android)
 **Official Website:** https://soifgo.github.io/
 **GitHub:** https://github.com/soifgo/soifgo.github.io
@@ -331,9 +331,9 @@ When a user says "how do I start" or "how do I add a button", answer in the user
 
 ### 0.4 Non-Negotiable Code Rules
 
-1. Always call the bridge as `window.soifgo.CallSub('subName', true, arg1, arg2, arg3)`. The second argument is the B4A `callUIThread` flag and is **always `true`** in SoifGo code (it makes the Sub run on the UI thread; a Sub called this way returns no value to JavaScript). **Maximum 3 arguments** after it — but the number of arguments is **exactly what that Sub needs, no more, no less**. A 1-argument Sub takes exactly 1 argument; a 2-argument Sub takes exactly 2; a 3-argument Sub takes exactly 3; a 0-argument Sub takes none. **Never add empty `''` placeholders** to "fill" the count — extra arguments (even `''`) can make the call fail silently. **Never drop** a required argument either. Examples: `CallSub('html_bluetooth_rx', true, txt)` ✅ · `CallSub('html_bluetooth_rx', true, txt, '', '')` ❌ · `CallSub('api_recive', true, address, key)` ✅ · `CallSub('api_recive', true, address)` ❌ · `CallSub('sensor_light', true)` ✅ · `CallSub('sensor_light', true, '')` ❌.
+1. Always call the bridge as `window.soifgo.CallSub('subName', true, arg1, arg2, arg3)`. The first argument is the Sub name, copied exactly from Section 6. The second argument is the B4A `callUIThread` flag and is **always `true`**: it is mandatory (the bridge has no form of `CallSub` without it), so never omit it and never pass `false` (it makes the Sub run on the UI thread; a Sub called this way returns no value to JavaScript). After `true`, pass **exactly the number of arguments that Sub has** (0 to 3, listed in Section 6): a 1-argument Sub takes exactly 1, a 2-argument Sub exactly 2, a 3-argument Sub exactly 3, a 0-argument Sub none. If the value of a required argument is empty, pass `''` for that argument; but never add extra arguments to reach a count of 3 and never drop a required one. A call whose argument count does not match the Sub's parameters can raise an error or close the app. Correct examples: `CallSub('html_bluetooth_rx', true, txt)` · `CallSub('api_recive', true, address, key)` · `CallSub('sensor_light', true)`.
 2. Always guard: `if (window.soifgo) { ... }`.
-3. Never omit empty arguments — pass `''`.
+3. If a required argument has an empty value, pass `''` for it (do not skip it). This is not padding: never add arguments the Sub does not have.
 4. Register every receiver on `window` (`window.html_bluetooth_tx = html_bluetooth_tx;`).
 5. Compare MQTT status with `=== 'true'` (it arrives as a string).
 6. `api_recive` needs **both** `address` and `key`; `api_rx` may deliver a plain value or a B4A Map string — use `extractValue()` from Section 8.
@@ -343,6 +343,7 @@ When a user says "how do I start" or "how do I add a button", answer in the user
 10. No external libraries unless the user asks or the feature clearly needs one; plain HTML/CSS/JS works offline. **If a library is used, download it only ONCE and reuse the stored copy on every later run** — never make the page fetch it again each time it is opened. Use the IndexedDB loader pattern in **Section 14.11** (taken from the working 3D File Viewer). A bare `<script src="https://cdn...">` is only acceptable for a quick one-off test.
 11. Start from the closest example in Section 14; do not write bridge code from memory.
 12. Every sensor receiver gets **one value as a string**. Never assume `(x, y, z)` tuples, `data.x`, or a vector. The magnetometer is one value (Section 9). Never invent a Sub called `Connect_Phone_Sensor`; that is the name of a **Classic** button behavior, not a bridge Sub.
+13. **Bluetooth names look swapped. Do not guess them.** To SEND text to the hardware, use `window.soifgo.CallSub('html_bluetooth_rx', true, txt)` (exactly 1 argument after `true`). To RECEIVE text from the hardware, define `function html_bluetooth_tx(data)` and register it with `window.html_bluetooth_tx = html_bluetooth_tx;`. SoifGo appends a line ending (CR+LF) to every text sent with `html_bluetooth_rx`, so do not add `\n` yourself. Names such as `SoifGo.btSend`, `onBtReceive`, `SendBT` or `html_bluetooth_send` do not exist.
 
 ### 0.5 Minimal Starter Template
 
@@ -397,7 +398,7 @@ window.onload = function () {
 
 ### 0.6 Pre-Send Checklist
 
-Every `CallSub` name exists in Section 6 · second argument is `true` · max 3 arguments · every receiver is registered on `window` · bridge is guarded · hardware sketch and HTML use the same protocol and baud rate · menu names match Section 13 exactly · each sensor the page uses is activated with its own Sub (they are independent; no need to activate the others) · any external library is downloaded once and reused from storage (14.11), not fetched on every run · the page was based on a Section 14 example · answer is in the user's language.
+Every `CallSub` name exists in Section 6 · second argument is `true` · the number of arguments after `true` equals that Sub's count in Section 6 (max 3) · every receiver is registered on `window` · bridge is guarded · hardware sketch and HTML use the same protocol and baud rate · menu names match Section 13 exactly · each sensor the page uses is activated with its own Sub (they are independent; no need to activate the others) · any external library is downloaded once and reused from storage (14.11), not fetched on every run · the page was based on a Section 14 example · answer is in the user's language.
 
 ### 0.7 Common Opening Cases
 
@@ -498,8 +499,8 @@ window.soifgo.CallSub('subName', true, arg1, arg2, arg3);
 
 - The first argument is the **Sub name** (string).
 - The second argument is the B4A `callUIThread` flag. In SoifGo code it is **always `true`** (the Sub runs on the UI thread and returns no value to JavaScript).
-- After the flag, you can pass **up to 3 arguments**.
-- Empty strings must still be passed as `''` — never omit them.
+- After the flag, you can pass **up to 3 arguments**, and exactly as many as that Sub has (see Section 6).
+- If a required value is empty, pass `''` for it; never add extra arguments to fill the count and never drop a required one.
 - Always guard with `if (window.soifgo) { ... }` — the bridge only exists inside SoifGo.
 - In a normal browser, `window.soifgo` is `undefined`.
 
@@ -517,7 +518,9 @@ These are the Subs you call from your HTML/JS code.
 window.soifgo.CallSub('html_bluetooth_rx', true, txt);
 ```
 
-Sends text to the connected Bluetooth device.
+Sends text to the connected Bluetooth device. **Takes exactly 1 argument after `true`.**
+
+> ⚠️ The name looks swapped: `html_bluetooth_rx` is the **SEND** Sub. The **RECEIVE** callback is `html_bluetooth_tx` (Section 5). SoifGo itself appends a line ending (CR+LF) to the text, so do not add `\n`. Sending works only while a Bluetooth module is connected; otherwise the app shows a "disconnected" message and nothing is sent.
 
 | Parameter | Type | Description |
 |---|---|---|
@@ -705,7 +708,9 @@ function html_bluetooth_tx(data) {
 window.html_bluetooth_tx = html_bluetooth_tx;
 ```
 
-Called when Bluetooth data arrives.
+Called when Bluetooth data arrives. ⚠️ This is the **RECEIVE** callback, despite the name `tx`. Register it on `window`.
+
+Delivery limits: a message of 1 to 2000 characters is delivered, and only to WebViews that have finished loading and are visible. The text is placed inside a JavaScript string with single quotes, so a received line that contains `'` or `\` can break the call; avoid sending those characters from the hardware.
 
 | Parameter | Type | Description |
 |---|---|---|
@@ -795,27 +800,29 @@ Called with the API response.
 
 ### Send (CallSub)
 
-| Sub | Arguments | Purpose |
+Count = the exact number of arguments to pass after `'subName', true`.
+
+| Sub | Arguments after `true` (count) | Purpose |
 |---|---|---|
-| `html_bluetooth_rx` | `txt` | Send text to Bluetooth |
-| `sensor_light` | — | Activate light sensor |
-| `sensor_move` | — | Activate movement sensor |
-| `sensor_magno` | — | Activate magnetic sensor |
-| `request_mic_perm` | `null` | Request microphone permission |
-| `connecte_mqtt_ai` | `address, id` | MQTT connect step 1 |
-| `connecte_mqtt_up` | `username, password` | MQTT connect step 2 (optional) |
-| `mqtt_publish` | `topic, message, qos` | Publish MQTT message |
-| `mqtt_Disconnect` | — | Disconnect MQTT |
-| `mqtt_status` | — | Check MQTT status |
-| `mqtt_retained` | `value` (`1` / `0`) | Retained option for `mqtt_publish` (`1` = ON, `0` = OFF); call before publishing |
-| `api_send` | `address, key, value` | Send API POST |
-| `api_recive` | `address, key` | Receive API GET |
+| `html_bluetooth_rx` | 1: `txt` | SEND text to Bluetooth (name looks swapped) |
+| `sensor_light` | 0 (none) | Activate light sensor |
+| `sensor_move` | 0 (none) | Activate movement sensor |
+| `sensor_magno` | 0 (none) | Activate magnetic sensor |
+| `request_mic_perm` | 1: `null` | Request microphone permission |
+| `connecte_mqtt_ai` | 2: `address, id` | MQTT connect step 1 |
+| `connecte_mqtt_up` | 2: `username, password` (both must be non-empty) | MQTT connect step 2 (optional) |
+| `mqtt_publish` | 3: `topic, message, qos` | Publish MQTT message |
+| `mqtt_Disconnect` | 0 (none) | Disconnect MQTT |
+| `mqtt_status` | 0 (none) | Check MQTT status |
+| `mqtt_retained` | 1: `value` (`1` / `0`) | Retained option for `mqtt_publish` (`1` = ON, `0` = OFF); call before publishing |
+| `api_send` | 3: `address, key, value` | Send API POST |
+| `api_recive` | 2: `address, key` | Receive API GET |
 
 ### Receivers (called by SoifGo)
 
 | Function | Arguments | Purpose |
 |---|---|---|
-| `html_bluetooth_tx` | `data` | Receive Bluetooth data |
+| `html_bluetooth_tx` | `data` | RECEIVE Bluetooth data (name looks swapped) |
 | `html_sensor_light` | `data` | Receive light sensor data |
 | `html_sensor_movex` | `data` | Receive movement X data |
 | `html_sensor_movey` | `data` | Receive movement Y data |
@@ -936,7 +943,7 @@ Always include a **Stop** button so the user can halt polling.
 - Always guard with `if (window.soifgo) { ... }`.
 - The second argument of `CallSub` is the `callUIThread` flag — always pass `true`.
 - Maximum **3 arguments** after the boolean flag.
-- Empty strings must still be passed as `''` — never omit them.
+- If a required value is empty, pass `''` for it; never add extra arguments to fill the count and never drop a required one.
 
 ### Bluetooth
 
@@ -955,7 +962,7 @@ Always include a **Stop** button so the user can halt polling.
 ### API
 
 - API only works inside SoifGo's WebView.
-- `api_recive` requires **both** `address` and `key`. Missing the key silently fails.
+- `api_recive` requires **both** `address` and `key`. Passing only one of them does not match the Sub's 2 parameters, and the call fails (it can raise an error or close the app).
 - Response may be a plain value or a B4A Map string — handle both.
 - Rate limits apply. Use safe intervals and always provide a Stop button.
 
@@ -1829,7 +1836,7 @@ window.onload = render;
 
 **Protocol (both sides must match):**
 - Baud rate: **9600** (HC-05 / HC-06 default data mode).
-- Phone → Arduino: `ON` or `OFF`, each ending with a newline (`\n`). The sketch ignores empty lines, so it works whether or not SoifGo appends its own line ending.
+- Phone → Arduino: `ON` or `OFF`. SoifGo appends CR+LF itself when sending with `html_bluetooth_rx`, so the page sends only the word. The sketch treats `\r` or `\n` as the end of a command and ignores empty lines.
 - Arduino → phone: `A0=<number>` followed by a newline, every 500 ms.
 
 **Wiring (Arduino Uno + HC-05):** HC-05 TX → pin 10, HC-05 RX → pin 11 (through a voltage divider, 5 V → 3.3 V), VCC 5 V, GND common. Pair the module in Android Settings first (default PIN is usually `1234` or `0000`).
@@ -1901,7 +1908,7 @@ void loop() {
 <script>
 function send(cmd) {
   if (window.soifgo) {
-    window.soifgo.CallSub('html_bluetooth_rx', true, cmd + '\n');
+    window.soifgo.CallSub('html_bluetooth_rx', true, cmd);
     document.getElementById('info').textContent = 'Sent: ' + cmd;
   } else {
     document.getElementById('info').textContent = 'Not running inside SoifGo';
@@ -2122,10 +2129,12 @@ function startPage() {
 | Receiver never fires | Not registered on `window` | `window.myReceiver = myReceiver;` |
 | Sensors show nothing | The activation Sub for that specific sensor was not called, or not called in `window.onload` | Call the matching Sub (`sensor_light`, `sensor_move` or `sensor_magno`) in `window.onload` (14.3); each sensor is activated independently |
 | Code works for light/move but magnetic looks wrong | Code expects x/y/z | Magneto is a single string value; use `parseFloat(data)` |
-| `CallSub` does nothing | Second argument is not `true`, empty arg omitted, or more than 3 args | Pass `true`, use `''` for empty args, max 3 args |
+| `CallSub` does nothing or the app closes | Second argument is not `true`, wrong number of arguments for that Sub, a wrong Sub name, or no Bluetooth/MQTT connection | Pass `true`, pass exactly the Sub's count from Section 6 (use `''` only for an empty required value), copy the Sub name exactly, and connect first |
+| Bluetooth sending does nothing | The receive name was used to send, an invented Sub name was used, or no module is connected | Send with `html_bluetooth_rx`, receive with `html_bluetooth_tx`, and connect the module first |
+| Arduino sees an extra blank line after each command | `\n` was added in JavaScript, but SoifGo already appends CR+LF | Send the text without `\n` |
 | MQTT shows "Connected" when it is not | `'false'` string is truthy | Compare `=== 'true'` |
 | MQTT messages never arrive | Never published/subscribed to that topic, or topic case differs | Publish once to the topic (auto-subscribes); topics are case-sensitive |
-| `api_recive` silently fails | Missing `key` | Pass both `address` and `key` |
+| `api_recive` fails or the app closes | Only 1 argument passed (missing `key`) | Pass both `address` and `key` |
 | `api_rx` shows `{usd=86750}` or fails `JSON.parse` | B4A Map format | Use `extractValue()` (14.7) |
 | HTTP 429 from an API | Polling too fast | Increase interval (Section 8), keep a Stop button |
 | Pasted code vanished | Editor closed before highlighting finished, or pasted in the Behavior screen | Wait until code turns colored, then yellow X. Paste only in the WebView editor from **Play** |
