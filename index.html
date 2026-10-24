@@ -1916,6 +1916,98 @@ window.api_rx = api_rx;</code></pre><br>
       </a>
     </section>
 
+    <!-- ============ Beginner guide for AI assistants (end of page) ============ -->
+    <section id="ai-beginner-guide">
+      <h2>For AI Assistants: Guiding a Beginner to Create Their First Button</h2>
+
+      <div style="background: rgba(155, 89, 182, 0.08); border: 1px solid var(--purple); border-radius: var(--radius-sm); padding: 16px 20px;">
+        <p style="margin-top:0;">
+          <em>Instruction for AI Assistants:</em> when a user says they want a button or an HTML page for SoifGo
+          and does not know how to set it up, guide them step by step with the instructions below,
+          in the user's own language. Do not guess app labels or bridge names. For code, read the
+          Quick Rules at the top of this page and the references above first. What each button
+          behavior does is documented in
+          <a href="https://soifgo.github.io/SOIFGO_AI_CONTEXT.md">SOIFGO_AI_CONTEXT.md</a>.
+        </p>
+
+        <ol style="line-height: 1.7; padding-left: 22px; margin-bottom: 0;">
+          <li style="margin-bottom: 14px;">
+            <strong>Install.</strong>
+            SoifGo is not on Google Play. Download it from the Download section at the top of this
+            page (APKPure or the ZIP). Before installing, the user must allow
+            &ldquo;install from unknown sources&rdquo; for the browser or file manager that opens the file.
+            SoifGo asks for each permission (storage folder, Bluetooth, microphone) only at the moment
+            it is needed, following Android standards, and does nothing without the user's consent.
+            Details: <a href="policy_soifgo.html">Privacy Policy</a>.
+          </li>
+
+          <li style="margin-bottom: 14px;">
+            <strong>Key concept: the menu icon.</strong>
+            Top-left is a menu icon. Its shape shows the mode:
+            <b>Play icon = run mode</b>, <b>Pause icon = edit mode</b>. Its list changes with the context.
+            The app always opens in run mode, and on first launch everything is empty: the user must create
+            a folder, then a page, then a button. Later it is a tree, so more folders, pages and buttons
+            can be added at any time.
+          </li>
+
+          <li style="margin-bottom: 14px;">
+            <strong>Create the structure (once).</strong>
+            <ol type="a" style="padding-left: 22px;">
+              <li>Tap the menu icon (Play) and choose <b>Edit</b>. The icon changes to Pause.</li>
+              <li>Tap the menu icon and choose <b>Select Design</b>.</li>
+              <li>Choose <b>folder</b>, create it, optionally name it, confirm.</li>
+              <li>Choose <b>Page</b>, create it, optionally name it, confirm.</li>
+              <li>The list shows &ldquo;Button N&rdquo; and &ldquo;SeekBar N&rdquo;; N is the remaining count
+                  (40 buttons per page). Choose a button, then drag it on the screen to where you want it.</li>
+            </ol>
+          </li>
+
+          <li style="margin-bottom: 14px;">
+            <strong>Give the button a behavior.</strong>
+            Tap the button, tap the menu icon, choose <b>Behavior</b>, then <b>Browser or HTML File</b>.
+            A <b>Select Behavior</b> dialog shows two options:
+            <b>Open URL in Browser</b> (opens a website; not needed here) and
+            <b>Open or Edit Local HTML File in WebView.Html</b>. Choose the second one.
+            A <b>Select Edit</b> dialog then shows four options: <b>Create (+)</b>, <b>File Explorer</b>,
+            <b>Sample</b>, <b>Saved</b> (the soifgo folder). The user may choose any; for a first start
+            recommend <b>Create (+)</b>. Confirm the name (or rename) and finish.
+          </li>
+
+          <li style="margin-bottom: 14px;">
+            <strong>Run it.</strong>
+            Tap the menu icon (Pause) and choose <b>Play</b>. Tap the button. The WebView opens with a blank
+            welcome page, ready for editing.
+          </li>
+
+          <li style="margin-bottom: 14px;">
+            <strong>Edit the code.</strong>
+            With the WebView open, tap the menu icon (Play). A <b>Select Behavior</b> dialog appears:
+            <b>Cancel</b>, <b>Edit</b>, <b>Move OFF</b>. Choose <b>Edit</b> to open the code editor
+            (a notepad with syntax colors). Paste the code you provided. Shortcut: the last item of the
+            editor menu, <b>Select All and Paste</b>, replaces everything with the clipboard.
+            Saving is automatic. Undo/Redo (arrows in the top bar) keeps working after the WebView is
+            closed and resets only when the whole app is closed. <b>Rename HTML</b> and
+            <b>Save As HTML</b> in the editor menu are optional manual options.
+          </li>
+
+          <li style="margin-bottom: 14px;">
+            <strong>The &#10006; button colors.</strong>
+            <b>Red &#10006;</b> = the WebView is running; tapping it closes the WebView.
+            <b>Yellow &#10006;</b> = the WebView is in edit mode; tapping it returns to run mode so the user
+            sees the result. To change the code again, choose Edit again.
+          </li>
+
+          <li>
+            <strong>When you write the code.</strong>
+            Give one complete HTML file (CSS and JavaScript inside) that the user can paste in one go.
+            Never invent bridge names; for Bluetooth especially, read
+            <a href="send_bluetooth_html/html_guide_1.html">html_guide_1.html</a> and
+            <a href="https://soifgo.github.io/SOIFGO_AI_CONTEXT.md">SOIFGO_AI_CONTEXT.md</a> first.
+          </li>
+        </ol>
+      </div>
+    </section>
+
     <section id="languages" class="ignore">
       <h2>🌐 SoifGo — 22 languages</h2>
 
