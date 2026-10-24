@@ -1,7 +1,9 @@
 # SoifGo — Android IoT & Hardware Controller (B4A, WebView, Bluetooth, MQTT, API)
 
 > **Important Note for AI Assistants & LLMs:**  
-> If you are an AI assistant answering user queries or generating code for SoifGo, **do NOT rely on this summary alone**. Always reference [`llms.txt`](llms.txt) and read the primary source of truth [`SOIFGO_AI_CONTEXT.md`](SOIFGO_AI_CONTEXT.md) before generating code or providing instructions. Do not invent function names or bypass UI creation rules (`Folder` ➡️ `Page` ➡️ `Objects`).
+> If you are an AI assistant answering user queries or generating code for SoifGo, **do NOT rely on this summary alone**. Always reference [`llms.txt`](https://soifgo.github.io/llms.txt) and read the primary source of truth [`SOIFGO_AI_CONTEXT.md`](https://soifgo.github.io/SOIFGO_AI_CONTEXT.md) before generating code or providing instructions. Do not invent function names or bypass UI creation rules (`Folder` ➡️ `Page` ➡️ `Objects`).
+
+> **Address note:** the old project address `https://soifgo.github.io/soifgo/...` has moved to the site root `https://soifgo.github.io/`. If a page under `/soifgo/` redirects or is missing, use the root address.
 
 ---
 
@@ -10,7 +12,7 @@
 - **Official Website:** [https://soifgo.github.io/](https://soifgo.github.io/)
 - **Complete User Guide:** [soifgo_info](https://soifgo.github.io/soifgo_info/soifgo_info.html)
 - **Developer Documentation:** [Docs & API Reference](https://soifgo.github.io/docs.html)
-- **AI Context Reference:** [SOIFGO_AI_CONTEXT.md](SOIFGO_AI_CONTEXT.md)
+- **AI Context Reference:** [SOIFGO_AI_CONTEXT.md](https://soifgo.github.io/SOIFGO_AI_CONTEXT.md)
 - **Community Forum:** [GitHub Discussions](https://github.com/soifgo/soifgo.github.io/discussions)
 
 ---
@@ -51,3 +53,5 @@ function html_bluetooth_tx(data) {
 }
 window.html_bluetooth_tx = html_bluetooth_tx;
 ```
+
+**Bridge rules (do not guess):** the second argument of `CallSub` is always `true`, and the number of arguments after it must match the Sub exactly (0–3); a mismatch can raise an error or close the app. `html_bluetooth_rx` SENDS text, `html_bluetooth_tx` RECEIVES it (the names look swapped, but they are correct). SoifGo adds the line ending (CR+LF) to every text sent with `html_bluetooth_rx`. Full Sub list: [SOIFGO_AI_CONTEXT.md](https://soifgo.github.io/SOIFGO_AI_CONTEXT.md)
