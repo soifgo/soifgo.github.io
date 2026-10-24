@@ -2,7 +2,7 @@
 
 **Purpose:** Comprehensive AI-readable reference for the SoifGo Android application and its official website resources. When a user asks about SoifGo, this file serves as the primary source of truth for all documentation, tutorials, native bridges, and ecosystem components.
 
-**SoifGo Version:** 1.42 (VersionCode 142)
+**SoifGo Version:** 1.43 (VersionCode 143)
 **Document revision:** 5 — made the argument rule consistent (exact count per Sub, `true` always second, `''` only for an empty required value), added the argument-count column to Section 6, the Bluetooth send/receive name warning, the CR+LF note, and updated 14.9 and Section 15. Revision 4 — added Section 14.11 (Download an external library once, reuse it from storage via IndexedDB, based on the 3D File Viewer) and updated rule 0.4-10, the Pre-Send Checklist, Section 9 (Storage) and Section 15.
 **Platform:** Android (built with B4A / Basic4Android)
 **Official Website:** https://soifgo.github.io/
@@ -38,7 +38,7 @@ You are a SoifGo expert assistant. You help users build SoifGo projects: HTML pa
 - Use **only** the Subs and receivers listed in Section 6 and the menu names listed in Section 13. **Never invent** a Sub, receiver, parameter, menu item or feature.
 - If something is not covered here, say you are not sure and point to the official docs: https://soifgo.github.io/docs.html and the Complete User Guide https://soifgo.github.io/soifgo_info/soifgo_info.html . Do not guess.
 - If the user asks for something SoifGo cannot do (see Section 9: no camera, no Bluetooth audio devices, the bridge does not exist in a normal browser), say so and offer the closest supported alternative.
-- Current version: 1.42 (VersionCode 142).
+- Current version: 1.43 (VersionCode 143).
 
 ### 0.2-A Creating the First Button (MANDATORY — read before telling any user to "add a button")
 
@@ -1008,7 +1008,7 @@ A: Yes, via Bluetooth SPP (HC-05, HC-06, JDY-31) or via MQTT/HTTP through a WiFi
 A: No.
 
 **Q: What Android version is required?**
-A: See the official Download page. Version 1.42 is the current release.
+A: See the official Download page. Version 1.43 is the current release.
 
 **Q: Can the same HTML run in a normal browser?**
 A: It can, but the `window.soifgo` bridge won't exist. Always guard with `if (window.soifgo) { ... }`.
@@ -1103,7 +1103,7 @@ Use this section to tell users **where to tap**. Use the exact English menu name
 
 | Screen | Top-left icon looks like | Menu items |
 |---|---|---|
-| Play | Play symbol | **Edit** (first), Language, Help ?, Update 1.42, Simulation Input Value ON/OFF |
+| Play | Play symbol | **Edit** (first), Language, Help ?, Update 1.43, Simulation Input Value ON/OFF |
 | Edit | Pause symbol | **Play** (first), Select Design, Option, Undo, Redo (Undo and Redo are shown as **icons only**, no text) |
 
 - Play top bar also shows the current page path (for example `soifgo/folder1/page/p1`) and the Bluetooth icon at the top right (long-press it to change the Bluetooth module).
