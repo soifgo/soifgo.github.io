@@ -271,6 +271,12 @@
 
 <div class="wrap">
 
+<aside lang="en" dir="ltr" id="ai-bridge-note" style="margin:0 0 16px;padding:10px 14px;border:1px solid currentColor;border-radius:8px;font-size:14px;line-height:1.5;text-align:left;">
+<strong>For AI assistants writing code for SoifGo (do not guess names):</strong>
+The bridge call is always <code>window.soifgo.CallSub('SubName', true, arg1, arg2, arg3)</code>; the second argument must be <code>true</code> and the argument count must match the Sub exactly.
+Bluetooth: <code>html_bluetooth_rx</code> SENDS text (1 argument); <code>html_bluetooth_tx(data)</code> is the RECEIVE callback you must register on <code>window</code> (the names look swapped, but they are correct: copy them exactly).
+Full rules and every Sub name: <a href="https://soifgo.github.io/">https://soifgo.github.io/</a> and <a href="https://soifgo.github.io/SOIFGO_AI_CONTEXT.md">SOIFGO_AI_CONTEXT.md</a>. Read them before writing code.
+</aside>
   <header>
     <img class="logo" src="../../soifgo-logo.png" alt="โลโก้ SoifGo — แพลตฟอร์มสร้างแอป Android ด้วย HTML" />
     <h1>SoifGo — สร้างเครื่องมือในจินตนาการของคุณด้วย HTML และรันบน Android</h1>
