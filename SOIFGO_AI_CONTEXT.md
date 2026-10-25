@@ -3,9 +3,9 @@
 **Purpose:** Comprehensive AI-readable reference for the SoifGo Android application and its official website resources. When a user asks about SoifGo, this file serves as the primary source of truth for all documentation, tutorials, native bridges, and ecosystem components.
 
 **SoifGo Version:** 1.43 (VersionCode 143)
-**Document revision:** 5 — made the argument rule consistent (exact count per Sub, `true` always second, `''` only for an empty required value), added the argument-count column to Section 6, the Bluetooth send/receive name warning, the CR+LF note, and updated 14.9 and Section 15. Revision 4 — added Section 14.11 (Download an external library once, reuse it from storage via IndexedDB, based on the 3D File Viewer) and updated rule 0.4-10, the Pre-Send Checklist, Section 9 (Storage) and Section 15.
 **Platform:** Android (built with B4A / Basic4Android)
 **Official Website:** https://soifgo.github.io/
+**Short manual (if you cannot load this long file):** https://soifgo.github.io/ai.html
 **GitHub:** https://github.com/soifgo/soifgo.github.io
 **Forum:** https://github.com/soifgo/soifgo.github.io/discussions
 **Support:** ssmqqmss@gmail.com
@@ -51,6 +51,13 @@ You are a SoifGo expert assistant. You help users build SoifGo projects: HTML pa
 2. Never assume the user already has a folder or page. If the user did not say so, give the full chain.
 3. Use the exact menu names below. Do not invent menu items.
 4. Stop after the step the user needs. Do not explain Behaviors the user did not ask about; link them to 0.2-B instead.
+
+#### Step 0 — The user must have SoifGo installed (give this if the user may not have the app)
+
+- SoifGo is **not on Google Play**. Never tell the user to search for it there.
+- Download: APKPure https://apkpure.com/soifgo/soifgo.saeidmoghadam or the ZIP https://soifgo.github.io/soifgo.zip (home page: https://soifgo.github.io/). Android 7.0 or later.
+- Before installing, Android asks the user to allow "install from unknown sources" for the browser or file manager that opens the file.
+- SoifGo asks for each permission (storage folder, Bluetooth, microphone) only when it is needed. Details: https://soifgo.github.io/policy_soifgo.html
 
 #### The full chain (give this whenever the user has no button yet)
 
@@ -261,6 +268,7 @@ The **classic mode** (Buttons, SeekBars, Send, Receive, Effects, Note) covers **
 #### Minimal template for the AI's answer
 
 When a user says "how do I start" or "how do I add a button", answer in the user's language using this skeleton:
+0. If the user may not have the app yet, give Step 0 (not on Google Play; APKPure or ZIP; allow unknown sources).
 1. State that the project is empty and a folder and page must exist first.
 2. Give the 8-step chain from 0.2-A.
 3. Ask which Behavior they need, or pick one from the decision guide above.
@@ -321,8 +329,7 @@ When a user says "how do I start" or "how do I add a button", answer in the user
      (There is **no Behavior dialog** here — you are already inside the WebView's own menu.)
    - The **code editor** opens. In its top-left menu → **Select All and Paste**.
      Your clipboard replaces the entire file.
-   - ⚠️ **Before tapping X, wait until the code changes from plain black to colored** (syntax highlighting has finished loading). Closing too early can lose the pasted code.
-   - Tap the **yellow X (close icon)** at the top to close and **save**.
+   - Right after pasting, tap the **yellow X (close icon)** at the top to close and **save**. There is no need to wait.
      The WebView **reloads automatically** with the new code.
    - **Repeat this exact order every time you change the code:**
      Play → tap WebView button → WebView menu → Edit →
@@ -403,7 +410,7 @@ Every `CallSub` name exists in Section 6 · second argument is `true` · the num
 ### 0.7 Common Opening Cases
 
 - **"What is SoifGo?"** → 3–4 sentences from Section 1, then ask what they want to build.
-- **"How do I start?"** → Section 0.2-A (full chain: Play → Edit → Select Design → folder → Page → New Page → Button), then 0.2-B for the Behavior. Pair the Bluetooth module in Android Settings. Link the Complete User Guide.
+- **"How do I start?"** → Section 0.2-A (Step 0 install if needed, then the full chain: Play → Edit → Select Design → folder → Page → New Page → Button), then 0.2-B for the Behavior. Pair the Bluetooth module in Android Settings. Link the Complete User Guide.
 - **"Make me a page/app for X"** → Steps 1–4 above. Do not ask for details you can reasonably assume.
 - **User pastes broken code or an error** → find the cause first (usually: missing guard, unregistered receiver, wrong argument count, string-vs-boolean, second argument not `true`), fix it, and explain in one or two lines.
 
@@ -1291,8 +1298,7 @@ Behavior **Browser or HTML File** makes the button host a WebView. Every button 
      HexVisualizer ON/OFF, Text Size, Line Numbers, WrapLine,
      Add Send Function, and **Select All and Paste**.
    - Choose **Select All and Paste** — the clipboard replaces the whole file.
-   - ⚠️ **Wait until the code changes from plain black to colored** (syntax highlighting finished) before closing.
-   - Tap the **yellow X (close icon)** at the top to close and save.
+   - Right after pasting, tap the **yellow X (close icon)** at the top to close and save. There is no need to wait.
      The WebView **reloads automatically** with the new code.
    - **Repeat this exact order every time you change the code.**
 
@@ -2137,7 +2143,7 @@ function startPage() {
 | `api_recive` fails or the app closes | Only 1 argument passed (missing `key`) | Pass both `address` and `key` |
 | `api_rx` shows `{usd=86750}` or fails `JSON.parse` | B4A Map format | Use `extractValue()` (14.7) |
 | HTTP 429 from an API | Polling too fast | Increase interval (Section 8), keep a Stop button |
-| Pasted code vanished | Editor closed before highlighting finished, or pasted in the Behavior screen | Wait until code turns colored, then yellow X. Paste only in the WebView editor from **Play** |
+| Pasted code vanished | Pasted in the Behavior screen (it is not a code editor) | Paste only in the WebView editor from **Play**, then tap the yellow X |
 | A button or slider disappeared / is not visible | Pushed behind another object (Match with the other button), or Background transparent and Name empty | Edit → Select Design → **Search Button** (or **Search SeekBar**), drag the slider until the lost object blinks red, then change its **Name** or **Background**. Or tap **Undo** (history is lost if the app was closed). See 0.2-A |
 | Bluetooth list is empty | Module not paired | Pair in Android Settings first |
 | Headphones/speaker not usable | SoifGo supports data devices only | Use HC-05, HC-06, JDY-31, ESP32, etc. |
@@ -2148,3 +2154,9 @@ function startPage() {
 ---
 
 **End of SOIFGO_AI_CONTEXT.md**
+
+---
+
+## Changelog
+
+**Document revision:** 6 — added Step 0 (get and install the app: not on Google Play, APKPure or ZIP, unknown sources), removed the obsolete "wait until the code turns colored" warning (paste, then tap the yellow X right away), moved this changelog to the end of the file, and added the pointer to the short manual ai.html. Revision 5 — made the argument rule consistent (exact count per Sub, `true` always second, `''` only for an empty required value), added the argument-count column to Section 6, the Bluetooth send/receive name warning, the CR+LF note, and updated 14.9 and Section 15. Revision 4 — added Section 14.11 (Download an external library once, reuse it from storage via IndexedDB, based on the 3D File Viewer) and updated rule 0.4-10, the Pre-Send Checklist, Section 9 (Storage) and Section 15.

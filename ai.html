@@ -3,82 +3,167 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SoifGo AI Reference & Direct Manual</title>
-  <meta name="description" content="Official machine-readable documentation and creation steps for SoifGo Android App.">
-    <!-- ============ FAVICON ============ -->
-<link rel="icon" type="image/png" href="/favicon-96x96.png?v=2" sizes="96x96" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
-<link rel="shortcut icon" href="/favicon.ico?v=2" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2" />
-<meta name="apple-mobile-web-app-title" content="SoifGo" />
-<link rel="manifest" href="/site.webmanifest?v=2" />
+  <title>SoifGo Short Manual for AI Assistants (idea to running page)</title>
+  <meta name="description" content="Short, self-contained manual for AI assistants: how to guide a beginner from an idea to a running page in SoifGo, plus the exact bridge rules. Full reference: SOIFGO_AI_CONTEXT.md.">
+  <link rel="canonical" href="https://soifgo.github.io/ai.html" />
+  <!-- ============ FAVICON ============ -->
+  <link rel="icon" type="image/png" href="/favicon-96x96.png?v=2" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
+  <link rel="shortcut icon" href="/favicon.ico?v=2" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2" />
+  <meta name="apple-mobile-web-app-title" content="SoifGo" />
+  <link rel="manifest" href="/site.webmanifest?v=2" />
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 880px; margin: 0 auto; padding: 16px; }
+    table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+    th, td { border: 1px solid #8884; padding: 6px 10px; text-align: left; vertical-align: top; }
+    code { background: #8882; padding: 1px 5px; border-radius: 4px; }
+    pre { background: #8882; padding: 12px; border-radius: 6px; overflow-x: auto; }
+    pre code { background: none; padding: 0; }
+  </style>
 </head>
 <body>
 
-  <h1>SoifGo — Official AI & Machine Reference Guide</h1>
-  <p>This document is the absolute source of truth for SoifGo Android Application features, navigation, UI building rules, and WebView bridge specifications.</p>
+  <h1>SoifGo: Short Manual for AI Assistants</h1>
 
-  <hr>
+  <p>Use this page when you cannot open the full reference <a href="https://soifgo.github.io/SOIFGO_AI_CONTEXT.md">SOIFGO_AI_CONTEXT.md</a> (complete, much longer). Everything a beginner needs to go from an idea to a running page is here.</p>
 
-  <h2>1. What is SoifGo?</h2>
-  <p>SoifGo is an Android hardware control application and custom UI platform for microcontrollers (Arduino, ESP32, ESP8266, Raspberry Pi) and IoT systems using Bluetooth, MQTT, REST API, and WebView HTML interfaces.</p>
+  <h2>0. Rules for you</h2>
+  <ul>
+    <li>Reply in the <strong>same language the user writes in</strong>. Keep code, function names and on-screen menu names in English, exactly as written here.</li>
+    <li><strong>Never invent</strong> a menu item, a Sub name, a parameter or a feature. If something is not covered here, say you are not sure and point to the <a href="https://soifgo.github.io/soifgo_info/soifgo_info.html">Complete User Guide</a> or the <a href="https://soifgo.github.io/docs.html">docs</a>.</li>
+    <li>If the user gave an idea, even a rough one, do not interrogate them. Build a complete, simple first version, state your assumptions in one line, and refine afterwards. Ask at most one short question, and only if the answer changes the code (for example: Bluetooth, MQTT or API, and which board).</li>
+    <li>If the user has no button yet, always give the full chain in section 3. Never write "just add a button" as a single step.</li>
+  </ul>
 
-  <hr>
+  <h2>1. What SoifGo is</h2>
+  <ul>
+    <li>A free Android app (Android 7.0 or later, no ads). Each <strong>button</strong> can run <strong>one HTML page</strong> (HTML, CSS and JavaScript in one file) inside a WebView. Buttons live in pages and folders, 40 buttons per page, and stay saved.</li>
+    <li>The page can talk to hardware and the phone through the bridge <code>window.soifgo</code>: Bluetooth (HC-05, HC-06, JDY-31, Arduino, ESP32, ESP8266), MQTT, HTTP API, phone sensors and the microphone.</li>
+    <li>It is <strong>not an app builder</strong>: the idea runs inside SoifGo. It does not become a separate APK and cannot be published to Google Play.</li>
+    <li>Buttons are created with the app's menus, never with HTML code. "Classic mode" and "WebView mode" are not app settings: a WebView is simply a button whose Behavior is <code>Browser or HTML File</code>.</li>
+    <li>Not possible: camera, Bluetooth audio devices (headphones, speakers). <code>window.soifgo</code> does not exist in a normal browser.</li>
+  </ul>
 
-  <h2>2. Mandatory UI Creation Hierarchy (How to create a Button)</h2>
-  <p><strong>CRITICAL RULE:</strong> A new SoifGo project opens EMPTY in Play Mode. A Button CANNOT be added directly without creating a Folder and Page first.</p>
-  
+  <h2>2. Get the app (if the user does not have it yet)</h2>
+  <ul>
+    <li>SoifGo is <strong>not on Google Play</strong>. Do not tell the user to search for it there.</li>
+    <li>Download from APKPure: <a href="https://apkpure.com/soifgo/soifgo.saeidmoghadam">https://apkpure.com/soifgo/soifgo.saeidmoghadam</a>, or the ZIP: <a href="https://soifgo.github.io/soifgo.zip">https://soifgo.github.io/soifgo.zip</a>.</li>
+    <li>Before installing, Android asks the user to allow "install from unknown sources" for the browser or file manager that opens the file.</li>
+    <li>SoifGo asks for each permission (storage folder, Bluetooth, microphone) only when it is needed. Details: <a href="https://soifgo.github.io/policy_soifgo.html">Privacy Policy</a>.</li>
+  </ul>
+
+  <h2>3. Create the first button (once)</h2>
+  <p>A new project is <strong>empty</strong>. The order is fixed: <strong>folder, then page, then button</strong>. The top-left icon is the main menu; its first item switches between <code>Play</code> (run) and <code>Edit</code> (design). SoifGo always opens in Play.</p>
+  <table>
+    <tr><th>Step</th><th>Action</th><th>What the user sees</th></tr>
+    <tr><td>1</td><td>In Play, tap the top-left icon, then <code>Edit</code>.</td><td>The icon becomes a Pause symbol. This is Edit.</td></tr>
+    <tr><td>2</td><td>Top-left icon, then <code>Select Design</code>.</td><td>The list shows only <code>folder</code>. This is normal.</td></tr>
+    <tr><td>3</td><td>Tap <code>folder</code> and create a folder.</td><td>A folder exists.</td></tr>
+    <tr><td>4</td><td>Tap <code>Page</code> and create a <strong>New Page</strong>. Tapping Page alone is not enough.</td><td>A page exists.</td></tr>
+    <tr><td>5</td><td>Now <code>Background</code>, <code>Button</code> (max 40), <code>SeekBar</code> (max 10) and <code>btnstartup</code> appear.</td><td>The list is complete.</td></tr>
+    <tr><td>6</td><td>Tap <code>Button</code>.</td><td>A button is placed on the page and is in move mode.</td></tr>
+    <tr><td>7</td><td>Fix it in place: tap it, or tap the close icon at the top, or press the phone Back button.</td><td>The button stays where it is.</td></tr>
+  </table>
+  <p>If the user cannot see <code>Button</code>, the folder or the page does not exist yet. Go back to steps 3 and 4.</p>
+
+  <h2>4. Make the button a WebView (first time only, in Edit)</h2>
   <ol>
-    <li><strong>Switch to Edit Mode:</strong> Tap the top-left menu icon in Play Mode and select <code>Edit</code> (icon turns into a Pause symbol ⏸️).</li>
-    <li><strong>Create Folder:</strong> In Edit mode, tap top-left menu ➔ <code>Select Design</code> ➔ <code>folder</code> ➔ Create a folder.</li>
-    <li><strong>Create Page:</strong> In Select Design, tap <code>Page</code> ➔ <code>New Page</code>. (Path becomes <code>soifgo/folder_name/page/page_name</code>).</li>
-    <li><strong>Add Button:</strong> In Select Design, tap <code>Button</code>. A button is placed on the canvas in move mode.</li>
-    <li><strong>Set Behavior:</strong> Select the button ➔ top-left menu ➔ <code>Behavior</code> ➔ Choose behavior (e.g., Send, Receive, Browser or HTML File).</li>
-    <li><strong>Run Project:</strong> Tap top-left menu ➔ <code>Play</code>.</li>
+    <li>In Edit, select the button, then top-left menu, then <code>Behavior</code>, then <code>Browser or HTML File</code>.</li>
+    <li>A <code>Select Behavior</code> dialog shows two choices: <code>Open URL in Browser</code> (a website, not needed here) and <code>Open or Edit Local HTML File in WebView.Html</code>. Choose the <strong>second</strong>.</li>
+    <li>A list of sources follows: <code>Create (+)</code> (a default "Hello SoifGo" page), <code>File Explorer</code> (an HTML file from the phone), <code>Sample</code> (built-in examples) and <code>Saved</code> (pages saved earlier in the project). For a first start, recommend <code>Create (+)</code>, confirm the name, and finish.</li>
+    <li><strong>Do not paste code here.</strong> This screen is not a code editor.</li>
   </ol>
+  <p>If the user's screen shows slightly different wording, follow what the screen shows; it is the same feature.</p>
 
-  <hr>
-
-  <h2>3. Core Modes & Concepts</h2>
+  <h2>5. Paste the code (every time the code changes, in Play)</h2>
+  <ol>
+    <li>Copy the full HTML you wrote.</li>
+    <li>Top-left icon, then <code>Play</code>. Tap the WebView button. The WebView opens.</li>
+    <li>Inside the WebView, tap its top-left menu, then <code>Edit</code>. No extra dialog appears. The code editor opens.</li>
+    <li>In the editor's top-left menu choose <code>Select All and Paste</code>. The clipboard replaces the whole file.</li>
+    <li>Right after pasting, tap the <strong>yellow &#10006;</strong> at the top. It saves, leaves the editor and returns to the running page, which reloads with the new code. There is no need to wait.</li>
+  </ol>
   <ul>
-    <li><strong>App Modes:</strong> <code>Play Mode</code> (Runtime execution) and <code>Edit Mode</code> (Design & Configuration). There is NO "Classic Mode" or "WebView Mode" as separate app settings.</li>
-    <li><strong>Button Creation:</strong> Buttons are visual Drag &amp; Drop elements created via UI menus. Buttons are NOT created using HTML code.</li>
-    <li><strong>WebView Support:</strong> HTML code is hosted INSIDE a button by setting its Behavior to <code>Browser or HTML File</code>.</li>
+    <li><strong>Red &#10006;</strong> in the WebView toolbar closes the WebView. <strong>Yellow &#10006;</strong> in the editor leaves edit mode and shows the result.</li>
+    <li>If a page does not work, the user tells you what they see, and you fix the code. Then repeat this section.</li>
+    <li>Never tell the user to open a file in a text editor on the phone. The built-in editor is the intended path.</li>
   </ul>
 
-  <hr>
-
-  <h2>4. Official Button Behaviors (Exact Menu Names)</h2>
+  <h2>6. What you deliver</h2>
   <ul>
-    <li><code>Reset</code> — Clears previous behavior.</li>
-    <li><code>Send</code> — Sends fixed text via Bluetooth, SMS, API, or MQTT.</li>
-    <li><code>Receive</code> — Displays/acts on incoming data (Bluetooth Text/Value, Server API, Server MQTT, Connect Phone Sensor).</li>
-    <li><code>Browser or HTML File</code> — Hosts local HTML file or opens Online URL in WebView.</li>
-    <li><code>Image</code> — Image viewer element.</li>
-    <li><code>Note</code> — Streams text commands line-by-line (includes G-code &amp; RANGMANG2 sign designer).</li>
-    <li><code>PDF</code> — Opens internal PDF via external reader.</li>
-    <li><code>Open_folder</code> / <code>Open Page</code> — Navigation between folders and pages.</li>
-    <li><code>Bar+1</code> / <code>Bar-1</code> / <code>Bar Value</code> — Button control over SeekBars.</li>
+    <li><strong>One complete, self-contained HTML file</strong> (CSS and JavaScript inside) that the user can paste in one go. Plain HTML, CSS and JS works offline. Avoid external libraries unless the feature really needs one.</li>
+    <li>If hardware is involved, also give the matching Arduino or ESP sketch with the baud rate and the exact text protocol (for example <code>ON\n</code> and <code>OFF\n</code>), so both sides agree. Pair the Bluetooth module in Android Settings first.</li>
+    <li>Then give the user sections 3, 4 and 5 as simple steps in their language, skipping what they already did.</li>
   </ul>
 
-  <hr>
-
-  <h2>5. WebView JavaScript Bridge (window.soifgo)</h2>
-  <p>Syntax: <code>window.soifgo.CallSub('subName', true, arg1, arg2, arg3)</code></p>
+  <h2>7. Bridge rules (do not guess)</h2>
+  <pre><code>window.soifgo.CallSub('subName', true, arg1, arg2, arg3)</code></pre>
   <ul>
-    <li>Second argument MUST always be boolean <code>true</code>.</li>
-    <li>Maximum 3 arguments allowed after boolean <code>true</code>.</li>
-    <li>Pass empty strings <code>''</code> for unused arguments.</li>
-    <li>Bluetooth Send: <code>window.soifgo.CallSub('html_bluetooth_rx', true, 'TEXT')</code></li>
-    <li>Bluetooth Receive Callback: <code>window.html_bluetooth_tx = function(data) { ... }</code></li>
-    <li>Sensors Activation (each Sub is independent; call only the one(s) for the sensor(s) you use):
-      <ul>
-        <li><code>window.soifgo.CallSub('sensor_light', true)</code></li>
-        <li><code>window.soifgo.CallSub('sensor_move', true)</code></li>
-        <li><code>window.soifgo.CallSub('sensor_magno', true)</code></li>
-      </ul>
-    </li>
-    <li>Magnetometer Callback: <code>window.html_sensor_magno = function(data) { ... }</code> (Delivers ONE single string value, NO X/Y/Z axes).</li>
+    <li>The first argument is the Sub name, copied exactly from the table below.</li>
+    <li>The second argument is <strong>always <code>true</code></strong>. Never omit it, never pass <code>false</code>.</li>
+    <li>After <code>true</code>, pass <strong>exactly</strong> the number of arguments listed for that Sub (0 to 3). If a required value is empty, pass <code>''</code>. Never add extra arguments and never drop a required one: a wrong count can raise an error or close the app.</li>
+    <li>Always guard: <code>if (window.soifgo) { ... }</code>.</li>
+    <li>Every receiver must be attached to <code>window</code>, for example <code>window.html_bluetooth_tx = function(data) { ... };</code>.</li>
+  </ul>
+
+  <h3>Subs your page calls</h3>
+  <table>
+    <tr><th>Sub</th><th>Arguments after <code>true</code></th><th>Purpose</th></tr>
+    <tr><td><code>html_bluetooth_rx</code></td><td>1: text</td><td>SEND text to Bluetooth (the name looks swapped, it is correct). SoifGo adds CR+LF.</td></tr>
+    <tr><td><code>sensor_light</code></td><td>0</td><td>Activate light sensor</td></tr>
+    <tr><td><code>sensor_move</code></td><td>0</td><td>Activate accelerometer (X and Y)</td></tr>
+    <tr><td><code>sensor_magno</code></td><td>0</td><td>Activate magnetometer (one value)</td></tr>
+    <tr><td><code>request_mic_perm</code></td><td>1: <code>null</code></td><td>Request microphone permission, once, before microphone or speech recognition</td></tr>
+    <tr><td><code>connecte_mqtt_ai</code></td><td>2: address, id</td><td>MQTT connect, step 1</td></tr>
+    <tr><td><code>connecte_mqtt_up</code></td><td>2: username, password (both non-empty)</td><td>MQTT connect, step 2 (optional)</td></tr>
+    <tr><td><code>mqtt_retained</code></td><td>1: <code>1</code> or <code>0</code></td><td>Retained option for the next publish. Call before <code>mqtt_publish</code>.</td></tr>
+    <tr><td><code>mqtt_publish</code></td><td>3: topic, message, qos</td><td>Publish (also auto-subscribes to the topic)</td></tr>
+    <tr><td><code>mqtt_Disconnect</code></td><td>0</td><td>Disconnect MQTT</td></tr>
+    <tr><td><code>mqtt_status</code></td><td>0</td><td>Check MQTT status</td></tr>
+    <tr><td><code>api_send</code></td><td>3: address, key, value</td><td>API POST</td></tr>
+    <tr><td><code>api_recive</code></td><td>2: address, key</td><td>API GET (the spelling "recive" is correct)</td></tr>
+  </table>
+
+  <h3>Receivers SoifGo calls in your page (attach to <code>window</code>)</h3>
+  <table>
+    <tr><th>Function</th><th>Arguments</th><th>Purpose</th></tr>
+    <tr><td><code>html_bluetooth_tx</code></td><td>data</td><td>RECEIVE Bluetooth text (the name looks swapped, it is correct)</td></tr>
+    <tr><td><code>html_sensor_light</code></td><td>data</td><td>Light value (integer, as string)</td></tr>
+    <tr><td><code>html_sensor_movex</code></td><td>data</td><td>Movement X (3 decimals, as string)</td></tr>
+    <tr><td><code>html_sensor_movey</code></td><td>data</td><td>Movement Y (3 decimals, as string)</td></tr>
+    <tr><td><code>html_sensor_magno</code></td><td>data</td><td>Magnetic value: ONE single value (2 decimals, as string), no x, y, z</td></tr>
+    <tr><td><code>mqtt_rx</code></td><td>topic, message</td><td>MQTT message</td></tr>
+    <tr><td><code>html_mqtt_status</code></td><td>connected</td><td>The string <code>'true'</code> or <code>'false'</code>; compare with <code>=== 'true'</code></td></tr>
+    <tr><td><code>api_rx</code></td><td>number</td><td>API response (a plain value or a Map string like <code>{usd=86750}</code>; handle both)</td></tr>
+  </table>
+
+  <h3>Minimal Bluetooth page</h3>
+  <pre><code>&lt;button onclick="send('ON')"&gt;ON&lt;/button&gt;
+&lt;button onclick="send('OFF')"&gt;OFF&lt;/button&gt;
+&lt;pre id="log"&gt;&lt;/pre&gt;
+&lt;script&gt;
+function send(t) {
+  if (window.soifgo) { window.soifgo.CallSub('html_bluetooth_rx', true, t); }
+}
+window.html_bluetooth_tx = function (data) {
+  document.getElementById('log').textContent += data + '\n';
+};
+&lt;/script&gt;</code></pre>
+
+  <h2>8. Limits to remember</h2>
+  <ul>
+    <li>Sensors are independent: activate only the ones the page uses. The accelerometer gives X and Y only (no Z); the magnetometer gives one single value with no axes. A compass or a 3-axis level cannot be built. A 2-axis tilt level with Move X and Move Y is possible.</li>
+    <li>MQTT and API work only inside SoifGo's WebView. API calls have rate limits: use safe intervals and give the user a Stop button.</li>
+    <li>The Bluetooth device must be paired in Android Settings first. SoifGo's list is the phone's own Bluetooth list.</li>
+    <li><code>localStorage</code> persists across reloads; wrap it in <code>try/catch</code>. <code>alert</code>, <code>confirm</code> and <code>prompt</code> work natively.</li>
+  </ul>
+
+  <h2>9. More</h2>
+  <ul>
+    <li>Full reference with complete working examples (MQTT panel, API, voice, sensors, Arduino dashboard) and a troubleshooting table: <a href="https://soifgo.github.io/SOIFGO_AI_CONTEXT.md">SOIFGO_AI_CONTEXT.md</a>.</li>
+    <li>Home page with the same bridge reference and beginner guide: <a href="https://soifgo.github.io/">https://soifgo.github.io/</a> (sections "SoifGo bridge reference for AI assistants" and "For AI Assistants: Guiding a Beginner").</li>
+    <li>Index for AI assistants: <a href="https://soifgo.github.io/llms.txt">llms.txt</a>. Beginner user guide: <a href="https://soifgo.github.io/soifgo_info/soifgo_info.html">soifgo_info.html</a>.</li>
   </ul>
 
 </body>

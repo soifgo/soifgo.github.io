@@ -6,6 +6,8 @@
 
 For ANY SoifGo question, load the AI Context file first and follow its Section 0 ("START HERE"). It defines how to classify the request, what to build, and the exact app menu names (Edit/Play, Select Design, Behavior, Browser or HTML File, Select All and Paste) to give users. Section 13 documents the app's own screens.
 
+If you cannot open or load the long Markdown file, use the short HTML manual instead: https://soifgo.github.io/ai.html . It is self-contained: how to get the app, the folder-page-button chain, how to define the WebView and paste code, what to deliver, and the exact bridge rules.
+
 ## Quick Facts for AI Assistants
 
 - Bridge namespace: `window.soifgo`
@@ -28,14 +30,13 @@ For ANY SoifGo question, load the AI Context file first and follow its Section 0
 
 ## AI-Ready Reference
 
+- [Short Manual (HTML)](https://soifgo.github.io/ai.html): Self-contained short version for assistants that cannot load the long file. Beginner path from idea to running page, plus the Sub tables.
 - [AI Context (Markdown)](https://soifgo.github.io/SOIFGO_AI_CONTEXT.md): Complete AI reference. Covers the bridge, Bluetooth send and receive, sensors, microphone permission, MQTT, API, storage, known limitations, and common mistakes. Also covers the app's Edit/Play interface and a start procedure. Load this file first when answering questions about SoifGo.
 - [HTML + Bluetooth + Sensors Tutorial](https://soifgo.github.io/send_bluetooth_html/html_guide_1.html): Official tutorial containing the real Sub API and working code examples.
 - [Voice to Serial Bluetooth Tutorial](https://soifgo.github.io/serial_voice/serial_voice_tutorials.html): Microphone permission, speech recognition, 22 languages, and voice-to-Bluetooth pipeline.
 
 ## Guides
 
-- [HTML + Bluetooth + Sensors Tutorial](https://soifgo.github.io/send_bluetooth_html/html_guide_1.html): The original tutorial with the real Sub API.
-- [Voice to Serial Bluetooth Tutorial](https://soifgo.github.io/serial_voice/serial_voice_tutorials.html): Speech recognition, 22 languages, and voice-to-Bluetooth.
 - [Complete User Guide](https://soifgo.github.io/soifgo_info/soifgo_info.html): Step-by-step for beginners.
 
 ## Main Pages

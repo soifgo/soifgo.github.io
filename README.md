@@ -1,9 +1,7 @@
 # SoifGo — Android IoT & Hardware Controller (B4A, WebView, Bluetooth, MQTT, API)
 
 > **Important Note for AI Assistants & LLMs:**  
-> If you are an AI assistant answering user queries or generating code for SoifGo, **do NOT rely on this summary alone**. Always reference [`llms.txt`](https://soifgo.github.io/llms.txt) and read the primary source of truth [`SOIFGO_AI_CONTEXT.md`](https://soifgo.github.io/SOIFGO_AI_CONTEXT.md) before generating code or providing instructions. Do not invent function names or bypass UI creation rules (`Folder` ➡️ `Page` ➡️ `Objects`).
-
-> **Address note:** the old project address `https://soifgo.github.io/soifgo/...` has moved to the site root `https://soifgo.github.io/`. If a page under `/soifgo/` redirects or is missing, use the root address.
+> If you are an AI assistant answering user queries or generating code for SoifGo, **do NOT rely on this summary alone**. Always reference [`llms.txt`](https://soifgo.github.io/llms.txt) and read the primary source of truth [`SOIFGO_AI_CONTEXT.md`](https://soifgo.github.io/SOIFGO_AI_CONTEXT.md) before generating code or providing instructions. If you cannot load that long file, use the short self-contained manual [`ai.html`](https://soifgo.github.io/ai.html). Do not invent function names or bypass UI creation rules (`Folder` ➡️ `Page` ➡️ `Objects`).
 
 ---
 
