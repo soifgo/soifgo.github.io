@@ -329,11 +329,13 @@ When a user says "how do I start" or "how do I add a button", answer in the user
      (There is **no Behavior dialog** here — you are already inside the WebView's own menu.)
    - The **code editor** opens. In its top-left menu → **Select All and Paste**.
      Your clipboard replaces the entire file.
-   - Right after pasting, tap the **yellow X (close icon)** at the top to close and **save**. There is no need to wait.
-     The WebView **reloads automatically** with the new code.
+   - After editing or pasting HTML, the code is **saved automatically**. No manual save is needed.
+   - To see the result, tap the **yellow X** at the top: it returns **directly to the WebView**, which **reloads automatically** with the new code.
+     Alternative: use the phone **Back** button, then tap the WebView button again.
+   - To rename the file or save it under another name, use the editor menu (**Rename HTML** / **Save As HTML**).
    - **Repeat this exact order every time you change the code:**
-     Play → tap WebView button → WebView menu → Edit →
-     editor menu → Select All and Paste → yellow X → reload.
+     Play → WebView button → WebView menu → Edit →
+     Select All and Paste → yellow X.
 5. Pair the Bluetooth module in Android Settings first if Bluetooth is used.
 
 ### 0.4 Non-Negotiable Code Rules
@@ -1298,9 +1300,11 @@ Behavior **Browser or HTML File** makes the button host a WebView. Every button 
      HexVisualizer ON/OFF, Text Size, Line Numbers, WrapLine,
      Add Send Function, and **Select All and Paste**.
    - Choose **Select All and Paste** — the clipboard replaces the whole file.
-   - Right after pasting, tap the **yellow X (close icon)** at the top to close and save. There is no need to wait.
-     The WebView **reloads automatically** with the new code.
-   - **Repeat this exact order every time you change the code.**
+   - The code is **saved automatically**; no manual save is needed.
+   - To see the result, tap the **yellow X** at the top: it returns directly to the WebView, which **reloads automatically**.
+     Alternative: press **Back**, then tap the WebView button again. There is no need to wait.
+   - **Repeat this exact order every time you change the code:**
+     Play → WebView button → WebView menu → Edit → Select All and Paste → yellow X.
 
    **Important:** File loading (Explorer / samples / project folder)
    lives in **Edit**, at the end of the
@@ -1309,14 +1313,14 @@ Behavior **Browser or HTML File** makes the button host a WebView. Every button 
    **Do NOT paste code in the Behavior screen.**
 
 
-Editor top bar: Undo, Redo, and the yellow **X** (closes the editor and saves the HTML under the same name). Editor menu (top-left icon):
+Editor top bar: Undo, Redo, and the yellow **X** (closes the editor and returns directly to the WebView, which reloads automatically; the code is already auto-saved, so no manual save is needed). Editor menu (top-left icon):
 - **Rename HTML**, **Save As HTML**
 - **Find**, **Find & Replace**
 - **Pick a color** — choose a color; its hex code is copied to the clipboard.
 - **HexVisualizer ON/OFF** — shows the color next to hex codes in the code.
 - **Text Size**, **Line Numbers**, **WrapLine**
 - **Add Send Function** — pick a bridge Sub from a list; the ready-made call is copied to the clipboard. Intended for developers. Entries include: Bluetooth Send, Receive Bluetooth Text, Receive : Phone Sensor : Light / Move X / Move Y / Magnetic, ON : Phone Sensor : Light / Move / Magnetic, Request Microphone Permission, MQTT Connect (address + id), MQTT Connect (username + password), MQTT Publish, MQTT Disconnect, MQTT Check Status, API Send, API Receive (Request), API Receive (Callback) (the list continues; further entries *not covered*).
-- **Select All and Paste** — replaces the whole file with the clipboard. **This is how users apply AI-generated code**: copy your HTML, open the editor, choose Select All and Paste, tap X.
+- **Select All and Paste** — replaces the whole file with the clipboard. **This is how users apply AI-generated code**: copy your HTML, open the editor, choose Select All and Paste, then tap the yellow X to return to the reloaded WebView.
 
 **Never tell a user to "open a file in a text editor on the phone".**
 The built-in editor above is the intended path.
@@ -1364,7 +1368,7 @@ Exact behavior of each Note send option (delay, loop, wait-for-word, manual mode
 
 ## 14. Complete Working Examples (copy these patterns)
 
-All examples are self-contained single HTML files for the SoifGo WebView. Paste via **Play → WebView button → WebView menu → Edit → Select All and Paste → wait for colors → yellow X**.
+All examples are self-contained single HTML files for the SoifGo WebView. Paste via **Play → WebView button → WebView menu → Edit → Select All and Paste → yellow X** (the code is auto-saved and the WebView reloads automatically; no waiting needed).
 
 | User wants | Start from |
 |---|---|
@@ -2143,7 +2147,7 @@ function startPage() {
 | `api_recive` fails or the app closes | Only 1 argument passed (missing `key`) | Pass both `address` and `key` |
 | `api_rx` shows `{usd=86750}` or fails `JSON.parse` | B4A Map format | Use `extractValue()` (14.7) |
 | HTTP 429 from an API | Polling too fast | Increase interval (Section 8), keep a Stop button |
-| Pasted code vanished | Pasted in the Behavior screen (it is not a code editor) | Paste only in the WebView editor from **Play**, then tap the yellow X |
+| Pasted code vanished | Pasted in the Behavior screen (it is not a code editor) | Paste only in the WebView editor from **Play** (WebView button → WebView menu → Edit → Select All and Paste), then tap the yellow X |
 | A button or slider disappeared / is not visible | Pushed behind another object (Match with the other button), or Background transparent and Name empty | Edit → Select Design → **Search Button** (or **Search SeekBar**), drag the slider until the lost object blinks red, then change its **Name** or **Background**. Or tap **Undo** (history is lost if the app was closed). See 0.2-A |
 | Bluetooth list is empty | Module not paired | Pair in Android Settings first |
 | Headphones/speaker not usable | SoifGo supports data devices only | Use HC-05, HC-06, JDY-31, ESP32, etc. |
@@ -2159,4 +2163,4 @@ function startPage() {
 
 ## Changelog
 
-**Document revision:** 6 — added Step 0 (get and install the app: not on Google Play, APKPure or ZIP, unknown sources), removed the obsolete "wait until the code turns colored" warning (paste, then tap the yellow X right away), moved this changelog to the end of the file, and added the pointer to the short manual ai.html. Revision 5 — made the argument rule consistent (exact count per Sub, `true` always second, `''` only for an empty required value), added the argument-count column to Section 6, the Bluetooth send/receive name warning, the CR+LF note, and updated 14.9 and Section 15. Revision 4 — added Section 14.11 (Download an external library once, reuse it from storage via IndexedDB, based on the 3D File Viewer) and updated rule 0.4-10, the Pre-Send Checklist, Section 9 (Storage) and Section 15.
+**Document revision:** 7 — corrected the code-editing flow everywhere: code is saved automatically (no manual save), the yellow X returns directly to the WebView which reloads automatically (alternative: Back, then tap the WebView button again), rename / save-as only via the editor menu, and removed the last leftover "wait for colors" wording in Section 14. Revision 6 — added Step 0 (get and install the app: not on Google Play, APKPure or ZIP, unknown sources), removed the obsolete "wait until the code turns colored" warning (paste, then tap the yellow X right away), moved this changelog to the end of the file, and added the pointer to the short manual ai.html. Revision 5 — made the argument rule consistent (exact count per Sub, `true` always second, `''` only for an empty required value), added the argument-count column to Section 6, the Bluetooth send/receive name warning, the CR+LF note, and updated 14.9 and Section 15. Revision 4 — added Section 14.11 (Download an external library once, reuse it from storage via IndexedDB, based on the 3D File Viewer) and updated rule 0.4-10, the Pre-Send Checklist, Section 9 (Storage) and Section 15.
