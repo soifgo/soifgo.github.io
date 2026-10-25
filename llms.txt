@@ -8,6 +8,10 @@ For ANY SoifGo question, load the AI Context file first and follow its Section 0
 
 If you cannot open or load the long Markdown file, use the short HTML manual instead: https://soifgo.github.io/ai.html . It is self-contained: how to get the app, the folder-page-button chain, how to define the WebView and paste code, what to deliver, and the exact bridge rules.
 
+⚠️ CRITICAL: If you cannot open the AI Context file for ANY reason, do NOT answer SoifGo questions from memory. Say you need the file and point the user to https://soifgo.github.io/SOIFGO_AI_CONTEXT.md . Guessing menu names or Sub names is a hard failure.
+
+⚠️ NEVER say "add a button" as a single step. The order is always folder → Page → New Page → Button. See the First Button Rule below.
+
 ## Quick Facts for AI Assistants
 
 - Bridge namespace: `window.soifgo`
@@ -27,6 +31,8 @@ If you cannot open or load the long Markdown file, use the short HTML manual ins
 - Availability: `window.soifgo` only exists inside SoifGo's WebView. Always guard with `if (window.soifgo) { ... }`.
 - First Button Rule: A new SoifGo project is empty. A Button cannot be created until a folder and a page exist in that exact order (folder -> page -> objects). Never suggest "add a button" as a single step for a blank project.
 - Critical: Do NOT invent function names. Use only the exact names in the AI Context file.
+- Menu trap: The Behavior menu does NOT contain Bluetooth/MQTT/HTTP as direct choices. The only WebView-related choice is "Browser or HTML File". Bluetooth/MQTT/HTTP are called from inside the HTML code via `window.soifgo.CallSub(...)`. Never tell a user to look for Bluetooth/MQTT in the Behavior menu.
+- Paste-code trap: To paste HTML code into a WebView, the path is: Play → tap the WebView button → WebView top-left menu → Edit → editor menu → Select All and Paste → yellow X. It is NOT done from the Edit screen, and the Behavior dialog is NOT a code editor.
 
 ## AI-Ready Reference
 
