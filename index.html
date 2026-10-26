@@ -2350,7 +2350,12 @@ window.api_rx = api_rx;</code></pre><br>
     }
   </script>
 
-  <script src="https://cdn.staticfile.net/translate.js/3.18.66/translate.js"></script>
+  <script src="translate.js"></script>
+  <script>
+    if (typeof translate === 'undefined') {
+      document.write('<script src="https://cdn.staticfile.net/translate.js/3.18.66/translate.js"><\/script>');
+    }
+  </script>
 
   <script>
   (function() {
@@ -2464,7 +2469,7 @@ window.api_rx = api_rx;</code></pre><br>
           translate.execute();
         }
 
-        waitForTranslation(testElement, originalText, 4000).then(function(success) {
+        waitForTranslation(testElement, originalText, 6000).then(function(success) {
           if (!success) {
             console.warn('Channel ' + channel + ' failed, trying next...');
             tryChannel(index + 1);
