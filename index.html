@@ -108,7 +108,7 @@
     "operatingSystem": "Android 7.0+",
     "applicationCategory": "DeveloperApplication",
     "applicationSubCategory": "Hardware Control Platform",
-    "description": "Free Android app that runs HTML pages written by an AI assistant (or by you) as saved buttons, with a bridge to Bluetooth, MQTT, HTTP, phone sensors and the microphone for Arduino, ESP32 and IoT projects. No native Android development required.",
+    "description": "Free Android app that runs HTML pages written by an AI assistant (or by you) as saved buttons, with a bridge to Bluetooth, MQTT, HTTP and phone sensors, plus microphone and speech recognition, for Arduino, ESP32 and IoT projects. No native Android development required.",
     "url": "https://soifgo.github.io/",
     "downloadUrl": "https://soifgo.github.io/soifgo.zip",
     "installUrl": "https://apkpure.com/soifgo/soifgo.saeidmoghadam",
@@ -210,7 +210,7 @@
         "name": "Why use SoifGo instead of opening the HTML file in a browser?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "A browser can open many simple pages. SoifGo adds a place to keep your ideas as buttons in folders and pages, and gives your page ready-made calls for Bluetooth serial modules (HC-05, HC-06), MQTT, HTTP, phone sensors and the microphone. Browsers can reach some of these only with limits or extra setup, and generally not classic Bluetooth serial modules."
+          "text": "A browser can open many simple pages. SoifGo adds a place to keep your ideas as buttons in folders and pages, and gives your page ready-made calls for Bluetooth serial modules (HC-05, HC-06), MQTT, HTTP and phone sensors, and supports the microphone and speech recognition through the standard browser request. Browsers can reach some of these only with limits or extra setup, and generally not classic Bluetooth serial modules."
         }
       },
       {
@@ -1706,7 +1706,7 @@
 
       <div class="faq-item">
         <strong>Why use SoifGo instead of opening the HTML file in a browser?</strong>
-        <p>A browser can open many simple pages. SoifGo adds a place to keep your ideas as buttons in folders and pages, and gives your page ready-made calls for Bluetooth serial modules (HC-05, HC-06), MQTT, HTTP, phone sensors and the microphone. Browsers can reach some of these only with limits or extra setup, and generally not classic Bluetooth serial modules.</p>
+        <p>A browser can open many simple pages. SoifGo adds a place to keep your ideas as buttons in folders and pages, and gives your page ready-made calls for Bluetooth serial modules (HC-05, HC-06), MQTT, HTTP and phone sensors, and supports the microphone and speech recognition through the standard browser request. Browsers can reach some of these only with limits or extra setup, and generally not classic Bluetooth serial modules.</p>
       </div>
 
       <div class="faq-item">
@@ -1767,6 +1767,18 @@
         Never invent or guess a name. Sending over Bluetooth is done with
         <code>html_bluetooth_rx</code>.
       </p>
+      <p>
+        <b>Wrong Sub = automatic warning.</b> If a page calls a Sub that does not belong to SoifGo,
+        SoifGo detects it, shows a warning with a sound, and copies the list of correct Subs to the
+        clipboard. The user can paste that list into the AI assistant. The AI must treat it as the
+        source of truth and fix the code to match it exactly.
+      </p>
+      <p>
+        <b>The microphone has no Sub.</b> Do not call <code>CallSub</code> for it. The page makes the
+        standard browser microphone request (for example by starting speech recognition). SoifGo detects
+        that request and shows the user one prompt to allow the microphone. The prompt appears only once;
+        later requests still run in the code, but nothing is asked again.
+      </p>
 
       <h3>The one call shape (3 rules)</h3>
       <p>
@@ -1775,7 +1787,7 @@
       <ol>
         <li>The first argument is the Sub name, copied exactly from the table below.</li>
         <li>The second argument is always <code>true</code>. It is mandatory: it makes the Sub run on the UI thread. Never omit it and never pass <code>false</code>.</li>
-        <li>After <code>true</code>, pass exactly the number of arguments listed in the table for that Sub (0 to 3). If one value is empty, pass <code>''</code> for that argument. Never add extra arguments to reach a count of 3: a call that does not match the Sub&#39;s parameters can raise an error or close the app.</li>
+        <li>After <code>true</code>, pass exactly the number of arguments listed in the table for that Sub (0 to 3). If one value is empty, pass <code>''</code> for that argument. Never add extra arguments to reach a count of 3: a call that does not match the Sub&#39;s parameters makes SoifGo show a warning message with a sound.</li>
       </ol>
 
       <h3>Sub reference: name and exact argument count after <code>true</code></h3>
@@ -1941,6 +1953,14 @@ window.onload = function () {
             never use <code>data.x</code>. Accelerometer <b>Z</b> is not forwarded.<br>
             <b>Real-World Use:</b> activate <code>sensor_magno</code> to measure AC current
             with the phone's magnetometer (clamp meter).
+          </li>
+
+          <!-- ============ Microphone ============ -->
+          <li style="margin-bottom: 18px;">
+            <strong>Microphone (no Sub):</strong><br>
+            - There is no Sub for the microphone. Do NOT call <code>CallSub</code> for it.<br>
+            - Use the standard browser microphone request (for example start speech recognition with <code>window.SpeechRecognition || window.webkitSpeechRecognition</code>). SoifGo detects that standard request and shows the user one prompt to allow the microphone.<br>
+            - The prompt appears only once. After the user allows, later requests still run in the code, but nothing is asked again. If the user denies, speech-to-text and voice commands will not work.
           </li>
 
           <!-- ============ MQTT ============ -->

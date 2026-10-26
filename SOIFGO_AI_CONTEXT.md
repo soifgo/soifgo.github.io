@@ -287,7 +287,7 @@ When a user says "how do I start" or "how do I add a button", answer in the user
 | IoT over WiFi | WebView + MQTT | Sections 4–5 |
 | Web data, prices, REST APIs | WebView + API | Sections 4, 5, 8 |
 | Phone sensors | WebView + Sensors, or Classic `Connect Phone Sensor` | Sections 4–5, 13.4 |
-| Voice / speech | WebView + Microphone | Section 4 (Microphone) and the Voice tutorial link |
+| Voice / speech | WebView + Microphone | Section 9 (Microphone), example 14.4, and the Voice tutorial link |
 | Send a prepared list of commands line by line (and optionally wait for a reply between lines) | Classic **Note** behavior | Section 13.7 |
 | Draw/design shapes or load an image and get G-code for a CNC | Note menu → **Gcod** (then send the G-code with Note out → Bluetooth Send) | Section 13.7 |
 | "How do I start?" / no button yet / no idea yet | Give the full folder → page → button chain | **Section 0.2-A** (then 0.2-B, 13.1–13.3) |
@@ -509,6 +509,7 @@ window.soifgo.CallSub('subName', true, arg1, arg2, arg3);
 - The second argument is the B4A `callUIThread` flag. In SoifGo code it is **always `true`** (the Sub runs on the UI thread and returns no value to JavaScript).
 - After the flag, you can pass **up to 3 arguments**, and exactly as many as that Sub has (see Section 6).
 - If a required value is empty, pass `''` for it; never add extra arguments to fill the count and never drop a required one.
+- **Wrong Sub = automatic warning.** If the page calls a Sub that does not belong to SoifGo (a guessed or invented name), SoifGo detects it, shows a warning with a sound, and copies the list of correct Subs to the clipboard. The user can paste that list into the AI assistant. If the user pastes it, treat it as the source of truth and fix the code to match it exactly.
 - Always guard with `if (window.soifgo) { ... }` — the bridge only exists inside SoifGo.
 - In a normal browser, `window.soifgo` is `undefined`.
 
@@ -570,9 +571,11 @@ Activates the magnetic sensor. SoifGo starts sending data to `html_sensor_magno`
 
 ---
 
-Requests microphone permission. Shows the native Android dialog the first time only.
+### Microphone permission (no Sub)
 
-> **Note:** After the user allows once, Android remembers the choice. Later calls are silently ignored. If the user denies, features like sound metering, voice command, and speech-to-text will not work.
+There is **no Sub** for the microphone. Do not call `CallSub` for it. Your page makes the standard browser/HTML microphone request (for example by starting speech recognition, as in 14.4). SoifGo detects that standard request and shows the user one prompt asking to allow the microphone.
+
+> **Note:** This prompt appears only once. After the user allows, later requests still run in the code, but nothing is asked again. If the user denies, sound metering, voice command and speech-to-text will not work.
 
 ---
 
@@ -976,6 +979,7 @@ Always include a **Stop** button so the user can halt polling.
 ### Microphone
 
 - Microphone permission is required for audio, speech recognition, and voice-to-Bluetooth.
+- There is no microphone Sub. Use the standard browser microphone request (see 14.4). SoifGo shows the allow prompt once; later requests are silent.
 - `alert()`, `confirm()`, and `prompt()` all work natively inside SoifGo's WebView.
 
 ### Storage
@@ -2125,7 +2129,7 @@ function startPage() {
 | Receiver never fires | Not registered on `window` | `window.myReceiver = myReceiver;` |
 | Sensors show nothing | The activation Sub for that specific sensor was not called, or not called in `window.onload` | Call the matching Sub (`sensor_light`, `sensor_move` or `sensor_magno`) in `window.onload` (14.3); each sensor is activated independently |
 | Code works for light/move but magnetic looks wrong | Code expects x/y/z | Magneto is a single string value; use `parseFloat(data)` |
-| `CallSub` does nothing or the app closes | Second argument is not `true`, wrong number of arguments for that Sub, a wrong Sub name, or no Bluetooth/MQTT connection | Pass `true`, pass exactly the Sub's count from Section 6 (use `''` only for an empty required value), copy the Sub name exactly, and connect first |
+| `CallSub` does nothing, a warning sound/message appears, or the app closes | Second argument is not `true`, wrong number of arguments, a wrong or invented Sub name, or no Bluetooth/MQTT connection | Pass `true`, pass exactly the Sub's count from Section 6, copy the Sub name exactly, and connect first. If SoifGo shows the wrong-Sub warning, the correct Sub list is now on the clipboard: paste it into the AI and rewrite the call from it |
 | Bluetooth sending does nothing | The receive name was used to send, an invented Sub name was used, or no module is connected | Send with `html_bluetooth_rx`, receive with `html_bluetooth_tx`, and connect the module first |
 | Arduino sees an extra blank line after each command | `\n` was added in JavaScript, but SoifGo already appends CR+LF | Send the text without `\n` |
 | MQTT shows "Connected" when it is not | `'false'` string is truthy | Compare `=== 'true'` |
