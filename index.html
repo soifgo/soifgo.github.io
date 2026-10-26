@@ -2464,7 +2464,7 @@ window.api_rx = api_rx;</code></pre><br>
           translate.execute();
         }
 
-        waitForTranslation(testElement, originalText, 3000).then(function(success) {
+        waitForTranslation(testElement, originalText, 9000).then(function(success) {
           if (!success) {
             console.warn('Channel ' + channel + ' failed, trying next...');
             tryChannel(index + 1);
