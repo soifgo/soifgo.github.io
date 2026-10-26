@@ -573,7 +573,6 @@
           <li>The <code>window.soifgo.CallSub()</code> bridge and its golden rules</li>
           <li>Bluetooth send and receive</li>
           <li>Phone sensors (light, accelerometer X/Y, magnetometer Z)</li>
-          <li>Microphone permission via <code>request_mic_perm</code></li>
           <li>MQTT connect, publish, subscribe, status</li>
           <li>REST API with two response formats</li>
           <li>localStorage</li>
@@ -809,7 +808,7 @@ localStorage.removeItem('my_key');</code></pre>
         </thead>
         <tbody>
           <tr>
-            <td><code>html_bluetooth_rx(newline, msg)</code></td>
+            <td><code>html_bluetooth_rx(msg)</code></td>
             <td><span class="tag send">SEND</span></td>
             <td>Send string to Bluetooth. <code>newline</code> = true/false.</td>
           </tr>
@@ -827,11 +826,6 @@ localStorage.removeItem('my_key');</code></pre>
             <td><code>sensor_magno</code></td>
             <td><span class="tag act">ACT</span></td>
             <td>Activate magnetic field sensor stream.</td>
-          </tr>
-          <tr>
-            <td><code>request_mic_perm</code></td>
-            <td><span class="tag act">ACT</span></td>
-            <td>Request microphone permission (first time only).</td>
           </tr>
           <tr>
             <td><code>connecte_mqtt_ai(address, id)</code></td>
@@ -995,10 +989,6 @@ localStorage.removeItem('my_key');</code></pre>
 
       <div class="warning-box">
         <strong>Rate limit (HTTP 429)</strong> — increase the polling interval. See Rate Limits in section 5.
-      </div>
-
-      <div class="warning-box">
-        <strong>Microphone permission denied</strong> — call <code>request_mic_perm</code> before using <code>getUserMedia</code> or <code>SpeechRecognition</code>. The user must allow it once.
       </div>
     </section>
 

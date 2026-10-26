@@ -7,8 +7,8 @@
   <meta name="color-scheme" content="light dark" />
 
   <title>SoifGo HTML Guide — Bluetooth, Sensors, Microphone, MQTT, API &amp; Storage with WebView</title>
-  <meta name="description" content="Complete guide for building HTML apps inside SoifGo. Learn Bluetooth send/receive, sensor data (Light, Movement, Magneto), microphone permission, MQTT publish/subscribe, API send/receive, persistent storage with localStorage, and custom UI with WebView." />
-  <meta name="keywords" content="SoifGo guide, HTML Bluetooth, WebView integration, sensor data, MQTT, WebView MQTT, publish subscribe, light sensor, movement sensor, magneto sensor, Bluetooth send receive, API send receive, api_send, api_recive, custom UI, SoifGo tutorial, localStorage, persistent storage, microphone, request_mic_perm" />
+  <meta name="description" content="Complete guide for building HTML apps inside SoifGo. Learn Bluetooth send/receive, sensor data (Light, Movement, Magneto), microphone access, MQTT publish/subscribe, API send/receive, persistent storage with localStorage, and custom UI with WebView." />
+  <meta name="keywords" content="SoifGo guide, HTML Bluetooth, WebView integration, sensor data, MQTT, WebView MQTT, publish subscribe, light sensor, movement sensor, magneto sensor, Bluetooth send receive, API send receive, api_send, api_recive, custom UI, SoifGo tutorial, localStorage, persistent storage, microphone" />
 
   <meta property="og:title" content="SoifGo HTML Guide — Bluetooth, Sensors, Microphone, MQTT, API &amp; Storage" />
   <meta property="og:description" content="Complete guide for building HTML apps inside SoifGo. Bluetooth, sensors, microphone, MQTT, API, persistent storage, and custom UI." />
@@ -37,7 +37,7 @@
     "author": { "@type": "Person", "name": "Saeid Moghadam" },
     "publisher": { "@type": "Organization", "name": "SoifGo", "url": "https://soifgo.github.io/" },
     "datePublished": "2025-01-01",
-    "dateModified": "2025-01-15",
+    "dateModified": "2026-10-26",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "https://soifgo.github.io/send_bluetooth_html/html_guide_1.html" },
     "about": { "@type": "Thing", "name": "HTML WebView Integration with SoifGo" },
     "teaches": [
@@ -45,7 +45,7 @@
       "Bluetooth receive from SoifGo to WebView",
       "Sensor activation (Light, Movement, Magneto)",
       "Sensor data reception in WebView",
-      "Microphone permission request",
+      "Microphone access via Standard Web Speech API",
       "MQTT connect, publish, subscribe from WebView",
       "MQTT message reception in WebView",
       "API send with address, key, value",
@@ -978,14 +978,14 @@
     <p style="font-size:1.05rem;">
       <strong><span class="ignore">SoifGo</span></strong> turns your HTML pages into a real Android app.
       Inside its WebView, your page can talk to Bluetooth, read phone sensors,
-      request microphone access, connect to MQTT brokers, send/receive API data,
+      access the microphone, connect to MQTT brokers, send/receive API data,
       and store data — all with plain HTML, CSS, and JavaScript.
     </p>
     <p>This guide shows you how to:</p>
     <ul>
       <li>✅ Send and receive Bluetooth data</li>
       <li>✅ Activate and read sensors (Light, Movement, Magneto)</li>
-      <li>✅ Request microphone permission for audio or voice-to-Bluetooth projects</li>
+      <li>✅ Access the microphone for audio or voice-to-Bluetooth projects</li>
       <li>✅ Connect, publish, and receive MQTT messages</li>
       <li>✅ Send and receive data via <span class="ignore">SoifGo</span> API</li>
       <li>✅ Save and reload data with localStorage</li>
@@ -1268,35 +1268,14 @@ window.soifgo.CallSub('sensor_magno', true);   // Activate magneto sensor</code>
   </div>
 
   <div class="card" id="microphone">
-    <h2>🎤 4. Microphone — Permission Request</h2>
+    <h2>🎤 4. Microphone — Web Speech API Access</h2>
 
     <p>
-      If your project needs microphone access — for example, to record audio,
-      do speech-to-text conversion, or build a voice → Bluetooth pipeline —
-      you must request permission the first time. After the user allows it once,
-      Android remembers the choice and no dialog appears again.
+      If your project needs microphone access — for example, to perform speech-to-text conversion or build a voice → Bluetooth pipeline — simply use the standard Web Speech API. The browser automatically requests permission on the first microphone usage, and Android remembers the choice for future sessions.
     </p>
 
     <div class="note-success">
-      <strong>✅ Golden rule:</strong> Call <code>request_mic_perm</code> once,
-      before you start using the microphone. That is all you need.
-    </div>
-
-    <div class="file-name">📄 Request microphone permission</div>
-
-    <pre class="line-numbers"><code class="language-javascript">// Call this once, before starting speech recognition or audio recording
-window.soifgo.CallSub('request_mic_perm', true, null);</code></pre>
-
-    <div class="note-info">
-      <strong>⚠️ Notes:</strong>
-      <ul>
-        <li><span class="ignore">SoifGo</span> shows the native Android permission dialog the first time.</li>
-        <li>After the user taps <strong>Allow</strong>, the permission stays granted.</li>
-        <li>On later runs, <span class="ignore">SoifGo</span> silently ignores the call — no dialog appears.</li>
-        <li>If you prefer not to call <code>request_mic_perm</code> in your code,
-            the user can grant microphone permission manually in
-            <strong>Android Settings → Apps → <span class="ignore">SoifGo</span> → Permissions → Microphone</strong>.</li>
-      </ul>
+      <strong>✅ Standard Approach:</strong> Simply initialize <code>window.SpeechRecognition</code> or <code>window.webkitSpeechRecognition</code>. When <code>recognition.start()</code> is called for the first time, Android will show a standard native dialog asking for permission.
     </div>
 
     <div class="file-name">📄 Example — voice command → Bluetooth</div>
@@ -1305,24 +1284,23 @@ window.soifgo.CallSub('request_mic_perm', true, null);</code></pre>
 
 &lt;script&gt;
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-const recognition = new SpeechRecognition();
-recognition.lang = 'en-US';
+if (SpeechRecognition) {
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
 
-document.getElementById('micBtn').addEventListener('click', () =&gt; {
-    // 1. Ask for microphone permission (first time only)
-    window.soifgo.CallSub('request_mic_perm', true, null);
+    document.getElementById('micBtn').addEventListener('click', () =&gt; {
+        // Start speech recognition (browser prompts for permission automatically)
+        recognition.start();
+    });
 
-    // 2. Start speech recognition
-    recognition.start();
-});
-
-recognition.onresult = (event) =&gt; {
-    const text = event.results[0][0].transcript;
-    if (text.trim()) {
-        // 3. Send recognized text to Bluetooth
-        window.soifgo.CallSub('html_bluetooth_rx', true, text);
-    }
-};
+    recognition.onresult = (event) =&gt; {
+        const text = event.results[0][0].transcript;
+        if (text.trim()) {
+            // Send recognized text to Bluetooth
+            window.soifgo.CallSub('html_bluetooth_rx', true, text);
+        }
+    };
+}
 &lt;/script&gt;</code></pre>
 
     <div class="note-info">
@@ -2314,7 +2292,7 @@ window.api_rx = api_rx;</code></pre>
     'turkish': { label: 'Türkçe', dir: 'ltr' },
     'korean': { label: '한국어', dir: 'ltr' },
     'portuguese': { label: 'Português', dir: 'ltr' },
-    'hebrew': { label: 'עברית', dir: 'rtl' },
+    'hebrew': { label: 'עبریת', dir: 'rtl' },
     'kurdish_sorani': { label: 'کوردی', dir: 'rtl' },
     'urdu': { label: 'اردو', dir: 'rtl' },
     'bengali': { label: 'বাংলা', dir: 'ltr' },

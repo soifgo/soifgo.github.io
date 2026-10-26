@@ -397,7 +397,6 @@ window.onload = function () {
     // window.soifgo.CallSub('sensor_move', true);
     // window.soifgo.CallSub('sensor_magno', true);
     // Microphone (see 14.4):
-    // window.soifgo.CallSub('request_mic_perm', true, null);
   }
 };
 </script>
@@ -570,14 +569,6 @@ Activates the magnetic sensor. SoifGo starts sending data to `html_sensor_magno`
 > **Note:** The three activation Subs (`sensor_light`, `sensor_move`, `sensor_magno`) are **independent of each other**. Call only the Sub(s) for the sensor(s) your page needs — for example, only `sensor_magno` if you just need the magnetic sensor. Calling one does not require or trigger the others. Call them inside `window.onload`.
 
 ---
-
-### 🎤 Microphone
-
-#### `request_mic_perm`
-
-```js
-window.soifgo.CallSub('request_mic_perm', true, null);
-```
 
 Requests microphone permission. Shows the native Android dialog the first time only.
 
@@ -817,7 +808,6 @@ Count = the exact number of arguments to pass after `'subName', true`.
 | `sensor_light` | 0 (none) | Activate light sensor |
 | `sensor_move` | 0 (none) | Activate movement sensor |
 | `sensor_magno` | 0 (none) | Activate magnetic sensor |
-| `request_mic_perm` | 1: `null` | Request microphone permission |
 | `connecte_mqtt_ai` | 2: `address, id` | MQTT connect step 1 |
 | `connecte_mqtt_up` | 2: `username, password` (both must be non-empty) | MQTT connect step 2 (optional) |
 | `mqtt_publish` | 3: `topic, message, qos` | Publish MQTT message |
@@ -1540,11 +1530,7 @@ Speech recognition availability depends on the device. For the full 22-language 
 <script>
 var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 var rec = SR ? new SR() : null;
-if (rec) rec.lang = 'en-US';   // change the language code as needed
-
-window.onload = function () {
-  if (window.soifgo) { window.soifgo.CallSub('request_mic_perm', true, null); }
-};
+if (rec) rec.lang = 'en-US';
 
 document.getElementById('micBtn').addEventListener('click', function () {
   if (!rec) { document.getElementById('out').textContent = 'Speech recognition not available'; return; }
@@ -2151,7 +2137,7 @@ function startPage() {
 | A button or slider disappeared / is not visible | Pushed behind another object (Match with the other button), or Background transparent and Name empty | Edit → Select Design → **Search Button** (or **Search SeekBar**), drag the slider until the lost object blinks red, then change its **Name** or **Background**. Or tap **Undo** (history is lost if the app was closed). See 0.2-A |
 | Bluetooth list is empty | Module not paired | Pair in Android Settings first |
 | Headphones/speaker not usable | SoifGo supports data devices only | Use HC-05, HC-06, JDY-31, ESP32, etc. |
-| Microphone features fail | Permission denied | Call `request_mic_perm`, or enable the Microphone permission in Android Settings → Apps → SoifGo |
+Apps → SoifGo |
 | Page is slow to open / needs internet every time just to start | The library is loaded with a plain `<script src="https://cdn...">` tag (example: oscilloscope with Tailwind), so it is fetched on every run | Replace the `<script src>` CDN tag with the IndexedDB download-once loader (14.11) |
 | Arduino ignores commands | Baud/protocol mismatch | Use the same baud rate and the exact `ON` / `OFF` + newline protocol (14.9) |
 

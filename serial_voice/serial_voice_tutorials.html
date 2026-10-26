@@ -429,27 +429,17 @@
   voice-controlled Bluetooth project in <span class="ignore">SoifGo</span>.
 </div>
 
-<h3>1️⃣ Request Microphone Permission (First Time Only)</h3>
+<h3>1️⃣ Standard Web Speech API Recognition</h3>
 
 <p>
-  On the first run, <span class="ignore">SoifGo</span> must ask the user for microphone permission.
-  Call this Sub once — the app will show a native permission dialog.
-  After the user allows it, the permission stays granted for all future sessions.
+  When the user taps the microphone button, the browser automatically requests microphone permission on the first run.
+  Once granted, the standard Web Speech API initializes and listens for spoken commands natively.
 </p>
 
 <div class="highlight">
-  <strong>🔹 The SoifGo Sub (native side):</strong>
-<pre>Sub request_mic_perm(PermissionRequest1 As Object)
-    ' SoifGo automatically shows the native microphone permission dialog.
-    ' The user's choice is remembered by Android.
-End Sub</pre>
-</div>
-
-<div class="highlight">
-  <strong>🔹 The full HTML file that calls this Sub (serial_voice.html):</strong>
+  <strong>🔹 The full HTML file (serial_voice.html):</strong>
   <p style="font-size:0.92rem; color:var(--text); margin-top:8px;">
-    This is the complete page. When the user taps the microphone button, the script first
-    calls <code>request_mic_perm</code> and only then starts speech recognition.
+    This is the complete page using standard Web Speech API to capture speech and send it via Bluetooth.
   </p>
 <pre>&lt;!DOCTYPE html&gt;
 &lt;html lang="en" dir="ltr"&gt;
@@ -591,7 +581,7 @@ End Sub</pre>
                 &lt;option value="tr-TR"&gt;Türkçe&lt;/option&gt;
                 &lt;option value="ko-KR"&gt;한국어&lt;/option&gt;
                 &lt;option value="pt-BR"&gt;Português&lt;/option&gt;
-                &lt;option value="he-IL"&gt;עברית&lt;/option&gt;
+                &lt;option value="he-IL"&gt;עبریת&lt;/option&gt;
                 &lt;option value="ku-IQ"&gt;کوردی&lt;/option&gt;
                 &lt;option value="ur-PK"&gt;اردو&lt;/option&gt;
                 &lt;option value="bn-BD"&gt;বাংলা&lt;/option&gt;
@@ -664,10 +654,6 @@ End Sub</pre>
 
             startBtn.addEventListener('click', () =&gt; {
                 if (!isListening) {
-                    // Request mic permission first
-                    if (window.soifgo &amp;&amp; typeof window.soifgo.CallSub === 'function') {
-                        window.soifgo.CallSub('request_mic_perm', true, null);
-                    }
                     isListening = true;
                     startBtn.innerText = "🛑 Stop Listening";
                     startBtn.classList.add('listening');
@@ -701,24 +687,6 @@ End Sub</pre>
 &lt;/html&gt;</pre>
 </div>
 
-<div class="note">
-  <strong>Note:</strong> This permission is needed only <em>once</em>. After the user taps
-  <em>Allow</em>, the browser's SpeechRecognition API works without further prompts.
-  The Sub is still called on every microphone button press for safety, but the dialog
-  will not appear again.
-</div>
-
-<div class="note danger">
-  <strong>⚠️ Important — where is request_mic_perm called?</strong>
-  In this HTML file, <code>request_mic_perm</code> is called inside the
-  <code>startBtn.addEventListener('click', …)</code> handler. If you want <span class="ignore">SoifGo</span> to
-  actually show the permission dialog, you must add this single line at the beginning
-  of that handler:
-<pre style="background:var(--code-bg); color:var(--danger-light);">window.soifgo.CallSub('request_mic_perm', true, null);</pre>
-  The current example already works, but adding this call makes the permission request
-  explicit and prevents the "not-allowed" error on the first run.
-</div>
-
 <h3>2️⃣ Send Recognized Text to Bluetooth</h3>
 
 <p>
@@ -731,7 +699,7 @@ End Sub</pre>
 <p>The full flow is:</p>
 
 <ol>
-  <li>User taps the microphone button → <code>request_mic_perm</code> is triggered.</li>
+  <li>User taps the microphone button → Speech recognition starts.</li>
   <li>User speaks → the browser's <code>SpeechRecognition</code> converts voice to text.</li>
   <li>JavaScript calls <code>window.soifgo.CallSub('html_bluetooth_rx', true, txt)</code>.</li>
   <li><span class="ignore">SoifGo</span> receives the text in its <code>html_bluetooth_rx()</code> Sub.</li>
@@ -795,8 +763,7 @@ window.html_bluetooth_tx = html_bluetooth_tx;  // register globally</pre>
 <div class="step">
   <span class="step-number">4</span>
   <strong>Return to the voice page and press the microphone button</strong><br>
-  The first time, <code>request_mic_perm</code> is called and Android asks for
-  microphone permission — tap <em>Allow</em>. Next times, no prompt appears.
+  The first time, Android prompts for microphone access — tap <em>Allow</em>. Next times, no prompt appears.
 </div>
 
 <div class="step">
@@ -924,7 +891,7 @@ void handleCommand(String cmd) {
   If the recognizer has trouble with the word <em>"LAMP"</em>, you can use shorter
   commands. Replace <code>"LAMP ON"</code> with <code>"ON"</code> and
   <code>"LAMP OFF"</code> with <code>"OFF"</code> in both the Arduino sketch
-  and your speech. The sketch above already accepts <code>"ON"</code> and
+  and your speech. The sketch above accepts <code>"ON"</code> and
   <code>"OFF"</code> as valid alternatives.
 </div>
 
@@ -947,7 +914,7 @@ void handleCommand(String cmd) {
 
 <div class="golden">
   <ol>
-    <li><strong>Ask once:</strong> Call <code>request_mic_perm</code> for microphone access.</li>
+    <li><strong>Standard mic access:</strong> Handled automatically by Web Speech API on first button press.</li>
     <li><strong>Send with one line:</strong> <code>window.soifgo.CallSub('html_bluetooth_rx', true, txt)</code>.</li>
     <li><strong>Receive with one function:</strong> define global <code>html_bluetooth_tx(data)</code>.</li>
   </ol>

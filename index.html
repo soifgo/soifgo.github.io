@@ -1793,7 +1793,6 @@
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>sensor_light</code></td><td style="padding:6px 8px; border:1px solid var(--border);">0</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('sensor_light', true)</code>: starts the light sensor</td></tr>
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>sensor_move</code></td><td style="padding:6px 8px; border:1px solid var(--border);">0</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('sensor_move', true)</code>: starts the movement sensor</td></tr>
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>sensor_magno</code></td><td style="padding:6px 8px; border:1px solid var(--border);">0</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('sensor_magno', true)</code>: starts the magnetic sensor</td></tr>
-            <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>request_mic_perm</code></td><td style="padding:6px 8px; border:1px solid var(--border);">1</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('request_mic_perm', true, null)</code>: asks for microphone permission</td></tr>
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>connecte_mqtt_ai</code></td><td style="padding:6px 8px; border:1px solid var(--border);">2</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('connecte_mqtt_ai', true, address, id)</code>: connects to the broker</td></tr>
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>connecte_mqtt_up</code></td><td style="padding:6px 8px; border:1px solid var(--border);">2</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('connecte_mqtt_up', true, username, password)</code>: connects with a login (both values must be non-empty)</td></tr>
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>mqtt_publish</code></td><td style="padding:6px 8px; border:1px solid var(--border);">3</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('mqtt_publish', true, topic, message, qos)</code>: publishes (works only while connected)</td></tr>
@@ -1905,7 +1904,6 @@ window.onload = function () {
     // window.soifgo.CallSub('sensor_light', true);
     // window.soifgo.CallSub('sensor_move', true);
     // window.soifgo.CallSub('sensor_magno', true);
-    // window.soifgo.CallSub('request_mic_perm', true, null);
   }
 };</code></pre><br>
             <b>Real-World Use:</b> send <code>ON</code> to Arduino to toggle a relay (SoifGo adds the line ending itself);

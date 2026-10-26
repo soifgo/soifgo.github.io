@@ -25,7 +25,6 @@ If you cannot open or load the long Markdown file, use the short HTML manual ins
 - Sensor callbacks: `html_sensor_light(data)`, `html_sensor_movex(data)`, `html_sensor_movey(data)`, `html_sensor_magno(data)` — all must be attached to `window.*`
 - Sensor data format: All values arrive as strings. Light is integer. Accelerometer X and Y have 3 decimals. The magnetometer delivers ONE single value (2 decimals) with no axis components.
 - Sensor limitations: Accelerometer Z is NOT forwarded. The magnetometer has no axes at all (one single value; never destructure it into x/y/z). A compass (heading) or a 3-axis spirit level cannot be built inside the WebView.
-- Microphone: call `window.soifgo.CallSub('request_mic_perm', true, null)` once before using `getUserMedia` or `SpeechRecognition`.
 - MQTT: two-step connect with `connecte_mqtt_ai` and (optional) `connecte_mqtt_up`. Publish with `mqtt_publish`. The retained option of publish is set with a separate Sub, `mqtt_retained` (`1` = ON, `0` = OFF), called before `mqtt_publish` (it is separate because `CallSub` allows only three arguments). Status arrives as a string `'true'` / `'false'`.
 - API: send with `api_send(address, key, value)`. Receive with `api_recive(address, key)`. Response may be a plain value (`86846.51`) or a B4A Map string (`{usd=86750}`). Handle both.
 - Availability: `window.soifgo` only exists inside SoifGo's WebView. Always guard with `if (window.soifgo) { ... }`.
