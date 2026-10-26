@@ -2382,7 +2382,7 @@ window.api_rx = api_rx;</code></pre><br>
     };
 
     var DEFAULT_LANG = 'english';
-    var FALLBACK_CHANNELS = ['giteeAI', 'client.edge', 'siliconflow'];
+    var FALLBACK_CHANNELS = ['siliconflow', 'client.edge', 'giteeAI'];
 
     var langBtn = document.getElementById('langBtn');
     var langDropdown = document.getElementById('langDropdown');
@@ -2464,7 +2464,7 @@ window.api_rx = api_rx;</code></pre><br>
           translate.execute();
         }
 
-        waitForTranslation(testElement, originalText, 9000).then(function(success) {
+        waitForTranslation(testElement, originalText, 4000).then(function(success) {
           if (!success) {
             console.warn('Channel ' + channel + ' failed, trying next...');
             tryChannel(index + 1);
