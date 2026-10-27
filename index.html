@@ -2350,6 +2350,7 @@ window.api_rx = api_rx;</code></pre><br>
     }
   </script>
 
+  <script src="i18n-local.js"></script>
   <script src="translate.js"></script>
   <script>
     if (typeof translate === 'undefined') {
@@ -2387,6 +2388,7 @@ window.api_rx = api_rx;</code></pre><br>
     };
 
     var DEFAULT_LANG = 'english';
+    var localApplied = false;
     var FALLBACK_CHANNELS = ['siliconflow', 'client.edge', 'giteeAI'];
 
     var langBtn = document.getElementById('langBtn');
@@ -2458,6 +2460,17 @@ window.api_rx = api_rx;</code></pre><br>
       function tryChannel(index) {
         if (index >= FALLBACK_CHANNELS.length) {
           console.warn('All fallback channels failed.');
+          if (window.SoifI18n && SoifI18n.has(langCode)) {
+            SoifI18n.apply(langCode, function(ok) {
+              if (!ok) { return; }
+              localApplied = true;
+              try { localStorage.setItem('soifgo-lang', langCode); } catch (e) {}
+              document.documentElement.setAttribute('dir', langDir);
+              document.documentElement.setAttribute('lang', langCode === 'persian' ? 'fa' : langCode);
+              currentLangLabel.textContent = LANGUAGES[langCode].label;
+              langDropdown.classList.remove('show');
+            });
+          }
           return;
         }
 
@@ -2469,7 +2482,7 @@ window.api_rx = api_rx;</code></pre><br>
           translate.execute();
         }
 
-        waitForTranslation(testElement, originalText, 6000).then(function(success) {
+        waitForTranslation(testElement, originalText, 3000).then(function(success) {
           if (!success) {
             console.warn('Channel ' + channel + ' failed, trying next...');
             tryChannel(index + 1);
@@ -2483,6 +2496,7 @@ window.api_rx = api_rx;</code></pre><br>
         });
       }
 
+      if (localApplied && window.SoifI18n) { SoifI18n.restore(); localApplied = false; }
       tryChannel(0);
     }
 

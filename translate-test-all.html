@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>translate all-languages test</title>
+<style>
+  body { font-family: sans-serif; max-width: 560px; margin: 20px auto; padding: 0 12px; }
+  button, select { font-size: 16px; padding: 8px 12px; margin: 4px 4px 4px 0; }
+  #log { background: #111; color: #0f0; padding: 10px; font-size: 13px; white-space: pre-wrap; min-height: 160px; direction: ltr; text-align: left; }
+</style>
+</head>
+<body>
+
+<h2 id="t">Hello world</h2>
+<p>This is a simple test.</p>
+<hr>
+
+<p>Channel:
+  <select id="ch">
+    <option>siliconflow</option>
+    <option>client.edge</option>
+    <option>giteeAI</option>
+  </select>
+</p>
+<button id="run">Test ALL languages</button>
+<p>Origin: <b id="origin"></b></p>
+<div id="log">log:
+</div>
+
+<script src="translate.js"></script>
+<script>
+  if (typeof translate === 'undefined') {
+    document.write('<script src="https://cdn.staticfile.net/translate.js/3.18.66/translate.js"><\/script>');
+  }
+</script>
+<script>
+  var LANGS = ['deutsch','spanish','chinese_simplified','french','japanese','russian','arabic','persian',
+    'italian','hindi','turkish','korean','portuguese','hebrew','kurdish_sorani','urdu','bengali',
+    'indonesian','tamil','thai','swahili'];
+  var logEl = document.getElementById('log');
+  function log(m) { logEl.textContent += m + '\n'; }
+  document.getElementById('origin').textContent = location.protocol + '//' + (location.host || '(file)');
+  log('translate.js loaded: ' + (typeof translate !== 'undefined'));
+
+  var TIMEOUT = 15000;
+
+  function testOne(lang) {
+    return new Promise(function (resolve) {
+      var el = document.getElementById('t');
+      var before = el.textContent;
+      var t0 = Date.now();
+      try {
+        translate.changeLanguage(lang);
+        translate.execute();
+      } catch (e) { resolve({ lang: lang, ok: false, info: 'exception: ' + e.message }); return; }
+      var timer = setInterval(function () {
+        var ms = Date.now() - t0;
+        if (el.textContent !== before) {
+          clearInterval(timer);
+          resolve({ lang: lang, ok: true, info: ms + 'ms -> ' + el.textContent });
+        } else if (ms > TIMEOUT) {
+          clearInterval(timer);
+          resolve({ lang: lang, ok: false, info: 'no change after ' + (TIMEOUT / 1000) + 's' });
+        }
+      }, 300);
+    });
+  }
+
+  document.getElementById('run').onclick = async function () {
+    var ch = document.getElementById('ch').value;
+    this.disabled = true;
+    logEl.textContent = 'channel=' + ch + '  origin=' + document.getElementById('origin').textContent + '\n';
+    try {
+      translate.service.use(ch);
+      translate.language.setLocal('english');
+      translate.selectLanguageTag.show = false;
+    } catch (e) { log('setup error: ' + e.message); }
+
+    var failed = [];
+    for (var i = 0; i < LANGS.length; i++) {
+      log('... ' + LANGS[i]);
+      var r = await testOne(LANGS[i]);
+      logEl.textContent = logEl.textContent.replace('... ' + LANGS[i] + '\n', '');
+      log((r.ok ? 'OK   ' : 'FAIL ') + r.lang + '  ' + r.info);
+      if (!r.ok) failed.push(r.lang);
+    }
+    log('\nDONE. failed: ' + (failed.length ? failed.join(', ') : 'none'));
+    this.disabled = false;
+  };
+</script>
+</body>
+</html>
