@@ -550,9 +550,9 @@
     }
 
     .language-switcher {
-      position: fixed;
-      top: 16px;
-      left: 40px;
+      position: absolute;
+      top: 20px;
+      left: 44px;
       right: auto;
       z-index: 1001;
       direction: ltr;
@@ -1174,14 +1174,14 @@
 
 <body>
 
-  <div class="language-switcher ignore" id="languageSwitcher">
-    <button class="lang-btn" id="langBtn" type="button" aria-label="Change language">
-      🌐 <span id="currentLangLabel">English</span>
-    </button>
-    <div class="lang-dropdown" id="langDropdown"></div>
-  </div>
-
   <header>
+    <div class="language-switcher ignore" id="languageSwitcher">
+      <button class="lang-btn" id="langBtn" type="button" aria-label="Change language">
+        🌐 <span id="currentLangLabel">English</span>
+      </button>
+      <div class="lang-dropdown" id="langDropdown"></div>
+    </div>
+
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Switch theme">
       <span id="themeIcon">☀️</span>
     </button>
