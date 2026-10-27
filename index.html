@@ -1122,6 +1122,9 @@
       overflow-x: auto;
     }
 
+    /* Long URLs and inline code wrap inside their box instead of widening the page */
+    main a, main code { overflow-wrap: anywhere; }
+
     @media (max-width: 700px) {
       header { padding: 60px 20px 40px; }
       .logo-row .brand-name { font-size: 2.2rem; }
