@@ -24,6 +24,7 @@
  * Hardware: STM32F0 family, no EEPROM, up to 999 pixels
  * File: Rangmang_STM32.c  (ported from the BASCOM ATmega128 version)
  * =============================================================================
+ */
 /* ================= SoifGo (Rangmang) - STM32F0 port of BASCOM ATmega128 =================
  * Protocol: A(adr) D(mode) R G B S(start/delay1) E(end/delay2) M(memory/pixels)  + CR
  * Example : A1D0R255G0B0S0E5M0\r      A99D1R255G0B0S50E50M14\r
@@ -57,11 +58,20 @@
 #define SYST_RVR      (*(volatile uint32_t *)0xE000E014)
 #define SYST_CVR      (*(volatile uint32_t *)0xE000E018)
 
-#define NOP5()  __asm volatile("nop;nop;nop;nop;nop")
-#define NOP10() NOP5(); NOP5()
+/* ---- WS2812 timing (cycle-exact asm, SYSCLK 48 MHz: 1 cycle = 20.83 ns) ----
+ *   T0H = 3 + A          = 19 cycles ~ 400 ns
+ *   T1H = 5 + A + B      = 38 cycles ~ 800 ns
+ *   bit period = 12+A+B+C = 60 cycles ~ 1250 ns
+ * Tune ONLY these three numbers if the scope shows a different timing. */
+#define A_NOPS 16
+#define B_NOPS 17
+#define C_NOPS 15
+#define STR_(x) #x
+#define XSTR(x) STR_(x)
 
 /* ---------------- globals ---------------- */
-typedef struct { uint8_t r, g, b; } pixel_t;
+typedef struct { uint8_t g, r, b; } pixel_t;      /* memory order = WS2812 wire order (GRB) */
+_Static_assert(sizeof(pixel_t) == 3, "pixel_t must be 3 bytes");
 static pixel_t px[STRIP_LEN];
 
 #define RXBUF_SIZE 128
@@ -186,23 +196,64 @@ static void uart_poll(void)
 }
 
 /* ---------------- WS2812 low level (PA4) ---------------- */
-static inline void bit1(void)
+/* ws_send(p, n): send n bytes MSB-first on PA4.
+ * Pure assembly (naked) -> timing does NOT depend on the compiler optimisation level.
+ * r0=p  r1=n  r2=&GPIOA_BSRR  r3=set mask  r4=reset mask  r5=byte  r6=bit counter */
+__attribute__((naked, noinline))
+static void ws_send(const uint8_t *p, uint32_t n)
 {
-    GPIOA_BSRR = (1 << 4);
-    NOP10(); NOP10(); NOP10();
-    GPIOA_BSRR = (1 << (4 + 16));
-    NOP5();
+    __asm volatile(
+        ".syntax unified            \n"
+        "push   {r4, r5, r6}        \n"
+        "movs   r2, #0x48           \n"
+        "lsls   r2, r2, #24         \n"
+        "adds   r2, #0x18           \n"     /* r2 = 0x48000018 (GPIOA_BSRR) */
+        "movs   r3, #16             \n"     /* set   PA4 */
+        "movs   r4, #1              \n"
+        "lsls   r4, r4, #20         \n"     /* reset PA4 (1<<20) */
+        "cmp    r1, #0              \n"
+        "beq    9f                  \n"
+    "10:                            \n"     /* ---- byte loop ---- */
+        "ldrb   r5, [r0]            \n"
+        "adds   r0, r0, #1          \n"
+        "lsls   r5, r5, #24         \n"
+        "movs   r6, #8              \n"
+    "11:                            \n"     /* ---- bit loop ---- */
+        "lsls   r5, r5, #1          \n"     /* C flag = next bit */
+        "str    r3, [r2]            \n"     /* rise */
+        ".rept " XSTR(A_NOPS) "     \n"
+        "nop                        \n"
+        ".endr                      \n"
+        "bcs    12f                 \n"     /* bit=1: skip early fall */
+        "str    r4, [r2]            \n"     /* bit=0: fall here (T0H) */
+    "12:                            \n"
+        ".rept " XSTR(B_NOPS) "     \n"
+        "nop                        \n"
+        ".endr                      \n"
+        "str    r4, [r2]            \n"     /* bit=1: fall here (T1H) */
+        ".rept " XSTR(C_NOPS) "     \n"
+        "nop                        \n"
+        ".endr                      \n"
+        "subs   r6, r6, #1          \n"
+        "bne    11b                 \n"
+        "subs   r1, r1, #1          \n"
+        "bne    10b                 \n"
+    "9:                             \n"
+        "pop    {r4, r5, r6}        \n"
+        "bx     lr                  \n"
+    );
 }
-static inline void bit0(void)
+
+/* WS2812 reset/latch: line low for 300 us (>50 us for WS2812B, 280 us for V5 types).
+ * Uses SysTick so it is independent of optimisation level. */
+static void latch_gap(void)
 {
-    GPIOA_BSRR = (1 << 4);
-    NOP10();
-    GPIOA_BSRR = (1 << (4 + 16));
-    NOP10(); NOP10(); NOP5();
-}
-static void send_byte(uint8_t b)
-{
-    for (int i = 7; i >= 0; i--) { if (b & (1 << i)) bit1(); else bit0(); }
+    int32_t start = (int32_t)SYST_CVR;
+    for (;;) {
+        int32_t d = start - (int32_t)SYST_CVR;   /* SysTick counts down 47999..0 */
+        if (d < 0) d += 48000;
+        if (d >= 14400) break;                   /* 14400 cycles = 300 us */
+    }
 }
 
 /* ---------------- strip buffer API (like BASCOM Rainbow) ---------------- */
@@ -217,10 +268,8 @@ static void px_clear(void)
 }
 static void strip_show(void)                 /* Rb_send */
 {
-    for (int i = 0; i < STRIP_LEN; i++) {
-        send_byte(px[i].g); send_byte(px[i].r); send_byte(px[i].b);
-    }
-    for (volatile int k = 0; k < 1200; k++); /* latch gap > 50 us */
+    ws_send((const uint8_t *)px, STRIP_LEN * 3);
+    latch_gap();
     uart_poll();
     if (line_ready && booted) longjmp(jb, 1); /* new command arrived -> abandon effect */
 }
