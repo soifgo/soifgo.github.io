@@ -18,7 +18,7 @@
 ## Key Features
 
 - **WebView & JavaScript Bridge (`window.soifgo`):** Host custom HTML applications and dashboards inside independent button WebViews with full two-way communication to native Android features and external hardware.
-- **Bluetooth Serial (SPP):** Bi-directional communication with microcontrollers like Arduino, ESP32, ESP8266, HC-05, HC-06, and JDY-31.
+- **Bluetooth Serial (SPP / BLE):** Bi-directional communication with microcontrollers like Arduino, ESP32, ESP8266, HC-05, HC-06, JDY-31, and BLE modules.
 - **IoT & Networking:** Built-in MQTT messaging client and HTTP API GET/POST fetcher with JSON extraction handlers.
 - **Phone Sensors:** Real-time data streams from ambient light, motion/accelerometer (X/Y axes), and magnetometers.
 - **Voice & Speech:** Microphone integration with speech-to-text supporting 22 languages.

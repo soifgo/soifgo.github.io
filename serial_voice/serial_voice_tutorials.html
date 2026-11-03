@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SoifGo Voice → Serial Bluetooth Tutorial</title>
 
-<meta name="description" content="Complete SoifGo tutorial: build a multilingual voice command page that converts speech to text and sends it to a Bluetooth serial device (HC-05, HC-06, ESP32).">
+<meta name="description" content="Complete SoifGo tutorial: build a multilingual voice command page that converts speech to text and sends it to a Bluetooth serial device (HC-05, HC-06, BLE modules, ESP32).">
 <meta name="robots" content="index, follow">
 
 <meta property="og:title" content="SoifGo Voice → Serial Bluetooth Tutorial">
@@ -411,7 +411,7 @@
 <p style="text-align:center;">
   This tutorial shows how to build a <strong>multilingual voice command</strong> page inside
   <strong><span class="ignore">SoifGo</span> WebView</strong> that converts your speech to text and sends it
-  directly to a connected <strong>Bluetooth serial device</strong> (HC-05, HC-06, ESP32…).
+  directly to a connected <strong>Bluetooth serial device</strong> (HC-05, HC-06, BLE modules, ESP32…).
 </p>
 
 <h2>📸 Preview</h2>
@@ -756,7 +756,7 @@ window.html_bluetooth_tx = html_bluetooth_tx;  // register globally</pre>
 <div class="step">
   <span class="step-number">3</span>
   <strong>Go to the Bluetooth page and connect</strong><br>
-  Pair and connect to your HC-05 / HC-06 / ESP32 Bluetooth module.
+  Pair and connect to your HC-05 / HC-06 / BLE / ESP32 Bluetooth module.
   Wait for the <em>Connected</em> status.
 </div>
 
@@ -879,7 +879,7 @@ void handleCommand(String cmd) {
   <ol>
     <li>Upload the sketch to your Arduino.</li>
     <li>Open the Serial Monitor at <strong>9600 baud</strong> — you should see <em>"Ready..."</em>.</li>
-    <li>Connect your HC-05 / HC-06 to the <span class="ignore">SoifGo</span> app.</li>
+    <li>Connect your HC-05 / HC-06 / BLE module to the <span class="ignore">SoifGo</span> app.</li>
     <li>Open the <code>serial_voice.html</code> page and tap the microphone.</li>
     <li>Say clearly: <strong>"LAMP ON"</strong> — the LED on pin 13 lights up.</li>
     <li>Say: <strong>"LAMP OFF"</strong> — the LED turns off.</li>

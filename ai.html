@@ -39,7 +39,8 @@
   <h2>1. What SoifGo is</h2>
   <ul>
     <li>A free Android app (Android 7.0 or later, no ads). Each <strong>button</strong> can run <strong>one HTML page</strong> (HTML, CSS and JavaScript in one file) inside a WebView. Buttons live in pages and folders, 40 buttons per page, and stay saved.</li>
-    <li>The page can talk to hardware and the phone through the bridge <code>window.soifgo</code>: Bluetooth (HC-05, HC-06, JDY-31, Arduino, ESP32, ESP8266), MQTT, HTTP API, phone sensors and the microphone.</li>
+    <li>The page can talk to hardware and the phone through the bridge <code>window.soifgo</code>: Bluetooth (HC-05, HC-06, JDY-31, BLE modules, Arduino, ESP32, ESP8266), MQTT, HTTP API, phone sensors and the microphone.</li>
+    <li>To connect a BLE module, the user opens the Play menu, taps the last item (<em>Classic Bluetooth</em>) and chooses <em>Bluetooth Low Energy (BLE)</em>. Scanning and connecting work the same way as for Classic modules, and the code does not change.</li>
     <li>It is <strong>not an app builder</strong>: the idea runs inside SoifGo. It does not become a separate APK and cannot be published to Google Play.</li>
     <li>Buttons are created with the app's menus, never with HTML code. "Classic mode" and "WebView mode" are not app settings: a WebView is simply a button whose Behavior is <code>Browser or HTML File</code>.</li>
     <li>Not possible: camera, Bluetooth audio devices (headphones, speakers). <code>window.soifgo</code> does not exist in a normal browser.</li>

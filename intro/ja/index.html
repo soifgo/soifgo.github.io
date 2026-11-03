@@ -89,7 +89,7 @@
     },
     "featureList": [
       "HTML/CSS/JS 対応の完全な WebView",
-      "シリアル Bluetooth コントローラー（HC-05, HC-06, JDY-31）",
+      "シリアル Bluetooth コントローラー（HC-05, HC-06, JDY-31, BLE）",
       "publish と subscribe に対応した MQTT クライアント",
       "HTTP API の送受信",
       "スマホのセンサー：光、モーション、磁気",
@@ -142,7 +142,7 @@
         "name": "どのハードウェアと互換性がありますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Bluetooth SPP（HC-05、HC-06 など）、MQTT、または HTTP REST を使用するすべてのデバイス。Arduino、ESP32、ESP8266、Raspberry Pi を含みます。"
+          "text": "Bluetooth SPP/BLE（HC-05、HC-06 など）、MQTT、または HTTP REST を使用するすべてのデバイス。Arduino、ESP32、ESP8266、Raspberry Pi を含みます。"
         }
       },
       {
@@ -355,7 +355,7 @@ Full rules and every Sub name: <a href="https://soifgo.github.io/">https://soifg
 
   <h2><span class="kw">Android スマホから Arduino と ESP32 を制御</span>（Bluetooth と MQTT）</h2>
   <p>
-    Bluetooth SPP（<code>HC-05</code> や <code>HC-06</code> など）、
+    Bluetooth SPP/BLE（<code>HC-05</code> や <code>HC-06</code> など）、
     MQTT、または HTTP REST を使うあらゆるデバイスが SoifGo で動作します：
     Arduino、ESP32、ESP8266、Raspberry Pi。
   </p>
@@ -404,7 +404,7 @@ Full rules and every Sub name: <a href="https://soifgo.github.io/">https://soifg
     <div class="card"><h3>💾 ローカルストレージ</h3><p><code>localStorage</code> でデータを保存、アプリを閉じても保持。</p></div>
     <div class="card"><h3>🟢 スマホのセンサー</h3><p>環境光、モーション（加速度センサー）、磁気センサーをリアルタイムで。</p></div>
     <div class="card"><h3>🎤 マイクと音声認識</h3><p>音声をテキストに変換し、ツールで使用したりデバイスに送信。</p></div>
-    <div class="card"><h3>🔵 シリアル Bluetooth</h3><p>HC-05、HC-06、JDY-31、Arduino、ESP32、Raspberry Pi とテキストを送受信。</p></div>
+    <div class="card"><h3>🔵 シリアル Bluetooth</h3><p>HC-05、HC-06、JDY-31、 BLE、Arduino、ESP32、Raspberry Pi とテキストを送受信。</p></div>
     <div class="card"><h3>🟣 MQTT クライアント</h3><p>任意のブローカー（tcp または ssl）に接続、publish と subscribe、接続状態の確認。</p></div>
     <div class="card"><h3>🟠 HTTP API</h3><p>任意のアドレスに JSON を送信し、レスポンスから値を受信・抽出。</p></div>
   </div>
@@ -435,7 +435,7 @@ Full rules and every Sub name: <a href="https://soifgo.github.io/">https://soifg
   </details>
   <details>
     <summary>どのハードウェアと互換性がありますか？</summary>
-    <p>Bluetooth SPP（HC-05、HC-06 など）、MQTT、または HTTP REST を使用するすべてのデバイス。Arduino、ESP32、ESP8266、Raspberry Pi を含みます。</p>
+    <p>Bluetooth SPP/BLE（HC-05、HC-06 など）、MQTT、または HTTP REST を使用するすべてのデバイス。Arduino、ESP32、ESP8266、Raspberry Pi を含みます。</p>
   </details>
   <details>
     <summary>始めるには何が必要ですか？</summary>

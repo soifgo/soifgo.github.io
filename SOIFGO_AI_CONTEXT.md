@@ -433,7 +433,7 @@ The main philosophy of SoifGo is to reduce the need for traditional Android deve
 
 ### Key Supported Features
 
-- **Bluetooth Serial:** Bi-directional communication with microcontrollers (HC-05, HC-06, JDY-31, Arduino, ESP32, ESP8266, Raspberry Pi).
+- **Bluetooth Serial (SPP / BLE):** Bi-directional communication with microcontrollers (HC-05, HC-06, JDY-31, BLE modules, Arduino, ESP32, ESP8266, Raspberry Pi).
 - **Phone Sensors:** Real-time data streams from ambient light, accelerometer (X and Y axes), and magnetometer.
 - **Voice Integration:** Built-in microphone processing and speech-to-text routines (supporting 22 languages).
 - **IoT & Networking:** Built-in MQTT client and HTTP API networking client.
@@ -949,9 +949,10 @@ Always include a **Stop** button so the user can halt polling.
 
 ### Bluetooth
 
-- SoifGo works with Bluetooth **data** devices (HC-05, HC-06, JDY-31, Arduino, ESP32, ESP8266), **not** audio devices (headphones, speakers).
+- SoifGo works with Bluetooth **data** devices (HC-05, HC-06, JDY-31, BLE modules, Arduino, ESP32, ESP8266), **not** audio devices (headphones, speakers).
 - The device must be **paired in Android Settings first**. SoifGo's list is the same as the phone's Bluetooth list.
 - After selecting a module once, it reconnects automatically next time. Long-press the Bluetooth icon to change the module.
+- To connect to a BLE module, open the Play menu, tap the last item (Classic Bluetooth) and choose Bluetooth Low Energy (BLE). Scanning and connecting then work the same way as for Classic modules, and the code does not change.
 
 ### MQTT
 
@@ -1005,7 +1006,10 @@ Always include a **Stop** button so the user can halt polling.
 A: Yes. Bluetooth and phone sensors work completely offline. Only MQTT and HTTP APIs require internet.
 
 **Q: Can SoifGo control an Arduino?**
-A: Yes, via Bluetooth SPP (HC-05, HC-06, JDY-31) or via MQTT/HTTP through a WiFi module (ESP8266, ESP32).
+A: Yes, via Bluetooth SPP or BLE (HC-05, HC-06, JDY-31, BLE modules) or via MQTT/HTTP through a WiFi module (ESP8266, ESP32).
+
+**Q: How do I connect to a BLE module?**
+A: To connect to a BLE module, open the Play menu, tap the last item (Classic Bluetooth) and choose Bluetooth Low Energy (BLE). Scanning and connecting then work the same way as for Classic modules, and the code does not change.
 
 **Q: Does SoifGo need root?**
 A: No.
@@ -1052,15 +1056,15 @@ SoifGo is not a single application — it is an ecosystem of interrelated compon
 
 ### Hardware Integrations
 
-- **Arduino Integration** — via Bluetooth SPP or WiFi module
+- **Arduino Integration** — via Bluetooth (SPP or BLE) or WiFi module
 - **ESP32 Integration** — Bluetooth, MQTT, HTTP
 - **ESP8266 Integration** — Bluetooth, MQTT, HTTP
 - **Raspberry Pi Integration** — Bluetooth, MQTT, HTTP
-- **HC-05 / HC-06 / JDY-31** — Bluetooth serial modules
+- **HC-05 / HC-06 / JDY-31 / BLE modules** — Bluetooth serial modules
 
 ### Communication Protocols
 
-- **Bluetooth Communication** — SPP (Serial Port Profile)
+- **Bluetooth Communication** — SPP (Serial Port Profile) and BLE (Bluetooth Low Energy)
 - **MQTT Communication** — IoT messaging protocol
 - **REST API Integration** — HTTP GET/POST with JSON
 
@@ -1106,11 +1110,12 @@ Use this section to tell users **where to tap**. Use the exact English menu name
 
 | Screen | Top-left icon looks like | Menu items |
 |---|---|---|
-| Play | Play symbol | **Edit** (first), Language, Help ?, Update 1.43, Simulation Input Value ON/OFF |
+| Play | Play symbol | **Edit** (first), Language, Help ?, Update 1.43, Simulation Input Value ON/OFF, Bluetooth mode (**Classic Bluetooth** / **Bluetooth Low Energy**) |
 | Edit | Pause symbol | **Play** (first), Select Design, Option, Undo, Redo (Undo and Redo are shown as **icons only**, no text) |
 
 - Play top bar also shows the current page path (for example `soifgo/folder1/page/p1`) and the Bluetooth icon at the top right (long-press it to change the Bluetooth module).
 - **Simulation Input Value** (Play menu) lets users test received-value effects without hardware.
+- **Bluetooth mode** (last item of the Play menu) shows **Classic Bluetooth** or **Bluetooth Low Energy**. Tapping it opens a **Select?** dialog with **Classic Bluetooth (BR/EDR)** and **Bluetooth Low Energy(BLE)**; choose the one that matches the user's module.
 - **Option** (Edit menu) currently only has two switches: *MENU Sounds* and *Screen Alive* (keep screen on). Minor; do not teach it unless asked.
 - When an object (button/slider) is selected in Edit, the menu also shows: Copy Properties, Paste Properties, Delete Object, Background, Name, Size, Move, Behavior, Audio, Vibra — and **Effects** (last item, appears only after the button's behavior is set to a *Receive ... Value* option).
 
@@ -2140,7 +2145,7 @@ function startPage() {
 | Pasted code vanished | Pasted in the Behavior screen (it is not a code editor) | Paste only in the WebView editor from **Play** (WebView button → WebView menu → Edit → Select All and Paste), then tap the yellow X |
 | A button or slider disappeared / is not visible | Pushed behind another object (Match with the other button), or Background transparent and Name empty | Edit → Select Design → **Search Button** (or **Search SeekBar**), drag the slider until the lost object blinks red, then change its **Name** or **Background**. Or tap **Undo** (history is lost if the app was closed). See 0.2-A |
 | Bluetooth list is empty | Module not paired | Pair in Android Settings first |
-| Headphones/speaker not usable | SoifGo supports data devices only | Use HC-05, HC-06, JDY-31, ESP32, etc. |
+| Headphones/speaker not usable | SoifGo supports data devices only | Use HC-05, HC-06, JDY-31, BLE modules, ESP32, etc. |
 Apps → SoifGo |
 | Page is slow to open / needs internet every time just to start | The library is loaded with a plain `<script src="https://cdn...">` tag (example: oscilloscope with Tailwind), so it is fetched on every run | Replace the `<script src>` CDN tag with the IndexedDB download-once loader (14.11) |
 | Arduino ignores commands | Baud/protocol mismatch | Use the same baud rate and the exact `ON` / `OFF` + newline protocol (14.9) |

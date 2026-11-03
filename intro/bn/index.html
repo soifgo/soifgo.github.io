@@ -89,7 +89,7 @@
     },
     "featureList": [
       "HTML/CSS/JS সমর্থনসহ সম্পূর্ণ WebView",
-      "সিরিয়াল Bluetooth কন্ট্রোলার (HC-05, HC-06, JDY-31)",
+      "সিরিয়াল Bluetooth কন্ট্রোলার (HC-05, HC-06, JDY-31, BLE)",
       "publish ও subscribe সহ MQTT ক্লায়েন্ট",
       "HTTP API পাঠানো ও গ্রহণ",
       "ফোন সেন্সর: আলো, গতি, ম্যাগনেটোমিটার",
@@ -142,7 +142,7 @@
         "name": "SoifGo কোন হার্ডওয়্যারের সাথে সামঞ্জস্যপূর্ণ?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "যেকোনো ডিভাইস যা Bluetooth SPP (যেমন HC-05 এবং HC-06), MQTT বা HTTP REST ব্যবহার করে, যার মধ্যে Arduino, ESP32, ESP8266 এবং Raspberry Pi রয়েছে।"
+          "text": "যেকোনো ডিভাইস যা Bluetooth SPP/BLE (যেমন HC-05 এবং HC-06), MQTT বা HTTP REST ব্যবহার করে, যার মধ্যে Arduino, ESP32, ESP8266 এবং Raspberry Pi রয়েছে।"
         }
       },
       {
@@ -355,7 +355,7 @@ Full rules and every Sub name: <a href="https://soifgo.github.io/">https://soifg
 
   <h2><span class="kw">Arduino এবং ESP32 নিয়ন্ত্রণ</span> Bluetooth ও MQTT-এ Android ফোন থেকে</h2>
   <p>
-    যেকোনো ডিভাইস যা Bluetooth SPP (যেমন <code>HC-05</code> এবং <code>HC-06</code>),
+    যেকোনো ডিভাইস যা Bluetooth SPP/BLE (যেমন <code>HC-05</code> এবং <code>HC-06</code>),
     MQTT বা HTTP REST ব্যবহার করে, SoifGo-এর সাথে কাজ করে:
     Arduino, ESP32, ESP8266 এবং Raspberry Pi।
   </p>
@@ -404,7 +404,7 @@ Full rules and every Sub name: <a href="https://soifgo.github.io/">https://soifg
     <div class="card"><h3>💾 স্থানীয় স্টোরেজ</h3><p><code>localStorage</code> দিয়ে ডেটা সংরক্ষণ করুন, অ্যাপ বন্ধ করার পরেও থাকে।</p></div>
     <div class="card"><h3>🟢 ফোন সেন্সর</h3><p>পরিবেষ্টিত আলো, গতি (অ্যাক্সিলেরোমিটার) এবং চৌম্বক সেন্সর রিয়েল-টাইমে।</p></div>
     <div class="card"><h3>🎤 মাইক্রোফোন ও বাক্ স্বীকৃতি</h3><p>কথাকে টেক্সটে রূপান্তর করুন এবং আপনার টুলে ব্যবহার করুন বা ডিভাইসে পাঠান।</p></div>
-    <div class="card"><h3>🔵 সিরিয়াল Bluetooth</h3><p>HC-05, HC-06, JDY-31, Arduino, ESP32 এবং Raspberry Pi-এর সাথে টেক্সট পাঠান ও গ্রহণ করুন।</p></div>
+    <div class="card"><h3>🔵 সিরিয়াল Bluetooth</h3><p>HC-05, HC-06, JDY-31, BLE, Arduino, ESP32 এবং Raspberry Pi-এর সাথে টেক্সট পাঠান ও গ্রহণ করুন।</p></div>
     <div class="card"><h3>🟣 MQTT ক্লায়েন্ট</h3><p>যেকোনো ব্রোকারে (tcp বা ssl) সংযোগ করুন, publish ও subscribe এবং অবস্থা যাচাই করুন।</p></div>
     <div class="card"><h3>🟠 HTTP API</h3><p>যেকোনো ঠিকানায় JSON পাঠান এবং প্রতিক্রিয়া থেকে মান গ্রহণ ও বের করুন।</p></div>
   </div>
@@ -435,7 +435,7 @@ Full rules and every Sub name: <a href="https://soifgo.github.io/">https://soifg
   </details>
   <details>
     <summary>SoifGo কোন হার্ডওয়্যারের সাথে সামঞ্জস্যপূর্ণ?</summary>
-    <p>যেকোনো ডিভাইস যা Bluetooth SPP (যেমন HC-05 এবং HC-06), MQTT বা HTTP REST ব্যবহার করে, যার মধ্যে Arduino, ESP32, ESP8266 এবং Raspberry Pi রয়েছে।</p>
+    <p>যেকোনো ডিভাইস যা Bluetooth SPP/BLE (যেমন HC-05 এবং HC-06), MQTT বা HTTP REST ব্যবহার করে, যার মধ্যে Arduino, ESP32, ESP8266 এবং Raspberry Pi রয়েছে।</p>
   </details>
   <details>
     <summary>শুরু করতে কী দরকার?</summary>

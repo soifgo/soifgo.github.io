@@ -522,7 +522,6 @@
       <a href="#dance-mode">Dance Mode</a>
       <a href="#solid-color">Solid Color</a>
       <a href="#arduino">Arduino</a>
-      <a href="#stm32">STM32</a>
       <a href="#addressing">Addressing</a>
       <a href="#color-fix">Color Fix</a>
       <a href="#downloads">Downloads</a>
@@ -1555,46 +1554,6 @@ void Snak_rainbow_bl() {
 </pre>
     </div>
 
-    <div class="card" id="stm32">
-      <h2>RANGMANG STM32 Version (C language, STM32F0 family)</h2>
-      <p>This is a C port of the ATmega128 Bascom firmware above, written for the <strong>STM32F0 family</strong> (STM32CubeIDE, direct register access, no HAL). It uses the same serial protocol (9600 baud, <code>ADRGBSEM</code> commands, dance modes D1&ndash;D55 and D99, solid color mode D0, memory slots M1&ndash;M98, M996&ndash;M999, and address change with <code>CH1=2</code>), so the Soifgo app and your existing commands work the same way. This example was written and <strong>tested on a real STM32 chip over Bluetooth</strong>: dance effects, random dance (D99) and solid color mode all worked correctly.</p>
-      <p><strong>How to use:</strong> create a project for your STM32F0 chip in STM32CubeIDE, replace the content of <code>main.c</code> with the downloaded file, set <code>STRIP_LEN</code> at the top of the file to your pixel count, then build and flash.</p>
-      <h3>Wiring</h3>
-      <pre class="ignore">LED strip (WS2812B)      STM32F0
-  DATA  ----[330 ohm]--->  PA4
-  5V    ----------------->  external 5V supply (+)
-  GND   ----------------->  external supply (-)  AND STM32 GND
-
-Bluetooth module (HC-05 / HC-06)
-  VCC   ----------------->  power as required by your module
-  GND   ----------------->  GND
-  TX    ----------------->  PA10 (USART1 RX)
-  RX    <-----------------  PA9  (USART1 TX)</pre>
-      <ul>
-        <li><strong>Settings:</strong> the chip runs at 48 MHz from the PLL. The strip data pin is <strong>PA4</strong> and Bluetooth uses <strong>USART1</strong> (PA9 = TX, PA10 = RX) at <strong>9600 baud</strong>. All grounds must be connected together.</li>
-        <li><strong>Logic level:</strong> the STM32 works at 3.3V, so the 1k/2k voltage divider used with the Arduino is not needed on the module side. If a 5V strip does not respond reliably to the 3.3V data signal, use a level shifter.</li>
-        <li><strong>Reliable receiving:</strong> Bluetooth data is received with DMA, so no byte is lost while the strip is being refreshed. No interrupts are used, so the strip timing is never disturbed. A new command immediately interrupts the running effect, like the Bascom version.</li>
-        <li><strong>Maximum pixels:</strong> set <code>STRIP_LEN</code> to your real strip length (up to 999). Each pixel uses 3 bytes of RAM and every refresh sends the whole strip, so a value larger than needed makes the effects slower. The default in the file is 300.</li>
-        <li><strong>Dance timing:</strong> <code>S</code> and <code>E</code> are used directly as milliseconds (1&ndash;999). A value of 0 or above 999 is reset to 1. The time needed to send the strip is added to this delay.</li>
-        <li><strong>Commands end with Enter (CR):</strong> in a Bluetooth terminal app, enable sending CR or CR+LF.</li>
-      </ul>
-      <h3>No EEPROM on this STM32</h3>
-      <p>The STM32 used here has <strong>no EEPROM</strong>, so the EEPROM part of the Bascom and Arduino versions was removed. The module address, current settings and memory slots M1&ndash;M98 are kept only in RAM. After power-off the module starts again with address 1 and a dark strip, and M999 only fills the strip (it does not save a start-up color).</p>
-      <p><strong>If you need settings to survive power-off, or you use another chip of the STM family:</strong> simply give this C code to an AI assistant, or take the Bascom code or the Arduino sketch (both use EEPROM) and give it to an AI assistant, and ask it to build the storage part for your chip. For example: &ldquo;Add non-volatile storage for the settings and the 98 color slots to this code for my STM32 chip (write the exact chip name).&rdquo; Typical solutions are emulating EEPROM in one page of the internal flash, using a small external I2C/SPI EEPROM, or using the official EEPROM emulation library of your STM32 family. The same applies if your chip is not an STM32F0: the register addresses, clock setup, USART pins and DMA channel must be adapted, and the WS2812 timing (NOP counts) is tuned for 48 MHz.</p>
-      <h3>Quick test commands</h3>
-      <pre class="ignore">A99D1R255G0B0S50E50M14       red dance on all modules, 14 pixels
-A99D99R255G0B0S50E50M14      random dance effects
-A99D99R255G255B255S50E50M14  random colors with random dance
-A99D0R255G0B0M999            solid red on the whole strip
-A1D0R0G0B255S0E5M0           pixels 0 to 5 blue
-A99D0M997                    turn the strip off</pre>
-      <p><strong>Please note:</strong> this version may not behave exactly like the Bascom version. A command is executed only if its address matches the module (or is 99), and when the mode changes the strip is cleared first; returning to D0 repaints the saved slots. The code is open source, so if you find a difference or a problem, you are free to paste it into an AI assistant and ask it to fix or optimize it for you.</p>
-      <p><strong>Make it yours:</strong> if you do not like a dance effect, delete its <code>case</code> line in the <code>dance_step()</code> function, or replace it with another effect.</p>
-      <div class="download-box">
-        <p><a href="Rangmang_STM32.c" download>&#128230; Download STM32 C Source (Rangmang_STM32.c)</a></p>
-      </div>
-    </div>
-
     <div class="card" id="addressing">
       <h2>✅ Module Addressing Instructions</h2>
       <pre>To address a module, simply follow the method below.
@@ -1718,7 +1677,6 @@ Actual Code to Write for WS2811: R: 10, G: 44, B: 123</pre>
         <p><a href="Atmega128.zip" download>📦 Download Atmega128 File</a></p>
         <p><a href="Atmega328P.zip" download>📦 Download Atmega328P File</a></p>
         <p><a href="Rangmang_Arduino.ino" download>📦 Download Arduino Sketch (Rangmang_Arduino.ino)</a></p>
-        <p><a href="Rangmang_STM32.c" download>📦 Download STM32 C Source (Rangmang_STM32.c)</a></p>
       </div>
     </div>
 

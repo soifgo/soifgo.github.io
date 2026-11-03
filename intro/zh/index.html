@@ -89,7 +89,7 @@
     },
     "featureList": [
       "完整 WebView，支持 HTML/CSS/JS",
-      "串口蓝牙控制器（HC-05, HC-06, JDY-31）",
+      "串口蓝牙控制器（HC-05, HC-06, JDY-31, BLE）",
       "MQTT 客户端，支持 publish 和 subscribe",
       "HTTP API 发送与接收",
       "手机传感器：光线、运动、磁力计",
@@ -142,7 +142,7 @@
         "name": "SoifGo 兼容哪些硬件？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "任何使用蓝牙 SPP（如 HC-05 和 HC-06）、MQTT 或 HTTP REST 的设备，包括 Arduino、ESP32、ESP8266 和树莓派。"
+          "text": "任何使用蓝牙 SPP/BLE（如 HC-05 和 HC-06）、MQTT 或 HTTP REST 的设备，包括 Arduino、ESP32、ESP8266 和树莓派。"
         }
       },
       {
@@ -355,7 +355,7 @@ Full rules and every Sub name: <a href="https://soifgo.github.io/">https://soifg
 
   <h2><span class="kw">从安卓手机控制 Arduino 和 ESP32</span>（蓝牙和 MQTT）</h2>
   <p>
-    任何使用蓝牙 SPP（如 <code>HC-05</code> 和 <code>HC-06</code>）、
+    任何使用蓝牙 SPP/BLE（如 <code>HC-05</code> 和 <code>HC-06</code>）、
     MQTT 或 HTTP REST 的设备都能与 SoifGo 配合：
     Arduino、ESP32、ESP8266 和树莓派。
   </p>
@@ -404,7 +404,7 @@ Full rules and every Sub name: <a href="https://soifgo.github.io/">https://soifg
     <div class="card"><h3>💾 本地存储</h3><p>用 <code>localStorage</code> 保存数据，即使关闭应用后仍然保留。</p></div>
     <div class="card"><h3>🟢 手机传感器</h3><p>环境光、运动（加速度计）和磁力计，实时更新。</p></div>
     <div class="card"><h3>🎤 麦克风和语音识别</h3><p>将语音转换为文本，用于你的工具或发送到设备。</p></div>
-    <div class="card"><h3>🔵 串口蓝牙</h3><p>与 HC-05、HC-06、JDY-31、Arduino、ESP32 和树莓派发送和接收文本。</p></div>
+    <div class="card"><h3>🔵 串口蓝牙</h3><p>与 HC-05、HC-06、JDY-31、 BLE、Arduino、ESP32 和树莓派发送和接收文本。</p></div>
     <div class="card"><h3>🟣 MQTT 客户端</h3><p>连接到任何 broker（tcp 或 ssl）、publish 和 subscribe，并检查连接状态。</p></div>
     <div class="card"><h3>🟠 HTTP API</h3><p>向任何地址发送 JSON，接收并从响应中提取值。</p></div>
   </div>
@@ -435,7 +435,7 @@ Full rules and every Sub name: <a href="https://soifgo.github.io/">https://soifg
   </details>
   <details>
     <summary>SoifGo 兼容哪些硬件？</summary>
-    <p>任何使用蓝牙 SPP（如 HC-05 和 HC-06）、MQTT 或 HTTP REST 的设备，包括 Arduino、ESP32、ESP8266 和树莓派。</p>
+    <p>任何使用蓝牙 SPP/BLE（如 HC-05 和 HC-06）、MQTT 或 HTTP REST 的设备，包括 Arduino、ESP32、ESP8266 和树莓派。</p>
   </details>
   <details>
     <summary>开始使用需要什么？</summary>
