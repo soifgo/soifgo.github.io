@@ -9,7 +9,7 @@
   <title>SoifGo – Design &amp; Run Offline AI HTML Apps &amp; Hardware</title>
   <meta
     name="description"
-    content="Free Android tool to design and run offline HTML apps made with AI. Save tools &amp; calculators as drag-and-drop buttons. Connects to Arduino, ESP32, Bluetooth &amp; MQTT."
+    content="Free Android tool to design and run offline HTML apps made with AI. Save tools &amp; calculators as drag-and-drop buttons. Connects to Arduino, ESP32, Bluetooth (Classic &amp; BLE) &amp; MQTT."
   />
   <meta name="author" content="saeid moghadam" />
   <meta name="publisher" content="SoifGo" />
@@ -56,7 +56,7 @@
 
   <!-- ============ OPEN GRAPH ============ -->
   <meta property="og:title" content="SoifGo – Design &amp; Run Offline AI HTML Apps &amp; Hardware" />
-  <meta property="og:description" content="Free Android tool to design and run offline HTML apps made with AI. Save tools &amp; calculators as drag-and-drop buttons. Connects to Arduino, ESP32, Bluetooth &amp; MQTT." />
+  <meta property="og:description" content="Free Android tool to design and run offline HTML apps made with AI. Save tools &amp; calculators as drag-and-drop buttons. Connects to Arduino, ESP32, Bluetooth (Classic &amp; BLE) &amp; MQTT." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://soifgo.github.io/" />
   <meta property="og:image" content="https://soifgo.github.io/soifgo-logo.png" />
@@ -89,7 +89,7 @@
   <!-- ============ TWITTER ============ -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="SoifGo – Design &amp; Run Offline AI HTML Apps &amp; Hardware" />
-  <meta name="twitter:description" content="Free Android tool to design and run offline HTML apps made with AI. Save tools &amp; calculators as drag-and-drop buttons. Connects to Arduino, ESP32, Bluetooth &amp; MQTT." />
+  <meta name="twitter:description" content="Free Android tool to design and run offline HTML apps made with AI. Save tools &amp; calculators as drag-and-drop buttons. Connects to Arduino, ESP32, Bluetooth (Classic &amp; BLE) &amp; MQTT." />
   <meta name="twitter:image" content="https://soifgo.github.io/soifgo-logo.png" />
   <meta name="twitter:image:alt" content="SoifGo Android Hardware Control Platform" />
 
@@ -111,7 +111,7 @@
     "operatingSystem": "Android 7.0+",
     "applicationCategory": "DeveloperApplication",
     "applicationSubCategory": "Hardware Control Platform",
-    "description": "Free Android app that runs HTML pages written by an AI assistant (or by you) as saved buttons, with a bridge to Bluetooth, MQTT, HTTP and phone sensors, plus microphone and speech recognition, for Arduino, ESP32 and IoT projects. No native Android development required.",
+    "description": "Free Android app that runs HTML pages written by an AI assistant (or by you) as saved buttons, with a bridge to Bluetooth (Classic SPP and BLE), MQTT, HTTP and phone sensors, plus microphone and speech recognition, for Arduino, ESP32 and IoT projects. No native Android development required.",
     "url": "https://soifgo.github.io/",
     "downloadUrl": "https://soifgo.github.io/soifgo.zip",
     "installUrl": "https://apkpure.com/soifgo/soifgo.saeidmoghadam",
@@ -138,7 +138,7 @@
     },
     "featureList": [
       "Run HTML, CSS and JavaScript pages written by an AI assistant, each saved as a button organized in folders and pages",
-      "Bluetooth Serial communication (HC-05, HC-06, JDY-31, BLE modules)",
+      "Bluetooth Serial communication with two module families, both tested: Classic Bluetooth SPP (HC-05, HC-06, JDY-31) and Bluetooth Low Energy BLE (JDY-23, DX-BT05, CC2541)",
       "MQTT client with publish and subscribe",
       "HTTP REST API send and receive",
       "Phone sensors: light, motion, magnetometer",
@@ -213,7 +213,7 @@
         "name": "Why use SoifGo instead of opening the HTML file in a browser?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "A browser can open many simple pages. SoifGo adds a place to keep your ideas as buttons in folders and pages, and gives your page ready-made calls for Bluetooth serial modules (HC-05, HC-06, BLE), MQTT, HTTP and phone sensors, and supports the microphone and speech recognition through the standard browser request. Browsers can reach some of these only with limits or extra setup, and generally not classic Bluetooth serial modules."
+          "text": "A browser can open many simple pages. SoifGo adds a place to keep your ideas as buttons in folders and pages, and gives your page ready-made calls for Bluetooth serial modules (Classic SPP such as HC-05, HC-06, JDY-31, and BLE such as JDY-23, DX-BT05, CC2541), MQTT, HTTP and phone sensors, and supports the microphone and speech recognition through the standard browser request. Browsers can reach some of these only with limits or extra setup, and generally not classic Bluetooth serial modules."
         }
       },
       {
@@ -253,7 +253,7 @@
         "name": "Which hardware boards does SoifGo support?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Any device using Bluetooth SPP/BLE (HC-05, HC-06, JDY-31), MQTT, or HTTP REST APIs. This includes Arduino, ESP32, ESP8266, Raspberry Pi and many other embedded boards."
+          "text": "Any device using Bluetooth, MQTT, or HTTP REST APIs. Bluetooth works with two module families, both tested: Classic Bluetooth SPP (HC-05, HC-06, JDY-31) and Bluetooth Low Energy BLE (JDY-23, DX-BT05, CC2541). This includes Arduino, ESP32, ESP8266, Raspberry Pi and many other embedded boards."
         }
       },
       {
@@ -261,7 +261,7 @@
         "name": "How do I connect to a BLE module?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Open the Play menu, tap the last item (Classic Bluetooth) and choose Bluetooth Low Energy (BLE). Scanning and connecting then work the same way as for Classic modules, and your code does not change."
+          "text": "Classic modules (HC-05, HC-06, JDY-31) work in the default Classic mode. For BLE modules (JDY-23, DX-BT05, CC2541), open the Play menu, tap the last item (Classic Bluetooth) and choose Bluetooth Low Energy (BLE). Scanning and connecting then work the same way, and your code does not change."
         }
       },
       {
@@ -1248,7 +1248,7 @@
 
       <p class="hero-sub">
         SoifGo also connects your pages to Arduino, ESP32, ESP8266 and Raspberry Pi
-        through Bluetooth, MQTT and HTTP, and can read the phone's sensors and microphone.
+        through Bluetooth (Classic and BLE), MQTT and HTTP, and can read the phone's sensors and microphone.
       </p>
 
       <div class="cta-row">
@@ -1335,7 +1335,7 @@
         <li><strong>SoifGo itself is not on Google Play.</strong> Install it from APKPure or the ZIP below. Android will ask you to allow installs from unknown sources.</li>
         <li><strong>The first setup has a few steps</strong> (folder, page, button, then paste). The <a href="intro/en/">quick start guide</a> walks through them.</li>
         <li><strong>AI can make mistakes.</strong> If a page does not work, tell the AI what you see and ask it to fix it. Giving it the SoifGo address helps it avoid wrong function names.</li>
-        <li><strong>Hardware is optional.</strong> You do not need an Arduino or ESP32. If you have one, SoifGo can talk to it over Bluetooth, MQTT or HTTP.</li>
+        <li><strong>Hardware is optional.</strong> You do not need an Arduino or ESP32. If you have one, SoifGo can talk to it over Bluetooth (Classic or BLE), MQTT or HTTP.</li>
       </ul>
     </section>
 
@@ -1430,8 +1430,11 @@
       </p>
 
       <p>
-        SoifGo works with Arduino, ESP32, ESP8266, Raspberry Pi,
-        HC-05/BLE Bluetooth modules and many other embedded devices.
+        SoifGo works with Arduino, ESP32, ESP8266, Raspberry Pi
+        and many other embedded devices. Bluetooth works with two
+        module families, both tested: Classic Bluetooth SPP modules
+        (HC-05, HC-06, JDY-31) and Bluetooth Low Energy (BLE) modules
+        (JDY-23, DX-BT05, CC2541).
       </p>
 
       <p>
@@ -1693,7 +1696,7 @@
         <li>ESP32 Dashboard Development</li>
         <li>ESP8266 IoT Device Control</li>
         <li>MQTT IoT Communication</li>
-        <li>Bluetooth Device Communication (HC-05 / HC-06 / BLE)</li>
+        <li>Bluetooth Device Communication (Classic SPP: HC-05 / HC-06 / JDY-31 · BLE: JDY-23 / DX-BT05 / CC2541)</li>
         <li>Raspberry Pi Integration</li>
         <li>Embedded System Prototyping</li>
         <li>Phone Sensor and Speech Recognition APIs</li>
@@ -1720,7 +1723,7 @@
 
       <div class="faq-item">
         <strong>Why use SoifGo instead of opening the HTML file in a browser?</strong>
-        <p>A browser can open many simple pages. SoifGo adds a place to keep your ideas as buttons in folders and pages, and gives your page ready-made calls for Bluetooth serial modules (HC-05, HC-06, BLE), MQTT, HTTP and phone sensors, and supports the microphone and speech recognition through the standard browser request. Browsers can reach some of these only with limits or extra setup, and generally not classic Bluetooth serial modules.</p>
+        <p>A browser can open many simple pages. SoifGo adds a place to keep your ideas as buttons in folders and pages, and gives your page ready-made calls for Bluetooth serial modules (Classic SPP such as HC-05, HC-06, JDY-31, and BLE such as JDY-23, DX-BT05, CC2541), MQTT, HTTP and phone sensors, and supports the microphone and speech recognition through the standard browser request. Browsers can reach some of these only with limits or extra setup, and generally not classic Bluetooth serial modules.</p>
       </div>
 
       <div class="faq-item">
@@ -1745,12 +1748,12 @@
 
       <div class="faq-item">
         <strong>Which hardware does SoifGo support?</strong>
-        <p>Any device using Bluetooth SPP/BLE (HC-05, HC-06), MQTT, or HTTP REST APIs. This includes Arduino, ESP32, ESP8266, Raspberry Pi, and more.</p>
+        <p>Any device using Bluetooth, MQTT, or HTTP REST APIs. Bluetooth works with two module families, both tested: Classic Bluetooth SPP (HC-05, HC-06, JDY-31) and Bluetooth Low Energy BLE (JDY-23, DX-BT05, CC2541). This includes Arduino, ESP32, ESP8266, Raspberry Pi, and more.</p>
       </div>
 
       <div class="faq-item">
         <strong>How do I connect to a BLE module?</strong>
-        <p>Open the Play menu, tap the last item (Classic Bluetooth) and choose Bluetooth Low Energy (BLE). Scanning and connecting then work the same way as for Classic modules, and your code does not change.</p>
+        <p>Classic modules (HC-05, HC-06, JDY-31) work in the default Classic mode. For BLE modules (JDY-23, DX-BT05, CC2541), open the Play menu, tap the last item (Classic Bluetooth) and choose Bluetooth Low Energy (BLE). Scanning and connecting then work the same way, and your code does not change.</p>
       </div>
 
       <div class="faq-item">
@@ -1787,6 +1790,11 @@
         <code>html_bluetooth_rx</code>.
       </p>
       <p>
+        <b>Bluetooth module families (both tested):</b> Classic Bluetooth SPP (HC-05, HC-06, JDY-31) and
+        Bluetooth Low Energy BLE (JDY-23, DX-BT05, CC2541). The same Subs and receive callback are used for
+        both families; the user only chooses Classic or BLE in the app menu, and the page code does not change.
+      </p>
+      <p>
         <b>Wrong Sub = automatic warning.</b> If a page calls a Sub that does not belong to SoifGo,
         SoifGo detects it, shows a warning with a sound, and copies the list of correct Subs to the
         clipboard. The user can paste that list into the AI assistant. The AI must treat it as the
@@ -1820,7 +1828,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>html_bluetooth_rx</code></td><td style="padding:6px 8px; border:1px solid var(--border);">1</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('html_bluetooth_rx', true, txt)</code>: SENDS text over Bluetooth (the name looks swapped, but this is the send Sub)</td></tr>
+            <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>html_bluetooth_rx</code></td><td style="padding:6px 8px; border:1px solid var(--border);">1</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('html_bluetooth_rx', true, txt)</code>: SENDS text over Bluetooth, Classic or BLE (the name looks swapped, but this is the send Sub)</td></tr>
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>sensor_light</code></td><td style="padding:6px 8px; border:1px solid var(--border);">0</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('sensor_light', true)</code>: starts the light sensor</td></tr>
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>sensor_move</code></td><td style="padding:6px 8px; border:1px solid var(--border);">0</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('sensor_move', true)</code>: starts the movement sensor</td></tr>
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>sensor_magno</code></td><td style="padding:6px 8px; border:1px solid var(--border);">0</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('sensor_magno', true)</code>: starts the magnetic sensor</td></tr>
@@ -1838,7 +1846,7 @@
 
       <h3>Receivers: functions the app calls in your page (register each on window)</h3>
       <ul>
-        <li><code>html_bluetooth_tx(data)</code>: RECEIVES Bluetooth text (the name looks swapped, but this is the receive callback)</li>
+        <li><code>html_bluetooth_tx(data)</code>: RECEIVES Bluetooth text, Classic or BLE (the name looks swapped, but this is the receive callback)</li>
         <li><code>html_sensor_light(data)</code>, <code>html_sensor_movex(data)</code>, <code>html_sensor_movey(data)</code>, <code>html_sensor_magno(data)</code>: one value each, as a string</li>
         <li><code>mqtt_rx(topic, message)</code>, <code>html_mqtt_status(connected)</code> (the string 'true' or 'false'), <code>api_rx(number)</code></li>
       </ul>
@@ -1910,6 +1918,11 @@ window.soifgo.CallSub('mqtt_publish', true, 'soifgo/led', 'ON', '0');</code></pr
           <!-- ============ Bluetooth ============ -->
           <li style="margin-bottom: 18px;">
             <strong>Bluetooth — Send &amp; Receive (both directions together):</strong><br>
+            <b>Supported module families (both tested):</b><br>
+            - Classic Bluetooth SPP: HC-05, HC-06, JDY-31<br>
+            - Bluetooth Low Energy (BLE): JDY-23, DX-BT05, CC2541<br>
+            The same Subs and the same receive callback are used for both families. Only the user's connection
+            mode in the app differs (Play menu, last item, then choose Classic or BLE); the page code does not change.<br><br>
             <b>⚠️ Warning:</b> the names look swapped. The <u>send</u> Sub is
             <code>html_bluetooth_rx</code>; the <u>receive</u> callback is
             <code>html_bluetooth_tx</code>. Do NOT guess — copy them exactly.<br><br>
