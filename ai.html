@@ -39,8 +39,8 @@
   <h2>1. What SoifGo is</h2>
   <ul>
     <li>A free Android app (Android 7.0 or later, no ads). Each <strong>button</strong> can run <strong>one HTML page</strong> (HTML, CSS and JavaScript in one file) inside a WebView. Buttons live in pages and folders, 40 buttons per page, and stay saved.</li>
-    <li>The page can talk to hardware and the phone through the bridge <code>window.soifgo</code>: Bluetooth (HC-05, HC-06, JDY-31, BLE modules, Arduino, ESP32, ESP8266), MQTT, HTTP API, phone sensors and the microphone.</li>
-    <li>To connect a BLE module, the user opens the Play menu, taps the last item (<em>Classic Bluetooth</em>) and chooses <em>Bluetooth Low Energy (BLE)</em>. Scanning and connecting work the same way as for Classic modules, and the code does not change.</li>
+    <li>The page can talk to hardware and the phone through the bridge <code>window.soifgo</code>: Bluetooth (two module families, both tested: Classic SPP such as HC-05, HC-06, JDY-31, and BLE such as JDY-23, DX-BT05, CC2541; boards such as Arduino, ESP32, ESP8266), MQTT, HTTP API, phone sensors and the microphone.</li>
+    <li>Classic modules (HC-05, HC-06, JDY-31) work in the default Classic mode. To connect a BLE module (JDY-23, DX-BT05, CC2541), the user opens the Play menu, taps the last item (<em>Classic Bluetooth</em>) and chooses <em>Bluetooth Low Energy (BLE)</em>. Scanning and connecting work the same way, and the page code does not change: the same <code>html_bluetooth_rx</code> and <code>html_bluetooth_tx</code> are used for both families.</li>
     <li>It is <strong>not an app builder</strong>: the idea runs inside SoifGo. It does not become a separate APK and cannot be published to Google Play.</li>
     <li>Buttons are created with the app's menus, never with HTML code. "Classic mode" and "WebView mode" are not app settings: a WebView is simply a button whose Behavior is <code>Browser or HTML File</code>.</li>
     <li>Not possible: camera, Bluetooth audio devices (headphones, speakers). <code>window.soifgo</code> does not exist in a normal browser.</li>
@@ -94,7 +94,7 @@
   <h2>6. What you deliver</h2>
   <ul>
     <li><strong>One complete, self-contained HTML file</strong> (CSS and JavaScript inside) that the user can paste in one go. Plain HTML, CSS and JS works offline. Avoid external libraries unless the feature really needs one.</li>
-    <li>If hardware is involved, also give the matching Arduino or ESP sketch with the baud rate and the exact text protocol (for example <code>ON\n</code> and <code>OFF\n</code>), so both sides agree. Pair the Bluetooth module in Android Settings first.</li>
+    <li>If hardware is involved, also give the matching Arduino or ESP sketch with the baud rate and the exact text protocol (for example <code>ON\n</code> and <code>OFF\n</code>), so both sides agree. For Classic modules (HC-05, HC-06, JDY-31), pair the module in Android Settings first.</li>
     <li>Then give the user sections 3, 4 and 5 as simple steps in their language, skipping what they already did.</li>
   </ul>
 
@@ -155,7 +155,7 @@ window.html_bluetooth_tx = function (data) {
   <ul>
     <li>Sensors are independent: activate only the ones the page uses. The accelerometer gives X and Y only (no Z); the magnetometer gives one single value with no axes. A compass or a 3-axis level cannot be built. A 2-axis tilt level with Move X and Move Y is possible.</li>
     <li>MQTT and API work only inside SoifGo's WebView. API calls have rate limits: use safe intervals and give the user a Stop button.</li>
-    <li>The Bluetooth device must be paired in Android Settings first. SoifGo's list is the phone's own Bluetooth list.</li>
+    <li>For Classic Bluetooth modules (HC-05, HC-06, JDY-31), the device must be paired in Android Settings first. SoifGo's list is the phone's own Bluetooth list.</li>
     <li><code>localStorage</code> persists across reloads; wrap it in <code>try/catch</code>. <code>alert</code>, <code>confirm</code> and <code>prompt</code> work natively.</li>
   </ul>
 

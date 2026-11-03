@@ -1,6 +1,6 @@
 # SoifGo
 
-> SoifGo is a free Android app that turns your phone into a custom hardware controller for Arduino, ESP32, ESP8266, HC-05, BLE modules, and Raspberry Pi. It supports Bluetooth SPP and BLE, MQTT, HTTP/REST, HTML/JavaScript WebView, microphone and speech recognition, and phone sensors (light, accelerometer X and Y, and a single-value magnetometer). The HTML/WebView bridge is exposed via `window.soifgo.CallSub()`.
+> SoifGo is a free Android app that turns your phone into a custom hardware controller for Arduino, ESP32, ESP8266 and Raspberry Pi. It supports Bluetooth with two module families, both tested: Classic SPP (HC-05, HC-06, JDY-31) and BLE (JDY-23, DX-BT05, CC2541), plus MQTT, HTTP/REST, HTML/JavaScript WebView, microphone and speech recognition, and phone sensors (light, accelerometer X and Y, and a single-value magnetometer). The HTML/WebView bridge is exposed via `window.soifgo.CallSub()`.
 
 ## Start Here
 
@@ -20,7 +20,8 @@ If you cannot open or load the long Markdown file, use the short HTML manual ins
 - Arguments: Up to 3 after the boolean. Empty strings must be passed as `''`, not omitted.
 - Send to Bluetooth: `window.soifgo.CallSub('html_bluetooth_rx', true, TEXT)`
 - Receive from Bluetooth: define `function html_bluetooth_tx(data) { }` and attach with `window.html_bluetooth_tx = html_bluetooth_tx;`
-- BLE modules: To connect to a BLE module, open the Play menu, tap the last item (Classic Bluetooth) and choose Bluetooth Low Energy (BLE). Scanning and connecting then work the same way as for Classic modules, and the code does not change.
+- Bluetooth module families (both tested): Classic SPP = HC-05, HC-06, JDY-31; BLE = JDY-23, DX-BT05, CC2541. Classic modules work in the default Classic mode. To connect to a BLE module, open the Play menu, tap the last item (Classic Bluetooth) and choose Bluetooth Low Energy (BLE). Scanning and connecting then work the same way, and the code does not change: the same `html_bluetooth_rx` and `html_bluetooth_tx` are used for both families.
+- Pairing: for Classic modules (HC-05, HC-06, JDY-31), pair the module in Android Settings first.
 - Sensors: activate with `window.soifgo.CallSub('sensor_light', true)`, `'sensor_move'`, `'sensor_magno'`. The three activation Subs are independent of each other: call only the one(s) for the sensor(s) the page uses.
 - Sensor mapping (do not mix these up): `sensor_light` = light sensor -> `html_sensor_light` (1 value). `sensor_move` = ACCELEROMETER -> `html_sensor_movex` and `html_sensor_movey` (2 values, X and Y only, no Z). `sensor_magno` = MAGNETOMETER -> `html_sensor_magno` (1 single value, no axes).
 - Sensor callbacks: `html_sensor_light(data)`, `html_sensor_movex(data)`, `html_sensor_movey(data)`, `html_sensor_magno(data)` — all must be attached to `window.*`

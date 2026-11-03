@@ -433,7 +433,7 @@ The main philosophy of SoifGo is to reduce the need for traditional Android deve
 
 ### Key Supported Features
 
-- **Bluetooth Serial (SPP / BLE):** Bi-directional communication with microcontrollers (HC-05, HC-06, JDY-31, BLE modules, Arduino, ESP32, ESP8266, Raspberry Pi).
+- **Bluetooth Serial (SPP / BLE):** Bi-directional communication with microcontrollers (two module families, both tested: Classic SPP: HC-05, HC-06, JDY-31; BLE: JDY-23, DX-BT05, CC2541), and with Arduino, ESP32, ESP8266, Raspberry Pi boards.
 - **Phone Sensors:** Real-time data streams from ambient light, accelerometer (X and Y axes), and magnetometer.
 - **Voice Integration:** Built-in microphone processing and speech-to-text routines (supporting 22 languages).
 - **IoT & Networking:** Built-in MQTT client and HTTP API networking client.
@@ -469,7 +469,7 @@ All official documentation is hosted at `https://soifgo.github.io/`.
 
 ### Tutorials
 
-- **Bluetooth Example (HC-05/06):** https://soifgo.github.io/BluetoothExample1/bluetooth_sample1.html
+- **Bluetooth Example (HC-05/06, Classic):** https://soifgo.github.io/BluetoothExample1/bluetooth_sample1.html
 - **Bluetooth Send Receive:** https://soifgo.github.io/BluetoothSendReceive/Bluetooth_Send_Receive.html
 - **Create Page:** https://soifgo.github.io/page/Create_Page.html
 - **Page & Folder Navigation:** https://soifgo.github.io/pagefolder/page_folder.html
@@ -949,10 +949,10 @@ Always include a **Stop** button so the user can halt polling.
 
 ### Bluetooth
 
-- SoifGo works with Bluetooth **data** devices (HC-05, HC-06, JDY-31, BLE modules, Arduino, ESP32, ESP8266), **not** audio devices (headphones, speakers).
-- The device must be **paired in Android Settings first**. SoifGo's list is the same as the phone's Bluetooth list.
+- SoifGo works with Bluetooth **data** devices (two module families, both tested: Classic SPP: HC-05, HC-06, JDY-31; BLE: JDY-23, DX-BT05, CC2541; plus Arduino, ESP32, ESP8266 boards), **not** audio devices (headphones, speakers).
+- For Classic Bluetooth modules (HC-05, HC-06, JDY-31), the device must be **paired in Android Settings first**. SoifGo's list is the same as the phone's Bluetooth list.
 - After selecting a module once, it reconnects automatically next time. Long-press the Bluetooth icon to change the module.
-- To connect to a BLE module, open the Play menu, tap the last item (Classic Bluetooth) and choose Bluetooth Low Energy (BLE). Scanning and connecting then work the same way as for Classic modules, and the code does not change.
+- Classic modules (HC-05, HC-06, JDY-31) work in the default Classic mode. To connect to a BLE module (JDY-23, DX-BT05, CC2541), open the Play menu, tap the last item (Classic Bluetooth) and choose Bluetooth Low Energy (BLE). Scanning and connecting then work the same way, and the code does not change: the same `html_bluetooth_rx` (send) and `html_bluetooth_tx` (receive) are used for both families.
 
 ### MQTT
 
@@ -1006,10 +1006,10 @@ Always include a **Stop** button so the user can halt polling.
 A: Yes. Bluetooth and phone sensors work completely offline. Only MQTT and HTTP APIs require internet.
 
 **Q: Can SoifGo control an Arduino?**
-A: Yes, via Bluetooth SPP or BLE (HC-05, HC-06, JDY-31, BLE modules) or via MQTT/HTTP through a WiFi module (ESP8266, ESP32).
+A: Yes, via Bluetooth, with two module families that are both tested (Classic SPP: HC-05, HC-06, JDY-31; BLE: JDY-23, DX-BT05, CC2541), or via MQTT/HTTP through a WiFi module (ESP8266, ESP32).
 
 **Q: How do I connect to a BLE module?**
-A: To connect to a BLE module, open the Play menu, tap the last item (Classic Bluetooth) and choose Bluetooth Low Energy (BLE). Scanning and connecting then work the same way as for Classic modules, and the code does not change.
+A: Classic modules (HC-05, HC-06, JDY-31) work in the default Classic mode. For BLE modules (JDY-23, DX-BT05, CC2541), open the Play menu, tap the last item (Classic Bluetooth) and choose Bluetooth Low Energy (BLE). Scanning and connecting then work the same way, and the code does not change.
 
 **Q: Does SoifGo need root?**
 A: No.
@@ -1060,7 +1060,7 @@ SoifGo is not a single application — it is an ecosystem of interrelated compon
 - **ESP32 Integration** — Bluetooth, MQTT, HTTP
 - **ESP8266 Integration** — Bluetooth, MQTT, HTTP
 - **Raspberry Pi Integration** — Bluetooth, MQTT, HTTP
-- **HC-05 / HC-06 / JDY-31 / BLE modules** — Bluetooth serial modules
+- **Classic SPP modules (HC-05 / HC-06 / JDY-31) and BLE modules (JDY-23 / DX-BT05 / CC2541)** — Bluetooth serial modules, both families tested
 
 ### Communication Protocols
 
@@ -1840,7 +1840,7 @@ window.onload = render;
 ### 14.9 Arduino + Bluetooth Dashboard (LED control + sensor readout)
 
 **Protocol (both sides must match):**
-- Baud rate: **9600** (HC-05 / HC-06 default data mode).
+- Baud rate: **9600** (HC-05 / HC-06 default data mode; other modules may use a different default, check the module's datasheet).
 - Phone → Arduino: `ON` or `OFF`. SoifGo appends CR+LF itself when sending with `html_bluetooth_rx`, so the page sends only the word. The sketch treats `\r` or `\n` as the end of a command and ignores empty lines.
 - Arduino → phone: `A0=<number>` followed by a newline, every 500 ms.
 
@@ -2145,7 +2145,7 @@ function startPage() {
 | Pasted code vanished | Pasted in the Behavior screen (it is not a code editor) | Paste only in the WebView editor from **Play** (WebView button → WebView menu → Edit → Select All and Paste), then tap the yellow X |
 | A button or slider disappeared / is not visible | Pushed behind another object (Match with the other button), or Background transparent and Name empty | Edit → Select Design → **Search Button** (or **Search SeekBar**), drag the slider until the lost object blinks red, then change its **Name** or **Background**. Or tap **Undo** (history is lost if the app was closed). See 0.2-A |
 | Bluetooth list is empty | Module not paired | Pair in Android Settings first |
-| Headphones/speaker not usable | SoifGo supports data devices only | Use HC-05, HC-06, JDY-31, BLE modules, ESP32, etc. |
+| Headphones/speaker not usable | SoifGo supports data devices only | Use Classic SPP modules (HC-05, HC-06, JDY-31), BLE modules (JDY-23, DX-BT05, CC2541), ESP32, etc. |
 Apps → SoifGo |
 | Page is slow to open / needs internet every time just to start | The library is loaded with a plain `<script src="https://cdn...">` tag (example: oscilloscope with Tailwind), so it is fetched on every run | Replace the `<script src>` CDN tag with the IndexedDB download-once loader (14.11) |
 | Arduino ignores commands | Baud/protocol mismatch | Use the same baud rate and the exact `ON` / `OFF` + newline protocol (14.9) |
