@@ -520,6 +520,7 @@
       <a href="#overview">Overview</a>
       <a href="#features">Features</a>
       <a href="#dance-mode">Dance Mode</a>
+      <a href="#sound">Sound</a>
       <a href="#solid-color">Solid Color</a>
       <a href="#arduino">Arduino</a>
       <a href="#addressing">Addressing</a>
@@ -573,6 +574,10 @@
       <h2>PCB and Schematic Files Atmega 128A</h2>
       <img src="rangmang_schematics_128a.png" alt="ATmega128A PCB Schematic" loading="lazy">
     </div>
+        <div class="card">
+      <h2>Schematic : Microphone </h2>
+      <img src="microphone.png" alt="microphone" loading="lazy">
+    </div>
 
     <div class="card">
       <h2>PCB and Schematic Files Atmega 328P</h2>
@@ -597,7 +602,7 @@
 
       <ul>
         <li><strong>A (Address)</strong> – Module address (1–98 for specific module, 99 for all).</li>
-        <li><strong>D (Mode)</strong> – Dance styles (1–55), or 99 for random dance selection.</li>
+        <li><strong>D (Mode)</strong> – Dance styles (ATmega128: 1–98, ATmega328: 1–55), or 99 for random dance selection. On ATmega128, D93–D97 are sound-reactive and D98 picks one of them at random (see <a href="#sound">Sound-Reactive Effects</a>).</li>
         <li><strong>R / G / B</strong> – Color intensity values. Normal range: 0–250.
           <ul><li>251–255 → Random Red / Green / Blue</li></ul>
         </li>
@@ -633,6 +638,47 @@
           </tbody>
         </table>
       </div>
+    </div>
+
+    <div class="card" id="sound">
+      <h2>Sound-Reactive Effects (ATmega128 only)</h2>
+      <p>
+        The ATmega128 version includes microphone-driven effects. The analog input
+        <strong>ADC0 (PF0, pin 61)</strong> reads the <strong>amplitude</strong> of the incoming audio signal,
+        and the LED strip reacts to it in real time.
+      </p>
+
+      <div class="note-box">
+        <h3>🎤 Microphone compatibility</h3>
+        <p>
+          Any microphone module is compatible as long as its analog output stays
+          <strong>above 0 V and below 5 V</strong>. Connect the module's analog output to
+          <strong>PF0 (pin 61)</strong> together with a common ground.
+        </p>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr><th>D (Mode)</th><th>Effect</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>D93</td><td>Sound echo</td></tr>
+            <tr><td>D94</td><td>Sound echo (reverse)</td></tr>
+            <tr><td>D95</td><td>Sound center-out</td></tr>
+            <tr><td>D96</td><td>Sound out-center</td></tr>
+            <tr><td>D97</td><td>Sound breathing</td></tr>
+            <tr><td>D98</td><td>Random: picks one of D93–D97</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ul>
+        <li>R / G / B work as in other dance modes (0–250 fixed, 251–255 random).</li>
+        <li><strong>M</strong> also acts as the sensitivity divider: a higher M gives shorter bars for the same sound level.</li>
+        <li>These effects exist only on the <strong>ATmega128</strong>. The ATmega328 and Arduino versions support D1–D55 only.</li>
+        <li>With the sound effects included, the ATmega128 version is the most complete: D1–D98 plus D99 for random selection.</li>
+      </ul>
     </div>
 
     <div class="card" id="solid-color">
@@ -701,14 +747,17 @@ Use a single wire to solder and connect the input and output pins of the regulat
 ' E: 0 TO 999   RGB STRIP END POSITION FOR COLORED PIXEL
 ' M: 0 TO 98    M0 WITHOUT MEMORY SAVE   M1 TO M98 SAVE SLOT MEMORY
 
-' IF D1 TO D55   DANCE
-' D99   FOR RANDOM SELECT D1 TO D55 DANCE
+' IF D1 TO D98   DANCE
+'   D1 TO D92    VISUAL EFFECTS
+'   D93 TO D97   SOUND / MICROPHONE EFFECTS (ADC0 = PF0 = PIN 61, ATmega128 only)
+'   D98          RANDOM SELECT ONE OF THE SOUND EFFECTS D93 TO D97
+' D99   FOR RANDOM SELECT DANCE
 ' R: 0 TO 250   RED COLOR   251 TO 255 FOR RANDOM RED COLOR
 ' G: 0 TO 250   GREEN COLOR   251 TO 255 FOR RANDOM GREEN COLOR
 ' B: 0 TO 250   BLUE COLOR   251 TO 255 FOR RANDOM BLUE COLOR
 ' S: 0 TO 999   RGB STRIP FIRST DELAY EFFECT (ms)
 ' E: 0 TO 999   RGB STRIP SECOND DELAY EFFECT (ms)
-' M: 1 TO 999   SET HOW MANY PIXELS DANCING</pre>
+' M: 1 TO 999   SET HOW MANY PIXELS DANCING (IN SOUND EFFECTS M ALSO SETS SENSITIVITY)</pre>
     </div>
 
     <div class="card">
