@@ -19,7 +19,7 @@
 #include <setjmp.h>
 /* ==============================================================================
  * Developer: Saeid Moghadam
- * Email: SSMQQMSS@gmail.com
+ * Email: ssm20985@gmail.com
  * Project: SoifGo (Rangmang Controller)
  * Hardware: STM32F0 family, no EEPROM, up to 999 pixels
  * File: Rangmang_STM32.c  (ported from the BASCOM ATmega128 version)

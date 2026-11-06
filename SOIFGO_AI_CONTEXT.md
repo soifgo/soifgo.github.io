@@ -8,7 +8,7 @@
 **Short manual (if you cannot load this long file):** https://soifgo.github.io/ai.html
 **GitHub:** https://github.com/soifgo/soifgo.github.io
 **Forum:** https://github.com/soifgo/soifgo.github.io/discussions
-**Support:** ssmqqmss@gmail.com
+**Support:** ssm20985@gmail.com
 
 ---
 
@@ -1089,7 +1089,7 @@ SoifGo is not a single application — it is an ecosystem of interrelated compon
 - **Website:** https://soifgo.github.io/
 - **GitHub:** https://github.com/soifgo/soifgo.github.io
 - **Forum:** https://github.com/soifgo/soifgo.github.io/discussions
-- **Support:** ssmqqmss@gmail.com
+- **Support:** ssm20985@gmail.com
 - **Complete User Guide:** https://soifgo.github.io/soifgo_info/soifgo_info.html
 - **HTML Guide:** https://soifgo.github.io/send_bluetooth_html/html_guide_1.html
 - **Voice Tutorial:** https://soifgo.github.io/serial_voice/serial_voice_tutorials.html
