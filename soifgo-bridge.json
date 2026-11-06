@@ -1,0 +1,72 @@
+{
+  "$schema_note": "Machine-readable summary of the SoifGo WebView bridge. Source of truth: https://soifgo.github.io/SOIFGO_AI_CONTEXT.md (Sections 3-6, 8, 9). If this file and the Markdown disagree, the Markdown wins.",
+  "name": "SoifGo WebView bridge",
+  "soifgo_version": "1.43",
+  "spec_revision": 1,
+  "namespace": "window.soifgo",
+  "call_syntax": "window.soifgo.CallSub(subName, true, arg1?, arg2?, arg3?)",
+  "rules": {
+    "second_argument": "Always the boolean true (B4A callUIThread flag). Never omit it, never pass false.",
+    "max_args_after_flag": 3,
+    "arg_count": "Pass exactly the number of arguments the Sub defines. Empty value -> pass '' (never drop a required argument, never pad extra ones).",
+    "return_value": "CallSub returns nothing to JavaScript. Results arrive later through receiver functions.",
+    "guard": "Wrap calls in: if (window.soifgo) { ... }. The bridge exists only inside the SoifGo WebView.",
+    "receivers_must_be_on_window": "Receivers must be attached, e.g. window.html_bluetooth_tx = html_bluetooth_tx;",
+    "unknown_sub": "A Sub name not listed here triggers a warning in the app. Never invent names."
+  },
+  "subs": [
+    { "name": "html_bluetooth_rx", "group": "bluetooth", "arg_count": 1, "args": [ { "name": "txt", "type": "string" } ],
+      "purpose": "SEND text to the connected Bluetooth module.",
+      "notes": ["Name looks swapped but is correct: _rx = send.", "SoifGo appends CR+LF; do not add \\n.", "Works only while a module is connected.", "Same Sub for Classic SPP and BLE."] },
+    { "name": "sensor_light", "group": "sensors", "arg_count": 0, "args": [], "purpose": "Activate light sensor.", "delivers_to": ["html_sensor_light"], "notes": ["Independent of the other sensor Subs.", "Call inside window.onload."] },
+    { "name": "sensor_move", "group": "sensors", "arg_count": 0, "args": [], "purpose": "Activate accelerometer (X and Y only).", "delivers_to": ["html_sensor_movex", "html_sensor_movey"], "notes": ["No Z axis."] },
+    { "name": "sensor_magno", "group": "sensors", "arg_count": 0, "args": [], "purpose": "Activate magnetometer (one single value).", "delivers_to": ["html_sensor_magno"], "notes": ["No axes; cannot build a compass or 3-axis level."] },
+    { "name": "connecte_mqtt_ai", "group": "mqtt", "arg_count": 2, "args": [ { "name": "address", "type": "string", "note": "tcp://host:1883 or ssl://host:8883; empty -> tcp://test.mosquitto.org:1883" }, { "name": "id", "type": "string", "note": "Client ID; empty -> auto soifgo_XXXX" } ],
+      "purpose": "MQTT connect, step 1." },
+    { "name": "connecte_mqtt_up", "group": "mqtt", "arg_count": 2, "args": [ { "name": "username", "type": "string" }, { "name": "password", "type": "string" } ],
+      "purpose": "MQTT connect, step 2 (optional, only if broker needs auth).",
+      "notes": ["Quick-reference table says both values must be non-empty; skip this Sub entirely when there is no auth."] },
+    { "name": "mqtt_publish", "group": "mqtt", "arg_count": 3, "args": [ { "name": "topic", "type": "string" }, { "name": "message", "type": "string" }, { "name": "qos", "type": "string", "enum": ["0", "1", "2"] } ],
+      "purpose": "Publish a message; also auto-subscribes to the topic.", "delivers_to": ["mqtt_rx"] },
+    { "name": "mqtt_retained", "group": "mqtt", "arg_count": 1, "args": [ { "name": "value", "type": "number", "enum": [0, 1] } ],
+      "purpose": "Set retained flag for the next mqtt_publish (1 = ON, 0 = OFF).", "notes": ["Call BEFORE mqtt_publish."] },
+    { "name": "mqtt_status", "group": "mqtt", "arg_count": 0, "args": [], "purpose": "Ask for connection status.", "delivers_to": ["html_mqtt_status"] },
+    { "name": "mqtt_Disconnect", "group": "mqtt", "arg_count": 0, "args": [], "purpose": "Disconnect from broker.", "notes": ["Note the capital D."] },
+    { "name": "api_send", "group": "api", "arg_count": 3, "args": [ { "name": "address", "type": "string" }, { "name": "key", "type": "string" }, { "name": "value", "type": "string" } ],
+      "purpose": "HTTP POST with JSON body {\"<key>\":\"<value>\"}." },
+    { "name": "api_recive", "group": "api", "arg_count": 2, "args": [ { "name": "address", "type": "string" }, { "name": "key", "type": "string", "note": "Required." } ],
+      "purpose": "HTTP GET; SoifGo extracts the JSON branch for key.", "delivers_to": ["api_rx"],
+      "notes": ["Spelling is 'recive' (not 'receive').", "Polling needs a Stop button."] }
+  ],
+  "receivers": [
+    { "name": "html_bluetooth_tx", "args": ["data"], "purpose": "RECEIVE Bluetooth text.", "notes": ["Name looks swapped but is correct: _tx = receive.", "Delivered for 1-2000 chars, only to loaded and visible WebViews.", "A received line containing ' or \\ can break the injected JS call."] },
+    { "name": "html_sensor_light", "args": ["data"], "value_format": "integer as string" },
+    { "name": "html_sensor_movex", "args": ["data"], "value_format": "3 decimals as string" },
+    { "name": "html_sensor_movey", "args": ["data"], "value_format": "3 decimals as string" },
+    { "name": "html_sensor_magno", "args": ["data"], "value_format": "2 decimals as string, single value" },
+    { "name": "mqtt_rx", "args": ["topic", "message"] },
+    { "name": "html_mqtt_status", "args": ["connected"], "notes": ["Arrives as the STRING 'true' or 'false'. 'false' is truthy; compare with === 'true'."] },
+    { "name": "api_rx", "args": ["number"], "notes": ["May be plain (86846.51) or B4A Map string ({usd=86750}); handle both."] }
+  ],
+  "no_sub_features": {
+    "microphone": "No Sub. Use the standard browser speech/mic request; SoifGo shows one permission prompt (only once)."
+  },
+  "limitations": [
+    "Accelerometer Z is not forwarded.",
+    "Magnetometer is a single value with no axes.",
+    "Camera is not defined in the current version.",
+    "Headphones/speakers are not supported; data devices only."
+  ],
+  "bluetooth_modules": {
+    "classic_spp": ["HC-05", "HC-06", "JDY-31"],
+    "ble": ["JDY-23", "DX-BT05", "CC2541"],
+    "note": "BLE: Play menu -> last item (Classic Bluetooth) -> Bluetooth Low Energy (BLE). Code does not change."
+  },
+  "api_polling_safe_intervals_seconds": { "DIA": 5, "CoinGecko": 10, "Binance": 1, "Coinbase": 5, "Blockchain.info": 10 },
+  "ui_chain": "folder -> Page -> New Page -> Button. A blank project has no button until this chain is done.",
+  "docs": {
+    "llms_txt": "https://soifgo.github.io/llms.txt",
+    "full_reference": "https://soifgo.github.io/SOIFGO_AI_CONTEXT.md",
+    "short_manual": "https://soifgo.github.io/ai.html"
+  }
+}

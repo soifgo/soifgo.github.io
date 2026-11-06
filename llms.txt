@@ -39,6 +39,7 @@ If you cannot open or load the long Markdown file, use the short HTML manual ins
 
 - [Short Manual (HTML)](https://soifgo.github.io/ai.html): Self-contained short version for assistants that cannot load the long file. Beginner path from idea to running page, plus the Sub tables.
 - [AI Context (Markdown)](https://soifgo.github.io/SOIFGO_AI_CONTEXT.md): Complete AI reference. Covers the bridge, Bluetooth send and receive, sensors, microphone permission, MQTT, API, storage, known limitations, and common mistakes. Also covers the app's Edit/Play interface and a start procedure. Load this file first when answering questions about SoifGo.
+- [Bridge Spec (JSON)](https://soifgo.github.io/soifgo-bridge.json): Machine-readable list of all 12 Subs (exact argument counts) and 8 receivers, plus rules and limitations. Use it to validate generated code. If it ever disagrees with the AI Context file, the AI Context file wins.
 - [HTML + Bluetooth + Sensors Tutorial](https://soifgo.github.io/send_bluetooth_html/html_guide_1.html): Official tutorial containing the real Sub API and working code examples.
 - [Voice to Serial Bluetooth Tutorial](https://soifgo.github.io/serial_voice/serial_voice_tutorials.html): Microphone permission, speech recognition, 22 languages, and voice-to-Bluetooth pipeline.
 
@@ -50,6 +51,30 @@ If you cannot open or load the long Markdown file, use the short HTML manual ins
 
 - [Home](https://soifgo.github.io/): Overview, download, features, FAQ.
 - [Docs](https://soifgo.github.io/docs.html): Technical documentation.
+
+## Tutorials
+
+- [Create a Design Page](https://soifgo.github.io/page/Create_Page.html): Folder, Page and Button setup (the First Button Rule).
+- [Page and Folder Navigation](https://soifgo.github.io/pagefolder/page_folder.html): Moving between pages and folders.
+- [Note SEND and RECEIVE](https://soifgo.github.io/note_out/note_out.html): Using Note objects to send and receive text.
+- [Effects](https://soifgo.github.io/Effect/effects.html): Size, circle, move, rotate, color and graph effects for Classic buttons.
+- [Bluetooth Send and Receive](https://soifgo.github.io/BluetoothSendReceive/Bluetooth_Send_Receive.html)
+- [ESP8266 / ESP32 with MQTT](https://soifgo.github.io/Esp8266_wifi_mqtt/esp8266_mqtt.html)
+- [ESP8266 Wi-Fi API](https://soifgo.github.io/ESP32Server/ESP8266_wifi_api.html)
+- [Fetching APIs](https://soifgo.github.io/FetchingAPIs/Api-fetching_api.html)
+- [Local Server Setup](https://soifgo.github.io/LocalServerSetup/Local-server_api.html)
+- [Working with HTML Files](https://soifgo.github.io/WorkingwithHTMLFiles/html01.html)
+
+## Hardware Modules and Example Projects
+
+These are separate projects that use SoifGo as the phone-side interface. The bridge rules above apply to any HTML they use.
+
+- [PROG209](https://soifgo.github.io/prog209/prog209_gude.html): Wireless AI-driven self-programming smart PLC (ATmega128). Studio page: https://soifgo.github.io/prog209/prog209.html . AI code-generation rules: https://soifgo.github.io/prog209/AI_INSTRUCTION.md.md
+- [CMI209](https://soifgo.github.io/cmi209/cmi209.html): CNC module (ATmega328P), Bluetooth and G-code controller.
+- [RANGMANG](https://soifgo.github.io/rangmang/Rangmang.html): ATmega128/328 serial RGB controller for addressable LEDs (WS2812/WS2811).
+- [RANGMANG 2](https://soifgo.github.io/rangmang2/rangmang2.html): ATmega128 hardware RGB LED matrix controller.
+- [TEMP209](https://soifgo.github.io/temp209/temp209_guide.html): Open-source temperature controller (DS18B20, RC5, EEPROM logger).
+- [Clamp Meter](https://soifgo.github.io/clamp_meter/index.html): AC/DC clamp meter page for the phone.
 
 ## Optional
 
