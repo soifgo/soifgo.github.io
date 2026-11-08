@@ -482,7 +482,7 @@ All official documentation is hosted at `https://soifgo.github.io/`.
 - **Voice to Serial Bluetooth:** https://soifgo.github.io/serial_voice/serial_voice_tutorials.html
 - **Note Send and Receive:** https://soifgo.github.io/note_out/note_out.html
 - **RANGMANG:** https://soifgo.github.io/rangmang/Rangmang.html
-- **RANGMANG 2 (WS2812 pixel LED sign designer, runs inside Note):** https://soifgo.github.io/rangmang2/rangmang2.html
+- **GIF209 (STM32F030K6T6 RGB LED controller with 17 channels and SD record/play):** https://soifgo.github.io/gif209/gif209.html
 - **CMI209 (microcontroller driver for a 3-axis CNC; also an IoT project example):** https://soifgo.github.io/cmi209/cmi209.html
 
 ### Working Examples (HTML + Bluetooth + Arduino)
@@ -1341,7 +1341,7 @@ A **Note** is a text page owned by a button that can also **send its lines as co
    Each button has its **own, separate note**. Notes are saved in SoifGo's **Note** folder.
 2. In Play, tap the button to open the note.
 
-**Note editor menu:** Rename Note, Save as Note, Color, Text Size, Left Mid Right (text alignment), **Note out**, Find, Find & Replace, Line Numbers, WrapLine, Font, **DateTime:Now** (inserts the current date and time — handy for reports and logs), **Gcod** (G-code designer, see below) and **RANGMANG2** (WS2812 pixel-sign designer, see below). The red X closes and saves.
+**Note editor menu:** Rename Note, Save as Note, Color, Text Size, Left Mid Right (text alignment), **Note out**, Find, Find & Replace, Line Numbers, WrapLine, Font, **DateTime:Now** (inserts the current date and time — handy for reports and logs), **Gcod** (G-code designer, see below) and **GIF209** (WS2812 pixel-sign designer, see below). The red X closes and saves.
 
 **Note out** sets what the note does with data. It opens a *Select?* list: Reset · Bluetooth Send · Server Send Api · Server Send MQTT · Receive Bluetooth Text · Receive Server Text Api · Receive Server Text MQTT. Each channel (Bluetooth, API, MQTT) therefore has one send type and one receive type.
 
@@ -1355,9 +1355,9 @@ A **Note** is a text page owned by a button that can also **send its lines as co
 
 **Gcod (G-code designer, CNC):** the Note menu item **Gcod** opens a ready-made WebView app for designing and generating G-code. Toolbar: Shapes, Edit, Tools, **G-Code**, Move, Resize, Rotate, Pan, Properties, Undo, Redo, zoom out/in, Reset, and a select tool. It can draw most common shapes, add and edit text, and **reload an image and convert it to outline lines** for engraving or cutting. Workflow: design in Gcod → take the generated G-code (paste it into the note; Gcod also has its own paste option) → set Note out to **Bluetooth Send** → the lines are sent to the CNC controller. G-code written elsewhere can also be pasted or reloaded directly into a note and sent the same way. The **CMI209** project (see Section 2) is a microcontroller driver built to run a 3-axis CNC with this workflow.
 
-**RANGMANG2 (WS2812 pixel-sign designer):** a ready-made web app that exists only inside the Note menu. It designs scrolling/animated pixel signs for WS2812 LEDs: a multi-channel setup (about 50 channels) used as an advertising sign. **Sliders are not compatible with RANGMANG2** (they are for RANGMANG v1, a single strip). Two tabs: **Image Converter** (set *Channels* and *Pixels/CH*, choose an image — it is added automatically as an animation frame — brightness, per-frame *Wait (ms)*) and **Pixel Editor** (paint on a pixel canvas, *Color*, *Eraser*, *Add Frame*, *Replace*, *Delete Frame*, *Generate*). *Generate* produces **hex commands** (12 characters per command, shown as a "Hex Output" list). The generated commands are in RANGMANG2's own special format and are sent to the controller through the note's send behavior (**Note out**, for example Bluetooth Send), exactly like G-code is sent to a CNC. Usage, build and schematics are on the website page.
+**GIF209 (STM32F030K6T6 RGB LED controller):** a ready-made web app that exists only inside the Note menu. It designs scrolling/animated pixel signs for WS2812 LEDs: a multi-channel setup (**17 channels**, up to 256 pixels per channel) used as an advertising sign, with **SD card record/play** support. Two tabs: **Image Converter** (set *Channels* and *Pixels/CH*, choose an image — it is added automatically as an animation frame — brightness, per-frame *Wait (ms)*) and **Pixel Editor** (paint on a pixel canvas, *Color*, *Eraser*, *Add Frame*, *Replace*, *Delete Frame*, *Generate*). *Generate* produces **hex commands** (12 characters per command, shown as a "Hex Output" list). The Web App now includes **STOP** before REC to prevent playback/record conflicts, and **AUTO=0/1** to enable/disable auto-loop on boot. The generated commands are sent to the controller through the note's send behavior (**Note out**, for example Bluetooth Send), exactly like G-code is sent to a CNC. Usage, build and schematics are on the website page: https://soifgo.github.io/gif209/gif209.html
 
-**Modules (Gcod, RANGMANG, RANGMANG2, CMI209):** each has its own page on the website (links in Section 2) with usage instructions, build steps, a test video and schematics. Summarize in a sentence and **send the user to that page** instead of explaining the module from memory.
+**Modules (Gcod, RANGMANG, GIF209, CMI209):** each has its own page on the website (links in Section 2) with usage instructions, build steps, a test video and schematics. Summarize in a sentence and **send the user to that page** instead of explaining the module from memory.
 
 ### 13.8 Not Covered Here (do not guess)
 

@@ -23,7 +23,7 @@
 - **Phone Sensors:** Real-time data streams from ambient light, motion/accelerometer (X/Y axes), and magnetometers.
 - **Voice & Speech:** Microphone integration with speech-to-text supporting 22 languages.
 - **Classic Mode:** Native buttons and sliders with flexible behaviors, data filtering, and rich graphical effects (rotation, size change, color shifts, and charts) without writing HTML.
-- **Specialized Modules:** Built-in tools for CNC machine control (G-code via **CMI209** and **Gcod** module) and WS2812/WS2811 pixel LED sign design (**RANGMANG** and **RANGMANG2**).
+- **Specialized Modules:** Built-in tools for CNC machine control (G-code via **CMI209** and **Gcod** module) and WS2812/WS2811 pixel LED sign design (**RANGMANG** and **GIF209**).
 
 ---
 

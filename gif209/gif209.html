@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="theme-color" content="#0f111a">
+    <link rel="icon" type="image/jpeg" href="../icon/gif209.jpg">
+    <meta property="og:image" content="https://soifgo.github.io/icon/gif209.jpg">
+    <title>GIF209 — Open Source STM32 LED Controller</title>
+    <meta name="description" content="GIF209 is an open-source hardware project based on the STM32F030K6T6 microcontroller for driving 19 channels of WS2812 LEDs with SD card record/play and Bluetooth control.">
+    
+    <style>
+        :root, [data-theme="dark"] {
+            --bg: #0f111a;
+            --fg: #d0d8f0;
+            --accent: #00ffcc;
+            --accent2: #ff007f;
+            --accent3: #00ccff;
+            --card-bg: #1a1e2e;
+            --border: #2a3a5a;
+            --muted: #8a9aba;
+            --text-main: #ffffff;
+            --code-bg: #0a0e1a;
+            --code-text: #a9ffb4;
+            --table-th-bg: #1f2436;
+            --table-even-bg: #161a26;
+            --shadow: rgba(0, 0, 0, 0.5);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            line-height: 1.7;
+            -webkit-text-size-adjust: 100%;
+            word-wrap: break-word;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+        h1 {
+            font-size: clamp(2rem, 6vw, 3rem);
+            color: var(--accent);
+            text-transform: uppercase;
+            text-align: center;
+            letter-spacing: 2px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: var(--accent2);
+            font-size: clamp(1.4rem, 4vw, 2rem);
+            margin-top: 40px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--accent2);
+            padding-left: 12px;
+        }
+
+        h3 {
+            color: var(--accent3);
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        p { margin-bottom: 15px; color: var(--muted); }
+        strong { color: var(--text-main); }
+        
+        a { color: var(--accent3); text-decoration: none; transition: color 0.2s; }
+        a:hover { color: var(--accent2); text-decoration: underline; }
+
+        .badge {
+            display: inline-block;
+            background: var(--accent2);
+            color: #fff;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+            margin: 20px auto;
+            box-shadow: 0 4px 15px var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            color: var(--muted);
+        }
+
+        th {
+            background: var(--table-th-bg);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) { background: var(--table-even-bg); }
+
+        pre {
+            background: var(--code-bg);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            border-left: 3px solid var(--accent);
+            color: var(--code-text);
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        code {
+            background: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--code-text);
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 0.9em;
+        }
+
+        ul, ol { margin-left: 20px; margin-bottom: 20px; color: var(--muted); }
+        li { margin-bottom: 8px; }
+
+        .warning {
+            background: rgba(255, 170, 136, 0.1);
+            border-left: 4px solid #ffaa88;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .warning h3 { color: #ffaa88; margin-top: 0; }
+        .warning p { color: #ffaa88; margin-bottom: 0; }
+
+        .btn {
+            display: inline-block;
+            background: var(--accent2);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            text-align: center;
+            transition: transform 0.2s, background 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover { background: #e00070; transform: scale(1.02); text-decoration: none; }
+
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+            font-size: 0.9rem;
+        }
+        .footer strong { color: #ff8844; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="../icon/gif209.jpg" alt="GIF209 icon" width="128" height="128" style="width:128px;height:128px;border-radius:24px;margin:10px auto 16px;">
+    <h1>GIF209 <span class="badge">v1.0</span></h1>
+    
+    <p><strong>GIF209</strong> is a professional, open-source hardware controller based on the <strong>STM32F030K6T6</strong> ARM Cortex-M0 microcontroller. It is specifically designed to drive up to <strong>19 independent WS2812/WS2811 LED strips</strong> and features standalone animation recording and playback via an SD card.</p>
+
+    <!-- ===== IMAGES (New Names) ===== -->
+    <img src="gif209_pic.jpg" alt="GIF209 RGB Controller Module - STM32F030K6T6 with WS2812 LED strips" loading="lazy">
+    <img src="gif209_board.png" alt="GIF209 PCB and schematic based on STM32F030K6T6" loading="lazy">
+
+    <h2>Hardware Specifications</h2>
+    <div class="card">
+        <table>
+            <tr><th>Feature</th><th>Specification</th></tr>
+            <tr><td>Microcontroller</td><td>STM32F030K6T6 (ARM Cortex-M0, 48 MHz, LQFP32)</td></tr>
+            <tr><td>Channels</td><td>19 independent LED data lines (A1–A19)</td></tr>
+            <tr><td>Pixels per Channel</td><td>Up to 256 (Total 4,864 pixels)</td></tr>
+            <tr><td>Storage</td><td>SD Card via SPI1 (Raw access, no filesystem)</td></tr>
+            <tr><td>Communication</td><td>Bluetooth HC-05 (UART, 115200 baud; set the module with <code>AT+UART=115200,0,0</code>)</td></tr>
+            <tr><td>Supported LEDs</td><td>WS2812, WS2812B, WS2811, WS2813, WS2815</td></tr>
+        </table>
+    </div>
+
+    <h2>Pinout &amp; Channel Map</h2>
+    <div class="card">
+        <p>Channels are mapped based on the physical pin number of the LQFP32 package (from pin 2 to 30) to make PCB routing easier.</p>
+        <ul>
+            <li><strong>Channel 1–2:</strong> PF0 (Pin 2), PF1 (Pin 3)</li>
+            <li><strong>Channel 3–6:</strong> PA0 (Pin 6), PA1 (Pin 7), PA2 (Pin 8), PA3 (Pin 9)</li>
+            <li><strong>Channel 7–8:</strong> PB0 (Pin 14), PB1 (Pin 15)</li>
+            <li><strong>Channel 9:</strong> PA8 (Pin 18)</li>
+            <li><strong>Channel 10–11:</strong> PA11 (Pin 21), PA12 (Pin 22)</li>
+            <li><strong>Channel 12–13:</strong> PA13 (Pin 23), PA14 (Pin 24)</li>
+            <li><strong>Channel 14:</strong> PA15 (Pin 25)</li>
+            <li><strong>Channel 15–19:</strong> PB3 (Pin 26), PB4 (Pin 27), PB5 (Pin 28), PB6 (Pin 29), PB7 (Pin 30)</li>
+        </ul>
+        <p><strong>Reserved Pins:</strong></p>
+        <ul>
+            <li><strong>SD Card:</strong> PA4 (CS), PA5 (SCK), PA6 (MISO), PA7 (MOSI)</li>
+            <li><strong>Bluetooth:</strong> PA9 (TX), PA10 (RX)</li>
+            <li><strong>Boot jumper:</strong> BOOT0 (Pin 31), used for flashing (see below)</li>
+        </ul>
+    </div>
+
+    <h2>Command Protocol</h2>
+    <p>Commands are sent via Bluetooth as plain text. Every line must end with a newline character (<code>\n</code> or <code>\r\n</code>). The controller acknowledges most commands with <code>next</code> for flow control.</p>
+    
+    <h3>1. Pixel Data (ARGBSE)</h3>
+    <p>To control LEDs, send a 12-character hex string representing 6 variables:</p>
+    <pre>A R G B S E</pre>
+    <table>
+        <tr><th>Variable</th><th>Meaning</th><th>Range</th><th>Hex Range</th></tr>
+        <tr><td><strong>A</strong></td><td>Channel Address</td><td>1 – 19</td><td>01 – 13</td></tr>
+        <tr><td><strong>R</strong></td><td>Red Intensity</td><td>0 – 255</td><td>00 – FF</td></tr>
+        <tr><td><strong>G</strong></td><td>Green Intensity</td><td>0 – 255</td><td>00 – FF</td></tr>
+        <tr><td><strong>B</strong></td><td>Blue Intensity</td><td>0 – 255</td><td>00 – FF</td></tr>
+        <tr><td><strong>S</strong></td><td>Start Pixel</td><td>0 – 255</td><td>00 – FF</td></tr>
+        <tr><td><strong>E</strong></td><td>End Pixel</td><td>0 – 255</td><td>00 – FF</td></tr>
+    </table>
+    <p><em>Example:</em> <code>01FF00000005</code> sets Channel 1, pixels 0 to 5, to Red (FF0000).</p>
+
+    <h3>2. Control Commands</h3>
+    <table>
+        <tr><th>Command</th><th>Description</th><th>Response</th></tr>
+        <tr><td><code>wait</code></td><td>Clears untouched channels (used as a frame separator)</td><td><code>next</code></td></tr>
+        <tr><td><code>wait=N</code></td><td>Clears untouched channels and waits N milliseconds</td><td><code>next</code></td></tr>
+        <tr><td><code>REC</code></td><td>Starts recording frames to the SD card</td><td><code>REC OK</code></td></tr>
+        <tr><td><code>END</code></td><td>Stops recording and saves the header</td><td><code>SAVED n</code></td></tr>
+        <tr><td><code>PLAY</code></td><td>Plays the recorded frames once</td><td><code>PLAY DONE</code></td></tr>
+        <tr><td><code>LOOP</code></td><td>Plays the recorded frames continuously (loop)</td><td><code>STOPPED</code></td></tr>
+        <tr><td><code>STOP</code></td><td>Stops playback or recording immediately</td><td><code>STOPPED</code></td></tr>
+        <tr><td><code>AUTO=0</code></td><td>Enables auto-loop on boot (Default)</td><td><code>OK AUTO=0</code></td></tr>
+        <tr><td><code>AUTO=1</code></td><td>Disables auto-loop (waits for user command)</td><td><code>OK AUTO=1</code></td></tr>
+        <tr><td><code>ERASE</code></td><td>Clears the recording header (frames=0)</td><td><code>ERASED</code></td></tr>
+        <tr><td><code>INFO</code></td><td>Shows current status (frames, channels, delay, auto)</td><td><code>frames=.. ch=..</code></td></tr>
+        <tr><td><code>DUMP</code></td><td>Sends raw data of all stored frames to terminal (for debugging)</td><td><code>HDR raw:...</code></td></tr>
+    </table>
+
+    <h2>Web Application</h2>
+    <div class="card" style="text-align: center;">
+        <p>The <strong>GIF209 Web App</strong> allows you to convert images or draw custom pixel art, and then generate the exact hex commands needed for the controller. It automatically handles the <code>REC</code> and <code>END</code> wrappers and formats everything perfectly.</p>
+        <a href="gif209_app.html" class="btn">🚀 Launch Web App</a>
+        <p style="margin-top:14px;"><strong>🎞️ GIF import:</strong> drop an animated GIF into the app and it is split into frames automatically. Each frame becomes one line of commands, and the GIF frame delays can be converted to <code>wait=N</code>.</p>
+        <ul style="text-align:left; display:inline-block;">
+            <li><strong>Split GIF into frames:</strong> turns the GIF into one frame per line.</li>
+            <li><strong>Every Nth:</strong> keeps only every Nth frame to make long GIFs shorter (1 = all frames).</li>
+            <li><strong>Use GIF delays as wait:</strong> uses the delay of each GIF frame as <code>wait=N</code>.</li>
+        </ul>
+        <p style="font-size:0.9em; color:var(--muted);">GIF splitting needs a browser with ImageDecoder support (Chrome or Edge). In other browsers the GIF is added as a still image.</p>
+        
+    </div>
+
+    <h2>Safety Warning</h2>
+    <div class="warning">
+        <h3>⚠️ Important Notice</h3>
+        <p>1. The SD card is accessed in <strong>RAW mode</strong>. There is no filesystem (FAT32) on it. The controller will overwrite sectors starting around <code>2000</code>. Always use a spare or blank SD card.</p>
+        <p>2. The STM32 operates at <strong>3.3V logic</strong>. If you are using 5V LED strips (WS2812B), you <strong>must</strong> use a logic level converter (like 74HCT245 or 74HCT125) to prevent damaging the microcontroller.</p>
+    </div>
+
+    <h2>Flashing the Firmware (Boot Jumper)</h2>
+    <div class="card">
+        <p>The two SWD programming pins (<strong>PA13</strong> and <strong>PA14</strong>) are used as LED outputs on this board, so the firmware cannot be flashed or debugged through SWD. Instead, the STM32 built-in bootloader is used over <strong>UART (PA9 / PA10)</strong>, and it only starts when the <strong>BOOT0</strong> pin is held high during reset. This is the job of the <strong>BOOT jumper</strong>.</p>
+        <ol>
+            <li>Disconnect the Bluetooth module (it shares PA9/PA10), and connect a 3.3V USB-to-serial adapter: adapter TX to PA10 (RX), adapter RX to PA9 (TX), and GND to GND.</li>
+            <li><strong>Flash mode:</strong> connect (install) the BOOT jumper, then power the board or press reset.</li>
+            <li>Flash <code>main.c</code> (compiled) with a UART bootloader tool such as STM32CubeProgrammer (UART mode) or stm32flash.</li>
+            <li><strong>Normal mode:</strong> remove the BOOT jumper, reconnect the Bluetooth module, and reset the board so the firmware starts.</li>
+        </ol>
+        <p><strong>Important:</strong> if the BOOT jumper stays connected, the board will enter the bootloader on every reset and the LEDs will not work. Always remove the jumper after flashing.</p>
+    </div>
+
+    <h2>Downloads</h2>
+    <div class="card">
+        <p>Get the source code, PCB schematics, and the latest firmware updates from the repository.</p>
+        <ul>
+            <li><a href="main.c" download>📦 Download Firmware (main.c)</a></li>
+            <li><a href="#">📐 Download PCB Schematic (PDF)</a></li>
+            <li><a href="gif209_app.html" download>📂 Download Web App (gif209_app.html)</a></li>
+        </ul>
+    </div>
+
+    <div class="footer">
+        ⚡ Powered by <strong>DeepSeek</strong> · GIF209 · Round Pixels · 2026
+    </div>
+</div>
+
+</body>
+</html>
