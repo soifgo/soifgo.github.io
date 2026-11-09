@@ -4,11 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="theme-color" content="#0f111a">
+    <meta name="color-scheme" content="light dark">
     <link rel="icon" type="image/jpeg" href="../icon/gif209.jpg">
     <meta property="og:image" content="https://soifgo.github.io/icon/gif209.jpg">
     <title>GIF209 — Open Source STM32 LED Controller</title>
     <meta name="description" content="GIF209 is an open-source hardware project based on the STM32F030K6T6 microcontroller for driving 19 channels of WS2812 LEDs with SD card record/play and Bluetooth control.">
     
+    <script>
+        (function() {
+            var saved = null;
+            try { saved = localStorage.getItem('soifgo-theme'); } catch (e) {}
+            document.documentElement.setAttribute('data-theme', (saved === 'light' || saved === 'dark') ? saved : 'dark');
+        })();
+    </script>
+
     <style>
         :root, [data-theme="dark"] {
             --bg: #0f111a;
@@ -25,7 +34,32 @@
             --table-th-bg: #1f2436;
             --table-even-bg: #161a26;
             --shadow: rgba(0, 0, 0, 0.5);
+            --warn: #ffaa88;
+            --warn-bg: rgba(255, 170, 136, 0.1);
+            --footer-accent: #ff8844;
         }
+
+        [data-theme="light"] {
+            --bg: #f4f6fa;
+            --fg: #1f2937;
+            --accent: #007a5e;
+            --accent2: #c2005f;
+            --accent3: #007aa6;
+            --card-bg: #ffffff;
+            --border: #d7dce4;
+            --muted: #4b5563;
+            --text-main: #0f172a;
+            --code-bg: #eef2f7;
+            --code-text: #1e40af;
+            --table-th-bg: #e6f3fb;
+            --table-even-bg: #f8fafc;
+            --shadow: rgba(15, 23, 42, 0.1);
+            --warn: #9a3d0c;
+            --warn-bg: rgba(214, 92, 20, 0.08);
+            --footer-accent: #c2410c;
+        }
+
+        .ignore { /* translation skip marker */ }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -36,9 +70,10 @@
             line-height: 1.7;
             -webkit-text-size-adjust: 100%;
             word-wrap: break-word;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
-        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; padding: 64px 20px 20px; }
 
         h1 {
             font-size: clamp(2rem, 6vw, 3rem);
@@ -153,14 +188,14 @@
         li { margin-bottom: 8px; }
 
         .warning {
-            background: rgba(255, 170, 136, 0.1);
-            border-left: 4px solid #ffaa88;
+            background: var(--warn-bg);
+            border-left: 4px solid var(--warn);
             padding: 15px 20px;
             border-radius: 8px;
             margin-bottom: 20px;
         }
-        .warning h3 { color: #ffaa88; margin-top: 0; }
-        .warning p { color: #ffaa88; margin-bottom: 0; }
+        .warning h3 { color: var(--warn); margin-top: 0; }
+        .warning p { color: var(--warn); margin-bottom: 0; }
 
         .btn {
             display: inline-block;
@@ -185,10 +220,58 @@
             margin-top: 40px;
             font-size: 0.9rem;
         }
-        .footer strong { color: #ff8844; }
+        .footer strong { color: var(--footer-accent); }
+
+        /* ---- language switcher + theme toggle (same as the other SoifGo pages) ---- */
+        .language-switcher { position: fixed; top: 16px; left: 16px; right: auto; z-index: 1001; direction: ltr; }
+        .lang-btn {
+            background: var(--card-bg); border: 1px solid var(--border); color: var(--fg);
+            padding: 8px 16px; border-radius: 24px; font-size: 0.9rem; font-weight: 600; cursor: pointer;
+            display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px var(--shadow);
+            transition: background 0.2s, border-color 0.2s, transform 0.15s;
+        }
+        .lang-btn:hover { background: color-mix(in srgb, var(--accent) 15%, transparent); border-color: var(--accent); transform: scale(1.03); }
+        .lang-dropdown {
+            display: none; position: absolute; top: 48px; left: 0; background: var(--card-bg);
+            border: 1px solid var(--border); border-radius: 12px; min-width: 220px; max-height: 400px;
+            overflow-y: auto; box-shadow: 0 8px 24px var(--shadow); padding: 8px 0; direction: ltr;
+        }
+        .lang-dropdown.show { display: block; }
+        .lang-item {
+            display: block; padding: 10px 18px; color: var(--fg); text-decoration: none; font-size: 0.92rem;
+            transition: background 0.15s; white-space: nowrap; direction: ltr; text-align: left;
+        }
+        .lang-item:hover { background: color-mix(in srgb, var(--accent) 15%, transparent); color: var(--accent); text-decoration: none; }
+        .theme-toggle {
+            position: fixed; top: 16px; right: 16px; left: auto; z-index: 1000; width: 46px; height: 46px;
+            border-radius: 50%; background: var(--card-bg); border: 1px solid var(--border); color: var(--fg);
+            font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 14px var(--shadow); transition: background 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
+            padding: 0; line-height: 1; direction: ltr;
+        }
+        .theme-toggle:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); transform: scale(1.08); }
+        @media (max-width: 600px) {
+            .theme-toggle { width: 40px; height: 40px; font-size: 1.1rem; top: 12px; right: 12px; }
+            .language-switcher { top: 12px; left: 12px; }
+            .lang-btn { font-size: 0.8rem; padding: 6px 12px; }
+            .lang-dropdown { min-width: 180px; max-height: 300px; }
+            .lang-item { padding: 8px 14px; font-size: 0.85rem; }
+            .container { padding: 60px 12px 12px; }
+        }
     </style>
 </head>
 <body>
+
+<div class="language-switcher ignore" id="languageSwitcher">
+    <button class="lang-btn" id="langBtn" type="button" aria-label="Change language">
+        🌐 <span id="currentLangLabel">English</span>
+    </button>
+    <div class="lang-dropdown" id="langDropdown"></div>
+</div>
+
+<button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme" title="Switch theme">
+    <span id="themeIcon">☀️</span>
+</button>
 
 <div class="container">
     <img src="../icon/gif209.jpg" alt="GIF209 icon" width="128" height="128" style="width:128px;height:128px;border-radius:24px;margin:10px auto 16px;">
@@ -335,11 +418,37 @@
         
     </div>
 
+    <h3>Using the Web App inside SoifGo</h3>
+    <div class="card">
+        <p>To use this feature, the button behavior must be set to <strong>Note</strong>. Set up the Bluetooth sending once, then open the web app from the Note menu.</p>
+        <ol>
+            <li>Set the button behavior to <strong>Note</strong>, and bring the Note into <strong>Play</strong> mode.</li>
+            <li>From the Note menu choose <strong>Note out</strong>, then choose <strong>Bluetooth Send</strong>. The <strong>Export</strong> option now appears in green at the top of the page.</li>
+            <li><strong>Long-press Export</strong> to open the Bluetooth Send options and set them like this:
+                <ul>
+                    <li>Send lines: <strong>Auto</strong></li>
+                    <li>Bluetooth <em>receive on next</em> (the <code>next</code> word feedback): <strong>ON</strong>. This must be on.</li>
+                    <li>Delay: <strong>0</strong></li>
+                    <li>Loop is <strong>not needed</strong> here, because the microcontroller repeats the animation by itself when it receives the word <code>LOOP</code> at the end of the code.</li>
+                </ul>
+            </li>
+            <li>Open the Note menu, scroll to the end of the list and tap <strong>GIF209</strong>, then tap <strong>Edit</strong>. The GIF209 web app opens with three tabs: <strong>Image Converter</strong>, <strong>Pixel Editor</strong> and <strong>Text &amp; FX</strong>. Each tab has its own tools.</li>
+            <li>After you finish your design, <strong>scroll to the end of the page</strong> and tap <strong>Send</strong> to place the generated code into the Note.</li>
+            <li>Close the web app with the <strong>yellow X</strong> to go back to the Note.</li>
+            <li>Tap <strong>Export</strong> at the top of the page to start sending the data to the microcontroller over Bluetooth. Watch the percentage: you may need to tap Export several times until the progress reaches the end.</li>
+        </ol>
+    </div>
+
+    <h3>WS2811 strips</h3>
+    <div class="card">
+        <p>With WS2811 strips, two colors (green and blue) can appear swapped compared to the design. This is normal for this type of strip and is <strong>not a fault</strong>, so there is nothing to worry about. In the web app inside SoifGo, simply tick the <strong>RBG (WS2811)</strong> option so the generated file matches your strip, then send it again.</p>
+    </div>
+
     <h2>Safety Warning</h2>
     <div class="warning">
         <h3>⚠️ Important Notice</h3>
         <p>1. The SD card is accessed in <strong>RAW mode</strong>. There is no filesystem (FAT32) on it. The controller will overwrite sectors starting around <code>2000</code>. Always use a spare or blank SD card.</p>
-        <p>2. The STM32 outputs <strong>3.3V logic</strong>, while 5V LED strips (WS2812B) officially expect a higher input level (about 70% of the supply, i.e. 3.5V). In practice most strips work fine when connected <strong>directly</strong> with a short data wire and a common ground, and GIF209 has been tested this way. A logic level converter (like 74HCT245 or 74HCT125) is only needed when you notice problems, for example a long data cable, flickering or wrong colors on the first LEDs, or a strip that does not accept 3.3V.</p>
+        <p>2. The STM32 outputs <strong>3.3V logic</strong>, while 5V LED strips (WS2812B) officially expect a higher input level (about 70% of the supply, i.e. 3.5V). In practice most strips work fine when connected <strong>directly</strong> with a short data wire and a common ground, and GIF209 has been tested this way. A logic level converter (like 74HCT245 or 74HCT125) is only needed when you notice problems, for example a long data cable, flickering or wrong colors on the first LEDs, or a strip that does not accept 3.3V. GIF209 aims for simplicity and avoiding unnecessary hardware complexity. If you see a need for extra caution or have a different opinion, the Proteus project file is open and available: modify it and apply whatever protection or parts you prefer.</p>
     </div>
 
     <h2>Flashing the Firmware (Boot Jumper)</h2>
@@ -368,6 +477,185 @@
         ⚡ Powered by <strong>DeepSeek</strong> · GIF209 · Round Pixels · 2026
     </div>
 </div>
+
+<script>
+    (function() {
+        var themeToggle = document.getElementById('themeToggle');
+        var themeIcon = document.getElementById('themeIcon');
+        function updateIcon(theme) {
+            if (theme === 'light') { themeIcon.textContent = '🌙'; themeToggle.title = 'Switch to dark mode'; }
+            else { themeIcon.textContent = '☀️'; themeToggle.title = 'Switch to light mode'; }
+        }
+        updateIcon(document.documentElement.getAttribute('data-theme') || 'dark');
+        themeToggle.addEventListener('click', function() {
+            var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            try { localStorage.setItem('soifgo-theme', next); } catch (e) {}
+            updateIcon(next);
+        });
+    })();
+</script>
+
+<script src="https://cdn.staticfile.net/translate.js/3.18.66/translate.js"></script>
+
+<script>
+(function() {
+    'use strict';
+
+    var LANGUAGES = {
+        'english': { label: 'English', dir: 'ltr' },
+        'spanish': { label: 'Español', dir: 'ltr' },
+        'chinese_simplified': { label: '简体中文', dir: 'ltr' },
+        'french': { label: 'Français', dir: 'ltr' },
+        'deutsch': { label: 'Deutsch', dir: 'ltr' },
+        'japanese': { label: '日本語', dir: 'ltr' },
+        'russian': { label: 'Русский', dir: 'ltr' },
+        'arabic': { label: 'العربية', dir: 'rtl' },
+        'persian': { label: 'فارسی', dir: 'rtl' },
+        'italian': { label: 'Italiano', dir: 'ltr' },
+        'hindi': { label: 'हिन्दी', dir: 'ltr' },
+        'turkish': { label: 'Türkçe', dir: 'ltr' },
+        'korean': { label: '한국어', dir: 'ltr' },
+        'portuguese': { label: 'Português', dir: 'ltr' },
+        'hebrew': { label: 'עברית', dir: 'rtl' },
+        'kurdish_sorani': { label: 'کوردی', dir: 'rtl' },
+        'urdu': { label: 'اردو', dir: 'rtl' },
+        'bengali': { label: 'বাংলা', dir: 'ltr' },
+        'indonesian': { label: 'Bahasa Indonesia', dir: 'ltr' },
+        'tamil': { label: 'தமிழ்', dir: 'ltr' },
+        'thai': { label: 'ไทย', dir: 'ltr' },
+        'swahili': { label: 'Swahili', dir: 'ltr' }
+    };
+
+    var DEFAULT_LANG = 'english';
+    var FALLBACK_CHANNELS = ['giteeAI', 'client.edge', 'siliconflow'];
+
+    var langBtn = document.getElementById('langBtn');
+    var langDropdown = document.getElementById('langDropdown');
+    var currentLangLabel = document.getElementById('currentLangLabel');
+
+    function buildLanguageList() {
+        var html = '';
+        for (var code in LANGUAGES) {
+            if (LANGUAGES.hasOwnProperty(code)) {
+                var lang = LANGUAGES[code];
+                html += '<a href="javascript:void(0)" class="lang-item ignore" data-lang="' + code + '" data-dir="' + lang.dir + '">' + lang.label + '</a>';
+            }
+        }
+        langDropdown.innerHTML = html;
+        var items = langDropdown.querySelectorAll('.lang-item');
+        for (var i = 0; i < items.length; i++) {
+            items[i].addEventListener('click', function(e) {
+                e.preventDefault();
+                changeLanguage(this.getAttribute('data-lang'), this.getAttribute('data-dir'));
+            });
+        }
+    }
+
+    function waitForTranslation(element, originalText, timeoutMs) {
+        return new Promise(function(resolve) {
+            var start = Date.now();
+            var timer = setInterval(function() {
+                if (element.textContent !== originalText) { clearInterval(timer); resolve(true); }
+                else if (Date.now() - start > timeoutMs) { clearInterval(timer); resolve(false); }
+            }, 200);
+        });
+    }
+
+    function applyChannel(channel) {
+        try { translate.service.use(channel); return true; } catch (e) { return false; }
+    }
+
+    function resetToEnglish() {
+        try { localStorage.removeItem('soifgo-lang'); } catch (e) {}
+        document.documentElement.setAttribute('dir', 'ltr');
+        document.documentElement.setAttribute('lang', 'en');
+        currentLangLabel.textContent = LANGUAGES.english.label;
+        langDropdown.classList.remove('show');
+        setTimeout(function() { location.reload(); }, 100);
+    }
+
+    function changeLanguage(langCode, langDir) {
+        if (langCode === 'english') { resetToEnglish(); return; }
+
+        var testElement = document.querySelector('h1');
+        var originalText = testElement ? testElement.textContent : '';
+
+        function tryChannel(index) {
+            if (index >= FALLBACK_CHANNELS.length) { console.warn('All fallback channels failed.'); return; }
+            var channel = FALLBACK_CHANNELS[index];
+            applyChannel(channel);
+            translate.changeLanguage(langCode);
+            if (typeof translate.execute === 'function') { translate.execute(); }
+            waitForTranslation(testElement, originalText, 3000).then(function(success) {
+                if (!success) {
+                    console.warn('Channel ' + channel + ' failed, trying next...');
+                    tryChannel(index + 1);
+                } else {
+                    try { localStorage.setItem('soifgo-lang', langCode); } catch (e) {}
+                    document.documentElement.setAttribute('dir', langDir);
+                    document.documentElement.setAttribute('lang', langCode === 'persian' ? 'fa' : langCode);
+                    currentLangLabel.textContent = LANGUAGES[langCode].label;
+                    langDropdown.classList.remove('show');
+                }
+            });
+        }
+        tryChannel(0);
+    }
+
+    langBtn.addEventListener('click', function(e) { e.stopPropagation(); langDropdown.classList.toggle('show'); });
+    document.addEventListener('click', function() { langDropdown.classList.remove('show'); });
+
+    function getSavedLang() {
+        try {
+            var saved = localStorage.getItem('soifgo-lang');
+            if (saved && LANGUAGES[saved] && saved !== 'english') { return saved; }
+        } catch (e) {}
+        return null;
+    }
+
+    function initTranslate() {
+        var savedLang = getSavedLang();
+        if (!savedLang) {
+            document.documentElement.setAttribute('dir', 'ltr');
+            document.documentElement.setAttribute('lang', 'en');
+            currentLangLabel.textContent = LANGUAGES.english.label;
+            return;
+        }
+        translate.language.setLocal('english');
+        translate.service.use(FALLBACK_CHANNELS[0]);
+        translate.selectLanguageTag.show = false;
+        translate.execute();
+        if (translate.listener && translate.listener.start) { translate.listener.start(); }
+    }
+
+    function restoreLanguageUI() {
+        var savedLang = getSavedLang();
+        if (savedLang) {
+            var lang = LANGUAGES[savedLang];
+            document.documentElement.setAttribute('dir', lang.dir);
+            document.documentElement.setAttribute('lang', savedLang === 'persian' ? 'fa' : savedLang);
+            currentLangLabel.textContent = lang.label;
+            return savedLang;
+        }
+        currentLangLabel.textContent = LANGUAGES[DEFAULT_LANG].label;
+        return null;
+    }
+
+    buildLanguageList();
+    var restored = restoreLanguageUI();
+
+    function bootTranslate() {
+        initTranslate();
+        if (restored) {
+            setTimeout(function() { changeLanguage(restored, LANGUAGES[restored].dir); }, 500);
+        }
+    }
+
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', bootTranslate); }
+    else { bootTranslate(); }
+})();
+</script>
 
 </body>
 </html>
