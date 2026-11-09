@@ -339,7 +339,7 @@
     <div class="warning">
         <h3>⚠️ Important Notice</h3>
         <p>1. The SD card is accessed in <strong>RAW mode</strong>. There is no filesystem (FAT32) on it. The controller will overwrite sectors starting around <code>2000</code>. Always use a spare or blank SD card.</p>
-        <p>2. The STM32 operates at <strong>3.3V logic</strong>. If you are using 5V LED strips (WS2812B), you <strong>must</strong> use a logic level converter (like 74HCT245 or 74HCT125) to prevent damaging the microcontroller.</p>
+        <p>2. The STM32 outputs <strong>3.3V logic</strong>, while 5V LED strips (WS2812B) officially expect a higher input level (about 70% of the supply, i.e. 3.5V). In practice most strips work fine when connected <strong>directly</strong> with a short data wire and a common ground, and GIF209 has been tested this way. A logic level converter (like 74HCT245 or 74HCT125) is only needed when you notice problems, for example a long data cable, flickering or wrong colors on the first LEDs, or a strip that does not accept 3.3V.</p>
     </div>
 
     <h2>Flashing the Firmware (Boot Jumper)</h2>
