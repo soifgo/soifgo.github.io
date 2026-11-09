@@ -9,7 +9,7 @@
     <meta property="og:image" content="https://soifgo.github.io/icon/gif209.jpg">
     <title>GIF209 — Open Source STM32 LED Controller</title>
     <meta name="description" content="GIF209 is an open-source hardware project based on the STM32F030K6T6 microcontroller for driving 19 channels of WS2812 LEDs with SD card record/play and Bluetooth control.">
-    
+
     <script>
         (function() {
             var saved = null;
@@ -37,6 +37,13 @@
             --warn: #ffaa88;
             --warn-bg: rgba(255, 170, 136, 0.1);
             --footer-accent: #ff8844;
+            --btn-home-bg: #ff007f;
+            --btn-home-hover: #e00070;
+            --download-bg: #ff007f;
+            --download-hover: #e00070;
+            --radius: 18px;
+            --radius-sm: 12px;
+            --transition: 0.25s ease;
         }
 
         [data-theme="light"] {
@@ -57,6 +64,10 @@
             --warn: #9a3d0c;
             --warn-bg: rgba(214, 92, 20, 0.08);
             --footer-accent: #c2410c;
+            --btn-home-bg: #c2005f;
+            --btn-home-hover: #a80052;
+            --download-bg: #c2005f;
+            --download-hover: #a80052;
         }
 
         .ignore { /* translation skip marker */ }
@@ -71,9 +82,12 @@
             -webkit-text-size-adjust: 100%;
             word-wrap: break-word;
             transition: background 0.3s ease, color 0.3s ease;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        .container { max-width: 900px; margin: 0 auto; padding: 64px 20px 20px; }
+        .container { max-width: 900px; margin: 0 auto; padding: 64px 20px 20px; width: 100%; flex: 1; }
 
         h1 {
             font-size: clamp(2rem, 6vw, 3rem);
@@ -104,7 +118,7 @@
 
         p { margin-bottom: 15px; color: var(--muted); }
         strong { color: var(--text-main); }
-        
+
         a { color: var(--accent3); text-decoration: none; transition: color 0.2s; }
         a:hover { color: var(--accent2); text-decoration: underline; }
 
@@ -173,6 +187,8 @@
             font-family: "Consolas", "Courier New", monospace;
             font-size: 0.9rem;
             margin-bottom: 20px;
+            white-space: pre-wrap;
+            word-break: break-word;
         }
 
         code {
@@ -212,6 +228,68 @@
         }
         .btn:hover { background: #e00070; transform: scale(1.02); text-decoration: none; }
 
+        /* ===== Buttons & footer copied from CMI209 style ===== */
+        .download-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--download-bg);
+            color: #ffffff;
+            padding: 14px 24px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            text-decoration: none;
+            margin: 10px 0 6px 0;
+            width: auto;
+            max-width: 100%;
+            transition: background 0.2s, transform 0.1s;
+            touch-action: manipulation;
+            border: none;
+            box-shadow: 0 4px 16px rgba(255, 0, 127, 0.25);
+        }
+        .download-link:hover {
+            background: var(--download-hover);
+            text-decoration: none;
+            transform: scale(1.02);
+            color: #ffffff;
+        }
+        .download-link:active { transform: scale(0.97); }
+
+        .btn-home {
+            display: inline-block;
+            background: var(--btn-home-bg);
+            color: #ffffff;
+            padding: 14px 34px;
+            border-radius: 60px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            text-align: center;
+            transition: background 0.2s, transform 0.1s;
+            touch-action: manipulation;
+            border: none;
+            min-width: 140px;
+            box-shadow: 0 4px 14px rgba(255, 0, 127, 0.3);
+        }
+        .btn-home:hover {
+            background: var(--btn-home-hover);
+            text-decoration: none;
+            transform: scale(1.02);
+            color: #ffffff;
+        }
+        .btn-home:active { transform: scale(0.97); }
+
+        .btn-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin: 30px 0 10px 0;
+        }
+
         .footer {
             text-align: center;
             padding: 30px 0;
@@ -222,7 +300,7 @@
         }
         .footer strong { color: var(--footer-accent); }
 
-        /* ---- language switcher + theme toggle (same as the other SoifGo pages) ---- */
+        /* ---- language switcher + theme toggle ---- */
         .language-switcher { position: fixed; top: 16px; left: 16px; right: auto; z-index: 1001; direction: ltr; }
         .lang-btn {
             background: var(--card-bg); border: 1px solid var(--border); color: var(--fg);
@@ -250,6 +328,7 @@
             padding: 0; line-height: 1; direction: ltr;
         }
         .theme-toggle:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); transform: scale(1.08); }
+
         @media (max-width: 600px) {
             .theme-toggle { width: 40px; height: 40px; font-size: 1.1rem; top: 12px; right: 12px; }
             .language-switcher { top: 12px; left: 12px; }
@@ -257,6 +336,8 @@
             .lang-dropdown { min-width: 180px; max-height: 300px; }
             .lang-item { padding: 8px 14px; font-size: 0.85rem; }
             .container { padding: 60px 12px 12px; }
+            .download-link, .btn-home { width: 100%; justify-content: center; padding: 16px 18px; }
+            .btn-wrap { flex-direction: column; gap: 12px; }
         }
     </style>
 </head>
@@ -276,7 +357,7 @@
 <div class="container">
     <img src="../icon/gif209.jpg" alt="GIF209 icon" width="128" height="128" style="width:128px;height:128px;border-radius:24px;margin:10px auto 16px;">
     <h1>GIF209 <span class="badge">v1.0</span></h1>
-    
+
     <p><strong>GIF209</strong> is a professional, open-source hardware controller based on the <strong>STM32F030K6T6</strong> ARM Cortex-M0 microcontroller. It is specifically designed to drive up to <strong>19 independent WS2812/WS2811 LED strips</strong> and features standalone animation recording and playback via an SD card.</p>
 
     <!-- ===== IMAGES (New Names) ===== -->
@@ -372,7 +453,7 @@
 
     <h2>Command Protocol</h2>
     <p>Commands are sent via Bluetooth as plain text. Every line must end with a newline character (<code>\n</code> or <code>\r\n</code>). The controller acknowledges most commands with <code>next</code> for flow control.</p>
-    
+
     <h3>1. Pixel Data (ARGBSE)</h3>
     <p>To control LEDs, send a 12-character hex string representing 6 variables:</p>
     <pre>A R G B S E</pre>
@@ -415,7 +496,6 @@
             <li><strong>Use GIF delays as wait:</strong> uses the delay of each GIF frame as <code>wait=N</code>.</li>
         </ul>
         <p style="font-size:0.9em; color:var(--muted);">GIF splitting needs a browser with ImageDecoder support (Chrome or Edge). In other browsers the GIF is added as a still image.</p>
-        
     </div>
 
     <h3>Using the Web App inside SoifGo</h3>
@@ -464,18 +544,20 @@
     </div>
 
     <h2>Downloads</h2>
-    <div class="card">
+    <div class="card" style="text-align: center;">
         <p>Get the source code, PCB schematics, and the latest firmware updates from the repository.</p>
-        <ul>
-            <li><a href="main.c" download>📦 Download Firmware (main.c)</a></li>
-            <li><a href="#">📐 Download PCB Schematic (PDF)</a></li>
-            <li><a href="gif209_app.html" download>📂 Download Web App (gif209_app.html)</a></li>
-        </ul>
+        <a href="ALL_File.zip" download class="download-link">📦 Download ALL_File.zip</a>
+    </div>
+
+    <!-- ===== Back to Home & Footer (aligned with CMI209) ===== -->
+    <div class="btn-wrap">
+        <a href="https://soifgo.github.io/" class="btn-home">⬅ Back to Home</a>
     </div>
 
     <div class="footer">
-        ⚡ Powered by <strong>DeepSeek</strong> · GIF209 · Round Pixels · 2026
+        <span class="ignore">Saeid Moghadam</span> — GIF209 Module
     </div>
+
 </div>
 
 <script>
