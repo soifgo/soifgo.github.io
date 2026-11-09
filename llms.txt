@@ -72,7 +72,7 @@ These are separate projects that use SoifGo as the phone-side interface. The bri
 - [PROG209](https://soifgo.github.io/prog209/prog209_gude.html): Wireless AI-driven self-programming smart PLC (ATmega128). Studio page: https://soifgo.github.io/prog209/prog209.html . AI code-generation rules: https://soifgo.github.io/prog209/AI_INSTRUCTION.md.md
 - [CMI209](https://soifgo.github.io/cmi209/cmi209.html): CNC module (ATmega328P), Bluetooth and G-code controller.
 - [RANGMANG](https://soifgo.github.io/rangmang/Rangmang.html): ATmega128/328 serial RGB controller for addressable LEDs (WS2812/WS2811).
-- [GIF209](https://soifgo.github.io/gif209/gif209.html): STM32F030K6T6 RGB LED controller with 17 channels and SD card record/play.
+- [GIF209](https://soifgo.github.io/gif209/gif209.html): STM32F030K6T6 RGB LED controller with 19 channels and SD card record/play.
 - [TEMP209](https://soifgo.github.io/temp209/temp209_guide.html): Open-source temperature controller (DS18B20, RC5, EEPROM logger).
 - [Clamp Meter](https://soifgo.github.io/clamp_meter/index.html): AC/DC clamp meter page for the phone.
 

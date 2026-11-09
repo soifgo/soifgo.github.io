@@ -215,16 +215,16 @@
 
     <h2>Pinout &amp; Channel Map</h2>
     <div class="card">
-        <p>Channels are mapped based on the physical pin number of the LQFP32 package (from pin 2 to 30) to make PCB routing easier.</p>
+        <p>Channels follow the physical pin order of the LQFP32 package to make PCB routing easier: channel 1 starts at pin 21 and runs up to pin 30 (channel 10), then continues from pin 2 (channel 11) up to pin 18 (channel 19).</p>
         <ul>
-            <li><strong>Channel 1–2:</strong> PF0 (Pin 2), PF1 (Pin 3)</li>
-            <li><strong>Channel 3–6:</strong> PA0 (Pin 6), PA1 (Pin 7), PA2 (Pin 8), PA3 (Pin 9)</li>
-            <li><strong>Channel 7–8:</strong> PB0 (Pin 14), PB1 (Pin 15)</li>
-            <li><strong>Channel 9:</strong> PA8 (Pin 18)</li>
-            <li><strong>Channel 10–11:</strong> PA11 (Pin 21), PA12 (Pin 22)</li>
-            <li><strong>Channel 12–13:</strong> PA13 (Pin 23), PA14 (Pin 24)</li>
-            <li><strong>Channel 14:</strong> PA15 (Pin 25)</li>
-            <li><strong>Channel 15–19:</strong> PB3 (Pin 26), PB4 (Pin 27), PB5 (Pin 28), PB6 (Pin 29), PB7 (Pin 30)</li>
+            <li><strong>Channel 1–2:</strong> PA11 (Pin 21), PA12 (Pin 22)</li>
+            <li><strong>Channel 3–4:</strong> PA13 (Pin 23), PA14 (Pin 24) — the former SWD pins</li>
+            <li><strong>Channel 5:</strong> PA15 (Pin 25)</li>
+            <li><strong>Channel 6–10:</strong> PB3 (Pin 26), PB4 (Pin 27), PB5 (Pin 28), PB6 (Pin 29), PB7 (Pin 30)</li>
+            <li><strong>Channel 11–12:</strong> PF0 (Pin 2), PF1 (Pin 3)</li>
+            <li><strong>Channel 13–16:</strong> PA0 (Pin 6), PA1 (Pin 7), PA2 (Pin 8), PA3 (Pin 9)</li>
+            <li><strong>Channel 17–18:</strong> PB0 (Pin 14), PB1 (Pin 15)</li>
+            <li><strong>Channel 19:</strong> PA8 (Pin 18)</li>
         </ul>
         <p><strong>Reserved Pins:</strong></p>
         <ul>
@@ -232,6 +232,59 @@
             <li><strong>Bluetooth:</strong> PA9 (TX), PA10 (RX)</li>
             <li><strong>Boot jumper:</strong> BOOT0 (Pin 31), used for flashing (see below)</li>
         </ul>
+    </div>
+
+    <h2>Getting Started &amp; Bluetooth Speed Setup</h2>
+    <div class="card">
+        <p>The firmware talks to the Bluetooth module at a fixed UART speed, set by <code>UART_BAUD</code> at the top of <code>main.c</code> (default <strong>115200</strong>). The module must use exactly the same speed. Most modules ship at <strong>9600</strong>, so the speeds have to be matched once before the first connection.</p>
+        <p>The speed of a module cannot be changed over its own Bluetooth link. Use a <strong>3.3V USB-to-serial adapter</strong> connected directly to the module.</p>
+
+        <h3>Option A: Quick start (no module configuration)</h3>
+        <p>If your module is still at the factory speed of 9600, change one line in <code>main.c</code> and flash:</p>
+        <pre>#define UART_BAUD    9600u</pre>
+        <p>Everything works the same, only sending long animations takes longer than at 115200.</p>
+
+        <h3>Option B: Set the module to 115200 (recommended)</h3>
+        <ol>
+            <li>Connect the module to the USB-to-serial adapter (not to the GIF209 board): adapter TX to module RX, adapter RX to module TX, GND to GND, and power at 3.3V.</li>
+            <li>Open a serial terminal at the <strong>current</strong> speed of the module with the line ending from the table below.</li>
+            <li>Send the command from the last column of the table. The module answers <code>OK</code> (or a similar reply).</li>
+            <li>Power-cycle the module so the new speed is used.</li>
+            <li>Make sure <code>UART_BAUD</code> in <code>main.c</code> is <code>115200u</code>, flash the firmware, then connect the module to the board.</li>
+        </ol>
+
+        <div style="overflow-x:auto;">
+        <table>
+            <tr><th>Module</th><th>Type</th><th>Factory speed</th><th>How to enter AT mode</th><th>Line ending</th><th>Set 115200</th></tr>
+            <tr><td><strong>HC-05</strong></td><td>Classic SPP</td><td>9600 (AT mode: 38400)</td><td>KEY/EN pin high (3.3V) at power-up</td><td>CR + LF</td><td><code>AT+UART=115200,0,0</code></td></tr>
+            <tr><td><strong>HC-06</strong></td><td>Classic SPP</td><td>9600</td><td>Any time while not paired</td><td>None</td><td><code>AT+BAUD8</code></td></tr>
+            <tr><td><strong>JDY-31</strong></td><td>Classic SPP</td><td>9600</td><td>Any time while not connected</td><td>CR + LF</td><td><code>AT+BAUD8</code></td></tr>
+            <tr><td><strong>JDY-33</strong></td><td>SPP + BLE</td><td>9600</td><td>Any time while not connected</td><td>CR + LF</td><td><code>AT+BAUD8</code></td></tr>
+            <tr><td><strong>JDY-23</strong></td><td>BLE 5.0</td><td>9600</td><td>Any time while not connected</td><td>CR + LF</td><td><code>AT+BAUD8</code></td></tr>
+        </table>
+        </div>
+        <ul>
+            <li><strong>HC-05:</strong> the AT mode always runs at 38400, whatever the data speed is. After setting the speed, power the module again <em>without</em> the KEY pin. Never put 5V on the KEY pin.</li>
+            <li><strong>HC-06:</strong> commands are uppercase and sent without a line ending. The module has a very short timeout, so send the whole command at once.</li>
+            <li><strong>JDY-31:</strong> a bare <code>AT</code> gets no answer. Test with <code>AT+VERSION</code> instead. If the new speed does not apply, power-cycle the module.</li>
+            <li><strong>JDY-33:</strong> its manual says continuous data above 38400 baud is not guaranteed. If frames get lost, use <code>AT+BAUD6</code> (38400) and set <code>UART_BAUD</code> to <code>38400u</code>.</li>
+            <li><strong>JDY-23:</strong> some units answer only to set commands, not to queries such as <code>AT+BAUD</code>.</li>
+        </ul>
+        <p style="font-size:0.9em;">The values come from the module datasheets. Clones can differ, so check the datasheet of your own module if a command is not accepted.</p>
+
+        <h3>First connection</h3>
+        <ol>
+            <li>Wire the module to the board: module TX to <strong>PA10</strong>, module RX to <strong>PA9</strong>. Remove the BOOT jumper and power the board.</li>
+            <li><strong>Classic SPP modules</strong> (HC-05, HC-06, JDY-31, JDY-33): pair them from your phone or PC (the PIN is usually 1234) and open a Bluetooth serial terminal app. <strong>BLE modules</strong> (JDY-23, or JDY-33 in BLE mode): connect from a BLE serial terminal app, no pairing in the system settings. iPhones support only the BLE type.</li>
+            <li>Send <code>INFO</code>. The controller answers with its status (<code>frames=.. ch=..</code>).</li>
+            <li>Send <code>01FF00000005wait</code> as one line. The first 6 LEDs of channel 1 should turn red and the controller answers <code>next</code>.</li>
+            <li>Use the Web Application below to generate full animations.</li>
+        </ol>
+
+        <div class="warning">
+            <h3>Nothing happens?</h3>
+            <p>The most common reason is a speed mismatch between the module and <code>UART_BAUD</code>. Also check that module TX goes to PA10 and module RX goes to PA9, and that the line ending of your terminal is set to newline.</p>
+        </div>
     </div>
 
     <h2>Command Protocol</h2>

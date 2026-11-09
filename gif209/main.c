@@ -1,6 +1,11 @@
 /* ============================================================
+ * GIF209 — Open Source STM32 LED Controller
+ * Author : Saeid Moghadam
+ * Version: 1.0 (2026)
+ * Web    : https://soifgo.github.io/gif209/gif209.html
+ *
  * GIF209 on STM32F030K6T6 (LQFP32) — 19 channels
- *   PA13/PA14 (SWD) are used as LED outputs (ch12/ch13), so SWD is NOT
+ *   PA13/PA14 (SWD) are used as LED outputs (ch3/ch4), so SWD is NOT
  *   available. Flash via the BOOT0 jumper + UART bootloader (PA9/PA10).
  *   Bluetooth (USART1) -> 19 x WS2812 channels, record/play from SD
  *
