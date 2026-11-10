@@ -361,6 +361,7 @@
     <p><strong>GIF209</strong> is a professional, open-source hardware controller based on the <strong>STM32F030K6T6</strong> ARM Cortex-M0 microcontroller. It is specifically designed to drive up to <strong>19 independent WS2812/WS2811 LED strips</strong> and features standalone animation recording and playback via an SD card.</p>
 
     <!-- ===== IMAGES (New Names) ===== -->
+       <img src="gif209_pcb.jpg" alt="GIF209 RGB Controller Module - STM32F030K6T6 with WS2812 LED strips" loading="lazy">
     <img src="gif209_pic.jpg" alt="GIF209 RGB Controller Module - STM32F030K6T6 with WS2812 LED strips" loading="lazy">
     <img src="gif209_board.png" alt="GIF209 PCB and schematic based on STM32F030K6T6" loading="lazy">
 
@@ -473,16 +474,16 @@
         <tr><th>Command</th><th>Description</th><th>Response</th></tr>
         <tr><td><code>wait</code></td><td>Clears untouched channels (used as a frame separator)</td><td><code>next</code></td></tr>
         <tr><td><code>wait=N</code></td><td>Clears untouched channels and waits N milliseconds</td><td><code>next</code></td></tr>
-        <tr><td><code>REC</code></td><td>Starts recording frames to the SD card</td><td><code>REC OK</code></td></tr>
-        <tr><td><code>END</code></td><td>Stops recording and saves the header</td><td><code>SAVED n</code></td></tr>
-        <tr><td><code>PLAY</code></td><td>Plays the recorded frames once</td><td><code>PLAY DONE</code></td></tr>
-        <tr><td><code>LOOP</code></td><td>Plays the recorded frames continuously (loop)</td><td><code>STOPPED</code></td></tr>
-        <tr><td><code>STOP</code></td><td>Stops playback or recording immediately</td><td><code>STOPPED</code></td></tr>
-        <tr><td><code>AUTO=0</code></td><td>Enables auto-loop on boot (Default)</td><td><code>OK AUTO=0</code></td></tr>
-        <tr><td><code>AUTO=1</code></td><td>Disables auto-loop (waits for user command)</td><td><code>OK AUTO=1</code></td></tr>
-        <tr><td><code>ERASE</code></td><td>Clears the recording header (frames=0)</td><td><code>ERASED</code></td></tr>
-        <tr><td><code>INFO</code></td><td>Shows current status (frames, channels, delay, auto)</td><td><code>frames=.. ch=..</code></td></tr>
-        <tr><td><code>DUMP</code></td><td>Sends raw data of all stored frames to terminal (for debugging)</td><td><code>HDR raw:...</code></td></tr>
+        <tr><td><code>REC</code></td><td>Starts recording frames to the SD card</td><td><code>REC OK</code>, then <code>next</code></td></tr>
+        <tr><td><code>END</code></td><td>Stops recording and saves the header</td><td><code>SAVED n</code>, then <code>next</code></td></tr>
+        <tr><td><code>PLAY</code></td><td>Plays the recorded frames once</td><td><code>PLAY DONE</code>, then <code>next</code></td></tr>
+        <tr><td><code>LOOP</code></td><td>Plays the recorded frames continuously (loop)</td><td>No reply while looping (it runs until <code>STOP</code>)</td></tr>
+        <tr><td><code>STOP</code></td><td>Stops playback or recording immediately</td><td><code>STOPPED</code>, then <code>next</code></td></tr>
+        <tr><td><code>AUTO=0</code></td><td>Enables auto-loop on boot (Default)</td><td><code>OK AUTO=0</code>, then <code>next</code></td></tr>
+        <tr><td><code>AUTO=1</code></td><td>Disables auto-loop (waits for user command)</td><td><code>OK AUTO=1</code>, then <code>next</code></td></tr>
+        <tr><td><code>ERASE</code></td><td>Clears the recording header (frames=0)</td><td><code>ERASED</code>, then <code>next</code></td></tr>
+        <tr><td><code>INFO</code></td><td>Shows current status (frames, channels, delay, auto)</td><td><code>frames=.. ch=..</code>, then <code>next</code></td></tr>
+        <tr><td><code>DUMP</code></td><td>Sends raw data of all stored frames to terminal (for debugging)</td><td><code>HDR raw:...</code>, then <code>next</code></td></tr>
     </table>
 
     <h2>Web Application</h2>
@@ -498,9 +499,22 @@
         <p style="font-size:0.9em; color:var(--muted);">GIF splitting needs a browser with ImageDecoder support (Chrome or Edge). In other browsers the GIF is added as a still image.</p>
     </div>
 
-    <h3>Using the Web App inside SoifGo</h3>
+    <h3>Using the Web App inside SoifGo: two ways to send</h3>
     <div class="card">
-        <p>To use this feature, the button behavior must be set to <strong>Note</strong>. Set up the Bluetooth sending once, then open the web app from the Note menu.</p>
+        <p>The same GIF209 web app can be used in SoifGo in <strong>two different ways</strong>. Both end with the same result: the hex commands reach the microcontroller over Bluetooth, one line at a time, and the microcontroller answers <code>next</code> after every line.</p>
+        <table>
+            <tr><th></th><th>Method 1: Note out</th><th>Method 2: Direct send</th></tr>
+            <tr><td><strong>Button behavior</strong></td><td><strong>Note</strong></td><td><strong>Browser or HTML File</strong> (HTML file / Offline)</td></tr>
+            <tr><td><strong>Web app opened from</strong></td><td>The Note menu (<strong>GIF209</strong>, at the end of the list)</td><td>The WebView itself (from the <strong>Samples</strong> list)</td></tr>
+            <tr><td><strong>Send button in the app</strong></td><td>📝 <strong>Send</strong> (puts the code into the Note)</td><td><strong>Direct</strong> with the Bluetooth icon (sends straight to Bluetooth)</td></tr>
+            <tr><td><strong>Who sends the lines</strong></td><td>The Note, with <strong>Export</strong> (Bluetooth Send)</td><td>The web app, with the SoifGo Bluetooth bridge</td></tr>
+            <tr><td><strong>Best for</strong></td><td>Saving, editing and archiving the code</td><td>Quick and simple sending</td></tr>
+        </table>
+    </div>
+
+    <h3>Method 1: Note out (through a Note)</h3>
+    <div class="card">
+        <p>To use this method, the button behavior must be set to <strong>Note</strong>. Set up the Bluetooth sending once, then open the web app from the Note menu.</p>
         <ol>
             <li>Set the button behavior to <strong>Note</strong>, and bring the Note into <strong>Play</strong> mode.</li>
             <li>From the Note menu choose <strong>Note out</strong>, then choose <strong>Bluetooth Send</strong>. The <strong>Export</strong> option now appears in green at the top of the page.</li>
@@ -513,15 +527,44 @@
                 </ul>
             </li>
             <li>Open the Note menu, scroll to the end of the list and tap <strong>GIF209</strong>, then tap <strong>Edit</strong>. The GIF209 web app opens with three tabs: <strong>Image Converter</strong>, <strong>Pixel Editor</strong> and <strong>Text &amp; FX</strong>. Each tab has its own tools.</li>
-            <li>After you finish your design, <strong>scroll to the end of the page</strong> and tap <strong>Send</strong> to place the generated code into the Note.</li>
+            <li>After you finish your design, <strong>scroll to the end of the page</strong> and tap <strong>📝 Send</strong> to place the generated code into the Note.</li>
             <li>Close the web app with the <strong>yellow X</strong> to go back to the Note.</li>
             <li>Tap <strong>Export</strong> at the top of the page to start sending the data to the microcontroller over Bluetooth. Watch the percentage: you may need to tap Export several times until the progress reaches the end.</li>
         </ol>
+        <p><strong>Why use it:</strong> the code lives in the Note as plain text, so you have full control over it:</p>
+        <ul>
+            <li>You can <strong>edit the lines by hand</strong> and set the <code>wait=N</code> delays yourself.</li>
+            <li>The Note files are saved in the <strong>SoifGo / Note</strong> folder of the phone. You can <strong>archive them, back them up and copy them to a computer</strong>, edit them there with any other tool, and bring them back.</li>
+            <li>Because the file is kept, you can send the same animation again later without opening the web app.</li>
+        </ul>
+    </div>
+
+    <h3>Method 2: Direct send (straight to Bluetooth)</h3>
+    <div class="card">
+        <p>Here the web app runs <strong>inside a normal SoifGo WebView button</strong>, with no Note. Use the <strong>Direct</strong> button, which sends the code straight to Bluetooth.</p>
+        <ol>
+            <li>Select a button and set its behavior to <strong>Browser or HTML File</strong>, then choose <strong>HTML file</strong> (Offline).</li>
+            <li>In the list of reload options choose <strong>Samples</strong>, then choose <strong>GIF209</strong>.</li>
+            <li>Go to <strong>Play</strong> and make sure the Bluetooth module is connected.</li>
+            <li>Tap the button. The GIF209 web app opens in the WebView.</li>
+            <li>Design your animation (Image Converter, Pixel Editor or Text &amp; FX). When it is ready, <strong>scroll to the end of the page</strong> and tap <strong>Direct</strong> (the button with the Bluetooth icon) instead of Send.</li>
+            <li>The app sends the code to the microcontroller <strong>line by line</strong>. After every line it waits for the word <code>next</code> from the microcontroller, then sends the following line. A progress bar and the number of the current line are shown, and the button changes to <strong>Stop</strong>, so you can stop the transfer at any time.</li>
+        </ol>
+        <p><strong>Why use it:</strong> it is the easiest way. There are no Note settings, no Export and no need to tap several times: one tap and the code is on its way.</p>
+        <p>The transfer stops with a message if <code>next</code> does not arrive within about 10 seconds (for example when Bluetooth is disconnected) or if the controller reports an error such as <code>write error</code> or <code>SD not ready</code>. When the code ends with <code>LOOP</code>, the app finishes right after sending it, because the controller then plays in a loop until it receives <code>STOP</code>.</p>
+        <p>This method needs firmware that answers <code>next</code> after every line, including <code>STOP</code>, <code>REC</code> and <code>END</code>. This is already described in the Command Protocol table above.</p>
+    </div>
+
+    <h3>Why two methods?</h3>
+    <div class="card">
+        <p><strong>Note out</strong> gives you more control and flexibility. You can set the waits by hand, edit the files, change them on a computer, and keep them: the Notes in the SoifGo / Note folder can be <strong>archived, saved and backed up</strong>. Archiving and backup are part of what Note out is made for.</p>
+        <p><strong>Direct send</strong> makes the work simpler. It sends to Bluetooth straight from the web app and avoids the extra steps and the complexity of Note out.</p>
+        <p>Choose Note out when you want to keep, edit or reuse the code. Choose Direct send when you just want to send the animation quickly.</p>
     </div>
 
     <h3>WS2811 strips</h3>
     <div class="card">
-        <p>With WS2811 strips, two colors (green and blue) can appear swapped compared to the design. This is normal for this type of strip and is <strong>not a fault</strong>, so there is nothing to worry about. In the web app inside SoifGo, simply tick the <strong>RBG (WS2811)</strong> option so the generated file matches your strip, then send it again.</p>
+        <p>With WS2811 strips, two colors (green and blue) can appear swapped compared to the design. This is normal for this type of strip and is <strong>not a fault</strong>, so there is nothing to worry about. In the web app inside SoifGo (with either method), simply tick the <strong>RBG (WS2811)</strong> option so the generated file matches your strip, then send it again.</p>
     </div>
 
     <h2>Safety Warning</h2>

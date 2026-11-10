@@ -793,6 +793,7 @@ static void handle_line(uint16_t len)
     if (is_cmd(line, len, "STOP")) {
         Bluetooth_SendString("STOPPED\r\n");
         recording = 0;
+        Bluetooth_SendString("next\r\n");   /* ack, so the phone can send the next line */
         return;
     }
 
@@ -853,12 +854,14 @@ static void handle_line(uint16_t len)
             else Bluetooth_SendString(" (OFF)");
             Bluetooth_SendString("\r\n");
         }
+        Bluetooth_SendString("next\r\n");   /* ack for REC / END / PLAY / LOOP(after STOP) / INFO / ERASE / DUMP */
         return;
     }
 
     if (has_str((const char *)line, "DUMP=")) {
         uint32_t v = read_num_after((const char *)line, "DUMP=");
         do_dump((uint16_t)v);
+        Bluetooth_SendString("next\r\n");
         return;
     }
 
@@ -871,6 +874,7 @@ static void handle_line(uint16_t len)
             Bluetooth_SendNum(nch);
             Bluetooth_SendString("\r\n");
         }
+        Bluetooth_SendString("next\r\n");
         return;
     }
 
@@ -880,6 +884,7 @@ static void handle_line(uint16_t len)
         Bluetooth_SendString("OK DELAY=");
         Bluetooth_SendNum(play_delay);
         Bluetooth_SendString("\r\n");
+        Bluetooth_SendString("next\r\n");
         return;
     }
 
@@ -890,6 +895,7 @@ static void handle_line(uint16_t len)
         Bluetooth_SendString("OK AUTO=");
         Bluetooth_SendNum(auto_play);
         Bluetooth_SendString("\r\n");
+        Bluetooth_SendString("next\r\n");
         return;
     }
 
