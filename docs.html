@@ -584,7 +584,7 @@
         <strong>📄 Also available:</strong>
         <ul style="margin-top:6px;">
           <li><a href="https://soifgo.github.io/llms.txt"><code>llms.txt</code></a> — quick index for AI assistants</li>
-          <li><a href="https://soifgo.github.io/serial_voice/serial_voice_tutorials.html">Voice → Serial Bluetooth Tutorial</a> — speech recognition with 22 languages</li>
+          <li><a href="https://soifgo.github.io/serial_voice/serial_voice_tutorials.html">Voice → Serial Bluetooth Tutorial</a> — speech recognition with 47 languages</li>
         </ul>
       </div>
 
@@ -1013,6 +1013,7 @@ localStorage.removeItem('my_key');</code></pre>
   (function() {
     'use strict';
 
+    var TRANSLATE_ID = { spanish_latam: 'spanish' };
     var LANGUAGES = {
       'english': { label: 'English', dir: 'ltr' },
       'spanish': { label: 'Español', dir: 'ltr' },
@@ -1035,7 +1036,32 @@ localStorage.removeItem('my_key');</code></pre>
       'indonesian': { label: 'Bahasa Indonesia', dir: 'ltr' },
       'tamil': { label: 'தமிழ்', dir: 'ltr' },
       'thai': { label: 'ไทย', dir: 'ltr' },
-      'swahili': { label: 'Swahili', dir: 'ltr' }
+      'swahili': { label: 'Swahili', dir: 'ltr' },
+      'vietnamese': { label: 'Tiếng Việt', dir: 'ltr' },
+      'hausa': { label: 'Hausa', dir: 'ltr' },
+      'gujarati': { label: 'ગુજરાતી', dir: 'ltr' },
+      'javanese': { label: 'Basa Jawa', dir: 'ltr' },
+      'polish': { label: 'Polski', dir: 'ltr' },
+      'dutch': { label: 'Nederlands', dir: 'ltr' },
+      'filipino': { label: 'Filipino', dir: 'ltr' },
+      'pashto': { label: 'پښتو', dir: 'rtl' },
+      'ukrainian': { label: 'Українська', dir: 'ltr' },
+      'romanian': { label: 'Română', dir: 'ltr' },
+      'czech': { label: 'Čeština', dir: 'ltr' },
+      'hungarian': { label: 'Magyar', dir: 'ltr' },
+      'swedish': { label: 'Svenska', dir: 'ltr' },
+      'norwegian': { label: 'Norsk', dir: 'ltr' },
+      'danish': { label: 'Dansk', dir: 'ltr' },
+      'greek': { label: 'Ελληνικά', dir: 'ltr' },
+      'azerbaijani': { label: 'Azərbaycanca', dir: 'ltr' },
+      'armenian': { label: 'Հայերեն', dir: 'ltr' },
+      'georgian': { label: 'ქართული', dir: 'ltr' },
+      'malay': { label: 'Melayu', dir: 'ltr' },
+      'bulgarian': { label: 'Български', dir: 'ltr' },
+      'serbian': { label: 'Srpski', dir: 'ltr' },
+      'afrikaans': { label: 'Afrikaans', dir: 'ltr' },
+      'amharic': { label: 'Amharic', dir: 'ltr' },
+      'spanish_latam': { label: 'Español (Latinoamérica)', dir: 'ltr' }
     };
 
     var DEFAULT_LANG = 'english';
@@ -1116,7 +1142,7 @@ localStorage.removeItem('my_key');</code></pre>
         var channel = FALLBACK_CHANNELS[index];
         applyChannel(channel);
 
-        translate.changeLanguage(langCode);
+        translate.changeLanguage(TRANSLATE_ID[langCode] || langCode);
         if (typeof translate.execute === 'function') {
           translate.execute();
         }

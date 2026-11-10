@@ -581,7 +581,7 @@
                 &lt;option value="tr-TR"&gt;Türkçe&lt;/option&gt;
                 &lt;option value="ko-KR"&gt;한국어&lt;/option&gt;
                 &lt;option value="pt-BR"&gt;Português&lt;/option&gt;
-                &lt;option value="he-IL"&gt;עبریת&lt;/option&gt;
+                &lt;option value="he-IL"&gt;עברית&lt;/option&gt;
                 &lt;option value="ku-IQ"&gt;کوردی&lt;/option&gt;
                 &lt;option value="ur-PK"&gt;اردو&lt;/option&gt;
                 &lt;option value="bn-BD"&gt;বাংলা&lt;/option&gt;
@@ -589,6 +589,31 @@
                 &lt;option value="ta-IN"&gt;தமிழ்&lt;/option&gt;
                 &lt;option value="th-TH"&gt;ไทย&lt;/option&gt;
                 &lt;option value="sw-KE"&gt;Swahili&lt;/option&gt;
+                &lt;option value="vi-VN"&gt;Tiếng Việt&lt;/option&gt;
+                &lt;option value="ha-NG"&gt;Hausa&lt;/option&gt;
+                &lt;option value="gu-IN"&gt;ગુજરાતી&lt;/option&gt;
+                &lt;option value="jv-ID"&gt;Basa Jawa&lt;/option&gt;
+                &lt;option value="pl-PL"&gt;Polski&lt;/option&gt;
+                &lt;option value="nl-NL"&gt;Nederlands&lt;/option&gt;
+                &lt;option value="fil-PH"&gt;Filipino&lt;/option&gt;
+                &lt;option value="ps-AF"&gt;پښتو&lt;/option&gt;
+                &lt;option value="uk-UA"&gt;Українська&lt;/option&gt;
+                &lt;option value="ro-RO"&gt;Română&lt;/option&gt;
+                &lt;option value="cs-CZ"&gt;Čeština&lt;/option&gt;
+                &lt;option value="hu-HU"&gt;Magyar&lt;/option&gt;
+                &lt;option value="sv-SE"&gt;Svenska&lt;/option&gt;
+                &lt;option value="nb-NO"&gt;Norsk&lt;/option&gt;
+                &lt;option value="da-DK"&gt;Dansk&lt;/option&gt;
+                &lt;option value="el-GR"&gt;Ελληνικά&lt;/option&gt;
+                &lt;option value="az-AZ"&gt;Azərbaycanca&lt;/option&gt;
+                &lt;option value="hy-AM"&gt;Հայերեն&lt;/option&gt;
+                &lt;option value="ka-GE"&gt;ქართული&lt;/option&gt;
+                &lt;option value="ms-MY"&gt;Melayu&lt;/option&gt;
+                &lt;option value="bg-BG"&gt;Български&lt;/option&gt;
+                &lt;option value="sr-RS"&gt;Srpski&lt;/option&gt;
+                &lt;option value="af-ZA"&gt;Afrikaans&lt;/option&gt;
+                &lt;option value="am-ET"&gt;Amharic&lt;/option&gt;
+                &lt;option value="es-419"&gt;Español (Latinoamérica)&lt;/option&gt;
             &lt;/select&gt;
         &lt;/div&gt;
 
@@ -781,14 +806,15 @@ window.html_bluetooth_tx = html_bluetooth_tx;  // register globally</pre>
 <h2>🌐 Supported Languages</h2>
 
 <p>
-  The page includes a language selector with 22 languages. Changing the language
+  The page includes a language selector with 47 languages. Changing the language
   restarts speech recognition with the new locale automatically:
 </p>
 
 <p style="font-size:0.9rem; color:var(--text-muted); text-align:center;">
   English · Español · 简体中文 · Français · Deutsch · 日本語 · Русский · العربية · فارسی ·
   Italiano · हिन्दी · Türkçe · 한국어 · Português · עברית · کوردی · اردو · বাংলা ·
-  Bahasa Indonesia · தமிழ் · ไทย · Swahili
+  Bahasa Indonesia · தமிழ் · ไทย · Swahili ·
+  Tiếng Việt · Hausa · ગુજરાતી · Basa Jawa · Polski · Nederlands · Filipino · پښتو · Українська · Română · Čeština · Magyar · Svenska · Norsk · Dansk · Ελληνικά · Azərbaycanca · Հայերեն · ქართული · Melayu · Български · Srpski · Afrikaans · Amharic · Español (Latinoamérica)
 </p>
 
 <h2>📌 Important Notes</h2>
@@ -959,6 +985,7 @@ void handleCommand(String cmd) {
 (function() {
   'use strict';
 
+  var TRANSLATE_ID = { spanish_latam: 'spanish' };
   var LANGUAGES = {
     'english': { label: 'English', dir: 'ltr' },
     'spanish': { label: 'Español', dir: 'ltr' },
@@ -981,7 +1008,32 @@ void handleCommand(String cmd) {
     'indonesian': { label: 'Bahasa Indonesia', dir: 'ltr' },
     'tamil': { label: 'தமிழ்', dir: 'ltr' },
     'thai': { label: 'ไทย', dir: 'ltr' },
-    'swahili': { label: 'Swahili', dir: 'ltr' }
+    'swahili': { label: 'Swahili', dir: 'ltr' },
+    'vietnamese': { label: 'Tiếng Việt', dir: 'ltr' },
+    'hausa': { label: 'Hausa', dir: 'ltr' },
+    'gujarati': { label: 'ગુજરાતી', dir: 'ltr' },
+    'javanese': { label: 'Basa Jawa', dir: 'ltr' },
+    'polish': { label: 'Polski', dir: 'ltr' },
+    'dutch': { label: 'Nederlands', dir: 'ltr' },
+    'filipino': { label: 'Filipino', dir: 'ltr' },
+    'pashto': { label: 'پښتو', dir: 'rtl' },
+    'ukrainian': { label: 'Українська', dir: 'ltr' },
+    'romanian': { label: 'Română', dir: 'ltr' },
+    'czech': { label: 'Čeština', dir: 'ltr' },
+    'hungarian': { label: 'Magyar', dir: 'ltr' },
+    'swedish': { label: 'Svenska', dir: 'ltr' },
+    'norwegian': { label: 'Norsk', dir: 'ltr' },
+    'danish': { label: 'Dansk', dir: 'ltr' },
+    'greek': { label: 'Ελληνικά', dir: 'ltr' },
+    'azerbaijani': { label: 'Azərbaycanca', dir: 'ltr' },
+    'armenian': { label: 'Հայերեն', dir: 'ltr' },
+    'georgian': { label: 'ქართული', dir: 'ltr' },
+    'malay': { label: 'Melayu', dir: 'ltr' },
+    'bulgarian': { label: 'Български', dir: 'ltr' },
+    'serbian': { label: 'Srpski', dir: 'ltr' },
+    'afrikaans': { label: 'Afrikaans', dir: 'ltr' },
+    'amharic': { label: 'Amharic', dir: 'ltr' },
+    'spanish_latam': { label: 'Español (Latinoamérica)', dir: 'ltr' }
   };
 
   var DEFAULT_LANG = 'english';
@@ -1062,7 +1114,7 @@ void handleCommand(String cmd) {
       var channel = FALLBACK_CHANNELS[index];
       applyChannel(channel);
 
-      translate.changeLanguage(langCode);
+      translate.changeLanguage(TRANSLATE_ID[langCode] || langCode);
       if (typeof translate.execute === 'function') {
         translate.execute();
       }

@@ -1,7 +1,7 @@
 {
   "$schema_note": "Machine-readable summary of the SoifGo WebView bridge. Source of truth: https://soifgo.github.io/SOIFGO_AI_CONTEXT.md (Sections 3-6, 8, 9). If this file and the Markdown disagree, the Markdown wins.",
   "name": "SoifGo WebView bridge",
-  "soifgo_version": "1.43",
+  "soifgo_version": "1.46",
   "spec_revision": 1,
   "namespace": "window.soifgo",
   "call_syntax": "window.soifgo.CallSub(subName, true, arg1?, arg2?, arg3?)",

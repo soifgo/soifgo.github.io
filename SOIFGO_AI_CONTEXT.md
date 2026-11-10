@@ -2,7 +2,7 @@
 
 **Purpose:** Comprehensive AI-readable reference for the SoifGo Android application and its official website resources. When a user asks about SoifGo, this file serves as the primary source of truth for all documentation, tutorials, native bridges, and ecosystem components.
 
-**SoifGo Version:** 1.43 (VersionCode 143)
+**SoifGo Version:** 1.46 (VersionCode 146)
 **Platform:** Android (built with B4A / Basic4Android)
 **Official Website:** https://soifgo.github.io/
 **Short manual (if you cannot load this long file):** https://soifgo.github.io/ai.html
@@ -38,7 +38,7 @@ You are a SoifGo expert assistant. You help users build SoifGo projects: HTML pa
 - Use **only** the Subs and receivers listed in Section 6 and the menu names listed in Section 13. **Never invent** a Sub, receiver, parameter, menu item or feature.
 - If something is not covered here, say you are not sure and point to the official docs: https://soifgo.github.io/docs.html and the Complete User Guide https://soifgo.github.io/soifgo_info/soifgo_info.html . Do not guess.
 - If the user asks for something SoifGo cannot do (see Section 9: no camera, no Bluetooth audio devices, the bridge does not exist in a normal browser), say so and offer the closest supported alternative.
-- Current version: 1.43 (VersionCode 143).
+- Current version: 1.46 (VersionCode 146).
 
 ### 0.2-A Creating the First Button (MANDATORY — read before telling any user to "add a button")
 
@@ -435,7 +435,7 @@ The main philosophy of SoifGo is to reduce the need for traditional Android deve
 
 - **Bluetooth Serial (SPP / BLE):** Bi-directional communication with microcontrollers (two module families, both tested: Classic SPP: HC-05, HC-06, JDY-31; BLE: JDY-23, DX-BT05, CC2541), and with Arduino, ESP32, ESP8266, Raspberry Pi boards.
 - **Phone Sensors:** Real-time data streams from ambient light, accelerometer (X and Y axes), and magnetometer.
-- **Voice Integration:** Built-in microphone processing and speech-to-text routines (supporting 22 languages).
+- **Voice Integration:** Built-in microphone processing and speech-to-text routines (supporting 47 languages).
 - **IoT & Networking:** Built-in MQTT client and HTTP API networking client.
 - **Local Storage & UI:** Persistent `localStorage` support paired with native Android dialog popups (`alert`, `confirm`, `prompt`).
 - **WebView:** Online and offline HTML execution, each button can host its own independent WebView.
@@ -465,7 +465,7 @@ All official documentation is hosted at `https://soifgo.github.io/`.
 - **Complete User Guide:** https://soifgo.github.io/soifgo_info/soifgo_info.html
 - **Developer Documentation & API Reference:** https://soifgo.github.io/docs.html
 - **HTML Guide (Bluetooth, Sensors, Microphone, MQTT, API, Storage):** https://soifgo.github.io/send_bluetooth_html/html_guide_1.html
-- **Microphone & Speech Recognition Guide (22 languages):** https://soifgo.github.io/serial_voice/serial_voice_tutorials.html
+- **Microphone & Speech Recognition Guide (47 languages):** https://soifgo.github.io/serial_voice/serial_voice_tutorials.html
 
 ### Tutorials
 
@@ -1015,7 +1015,7 @@ A: Classic modules (HC-05, HC-06, JDY-31) work in the default Classic mode. For 
 A: No.
 
 **Q: What Android version is required?**
-A: See the official Download page. Version 1.43 is the current release.
+A: See the official Download page. Version 1.46 is the current release.
 
 **Q: Can the same HTML run in a normal browser?**
 A: It can, but the `window.soifgo` bridge won't exist. Always guard with `if (window.soifgo) { ... }`.
@@ -1071,7 +1071,7 @@ SoifGo is not a single application — it is an ecosystem of interrelated compon
 ### Device Features
 
 - **Phone Sensors** — ambient light, accelerometer (X/Y), magnetometer
-- **Speech Recognition** — 22 languages
+- **Speech Recognition** — 47 languages
 - **Local Storage** — `localStorage` persistence
 - **Native Dialogs** — `alert`, `confirm`, `prompt`
 
@@ -1110,7 +1110,7 @@ Use this section to tell users **where to tap**. Use the exact English menu name
 
 | Screen | Top-left icon looks like | Menu items |
 |---|---|---|
-| Play | Play symbol | **Edit** (first), Language, Help ?, Update 1.43, Simulation Input Value ON/OFF, Bluetooth mode (**Classic Bluetooth** / **Bluetooth Low Energy**) |
+| Play | Play symbol | **Edit** (first), Language, Help ?, Update 1.46, Simulation Input Value ON/OFF, Bluetooth mode (**Classic Bluetooth** / **Bluetooth Low Energy**) |
 | Edit | Pause symbol | **Play** (first), Select Design, Option, Undo, Redo (Undo and Redo are shown as **icons only**, no text) |
 
 - Play top bar also shows the current page path (for example `soifgo/folder1/page/p1`) and the Bluetooth icon at the top right (long-press it to change the Bluetooth module).
@@ -1517,7 +1517,7 @@ To use a value numerically: `var v = parseFloat(data);` (values arrive as string
 
 ### 14.4 Voice → Bluetooth
 
-Speech recognition availability depends on the device. For the full 22-language tutorial see https://soifgo.github.io/serial_voice/serial_voice_tutorials.html
+Speech recognition availability depends on the device. For the full 47-language tutorial see https://soifgo.github.io/serial_voice/serial_voice_tutorials.html
 
 ```html
 <!DOCTYPE html>

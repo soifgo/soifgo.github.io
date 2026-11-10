@@ -41,7 +41,7 @@ If you cannot open or load the long Markdown file, use the short HTML manual ins
 - [AI Context (Markdown)](https://soifgo.github.io/SOIFGO_AI_CONTEXT.md): Complete AI reference. Covers the bridge, Bluetooth send and receive, sensors, microphone permission, MQTT, API, storage, known limitations, and common mistakes. Also covers the app's Edit/Play interface and a start procedure. Load this file first when answering questions about SoifGo.
 - [Bridge Spec (JSON)](https://soifgo.github.io/soifgo-bridge.json): Machine-readable list of all 12 Subs (exact argument counts) and 8 receivers, plus rules and limitations. Use it to validate generated code. If it ever disagrees with the AI Context file, the AI Context file wins.
 - [HTML + Bluetooth + Sensors Tutorial](https://soifgo.github.io/send_bluetooth_html/html_guide_1.html): Official tutorial containing the real Sub API and working code examples.
-- [Voice to Serial Bluetooth Tutorial](https://soifgo.github.io/serial_voice/serial_voice_tutorials.html): Microphone permission, speech recognition, 22 languages, and voice-to-Bluetooth pipeline.
+- [Voice to Serial Bluetooth Tutorial](https://soifgo.github.io/serial_voice/serial_voice_tutorials.html): Microphone permission, speech recognition, 47 languages, and voice-to-Bluetooth pipeline.
 
 ## Guides
 

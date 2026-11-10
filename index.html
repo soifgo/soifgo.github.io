@@ -45,6 +45,9 @@
   <link rel="alternate" hreflang="id" href="https://soifgo.github.io/intro/id/" />
   <link rel="alternate" hreflang="tr" href="https://soifgo.github.io/intro/tr/" />
   <link rel="alternate" hreflang="sw" href="https://soifgo.github.io/intro/sw/" />
+  <link rel="alternate" hreflang="vi" href="https://soifgo.github.io/intro/vi/" />
+  <link rel="alternate" hreflang="pl" href="https://soifgo.github.io/intro/pl/" />
+  <link rel="alternate" hreflang="uk" href="https://soifgo.github.io/intro/uk/" />
 
   <!-- ============ FAVICON ============ -->
   <link rel="icon" type="image/png" href="/favicon-96x96.png?v=2" sizes="96x96" />
@@ -116,7 +119,7 @@
     "downloadUrl": "https://soifgo.github.io/soifgo.zip",
     "installUrl": "https://apkpure.com/soifgo/soifgo.saeidmoghadam",
     "softwareHelp": "https://soifgo.github.io/docs.html",
-    "softwareVersion": "1.43",
+    "softwareVersion": "1.46",
     "datePublished": "2025-01-01",
     "dateModified": "2026-10-25",
     "inLanguage": ["en","es","zh-CN","fr","de","ja","ru","ar","fa","it","hi","tr","ko","pt","he","ckb","ur","bn","id","ta","th","sw"],
@@ -1344,7 +1347,7 @@
 
       <ul>
         <li><a href="https://apkpure.com/soifgo/soifgo.saeidmoghadam" target="_blank" rel="noopener noreferrer">Download from APKPure</a></li>
-        <li><a href="soifgo.zip">Download SoifGo v1.43 (ZIP Package)</a></li>
+        <li><a href="soifgo.zip">Download SoifGo v1.46 (ZIP Package)</a></li>
       </ul>
 
       <div class="security-box">
@@ -2216,7 +2219,7 @@ window.api_rx = api_rx;</code></pre><br>
     </section>
 
     <section id="languages" class="ignore">
-      <h2>🌐 SoifGo — 22 languages</h2>
+      <h2>🌐 SoifGo — 47 languages</h2>
 
       <p class="lang-links">
         <a href="intro/en/" hreflang="en" lang="en">English</a>
@@ -2241,6 +2244,9 @@ window.api_rx = api_rx;</code></pre><br>
         <a href="intro/id/" hreflang="id" lang="id">Bahasa Indonesia</a>
         <a href="intro/tr/" hreflang="tr" lang="tr">Türkçe</a>
         <a href="intro/sw/" hreflang="sw" lang="sw">Kiswahili</a>
+        <a href="intro/vi/" hreflang="vi" lang="vi">Tiếng Việt</a>
+        <a href="intro/pl/" hreflang="pl" lang="pl">Polski</a>
+        <a href="intro/uk/" hreflang="uk" lang="uk">Українська</a>
       </p>
     </section>
 
@@ -2395,6 +2401,7 @@ window.api_rx = api_rx;</code></pre><br>
   (function() {
     'use strict';
 
+    var TRANSLATE_ID = { spanish_latam: 'spanish' };
     var LANGUAGES = {
       'english': { label: 'English', dir: 'ltr' },
       'spanish': { label: 'Español', dir: 'ltr' },
@@ -2417,7 +2424,32 @@ window.api_rx = api_rx;</code></pre><br>
       'indonesian': { label: 'Bahasa Indonesia', dir: 'ltr' },
       'tamil': { label: 'தமிழ்', dir: 'ltr' },
       'thai': { label: 'ไทย', dir: 'ltr' },
-      'swahili': { label: 'Swahili', dir: 'ltr' }
+      'swahili': { label: 'Swahili', dir: 'ltr' },
+      'vietnamese': { label: 'Tiếng Việt', dir: 'ltr' },
+      'hausa': { label: 'Hausa', dir: 'ltr' },
+      'gujarati': { label: 'ગુજરાતી', dir: 'ltr' },
+      'javanese': { label: 'Basa Jawa', dir: 'ltr' },
+      'polish': { label: 'Polski', dir: 'ltr' },
+      'dutch': { label: 'Nederlands', dir: 'ltr' },
+      'filipino': { label: 'Filipino', dir: 'ltr' },
+      'pashto': { label: 'پښتو', dir: 'rtl' },
+      'ukrainian': { label: 'Українська', dir: 'ltr' },
+      'romanian': { label: 'Română', dir: 'ltr' },
+      'czech': { label: 'Čeština', dir: 'ltr' },
+      'hungarian': { label: 'Magyar', dir: 'ltr' },
+      'swedish': { label: 'Svenska', dir: 'ltr' },
+      'norwegian': { label: 'Norsk', dir: 'ltr' },
+      'danish': { label: 'Dansk', dir: 'ltr' },
+      'greek': { label: 'Ελληνικά', dir: 'ltr' },
+      'azerbaijani': { label: 'Azərbaycanca', dir: 'ltr' },
+      'armenian': { label: 'Հայերեն', dir: 'ltr' },
+      'georgian': { label: 'ქართული', dir: 'ltr' },
+      'malay': { label: 'Melayu', dir: 'ltr' },
+      'bulgarian': { label: 'Български', dir: 'ltr' },
+      'serbian': { label: 'Srpski', dir: 'ltr' },
+      'afrikaans': { label: 'Afrikaans', dir: 'ltr' },
+      'amharic': { label: 'Amharic', dir: 'ltr' },
+      'spanish_latam': { label: 'Español (Latinoamérica)', dir: 'ltr' }
     };
 
     var DEFAULT_LANG = 'english';
@@ -2510,7 +2542,7 @@ window.api_rx = api_rx;</code></pre><br>
         var channel = FALLBACK_CHANNELS[index];
         applyChannel(channel);
 
-        translate.changeLanguage(langCode);
+        translate.changeLanguage(TRANSLATE_ID[langCode] || langCode);
         if (typeof translate.execute === 'function') {
           translate.execute();
         }
