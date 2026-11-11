@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="fil" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Theme boot: same storage key as the main page, so the choice is shared -->
+  <script>
+    (function () {
+      var t = 'dark';
+      try { var s = localStorage.getItem('soifgo-theme'); if (s === 'light' || s === 'dark') { t = s; } } catch (e) {}
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <!-- ============ PRIMARY SEO ============ -->
+  <title>SoifGo — ang pinakamadaling paraan para gumawa ng mga Android app, gamit ang tulong ng AI at walang mahirap na programming</title>
+  <meta name="description" content="Sabihin sa AI assistant ang iyong ideya, kunin ang HTML code, at patakbuhin ito sa SoifGo. Libre at hindi nangangailangan ng propesyonal na kaalaman sa programming." />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
+
+  <!-- ============ CANONICAL & HREFLANG ============ -->
+  <link rel="canonical" href="https://soifgo.github.io/intro/fil/" />
+  <link rel="alternate" hreflang="x-default" href="https://soifgo.github.io/" />
+  <link rel="alternate" hreflang="en" href="https://soifgo.github.io/intro/en/" />
+  <link rel="alternate" hreflang="fa" href="https://soifgo.github.io/intro/fa/" />
+  <link rel="alternate" hreflang="ar" href="https://soifgo.github.io/intro/ar/" />
+  <link rel="alternate" hreflang="he" href="https://soifgo.github.io/intro/he/" />
+  <link rel="alternate" hreflang="ur" href="https://soifgo.github.io/intro/ur/" />
+  <link rel="alternate" hreflang="ckb" href="https://soifgo.github.io/intro/ckb/" />
+  <link rel="alternate" hreflang="es" href="https://soifgo.github.io/intro/es/" />
+  <link rel="alternate" hreflang="fr" href="https://soifgo.github.io/intro/fr/" />
+  <link rel="alternate" hreflang="de" href="https://soifgo.github.io/intro/de/" />
+  <link rel="alternate" hreflang="it" href="https://soifgo.github.io/intro/it/" />
+  <link rel="alternate" hreflang="pt" href="https://soifgo.github.io/intro/pt/" />
+  <link rel="alternate" hreflang="ru" href="https://soifgo.github.io/intro/ru/" />
+  <link rel="alternate" hreflang="zh-CN" href="https://soifgo.github.io/intro/zh/" />
+  <link rel="alternate" hreflang="ja" href="https://soifgo.github.io/intro/ja/" />
+  <link rel="alternate" hreflang="ko" href="https://soifgo.github.io/intro/ko/" />
+  <link rel="alternate" hreflang="hi" href="https://soifgo.github.io/intro/hi/" />
+  <link rel="alternate" hreflang="bn" href="https://soifgo.github.io/intro/bn/" />
+  <link rel="alternate" hreflang="ta" href="https://soifgo.github.io/intro/ta/" />
+  <link rel="alternate" hreflang="th" href="https://soifgo.github.io/intro/th/" />
+  <link rel="alternate" hreflang="id" href="https://soifgo.github.io/intro/id/" />
+  <link rel="alternate" hreflang="tr" href="https://soifgo.github.io/intro/tr/" />
+  <link rel="alternate" hreflang="sw" href="https://soifgo.github.io/intro/sw/" />
+  <link rel="alternate" hreflang="az" href="https://soifgo.github.io/intro/az/" />
+  <link rel="alternate" hreflang="ms" href="https://soifgo.github.io/intro/ms/" />
+  <link rel="alternate" hreflang="bg" href="https://soifgo.github.io/intro/bg/" />
+  <link rel="alternate" hreflang="sr" href="https://soifgo.github.io/intro/sr/" />
+  <link rel="alternate" hreflang="no" href="https://soifgo.github.io/intro/no/" />
+  <link rel="alternate" hreflang="da" href="https://soifgo.github.io/intro/da/" />
+  <link rel="alternate" hreflang="el" href="https://soifgo.github.io/intro/el/" />
+  <link rel="alternate" hreflang="ro" href="https://soifgo.github.io/intro/ro/" />
+  <link rel="alternate" hreflang="hu" href="https://soifgo.github.io/intro/hu/" />
+  <link rel="alternate" hreflang="sv" href="https://soifgo.github.io/intro/sv/" />
+  <link rel="alternate" hreflang="nl" href="https://soifgo.github.io/intro/nl/" />
+  <link rel="alternate" hreflang="cs" href="https://soifgo.github.io/intro/cs/" />
+  <link rel="alternate" hreflang="vi" href="https://soifgo.github.io/intro/vi/" />
+  <link rel="alternate" hreflang="pl" href="https://soifgo.github.io/intro/pl/" />
+  <link rel="alternate" hreflang="uk" href="https://soifgo.github.io/intro/uk/" />
+  <link rel="alternate" hreflang="af" href="https://soifgo.github.io/intro/af/" />
+  <link rel="alternate" hreflang="es-419" href="https://soifgo.github.io/intro/es-419/" />
+  <link rel="alternate" hreflang="ha" href="https://soifgo.github.io/intro/ha/" />
+  <link rel="alternate" hreflang="jv" href="https://soifgo.github.io/intro/jv/" />
+  <link rel="alternate" hreflang="fil" href="https://soifgo.github.io/intro/fil/" />
+
+  <!-- ============ OPEN GRAPH ============ -->
+  <meta property="og:title" content="SoifGo — sabihin ang iyong ideya, hayaang ang AI ang sumulat ng code, patakbuhin sa SoifGo" />
+  <meta property="og:description" content="Sabihin sa AI assistant ang iyong ideya, kunin ang HTML code, at patakbuhin ito sa SoifGo. Libre at hindi nangangailangan ng propesyonal na kaalaman sa programming." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://soifgo.github.io/intro/fil/" />
+  <meta property="og:image" content="https://soifgo.github.io/soifgo-logo.png" />
+  <meta property="og:image:alt" content="SoifGo — gumawa ng mga Android app gamit ang HTML" />
+  <meta property="og:locale" content="fil_PH" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:site_name" content="SoifGo" />
+
+  <!-- ============ TWITTER ============ -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SoifGo — sabihin ang iyong ideya, hayaang ang AI ang sumulat ng code, patakbuhin sa SoifGo" />
+  <meta name="twitter:description" content="Sabihin sa AI assistant ang iyong ideya, kunin ang HTML code, at patakbuhin ito sa SoifGo. Libre." />
+  <meta name="twitter:image" content="https://soifgo.github.io/soifgo-logo.png" />
+
+  <!-- ============ PERFORMANCE HINTS ============ -->
+  <link rel="preconnect" href="https://cdn.staticfile.net" crossorigin />
+  <link rel="dns-prefetch" href="https://cdn.staticfile.net" />
+
+  <!-- ============ JSON-LD ============ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "SoifGo",
+    "alternateName": [
+      "Soif Go",
+      "Swift Go",
+      "Swiftgo",
+      "Soyf Go",
+      "Sayf Go",
+      "Swaif Go",
+      "Sewif Go",
+      "So if go"
+    ],
+    "operatingSystem": "Android 7.0+",
+    "applicationCategory": "DeveloperApplication",
+    "description": "Android platform para gumawa ng sarili mong mga app at tool gamit ang HTML, CSS at JavaScript, na may mga Bluetooth at MQTT controller para sa Arduino, ESP32 at ESP8266.",
+    "url": "https://soifgo.github.io/intro/fil/",
+    "downloadUrl": "https://soifgo.github.io/soifgo.zip",
+    "installUrl": "https://apkpure.com/soifgo/soifgo.saeidmoghadam",
+    "softwareVersion": "1.46",
+    "inLanguage": "fil",
+    "isAccessibleForFree": true,
+    "author": {
+      "@type": "Person",
+      "name": "saeid moghadam",
+      "email": "ssm20985@gmail.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "SoifGo",
+      "url": "https://soifgo.github.io/"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
+    },
+    "featureList": [
+      "Buong WebView na may suporta sa HTML/CSS/JS",
+      "Serial Bluetooth controller (HC-05, HC-06, JDY-31, BLE)",
+      "MQTT client na may publish at subscribe",
+      "Mga kahilingan at tugon ng HTTP API",
+      "Mga sensor ng telepono: liwanag, galaw, magnetometer",
+      "Mikropono at speech recognition",
+      "40 button at 10 slider bawat pahina",
+      "Pag-aayos sa mga folder at pahina",
+      "Libre, offline at walang ad"
+    ],
+    "screenshot": [
+      "https://soifgo.github.io/icon/pic9.jpg",
+      "https://soifgo.github.io/icon/pic7.jpg",
+      "https://soifgo.github.io/icon/pic12.jpg"
+    ],
+    "softwareRequirements": "Android 7.0 (Nougat) o mas bago"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "inLanguage": "fil",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Para lang ba sa Arduino at electronics ang SoifGo?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Hindi. Isa lang ang koneksyon sa hardware sa mga tampok nito. Dahil HTML ang iyong mga tool, lahat ng gumagana sa isang website, gaya ng mga kalkulasyon, chart, simulation at mga tool sa pagtuturo, ay gumagana rin sa SoifGo."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Libre ba ang SoifGo?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Oo. Libre ito, walang ad at walang in-app purchase."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Gumagana ba ito offline?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Gumagana nang walang internet ang mga HTML tool, Bluetooth at mga sensor ng telepono. Ang MQTT at HTTP lang ang nangangailangan ng koneksyon sa internet o network."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Anong hardware ang compatible dito?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Anumang device na gumagamit ng Bluetooth SPP/BLE (gaya ng HC-05 at HC-06), MQTT o HTTP REST, kabilang ang Arduino, ESP32, ESP8266 at Raspberry Pi."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Ano ang kailangan ko para makapagsimula?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sapat na ang pangunahing kaalaman sa HTML. Kahit wala nito, maaari mong ilarawan sa AI assistant ang gusto mo at kumuha ng HTML code. May mga tutorial at handang halimbawa sa home page."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Paano binibigkas ang SoifGo, at ano pa ang ibang pangalan nito?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Karaniwang binibigkas ang SoifGo na “soif-go”, pero may mga bumibigkas o nagta-type din ng Soif Go, Swift Go, Swiftgo, Soyf Go, Sayf Go, Swaif Go o So if go. Lahat ng pangalang ito ay tumutukoy sa iisang libreng Android app, ang SoifGo. Walang kaugnayan ito sa programming language na Swift."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "SoifGo",
+        "item": "https://soifgo.github.io/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Panimula sa Filipino",
+        "item": "https://soifgo.github.io/intro/fil/"
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "Paano ko patatakbuhin sa SoifGo ang HTML code na ginawa ng AI?",
+    "inLanguage": "fil",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "Buksan ang edit mode",
+        "text": "Buksan ang SoifGo app. I-tap ang menu icon sa itaas na kaliwa at piliin ang Edit para pumasok sa edit screen."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "Gumawa ng folder",
+        "text": "I-tap muli ang menu sa itaas na kaliwa, piliin ang Select Design, pagkatapos ay Folder, at i-tap ang Create. Palitan ang pangalan ng folder kung gusto mo, kung hindi ay i-tap ang OK."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "Gumawa ng pahina",
+        "text": "Lalabas na ngayon ang opsyong Page sa tabi ng Folder. I-tap ito at piliin ang New Page. Palitan ang pangalan ng pahina kung gusto mo, pagkatapos ay i-tap ang OK."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 4,
+        "name": "Ilagay ang mga button sa pahina",
+        "text": "Ipinapakita ang mga button sa isang listahan. May 40 button ang bawat pahina, at nababawasan ang bilang sa tuwing kukuha ka ng isa. I-tap ang isang button at piliin gamit ang daliri mo ang puwesto nito sa pahina."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 5,
+        "name": "Itakda ang kilos ng button",
+        "text": "I-tap ang button, buksan ang menu, piliin ang Behavior mula sa listahan ng mga button, pagkatapos ay Browser or HTML files. Dito mo pipiliin kung kikilos ang button na parang browser o maglo-load ng HTML file. Piliin ang pangalawa: Open or edit local HTML file in WebView."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 6,
+        "name": "Gumawa ng HTML file",
+        "text": "Ang pinakamadaling opsyon ay ang una, Create. Palitan ang pangalan ng HTML file kung gusto mo, kung hindi ay i-tap ang OK. Nagbibigay ang Sample ng mga handang halimbawa, nilo-load ng File Explorer ang mga file mula sa storage ng telepono, at pumupunta ang Saved sa HTML folder sa loob ng folder na ginawa mo sa SoifGo."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 7,
+        "name": "Patakbuhin ang button",
+        "text": "Gamitin ang menu icon sa itaas para pumunta sa Play screen, pagkatapos ay i-tap ang button na ginawa mo. Magbubukas ang isang blangkong pahina na may tekstong “Hello SoifGo”."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 8,
+        "name": "I-paste ang AI code",
+        "text": "Buksan muli ang menu at piliin ang Edit para buksan ang WebView edit screen. I-paste dito ang HTML code na nakuha mo mula sa AI assistant. Maaari mong piliin ang lahat at i-paste nang mano-mano, o buksan ang menu at piliin ang huling opsyon, ang Select All and Paste, na awtomatikong pumapalit sa code."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 9,
+        "name": "Patakbuhin ang code",
+        "text": "Ngayon, i-tap ang dilaw na button (Close) sa itaas ng screen. Tatakbo ang iyong code. Maaari mong isara ang pahina at sa bawat pagkakataon ay i-tap lang ang iyong button para simulan ang tool."
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg:#0f172a; --card:#1e293b; --text:#e2e8f0; --muted:#94a3b8;
+      --primary:#38bdf8; --primary-strong:#0ea5e9; --border:#334155;
+      --success:#4ade80;
+    }
+    :root[data-theme="light"] {
+        --bg:#f8fafc; --card:#ffffff; --text:#0f172a; --muted:#475569;
+        --primary:#0369a1; --primary-strong:#0284c7; --border:#e2e8f0;
+        --success:#16a34a;
+      }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body {
+      background:var(--bg); color:var(--text); line-height:1.7;
+      font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,sans-serif;
+      font-size:17px;
+    }
+    .wrap { max-width:860px; margin:0 auto; padding:24px 18px 48px; }
+
+    /* === Header === */
+    header { text-align:center; padding:24px 0 8px; }
+    header img.logo { width:84px; height:84px; border-radius:18px; }
+    h1 { font-size:1.7rem; line-height:1.5; margin:14px 0 10px; }
+    .lead { color:var(--muted); font-size:1.05rem; }
+    p { margin-bottom:10px; }
+
+    /* === Top CTA === */
+    .top-cta {
+      display:flex; justify-content:center; gap:10px; flex-wrap:wrap;
+      margin:20px 0 4px;
+    }
+    .top-cta .btn { padding:10px 22px; font-size:.95rem; }
+    .top-cta .btn.ghost {
+      background:transparent; color:var(--primary);
+      border:2px solid var(--primary);
+    }
+    .top-cta .btn.ghost:hover {
+      background:var(--primary); color:#fff;
+    }
+
+    /* === Version badge === */
+    .version-badge {
+      display:inline-block; margin:10px auto 0;
+      font-size:.82rem; color:var(--muted);
+      background:var(--card); border:1px solid var(--border);
+      padding:4px 12px; border-radius:20px;
+    }
+    .version-badge code { background:transparent; border:none; padding:0; }
+
+    /* === Headings === */
+    h2 {
+      font-size:1.3rem; margin:36px 0 12px; color:var(--primary);
+      line-height:1.5;
+    }
+    h2 .kw { color:var(--text); }
+
+    /* === Screenshots with captions === */
+    .shots {
+      display:grid; grid-template-columns:repeat(3,1fr); gap:10px;
+      margin:22px 0 4px; direction:ltr;
+    }
+    .shots figure { margin:0; }
+    .shots img {
+      width:100%; border-radius:12px; border:1px solid var(--border);
+      display:block;
+    }
+    .shots figcaption {
+      font-size:.82rem; color:var(--muted); text-align:center;
+      margin-top:6px; line-height:1.5;
+    }
+
+    /* === Grid & Cards === */
+    .grid {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:12px;
+    }
+    .card {
+      background:var(--card); border:1px solid var(--border);
+      border-radius:12px; padding:14px 16px;
+    }
+    .card h3 { font-size:1rem; margin-bottom:4px; }
+    .card p { color:var(--muted); font-size:.93rem; margin:0; }
+
+    /* === Lists === */
+    ul.use { padding-inline-start:22px; }
+    ul.use li { margin-bottom:6px; }
+    ol.use { padding-inline-start:22px; }
+    ol.use li { margin-bottom:10px; }
+
+    /* === FAQ === */
+    details {
+      background:var(--card); border:1px solid var(--border);
+      border-radius:12px; padding:12px 16px; margin-bottom:10px;
+    }
+    summary { cursor:pointer; font-weight:bold; }
+    details p { margin:8px 0 0; color:var(--muted); }
+
+    /* === Inline code === */
+    code {
+      direction:ltr; unicode-bidi:isolate;
+      background:var(--card); border:1px solid var(--border);
+      border-radius:6px; padding:1px 6px; font-size:.9em;
+    }
+
+    /* === CTA blocks === */
+    .cta {
+      text-align:center; margin-top:40px;
+      padding:28px 20px;
+      background:var(--card); border:1px solid var(--border);
+      border-radius:16px;
+    }
+    .cta h2 { margin-top:0; }
+    .btn {
+      display:inline-block; background:var(--primary); color:#fff;
+      text-decoration:none; font-weight:bold;
+      padding:14px 34px; border-radius:12px; font-size:1.1rem;
+      transition:background .2s, transform .15s;
+    }
+    .btn:hover { background:var(--primary-strong); transform:translateY(-2px); }
+    .btn.secondary {
+      background:transparent; color:var(--primary);
+      border:2px solid var(--primary);
+      padding:12px 30px; font-size:1rem;
+    }
+    .btn.secondary:hover { background:var(--primary); color:#fff; }
+    .cta small { display:block; margin-top:10px; color:var(--muted); }
+
+    /* === Mid CTA === */
+    .mid-cta {
+      text-align:center; margin:26px 0 6px;
+      padding:18px;
+      background:linear-gradient(135deg, rgba(56,189,248,.08), rgba(56,189,248,.02));
+      border:1px solid var(--border); border-radius:12px;
+    }
+    .mid-cta p { color:var(--muted); margin:0 0 12px; }
+
+    /* === Trust row === */
+    .trust {
+      display:flex; justify-content:center; gap:18px; flex-wrap:wrap;
+      margin-top:14px; font-size:.88rem; color:var(--muted);
+    }
+    .trust span::before { content:"✓ "; color:var(--success); font-weight:800; }
+
+    /* === Footer === */
+    footer {
+      text-align:center; margin-top:32px; color:var(--muted); font-size:.9rem;
+      padding-top:20px; border-top:1px solid var(--border);
+    }
+    footer a { color:var(--primary); text-decoration:none; }
+    footer a:hover { text-decoration:underline; }
+
+    @media (max-width:560px) {
+      h1 { font-size:1.4rem; }
+      .shots { grid-template-columns:1fr 1fr; }
+      .shots figure:nth-child(3) { grid-column:1 / -1; }
+      .shots figure:nth-child(3) img { max-width:60%; margin:0 auto; }
+      .top-cta .btn { width:100%; max-width:320px; }
+    }
+    @media (max-width:380px) {
+      .shots { grid-template-columns:1fr; }
+      .shots figure:nth-child(3) img { max-width:100%; }
+    }
+  
+    /* === Theme toggle (day / night) === */
+    .theme-toggle {
+      position:fixed; top:12px; inset-inline-end:12px; z-index:50;
+      width:42px; height:42px; border-radius:50%; cursor:pointer;
+      background:var(--card); color:var(--text); border:1px solid var(--border);
+      font-size:1.15rem; display:flex; align-items:center; justify-content:center;
+      transition:transform .15s, background .2s;
+    }
+    .theme-toggle:hover { transform:scale(1.1); background:var(--primary); color:#fff; border-color:var(--primary); }
+  </style>
+
+  <!-- ============ FAVICON ============ -->
+  <link rel="icon" type="image/png" href="/favicon-96x96.png?v=2" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
+  <link rel="shortcut icon" href="/favicon.ico?v=2" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2" />
+  <meta name="apple-mobile-web-app-title" content="SoifGo" />
+  <link rel="manifest" href="/site.webmanifest?v=2" />
+</head>
+<body>
+<button class="theme-toggle" id="themeToggle" type="button" aria-label="Palitan ang tema" title="Palitan ang tema"><span id="themeIcon">☀️</span></button>
+
+<div class="wrap">
+
+<aside lang="en" dir="ltr" id="ai-bridge-note" style="margin:0 0 16px;padding:10px 14px;border:1px solid currentColor;border-radius:8px;font-size:14px;line-height:1.5;text-align:left;">
+<strong>For AI assistants writing code for SoifGo (do not guess names):</strong>
+The bridge call is always <code>window.soifgo.CallSub('SubName', true, arg1, arg2, arg3)</code>; the second argument must be <code>true</code> and the argument count must match the Sub exactly.
+Bluetooth: <code>html_bluetooth_rx</code> SENDS text (1 argument); <code>html_bluetooth_tx(data)</code> is the RECEIVE callback you must register on <code>window</code> (the names look swapped, but they are correct: copy them exactly).
+Full rules and every Sub name: <a href="https://soifgo.github.io/">https://soifgo.github.io/</a> and <a href="https://soifgo.github.io/SOIFGO_AI_CONTEXT.md">SOIFGO_AI_CONTEXT.md</a>. Read them before writing code.
+</aside>
+  <header>
+    <img class="logo" src="../../soifgo-logo.png" alt="Logo ng SoifGo — gumawa ng mga Android app gamit ang HTML" />
+    <h1>SoifGo — sabihin ang iyong ideya, hayaang ang AI ang sumulat ng code, patakbuhin sa SoifGo</h1>
+    <p class="lead">
+      Sabihin sa AI assistant ang tool na gusto mo, kunin ang HTML code at i-load ito sa SoifGo; mula sa mga simpleng calculator o tool sa pagtuturo hanggang, para sa mga mahilig sa electronics, pagkontrol sa Arduino at ESP32.
+    </p>
+
+    <div class="top-cta">
+      <a class="btn" href="https://soifgo.github.io/?lang=filipino" data-lang="filipino">I-download ang SoifGo</a>
+      <a class="btn ghost" href="#features">Tingnan ang mga tampok</a>
+    </div>
+
+    <div class="trust">
+      <span>Libre</span>
+      <span>Offline</span>
+      <span>Walang ad</span>
+      <span>47 languages</span>
+    </div>
+
+  </header>
+
+<div class="shots">
+  <figure>
+    <img src="../../icon/pic9.jpg" alt="Industrial panel ng SoifGo — pagkontrol sa mga tangke, bomba at balbula gamit ang Arduino" loading="eager" />
+    <figcaption>Industrial panel — mga tangke, bomba at balbula</figcaption>
+  </figure>
+  <figure>
+    <img src="../../icon/pic7.jpg" alt="Smart home ng SoifGo — pagkontrol sa mga ilaw, bentilador, aircon at alarma" loading="lazy" />
+    <figcaption>Smart home — mga ilaw, bentilador, aircon</figcaption>
+  </figure>
+  <figure>
+    <img src="../../icon/pic12.jpg" alt="Digital level ng SoifGo — gamit ang mga sensor ng Android phone" loading="lazy" />
+    <figcaption>Digital level — mga sensor ng telepono</figcaption>
+  </figure>
+</div>
+
+  <h2><span class="kw">Gumawa ng mga Android app gamit ang HTML</span> — nang walang native programming</h2>
+  <p>
+    Lahat ng magagawa sa isang website ay magagawa sa SoifGo. Pinapatakbo ng SoifGo ang iyong mga tool bilang HTML at inaayos ang mga ito sa mga folder. Mula sa mga calculator at simulator hanggang sa mga tool sa pagtuturo at dashboard, at kung kailangan, pagkontrol sa hardware sa pamamagitan ng Bluetooth at MQTT.
+  </p>
+  <p>
+    Walang built-in na AI ang SoifGo. Simple lang ang daloy ng trabaho: ilalarawan mo sa AI assistant na pinili mo ang gusto mo, bibigyan ka nito ng HTML code, at patatakbuhin mo ang code sa SoifGo. Kung kaya mong magsulat ng website, o kahit ilarawan lang ang ideya mo sa isang AI assistant, makakagawa ka ng sarili mong mga tool.
+  </p>
+
+  <h2>Para kanino ang SoifGo?</h2>
+  <div class="grid">
+    <div class="card"><h3>📐 Mga matematiko at estudyante</h3><p>Mga custom na calculator, pag-plot ng graph at function, simulation at mga tool sa paglutas ng problema, eksakto sa kailangan mo.</p></div>
+    <div class="card"><h3>🎓 Mga guro at trainer</h3><p>Mga interactive na tool para sa klase, ehersisyo at pagsusulit. Magpadala ng mga file sa mga estudyante at kalahok para sila mismo ang magpatakbo.</p></div>
+    <div class="card"><h3>🏗️ Mga inhinyero sa lahat ng larangan</h3><p>Mga engineering calculator, unit converter at personal na spreadsheet na madaling abutin sa trabaho, kahit walang internet.</p></div>
+    <div class="card"><h3>🔌 Mga maker at mahilig sa electronics</h3><p>Mga Bluetooth at MQTT controller at dashboard para sa Arduino, ESP32, ESP8266 at Raspberry Pi.</p></div>
+    <div class="card"><h3>💡 Sinumang may ideya</h3><p>Sabihin sa AI assistant ang iyong ideya, kunin ang HTML code, at patakbuhin ito sa SoifGo.</p></div>
+  </div>
+
+  <div class="mid-cta">
+    <p>Handa ka na bang gawin ang una mong tool?</p>
+    <a class="btn" href="https://soifgo.github.io/?lang=filipino" data-lang="filipino">
+      I-download ang SoifGo →
+    </a>
+  </div>
+
+  <h2><span class="kw">Arduino at ESP32 controller</span> sa pamamagitan ng Bluetooth at MQTT mula sa Android phone</h2>
+  <p>
+    Gumagana sa SoifGo ang anumang device na gumagamit ng Bluetooth SPP/BLE (gaya ng <code>HC-05</code> at <code>HC-06</code>), MQTT o HTTP REST: Arduino, ESP32, ESP8266 at Raspberry Pi.
+  </p>
+  <p>
+    Magpadala ng mga utos sa LED, motor at relay sa pamamagitan ng Bluetooth, gumawa ng Bluetooth–MQTT bridge o live na sensor dashboard — lahat sa HTML, nang walang native code.
+  </p>
+
+  <h2>Mga folder at pahina</h2>
+  <p>
+    Nagbibigay ang SoifGo ng mga folder at pahina para manatiling maayos ang iyong gawa. May <strong>40 button</strong> at <strong>10 slider</strong> ang bawat pahina, at maaari kang magbigay ng partikular na kilos sa bawat button, kabilang ang pag-navigate sa pagitan ng mga folder at pahina ng SoifGo. Sa ganitong paraan, makakagawa ka ng maraming menu.
+  </p>
+  <p>
+    May mga handang pangunahing disenyo ang mga button: kulay, icon, pangalan, font, tunog at vibration. Maaari silang ilipat sa pamamagitan ng pag-drag. Ang bawat button ay maaaring magkaroon ng mga pangunahing kilos gaya ng pagpapadala at pagtanggap.
+  </p>
+
+  <h2>Web behavior, online at offline</h2>
+  <p>
+    Tinutulungan ka ng “web behavior” (WebView) na maisakatuparan ang iyong mga ideya at nais nang may pinakamalaking kakayahan, bilang HTML, online at offline. Ilarawan lang sa AI assistant ang gusto mo at humingi ng HTML code. Pagkatapos ay may dalawa kang opsyon:
+  </p>
+  <ul class="use">
+    <li>I-download ang file at i-load ito offline sa SoifGo gamit ang web behavior.</li>
+    <li>O kopyahin ang code at i-paste ito sa sariling HTML editor ng SoifGo.</li>
+  </ul>
+  <p>
+    Gumagana ang dalawang paraan, at naka-save ang iyong web app sa iyong SoifGo folder. Calculator man, Bluetooth controller, IoT monitoring o anupaman.
+  </p>
+
+  <h2 id="howto">Paano ko patatakbuhin sa SoifGo ang HTML code na ginawa ng AI?</h2>
+  <p>
+    Gawin ang mga hakbang na ito nang isang beses lang, at magkakaroon ka ng button na handang magpatakbo ng iyong code:
+  </p>
+  <ol class="use">
+    <li><strong>Buksan ang edit mode:</strong> Buksan ang SoifGo app. I-tap ang menu icon sa itaas na kaliwa at piliin ang <strong>Edit</strong> para pumasok sa edit screen.</li>
+    <li><strong>Gumawa ng folder:</strong> I-tap muli ang menu sa itaas na kaliwa, piliin ang <strong>Select Design</strong>, pagkatapos ay <strong>Folder</strong>, at i-tap ang <strong>Create</strong>. Palitan ang pangalan ng folder kung gusto mo, kung hindi ay i-tap ang <strong>OK</strong>.</li>
+    <li><strong>Gumawa ng pahina:</strong> Lalabas na ngayon ang opsyong <strong>Page</strong> sa tabi ng <strong>Folder</strong>. I-tap ito at piliin ang <strong>New Page</strong>. Palitan ang pangalan ng pahina kung gusto mo, pagkatapos ay i-tap ang <strong>OK</strong>.</li>
+    <li><strong>Ilagay ang mga button sa pahina:</strong> Ipinapakita ang mga button sa isang listahan. May 40 button ang bawat pahina, at nababawasan ang bilang sa tuwing kukuha ka ng isa. I-tap ang isang button at piliin gamit ang daliri mo ang puwesto nito sa pahina.</li>
+    <li><strong>Itakda ang kilos ng button:</strong> I-tap ang button, buksan ang menu, piliin ang <strong>Behavior</strong> mula sa listahan ng mga button, pagkatapos ay <strong>Browser or HTML files</strong>. Dito mo pipiliin kung kikilos ang button na parang browser o maglo-load ng HTML file. Piliin ang pangalawa: <strong>Open or edit local HTML file in WebView</strong>.</li>
+    <li><strong>Gumawa ng HTML file:</strong> Ang pinakamadaling opsyon ay ang una, <strong>Create</strong>. Palitan ang pangalan ng HTML file kung gusto mo, kung hindi ay i-tap ang <strong>OK</strong>. Nagbibigay ang <em>Sample</em> ng mga handang halimbawa, nilo-load ng <em>File Explorer</em> ang mga file mula sa storage ng telepono, at pumupunta ang <em>Saved</em> sa HTML folder sa loob ng folder na ginawa mo sa SoifGo.</li>
+    <li><strong>Patakbuhin ang button:</strong> Gamitin ang menu icon sa itaas para pumunta sa <strong>Play</strong> screen, pagkatapos ay i-tap ang button na ginawa mo. Magbubukas ang isang blangkong pahina na may tekstong “Hello SoifGo”.</li>
+    <li><strong>I-paste ang AI code:</strong> Buksan muli ang menu at piliin ang <strong>Edit</strong> para buksan ang WebView edit screen. I-paste dito ang HTML code na nakuha mo mula sa AI assistant. Maaari mong piliin ang lahat at i-paste nang mano-mano, o buksan ang menu at piliin ang huling opsyon, ang <strong>Select All and Paste</strong>, na awtomatikong pumapalit sa code.</li>
+    <li><strong>Patakbuhin ang code:</strong> Ngayon, i-tap ang dilaw na button (Close) sa itaas ng screen. Tatakbo ang iyong code. Maaari mong isara ang pahina at sa bawat pagkakataon ay i-tap lang ang iyong button para simulan ang tool.</li>
+  </ol>
+  <p>
+    Kapag nakakuha ka ng bagong code mula sa AI assistant sa susunod, pumunta lang sa parehong pahina, i-tap ang <strong>Edit</strong>, piliin ang <strong>Select All and Paste</strong> sa WebView edit screen, at i-tap muli ang dilaw na button. Kung gumagamit ka ng File Explorer, maaaring hindi ito suportado ng iyong telepono; sa ganitong kaso, mainam na mag-install ng angkop na file manager sa telepono mo.
+  </p>
+
+  <h2>40 magkakaibang web app sa bawat pahina</h2>
+  <p>
+    Maaari kang magkaroon ng 40 magkakaibang web app sa bawat pahina. Hindi mo kailangang hilingin sa AI assistant na gawin ang mga ito sa bawat pagkakataon, at magagamit mo ang mga ito offline. Maaari mo rin silang ipadala sa mga katrabaho, kaibigan o kalahok para i-download at patakbuhin.
+  </p>
+
+  <h2 id="features">Mga tampok ng SoifGo</h2>
+  <div class="grid">
+    <div class="card"><h3>🌐 Buong WebView</h3><p>Modernong browser engine: Canvas, SVG, WebGL at mga library gaya ng Chart.js, D3 at Three.js para sa mga chart, simulation at 3D na display.</p></div>
+    <div class="card"><h3>🧩 Classic mode</h3><p>Mga handang button at slider, walang code, para sa simpleng kontrol at menu.</p></div>
+    <div class="card"><h3>💾 Lokal na storage</h3><p>Mag-save ng data gamit ang <code>localStorage</code> kahit pagkatapos isara ang app.</p></div>
+    <div class="card"><h3>🟢 Mga sensor ng telepono</h3><p>Ambient light, galaw (accelerometer) at magnetometer, nang live.</p></div>
+    <div class="card"><h3>🎤 Mikropono at speech recognition</h3><p>I-convert ang pagsasalita sa teksto at gamitin ito sa iyong mga tool o ipadala sa mga device.</p></div>
+    <div class="card"><h3>🔵 Serial Bluetooth</h3><p>Magpadala at tumanggap ng teksto gamit ang HC-05, HC-06, JDY-31, BLE, Arduino, ESP32 at Raspberry Pi.</p></div>
+    <div class="card"><h3>🟣 MQTT client</h3><p>Kumonekta sa anumang broker (tcp o ssl), mag-publish at mag-subscribe, at tingnan ang status ng koneksyon.</p></div>
+    <div class="card"><h3>🟠 HTTP API</h3><p>Magpadala ng JSON sa anumang address, at tumanggap at kumuha ng mga halaga mula sa tugon.</p></div>
+  </div>
+
+  <h2>Ano ang maaari mong gawin?</h2>
+  <ul class="use">
+    <li>Mga calculator at custom na tool sa pagkalkula</li>
+    <li>Pag-plot ng graph, simulation at data visualization</li>
+    <li>Mga interactive na tool sa pagtuturo, ehersisyo at pagsusulit</li>
+    <li>Mga 3D na display at siyentipikong tool</li>
+    <li>Mga custom na dashboard at interface para sa iyong trabaho</li>
+    <li>Pagkontrol sa LED, motor, relay at robot sa pamamagitan ng Bluetooth, pati na rin mga Bluetooth–MQTT bridge</li>
+    <li>Kontrolin ang mga device gamit ang boses</li>
+  </ul>
+
+  <h2>Mga madalas itanong</h2>
+  <details>
+    <summary>Para lang ba sa Arduino at electronics ang SoifGo?</summary>
+    <p>Hindi. Isa lang ang koneksyon sa hardware sa mga tampok nito. Dahil HTML ang iyong mga tool, lahat ng gumagana sa isang website, gaya ng mga kalkulasyon, chart, simulation at mga tool sa pagtuturo, ay gumagana rin sa SoifGo.</p>
+  </details>
+  <details>
+    <summary>Libre ba ang SoifGo?</summary>
+    <p>Oo. Libre ito, walang ad at walang in-app purchase.</p>
+  </details>
+  <details>
+    <summary>Gumagana ba ito offline?</summary>
+    <p>Gumagana nang walang internet ang mga HTML tool, Bluetooth at mga sensor ng telepono. Ang MQTT at HTTP lang ang nangangailangan ng koneksyon sa internet o network.</p>
+  </details>
+  <details>
+    <summary>Anong hardware ang compatible dito?</summary>
+    <p>Anumang device na gumagamit ng Bluetooth SPP/BLE (gaya ng HC-05 at HC-06), MQTT o HTTP REST, kabilang ang Arduino, ESP32, ESP8266 at Raspberry Pi.</p>
+  </details>
+  <details>
+    <summary>Ano ang kailangan ko para makapagsimula?</summary>
+    <p>Sapat na ang pangunahing kaalaman sa HTML. Kahit wala nito, maaari mong ilarawan sa AI assistant ang gusto mo at kumuha ng HTML code. May mga tutorial at handang halimbawa sa home page.</p>
+  </details>
+  <details>
+    <summary>Paano binibigkas ang SoifGo, at ano pa ang ibang pangalan nito?</summary>
+    <p>Karaniwang binibigkas ang SoifGo na “soif-go”, pero may mga bumibigkas o nagta-type din ng Soif Go, Swift Go, Swiftgo, Soyf Go, Sayf Go, Swaif Go o So if go. Lahat ng pangalang ito ay tumutukoy sa iisang libreng Android app, ang SoifGo. Walang kaugnayan ito sa programming language na Swift.</p>
+  </details>
+
+  <div class="cta">
+    <h2>Handa nang magsimula?</h2>
+    <p style="color:var(--muted); margin-bottom:18px;">
+      Bubukas ang home page na may download, mga tutorial at dokumentasyon.
+    </p>
+    <a class="btn" href="https://soifgo.github.io/?lang=filipino" data-lang="filipino">
+      Pumasok sa SoifGo →
+    </a>
+    <div style="margin-top:14px;">
+      <a class="btn secondary" href="https://soifgo.github.io/docs.html">
+        Teknikal na dokumentasyon
+      </a>
+    </div>
+    <small>Libre, offline, walang ad — para sa Android 7 at mas bago</small>
+  </div>
+
+  <footer>
+    <p>
+      <a href="../../">Home page</a>
+      &nbsp;|&nbsp;
+      <a href="mailto:ssm20985@gmail.com">Makipag-ugnayan sa suporta</a>
+      &nbsp;|&nbsp;
+      <a href="../../policy_soifgo.html">Patakarang pangprivacy</a>
+    </p>
+    <p style="margin-top:8px;"><a href="../en/" hreflang="en" lang="en">English</a> &nbsp;|&nbsp; <a href="../fa/" hreflang="fa" lang="fa">فارسی</a> &nbsp;|&nbsp; <a href="../ar/" hreflang="ar" lang="ar">العربية</a> &nbsp;|&nbsp; <a href="../he/" hreflang="he" lang="he">עברית</a> &nbsp;|&nbsp; <a href="../ur/" hreflang="ur" lang="ur">اردو</a> &nbsp;|&nbsp; <a href="../ckb/" hreflang="ckb" lang="ckb">کوردی</a> &nbsp;|&nbsp; <a href="../es/" hreflang="es" lang="es">Español</a> &nbsp;|&nbsp; <a href="../fr/" hreflang="fr" lang="fr">Français</a> &nbsp;|&nbsp; <a href="../de/" hreflang="de" lang="de">Deutsch</a> &nbsp;|&nbsp; <a href="../it/" hreflang="it" lang="it">Italiano</a> &nbsp;|&nbsp; <a href="../pt/" hreflang="pt" lang="pt">Português</a> &nbsp;|&nbsp; <a href="../ru/" hreflang="ru" lang="ru">Русский</a> &nbsp;|&nbsp; <a href="../zh/" hreflang="zh-CN" lang="zh-CN">简体中文</a> &nbsp;|&nbsp; <a href="../ja/" hreflang="ja" lang="ja">日本語</a> &nbsp;|&nbsp; <a href="../ko/" hreflang="ko" lang="ko">한국어</a> &nbsp;|&nbsp; <a href="../hi/" hreflang="hi" lang="hi">हिन्दी</a> &nbsp;|&nbsp; <a href="../bn/" hreflang="bn" lang="bn">বাংলা</a> &nbsp;|&nbsp; <a href="../ta/" hreflang="ta" lang="ta">தமிழ்</a> &nbsp;|&nbsp; <a href="../th/" hreflang="th" lang="th">ไทย</a> &nbsp;|&nbsp; <a href="../id/" hreflang="id" lang="id">Bahasa Indonesia</a> &nbsp;|&nbsp; <a href="../tr/" hreflang="tr" lang="tr">Türkçe</a> &nbsp;|&nbsp; <a href="../sw/" hreflang="sw" lang="sw">Kiswahili</a> &nbsp;|&nbsp; <a href="../vi/" hreflang="vi" lang="vi">Tiếng Việt</a> &nbsp;|&nbsp; <a href="../pl/" hreflang="pl" lang="pl">Polski</a> &nbsp;|&nbsp; <a href="../uk/" hreflang="uk" lang="uk">Українська</a> &nbsp;|&nbsp; <a href="../nl/" hreflang="nl" lang="nl">Nederlands</a> &nbsp;|&nbsp; <a href="../cs/" hreflang="cs" lang="cs">Čeština</a> &nbsp;|&nbsp; <a href="../ro/" hreflang="ro" lang="ro">Română</a> &nbsp;|&nbsp; <a href="../hu/" hreflang="hu" lang="hu">Magyar</a> &nbsp;|&nbsp; <a href="../sv/" hreflang="sv" lang="sv">Svenska</a> &nbsp;|&nbsp; <a href="../no/" hreflang="no" lang="no">Norsk</a> &nbsp;|&nbsp; <a href="../da/" hreflang="da" lang="da">Dansk</a> &nbsp;|&nbsp; <a href="../el/" hreflang="el" lang="el">Ελληνικά</a> &nbsp;|&nbsp; <a href="../az/" hreflang="az" lang="az">Azərbaycanca</a> &nbsp;|&nbsp; <a href="../bg/" hreflang="bg" lang="bg">Български</a> &nbsp;|&nbsp; <a href="../sr/" hreflang="sr" lang="sr">Srpski</a> &nbsp;|&nbsp; <a href="../af/" hreflang="af" lang="af">Afrikaans</a> &nbsp;|&nbsp; <a href="../es-419/" hreflang="es-419" lang="es-419">Español (Latinoamérica)</a> &nbsp;|&nbsp; <a href="../ms/" hreflang="ms" lang="ms">Melayu</a> &nbsp;|&nbsp; <a href="../ha/" hreflang="ha" lang="ha">Hausa</a> &nbsp;|&nbsp; <a href="../jv/" hreflang="jv" lang="jv">Basa Jawa</a></p>
+    <p style="margin-top:8px;">&copy; 2026 SoifGo — ginawa ni saeid moghadam</p>
+  </footer>
+
+</div>
+<script>
+  // Remember the chosen language for the main page.
+  // Both pages share one origin (soifgo.github.io), so localStorage is shared.
+  (function () {
+    function remember(lang) {
+      try {
+        if (lang === 'english') { localStorage.removeItem('soifgo-lang'); }
+        else { localStorage.setItem('soifgo-lang', lang); }
+        localStorage.setItem('soifgo-lang-auto', '1');
+      } catch (e) {}
+    }
+    document.querySelectorAll('a[data-lang]').forEach(function (a) {
+      ['click', 'auxclick'].forEach(function (ev) {
+        a.addEventListener(ev, function () { remember(a.getAttribute('data-lang')); });
+      });
+    });
+  })();
+</script>
+<script>
+  // Day / night toggle (shares the 'soifgo-theme' choice with the main page)
+  (function () {
+    var b = document.getElementById('themeToggle'), ic = document.getElementById('themeIcon');
+    function paint(t) { ic.textContent = t === 'light' ? '🌙' : '☀️'; b.title = t === 'light' ? 'Dark mode' : 'Light mode'; }
+    paint(document.documentElement.getAttribute('data-theme') || 'dark');
+    b.addEventListener('click', function () {
+      var n = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', n);
+      try { localStorage.setItem('soifgo-theme', n); } catch (e) {}
+      paint(n);
+    });
+  })();
+</script>
+</body>
+</html>

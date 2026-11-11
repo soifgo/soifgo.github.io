@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="el" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Theme boot: same storage key as the main page, so the choice is shared -->
+  <script>
+    (function () {
+      var t = 'dark';
+      try { var s = localStorage.getItem('soifgo-theme'); if (s === 'light' || s === 'dark') { t = s; } } catch (e) {}
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <!-- ============ PRIMARY SEO ============ -->
+  <title>SoifGo — ο πιο εύκολος τρόπος να φτιάξετε εφαρμογή Android, με τη βοήθεια της AI και χωρίς δύσκολο προγραμματισμό</title>
+  <meta name="description" content="Πείτε την ιδέα σας σε έναν βοηθό AI, πάρτε κώδικα HTML και εκτελέστε τον στο SoifGo. Δωρεάν και χωρίς επαγγελματικές γνώσεις προγραμματισμού." />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
+
+  <!-- ============ CANONICAL & HREFLANG ============ -->
+  <link rel="canonical" href="https://soifgo.github.io/intro/el/" />
+  <link rel="alternate" hreflang="x-default" href="https://soifgo.github.io/" />
+  <link rel="alternate" hreflang="en" href="https://soifgo.github.io/intro/en/" />
+  <link rel="alternate" hreflang="fa" href="https://soifgo.github.io/intro/fa/" />
+  <link rel="alternate" hreflang="ar" href="https://soifgo.github.io/intro/ar/" />
+  <link rel="alternate" hreflang="he" href="https://soifgo.github.io/intro/he/" />
+  <link rel="alternate" hreflang="ur" href="https://soifgo.github.io/intro/ur/" />
+  <link rel="alternate" hreflang="ckb" href="https://soifgo.github.io/intro/ckb/" />
+  <link rel="alternate" hreflang="es" href="https://soifgo.github.io/intro/es/" />
+  <link rel="alternate" hreflang="fr" href="https://soifgo.github.io/intro/fr/" />
+  <link rel="alternate" hreflang="de" href="https://soifgo.github.io/intro/de/" />
+  <link rel="alternate" hreflang="it" href="https://soifgo.github.io/intro/it/" />
+  <link rel="alternate" hreflang="pt" href="https://soifgo.github.io/intro/pt/" />
+  <link rel="alternate" hreflang="ru" href="https://soifgo.github.io/intro/ru/" />
+  <link rel="alternate" hreflang="zh-CN" href="https://soifgo.github.io/intro/zh/" />
+  <link rel="alternate" hreflang="ja" href="https://soifgo.github.io/intro/ja/" />
+  <link rel="alternate" hreflang="ko" href="https://soifgo.github.io/intro/ko/" />
+  <link rel="alternate" hreflang="hi" href="https://soifgo.github.io/intro/hi/" />
+  <link rel="alternate" hreflang="bn" href="https://soifgo.github.io/intro/bn/" />
+  <link rel="alternate" hreflang="ta" href="https://soifgo.github.io/intro/ta/" />
+  <link rel="alternate" hreflang="th" href="https://soifgo.github.io/intro/th/" />
+  <link rel="alternate" hreflang="id" href="https://soifgo.github.io/intro/id/" />
+  <link rel="alternate" hreflang="tr" href="https://soifgo.github.io/intro/tr/" />
+  <link rel="alternate" hreflang="sw" href="https://soifgo.github.io/intro/sw/" />
+  <link rel="alternate" hreflang="az" href="https://soifgo.github.io/intro/az/" />
+  <link rel="alternate" hreflang="ms" href="https://soifgo.github.io/intro/ms/" />
+  <link rel="alternate" hreflang="bg" href="https://soifgo.github.io/intro/bg/" />
+  <link rel="alternate" hreflang="sr" href="https://soifgo.github.io/intro/sr/" />
+  <link rel="alternate" hreflang="no" href="https://soifgo.github.io/intro/no/" />
+  <link rel="alternate" hreflang="da" href="https://soifgo.github.io/intro/da/" />
+  <link rel="alternate" hreflang="el" href="https://soifgo.github.io/intro/el/" />
+  <link rel="alternate" hreflang="ro" href="https://soifgo.github.io/intro/ro/" />
+  <link rel="alternate" hreflang="hu" href="https://soifgo.github.io/intro/hu/" />
+  <link rel="alternate" hreflang="sv" href="https://soifgo.github.io/intro/sv/" />
+  <link rel="alternate" hreflang="nl" href="https://soifgo.github.io/intro/nl/" />
+  <link rel="alternate" hreflang="cs" href="https://soifgo.github.io/intro/cs/" />
+  <link rel="alternate" hreflang="vi" href="https://soifgo.github.io/intro/vi/" />
+  <link rel="alternate" hreflang="pl" href="https://soifgo.github.io/intro/pl/" />
+  <link rel="alternate" hreflang="uk" href="https://soifgo.github.io/intro/uk/" />
+  <link rel="alternate" hreflang="af" href="https://soifgo.github.io/intro/af/" />
+  <link rel="alternate" hreflang="es-419" href="https://soifgo.github.io/intro/es-419/" />
+  <link rel="alternate" hreflang="ha" href="https://soifgo.github.io/intro/ha/" />
+  <link rel="alternate" hreflang="jv" href="https://soifgo.github.io/intro/jv/" />
+  <link rel="alternate" hreflang="fil" href="https://soifgo.github.io/intro/fil/" />
+
+  <!-- ============ OPEN GRAPH ============ -->
+  <meta property="og:title" content="SoifGo — πείτε την ιδέα σας, αφήστε την AI να γράψει τον κώδικα, εκτελέστε τον στο SoifGo" />
+  <meta property="og:description" content="Πείτε την ιδέα σας σε έναν βοηθό AI, πάρτε κώδικα HTML και εκτελέστε τον στο SoifGo. Δωρεάν και χωρίς επαγγελματικές γνώσεις προγραμματισμού." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://soifgo.github.io/intro/el/" />
+  <meta property="og:image" content="https://soifgo.github.io/soifgo-logo.png" />
+  <meta property="og:image:alt" content="SoifGo — φτιάξτε εφαρμογές Android με HTML" />
+  <meta property="og:locale" content="el_GR" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:site_name" content="SoifGo" />
+
+  <!-- ============ TWITTER ============ -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SoifGo — πείτε την ιδέα σας, αφήστε την AI να γράψει τον κώδικα, εκτελέστε τον στο SoifGo" />
+  <meta name="twitter:description" content="Πείτε την ιδέα σας σε έναν βοηθό AI, πάρτε κώδικα HTML και εκτελέστε τον στο SoifGo. Δωρεάν." />
+  <meta name="twitter:image" content="https://soifgo.github.io/soifgo-logo.png" />
+
+  <!-- ============ PERFORMANCE HINTS ============ -->
+  <link rel="preconnect" href="https://cdn.staticfile.net" crossorigin />
+  <link rel="dns-prefetch" href="https://cdn.staticfile.net" />
+
+  <!-- ============ JSON-LD ============ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "SoifGo",
+    "alternateName": [
+      "Soif Go",
+      "Swift Go",
+      "Swiftgo",
+      "Soyf Go",
+      "Sayf Go",
+      "Swaif Go",
+      "Sewif Go",
+      "So if go"
+    ],
+    "operatingSystem": "Android 7.0+",
+    "applicationCategory": "DeveloperApplication",
+    "description": "Μια πλατφόρμα Android για να φτιάχνετε τις δικές σας εφαρμογές και εργαλεία με HTML, CSS και JavaScript, με χειριστήρια Bluetooth και MQTT για Arduino, ESP32 και ESP8266.",
+    "url": "https://soifgo.github.io/intro/el/",
+    "downloadUrl": "https://soifgo.github.io/soifgo.zip",
+    "installUrl": "https://apkpure.com/soifgo/soifgo.saeidmoghadam",
+    "softwareVersion": "1.46",
+    "inLanguage": "el",
+    "isAccessibleForFree": true,
+    "author": {
+      "@type": "Person",
+      "name": "saeid moghadam",
+      "email": "ssm20985@gmail.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "SoifGo",
+      "url": "https://soifgo.github.io/"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
+    },
+    "featureList": [
+      "Πλήρες WebView με υποστήριξη HTML/CSS/JS",
+      "Σειριακό χειριστήριο Bluetooth (HC-05, HC-06, JDY-31, BLE)",
+      "Πελάτης MQTT με δημοσίευση και εγγραφή",
+      "Αιτήματα και απαντήσεις HTTP API",
+      "Αισθητήρες τηλεφώνου: φως, κίνηση, μαγνητόμετρο",
+      "Μικρόφωνο και αναγνώριση ομιλίας",
+      "40 κουμπιά και 10 ολισθητές ανά σελίδα",
+      "Οργάνωση σε φακέλους και σελίδες",
+      "Δωρεάν, εκτός σύνδεσης και χωρίς διαφημίσεις"
+    ],
+    "screenshot": [
+      "https://soifgo.github.io/icon/pic9.jpg",
+      "https://soifgo.github.io/icon/pic7.jpg",
+      "https://soifgo.github.io/icon/pic12.jpg"
+    ],
+    "softwareRequirements": "Android 7.0 (Nougat) ή νεότερο"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "inLanguage": "el",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Το SoifGo είναι μόνο για Arduino και ηλεκτρονικά;",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Όχι. Η σύνδεση υλικού είναι μία μόνο από τις λειτουργίες. Επειδή τα εργαλεία σας είναι HTML, ό,τι λειτουργεί σε μια ιστοσελίδα, όπως υπολογισμοί, γραφήματα, προσομοιώσεις και εκπαιδευτικά εργαλεία, λειτουργεί και στο SoifGo."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Είναι το SoifGo δωρεάν;",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ναι. Είναι δωρεάν, χωρίς διαφημίσεις και χωρίς αγορές μέσα στην εφαρμογή."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Λειτουργεί εκτός σύνδεσης;",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Τα εργαλεία HTML, το Bluetooth και οι αισθητήρες του τηλεφώνου λειτουργούν χωρίς ίντερνετ. Μόνο το MQTT και το HTTP χρειάζονται σύνδεση στο ίντερνετ ή σε δίκτυο."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Με ποιο υλικό είναι συμβατό;",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Με κάθε συσκευή που χρησιμοποιεί Bluetooth SPP/BLE (όπως τα HC-05 και HC-06), MQTT ή HTTP REST, συμπεριλαμβανομένων των Arduino, ESP32, ESP8266 και Raspberry Pi."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Τι χρειάζομαι για να ξεκινήσω;",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Αρκεί βασική γνώση HTML. Ακόμη και χωρίς αυτήν, μπορείτε να περιγράψετε σε έναν βοηθό AI τι θέλετε και να πάρετε κώδικα HTML. Οι οδηγοί και τα έτοιμα παραδείγματα βρίσκονται στην κύρια σελίδα."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Πώς προφέρεται το SoifGo και πώς αλλιώς μπορεί να ονομαστεί;",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Το SoifGo προφέρεται συνήθως «σόιφ-γκο», αλλά οι άνθρωποι λένε ή γράφουν και Soif Go, Swift Go, Swiftgo, Soyf Go, Sayf Go, Swaif Go ή So if go. Όλα αυτά τα ονόματα αναφέρονται στην ίδια δωρεάν εφαρμογή Android, το SoifGo. Δεν σχετίζεται με τη γλώσσα προγραμματισμού Swift."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "SoifGo",
+        "item": "https://soifgo.github.io/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Εισαγωγή στα ελληνικά",
+        "item": "https://soifgo.github.io/intro/el/"
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "Πώς εκτελώ στο SoifGo κώδικα HTML που δημιούργησε η AI;",
+    "inLanguage": "el",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "Ανοίξτε τη λειτουργία επεξεργασίας",
+        "text": "Ανοίξτε την εφαρμογή SoifGo. Πατήστε το εικονίδιο μενού πάνω αριστερά και επιλέξτε Edit για να μπείτε στην οθόνη επεξεργασίας."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "Δημιουργήστε έναν φάκελο",
+        "text": "Πατήστε ξανά το μενού πάνω αριστερά, επιλέξτε Select Design, μετά Folder και πατήστε Create. Αν θέλετε, μετονομάστε τον φάκελο, αλλιώς πατήστε OK."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "Δημιουργήστε μια σελίδα",
+        "text": "Δίπλα στο Folder εμφανίζεται τώρα η επιλογή Page. Πατήστε την και επιλέξτε New Page. Αν θέλετε, μετονομάστε τη σελίδα και μετά πατήστε OK."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 4,
+        "name": "Τοποθετήστε ένα κουμπί στη σελίδα",
+        "text": "Τα κουμπιά εμφανίζονται στη λίστα. Κάθε σελίδα έχει 40 κουμπιά και ο αριθμός μειώνεται κάθε φορά που παίρνετε ένα. Πατήστε ένα κουμπί και διαλέξτε με το δάχτυλο τη θέση του στη σελίδα."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 5,
+        "name": "Ορίστε τη συμπεριφορά του κουμπιού",
+        "text": "Πατήστε το κουμπί, ανοίξτε το μενού, επιλέξτε Behavior από τη λίστα του κουμπιού και μετά Browser or HTML files. Εδώ επιλέγετε αν το κουμπί θα λειτουργεί σαν πρόγραμμα περιήγησης ή θα φορτώνει ένα αρχείο HTML. Επιλέξτε το δεύτερο: Open or edit local HTML file in WebView."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 6,
+        "name": "Δημιουργήστε το αρχείο HTML",
+        "text": "Η πιο εύκολη επιλογή είναι η πρώτη, Create. Αν θέλετε, μετονομάστε το αρχείο HTML, αλλιώς πατήστε OK. Το Sample δίνει έτοιμα παραδείγματα, το File Explorer φορτώνει ένα αρχείο από τον αποθηκευτικό χώρο του τηλεφώνου και το Saved δείχνει στον φάκελο HTML μέσα στον φάκελο που δημιουργήσατε στο SoifGo."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 7,
+        "name": "Εκτελέστε το κουμπί",
+        "text": "Χρησιμοποιήστε το εικονίδιο μενού στο πάνω μέρος για να πάτε στην οθόνη Play και μετά πατήστε το κουμπί που φτιάξατε. Ανοίγει μια κενή σελίδα με το κείμενο «Hello SoifGo»."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 8,
+        "name": "Επικολλήστε τον κώδικα της AI",
+        "text": "Ανοίξτε ξανά το μενού και επιλέξτε Edit για να ανοίξει η οθόνη επεξεργασίας του WebView. Επικολλήστε εδώ τον κώδικα HTML που πήρατε από τον βοηθό AI. Μπορείτε να επιλέξετε τα πάντα και να επικολλήσετε χειροκίνητα ή να ανοίξετε το μενού και να επιλέξετε την τελευταία επιλογή, Select All and Paste, που αντικαθιστά αυτόματα τον κώδικα."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 9,
+        "name": "Εκτελέστε τον κώδικα",
+        "text": "Τώρα πατήστε το κίτρινο κουμπί (Close) στο πάνω μέρος της οθόνης. Ο κώδικάς σας εκτελείται. Μπορείτε να κλείσετε τη σελίδα και κάθε φορά απλώς να πατάτε το κουμπί σας για να ξεκινήσει το εργαλείο."
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg:#0f172a; --card:#1e293b; --text:#e2e8f0; --muted:#94a3b8;
+      --primary:#38bdf8; --primary-strong:#0ea5e9; --border:#334155;
+      --success:#4ade80;
+    }
+    :root[data-theme="light"] {
+        --bg:#f8fafc; --card:#ffffff; --text:#0f172a; --muted:#475569;
+        --primary:#0369a1; --primary-strong:#0284c7; --border:#e2e8f0;
+        --success:#16a34a;
+      }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body {
+      background:var(--bg); color:var(--text); line-height:1.7;
+      font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,sans-serif;
+      font-size:17px;
+    }
+    .wrap { max-width:860px; margin:0 auto; padding:24px 18px 48px; }
+
+    /* === Header === */
+    header { text-align:center; padding:24px 0 8px; }
+    header img.logo { width:84px; height:84px; border-radius:18px; }
+    h1 { font-size:1.7rem; line-height:1.5; margin:14px 0 10px; }
+    .lead { color:var(--muted); font-size:1.05rem; }
+    p { margin-bottom:10px; }
+
+    /* === Top CTA === */
+    .top-cta {
+      display:flex; justify-content:center; gap:10px; flex-wrap:wrap;
+      margin:20px 0 4px;
+    }
+    .top-cta .btn { padding:10px 22px; font-size:.95rem; }
+    .top-cta .btn.ghost {
+      background:transparent; color:var(--primary);
+      border:2px solid var(--primary);
+    }
+    .top-cta .btn.ghost:hover {
+      background:var(--primary); color:#fff;
+    }
+
+    /* === Version badge === */
+    .version-badge {
+      display:inline-block; margin:10px auto 0;
+      font-size:.82rem; color:var(--muted);
+      background:var(--card); border:1px solid var(--border);
+      padding:4px 12px; border-radius:20px;
+    }
+    .version-badge code { background:transparent; border:none; padding:0; }
+
+    /* === Headings === */
+    h2 {
+      font-size:1.3rem; margin:36px 0 12px; color:var(--primary);
+      line-height:1.5;
+    }
+    h2 .kw { color:var(--text); }
+
+    /* === Screenshots with captions === */
+    .shots {
+      display:grid; grid-template-columns:repeat(3,1fr); gap:10px;
+      margin:22px 0 4px; direction:ltr;
+    }
+    .shots figure { margin:0; }
+    .shots img {
+      width:100%; border-radius:12px; border:1px solid var(--border);
+      display:block;
+    }
+    .shots figcaption {
+      font-size:.82rem; color:var(--muted); text-align:center;
+      margin-top:6px; line-height:1.5;
+    }
+
+    /* === Grid & Cards === */
+    .grid {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:12px;
+    }
+    .card {
+      background:var(--card); border:1px solid var(--border);
+      border-radius:12px; padding:14px 16px;
+    }
+    .card h3 { font-size:1rem; margin-bottom:4px; }
+    .card p { color:var(--muted); font-size:.93rem; margin:0; }
+
+    /* === Lists === */
+    ul.use { padding-inline-start:22px; }
+    ul.use li { margin-bottom:6px; }
+    ol.use { padding-inline-start:22px; }
+    ol.use li { margin-bottom:10px; }
+
+    /* === FAQ === */
+    details {
+      background:var(--card); border:1px solid var(--border);
+      border-radius:12px; padding:12px 16px; margin-bottom:10px;
+    }
+    summary { cursor:pointer; font-weight:bold; }
+    details p { margin:8px 0 0; color:var(--muted); }
+
+    /* === Inline code === */
+    code {
+      direction:ltr; unicode-bidi:isolate;
+      background:var(--card); border:1px solid var(--border);
+      border-radius:6px; padding:1px 6px; font-size:.9em;
+    }
+
+    /* === CTA blocks === */
+    .cta {
+      text-align:center; margin-top:40px;
+      padding:28px 20px;
+      background:var(--card); border:1px solid var(--border);
+      border-radius:16px;
+    }
+    .cta h2 { margin-top:0; }
+    .btn {
+      display:inline-block; background:var(--primary); color:#fff;
+      text-decoration:none; font-weight:bold;
+      padding:14px 34px; border-radius:12px; font-size:1.1rem;
+      transition:background .2s, transform .15s;
+    }
+    .btn:hover { background:var(--primary-strong); transform:translateY(-2px); }
+    .btn.secondary {
+      background:transparent; color:var(--primary);
+      border:2px solid var(--primary);
+      padding:12px 30px; font-size:1rem;
+    }
+    .btn.secondary:hover { background:var(--primary); color:#fff; }
+    .cta small { display:block; margin-top:10px; color:var(--muted); }
+
+    /* === Mid CTA === */
+    .mid-cta {
+      text-align:center; margin:26px 0 6px;
+      padding:18px;
+      background:linear-gradient(135deg, rgba(56,189,248,.08), rgba(56,189,248,.02));
+      border:1px solid var(--border); border-radius:12px;
+    }
+    .mid-cta p { color:var(--muted); margin:0 0 12px; }
+
+    /* === Trust row === */
+    .trust {
+      display:flex; justify-content:center; gap:18px; flex-wrap:wrap;
+      margin-top:14px; font-size:.88rem; color:var(--muted);
+    }
+    .trust span::before { content:"✓ "; color:var(--success); font-weight:800; }
+
+    /* === Footer === */
+    footer {
+      text-align:center; margin-top:32px; color:var(--muted); font-size:.9rem;
+      padding-top:20px; border-top:1px solid var(--border);
+    }
+    footer a { color:var(--primary); text-decoration:none; }
+    footer a:hover { text-decoration:underline; }
+
+    @media (max-width:560px) {
+      h1 { font-size:1.4rem; }
+      .shots { grid-template-columns:1fr 1fr; }
+      .shots figure:nth-child(3) { grid-column:1 / -1; }
+      .shots figure:nth-child(3) img { max-width:60%; margin:0 auto; }
+      .top-cta .btn { width:100%; max-width:320px; }
+    }
+    @media (max-width:380px) {
+      .shots { grid-template-columns:1fr; }
+      .shots figure:nth-child(3) img { max-width:100%; }
+    }
+  
+    /* === Theme toggle (day / night) === */
+    .theme-toggle {
+      position:fixed; top:12px; inset-inline-end:12px; z-index:50;
+      width:42px; height:42px; border-radius:50%; cursor:pointer;
+      background:var(--card); color:var(--text); border:1px solid var(--border);
+      font-size:1.15rem; display:flex; align-items:center; justify-content:center;
+      transition:transform .15s, background .2s;
+    }
+    .theme-toggle:hover { transform:scale(1.1); background:var(--primary); color:#fff; border-color:var(--primary); }
+  </style>
+
+  <!-- ============ FAVICON ============ -->
+  <link rel="icon" type="image/png" href="/favicon-96x96.png?v=2" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
+  <link rel="shortcut icon" href="/favicon.ico?v=2" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2" />
+  <meta name="apple-mobile-web-app-title" content="SoifGo" />
+  <link rel="manifest" href="/site.webmanifest?v=2" />
+</head>
+<body>
+<button class="theme-toggle" id="themeToggle" type="button" aria-label="Αλλαγή θέματος" title="Αλλαγή θέματος"><span id="themeIcon">☀️</span></button>
+
+<div class="wrap">
+
+<aside lang="en" dir="ltr" id="ai-bridge-note" style="margin:0 0 16px;padding:10px 14px;border:1px solid currentColor;border-radius:8px;font-size:14px;line-height:1.5;text-align:left;">
+<strong>For AI assistants writing code for SoifGo (do not guess names):</strong>
+The bridge call is always <code>window.soifgo.CallSub('SubName', true, arg1, arg2, arg3)</code>; the second argument must be <code>true</code> and the argument count must match the Sub exactly.
+Bluetooth: <code>html_bluetooth_rx</code> SENDS text (1 argument); <code>html_bluetooth_tx(data)</code> is the RECEIVE callback you must register on <code>window</code> (the names look swapped, but they are correct: copy them exactly).
+Full rules and every Sub name: <a href="https://soifgo.github.io/">https://soifgo.github.io/</a> and <a href="https://soifgo.github.io/SOIFGO_AI_CONTEXT.md">SOIFGO_AI_CONTEXT.md</a>. Read them before writing code.
+</aside>
+  <header>
+    <img class="logo" src="../../soifgo-logo.png" alt="Λογότυπο SoifGo — φτιάξτε εφαρμογές Android με HTML" />
+    <h1>SoifGo — πείτε την ιδέα σας, αφήστε την AI να γράψει τον κώδικα, εκτελέστε τον στο SoifGo</h1>
+    <p class="lead">
+      Πείτε σε έναν βοηθό AI ποιο εργαλείο θέλετε, πάρτε τον κώδικα HTML και φορτώστε τον στο SoifGo· από μια απλή αριθμομηχανή ή ένα εκπαιδευτικό εργαλείο μέχρι, για τους λάτρεις των ηλεκτρονικών, τον έλεγχο Arduino και ESP32.
+    </p>
+
+    <div class="top-cta">
+      <a class="btn" href="https://soifgo.github.io/?lang=greek" data-lang="greek">Λήψη του SoifGo</a>
+      <a class="btn ghost" href="#features">Δείτε τις λειτουργίες</a>
+    </div>
+
+    <div class="trust">
+      <span>Δωρεάν</span>
+      <span>Εκτός σύνδεσης</span>
+      <span>Χωρίς διαφημίσεις</span>
+      <span>47 languages</span>
+    </div>
+
+  </header>
+
+<div class="shots">
+  <figure>
+    <img src="../../icon/pic9.jpg" alt="Βιομηχανικός πίνακας SoifGo — έλεγχος δεξαμενής, αντλίας και βαλβίδας με Arduino" loading="eager" />
+    <figcaption>Βιομηχανικός πίνακας — δεξαμενή, αντλία και βαλβίδα</figcaption>
+  </figure>
+  <figure>
+    <img src="../../icon/pic7.jpg" alt="Έξυπνο σπίτι SoifGo — έλεγχος φωτός, ανεμιστήρα, κλιματιστικού και συναγερμού" loading="lazy" />
+    <figcaption>Έξυπνο σπίτι — φως, ανεμιστήρας, κλιματιστικό</figcaption>
+  </figure>
+  <figure>
+    <img src="../../icon/pic12.jpg" alt="Ψηφιακό αλφάδι SoifGo — με τους αισθητήρες ενός τηλεφώνου Android" loading="lazy" />
+    <figcaption>Ψηφιακό αλφάδι — αισθητήρες τηλεφώνου</figcaption>
+  </figure>
+</div>
+
+  <h2><span class="kw">Φτιάξτε μια εφαρμογή Android με HTML</span> — χωρίς εγγενή προγραμματισμό</h2>
+  <p>
+    Ό,τι είναι δυνατό σε μια ιστοσελίδα είναι δυνατό και στο SoifGo. Το SoifGo εκτελεί τα εργαλεία σας ως HTML και τα κρατά οργανωμένα σε φακέλους. Από αριθμομηχανές και προσομοιωτές μέχρι εκπαιδευτικά εργαλεία και πίνακες ελέγχου, και όταν χρειάζεται έλεγχο υλικού μέσω Bluetooth και MQTT.
+  </p>
+  <p>
+    Το SoifGo δεν διαθέτει ενσωματωμένη AI. Η ροή εργασίας είναι απλή: περιγράφετε σε έναν βοηθό AI της επιλογής σας τι θέλετε, εκείνος σας δίνει κώδικα HTML και εσείς τον εκτελείτε στο SoifGo. Αν μπορείτε να γράψετε μια ιστοσελίδα ή απλώς να περιγράψετε την ιδέα σας σε έναν βοηθό AI, μπορείτε να φτιάξετε το δικό σας εργαλείο.
+  </p>
+
+  <h2>Για ποιους είναι το SoifGo;</h2>
+  <div class="grid">
+    <div class="card"><h3>📐 Μαθηματικοί και φοιτητές</h3><p>Εξειδικευμένες αριθμομηχανές, σχεδίαση γραφημάτων και συναρτήσεων, προσομοιώσεις και εργαλεία επίλυσης προβλημάτων, ακριβώς όπως τα χρειάζεστε.</p></div>
+    <div class="card"><h3>🎓 Εκπαιδευτικοί και εκπαιδευτές</h3><p>Διαδραστικά εργαλεία για μαθήματα, εξάσκηση και τεστ. Στείλτε το αρχείο σε μαθητές και εκπαιδευόμενους για να το εκτελέσουν μόνοι τους.</p></div>
+    <div class="card"><h3>🏗️ Μηχανικοί κάθε ειδικότητας</h3><p>Τεχνικές αριθμομηχανές, μετατροπείς μονάδων και προσωπικά υπολογιστικά φύλλα πρόχειρα στη δουλειά, ακόμη και χωρίς ίντερνετ.</p></div>
+    <div class="card"><h3>🔌 Δημιουργοί και λάτρεις των ηλεκτρονικών</h3><p>Χειριστήρια και πίνακες Bluetooth και MQTT για Arduino, ESP32, ESP8266 και Raspberry Pi.</p></div>
+    <div class="card"><h3>💡 Όποιος έχει μια ιδέα</h3><p>Πείτε την ιδέα σας σε έναν βοηθό AI, πάρτε κώδικα HTML και εκτελέστε τον στο SoifGo.</p></div>
+  </div>
+
+  <div class="mid-cta">
+    <p>Έτοιμοι να φτιάξετε το πρώτο σας εργαλείο;</p>
+    <a class="btn" href="https://soifgo.github.io/?lang=greek" data-lang="greek">
+      Λήψη του SoifGo →
+    </a>
+  </div>
+
+  <h2><span class="kw">Χειριστήριο Arduino και ESP32</span> μέσω Bluetooth και MQTT από τηλέφωνο Android</h2>
+  <p>
+    Κάθε συσκευή που χρησιμοποιεί Bluetooth SPP/BLE (όπως <code>HC-05</code> και <code>HC-06</code>), MQTT ή HTTP REST λειτουργεί με το SoifGo: Arduino, ESP32, ESP8266 και Raspberry Pi.
+  </p>
+  <p>
+    Στείλτε εντολές σε LED, κινητήρες και ρελέ μέσω Bluetooth, φτιάξτε γέφυρα Bluetooth–MQTT ή πίνακα αισθητήρων σε πραγματικό χρόνο — όλα σε HTML, χωρίς εγγενή κώδικα.
+  </p>
+
+  <h2>Φάκελοι και σελίδες</h2>
+  <p>
+    Το SoifGo σάς δίνει φακέλους και σελίδες για να οργανώνετε τη δουλειά σας. Κάθε σελίδα έχει <strong>40 κουμπιά</strong> και <strong>10 ολισθητές</strong>, και μπορείτε να ορίσετε σε κάθε κουμπί συγκεκριμένες συμπεριφορές, μεταξύ άλλων πλοήγηση ανάμεσα σε φακέλους και σελίδες του SoifGo. Έτσι μπορείτε να φτιάξετε πολλά μενού.
+  </p>
+  <p>
+    Τα κουμπιά έχουν έτοιμα βασικά σχέδια: χρώμα, εικονίδιο, όνομα, γραμματοσειρά, ήχο και δόνηση. Μετακινούνται με σύρσιμο. Κάθε κουμπί μπορεί να έχει βασικές συμπεριφορές, όπως αποστολή και λήψη.
+  </p>
+
+  <h2>Συμπεριφορά web, online και εκτός σύνδεσης</h2>
+  <p>
+    Η «συμπεριφορά web» (WebView) σάς βοηθά να υλοποιήσετε τις ιδέες και τις επιθυμίες σας με τις μεγαλύτερες δυνατότητες, ως HTML, online και εκτός σύνδεσης. Απλώς περιγράψτε σε έναν βοηθό AI τι θέλετε και ζητήστε κώδικα HTML. Έπειτα έχετε δύο επιλογές:
+  </p>
+  <ul class="use">
+    <li>Κατεβάστε το αρχείο και φορτώστε το εκτός σύνδεσης στο SoifGo με τη συμπεριφορά web.</li>
+    <li>Ή αντιγράψτε τον κώδικα και επικολλήστε τον στον δικό του επεξεργαστή HTML του SoifGo.</li>
+  </ul>
+  <p>
+    Και οι δύο τρόποι λειτουργούν και η εφαρμογή web σας αποθηκεύεται στον φάκελο SoifGo. Είτε πρόκειται για αριθμομηχανή, χειριστήριο Bluetooth, παρακολούθηση IoT ή οτιδήποτε άλλο.
+  </p>
+
+  <h2 id="howto">Πώς εκτελώ στο SoifGo κώδικα HTML που δημιούργησε η AI;</h2>
+  <p>
+    Κάντε αυτά τα βήματα μία φορά και θα έχετε ένα έτοιμο κουμπί για την εκτέλεση του κώδικά σας:
+  </p>
+  <ol class="use">
+    <li><strong>Ανοίξτε τη λειτουργία επεξεργασίας:</strong> Ανοίξτε την εφαρμογή SoifGo. Πατήστε το εικονίδιο μενού πάνω αριστερά και επιλέξτε <strong>Edit</strong> για να μπείτε στην οθόνη επεξεργασίας.</li>
+    <li><strong>Δημιουργήστε έναν φάκελο:</strong> Πατήστε ξανά το μενού πάνω αριστερά, επιλέξτε <strong>Select Design</strong>, μετά <strong>Folder</strong>, και πατήστε <strong>Create</strong>. Αν θέλετε, μετονομάστε τον φάκελο, αλλιώς πατήστε <strong>OK</strong>.</li>
+    <li><strong>Δημιουργήστε μια σελίδα:</strong> Δίπλα στο Folder εμφανίζεται τώρα η επιλογή <strong>Page</strong> . Πατήστε την και επιλέξτε <strong>New Page</strong>. Αν θέλετε, μετονομάστε τη σελίδα και μετά πατήστε <strong>OK</strong>.</li>
+    <li><strong>Τοποθετήστε ένα κουμπί στη σελίδα:</strong> Τα κουμπιά εμφανίζονται στη λίστα. Κάθε σελίδα έχει 40 κουμπιά και ο αριθμός μειώνεται κάθε φορά που παίρνετε ένα. Πατήστε ένα κουμπί και διαλέξτε με το δάχτυλο τη θέση του στη σελίδα.</li>
+    <li><strong>Ορίστε τη συμπεριφορά του κουμπιού:</strong> Πατήστε το κουμπί, ανοίξτε το μενού, επιλέξτε <strong>Behavior</strong> από τη λίστα του κουμπιού και μετά <strong>Browser or HTML files</strong>. Εδώ επιλέγετε αν το κουμπί θα λειτουργεί σαν πρόγραμμα περιήγησης ή θα φορτώνει ένα αρχείο HTML. Επιλέξτε το δεύτερο: <strong>Open or edit local HTML file in WebView</strong>.</li>
+    <li><strong>Δημιουργήστε το αρχείο HTML:</strong> Η πιο εύκολη επιλογή είναι η πρώτη, <strong>Create</strong>. Αν θέλετε, μετονομάστε το αρχείο HTML, αλλιώς πατήστε <strong>OK</strong>. <em>Sample</em> δίνει έτοιμα παραδείγματα, <em>File Explorer</em> φορτώνει ένα αρχείο από τον αποθηκευτικό χώρο του τηλεφώνου και το <em>Saved</em> δείχνει στον φάκελο HTML μέσα στον φάκελο που δημιουργήσατε στο SoifGo.</li>
+    <li><strong>Εκτελέστε το κουμπί:</strong> Χρησιμοποιήστε το εικονίδιο μενού στο πάνω μέρος για να πάτε στην οθόνη <strong>Play</strong> και μετά πατήστε το κουμπί που φτιάξατε. Ανοίγει μια κενή σελίδα με το κείμενο «Hello SoifGo».</li>
+    <li><strong>Επικολλήστε τον κώδικα της AI:</strong> Ανοίξτε ξανά το μενού και επιλέξτε <strong>Edit</strong> για να ανοίξει η οθόνη επεξεργασίας του WebView. Επικολλήστε εδώ τον κώδικα HTML που πήρατε από τον βοηθό AI. Μπορείτε να επιλέξετε τα πάντα και να επικολλήσετε χειροκίνητα ή να ανοίξετε το μενού και να επιλέξετε την τελευταία επιλογή, <strong>Select All and Paste</strong>, που αντικαθιστά αυτόματα τον κώδικα.</li>
+    <li><strong>Εκτελέστε τον κώδικα:</strong> Τώρα πατήστε το κίτρινο κουμπί (Close) στο πάνω μέρος της οθόνης. Ο κώδικάς σας εκτελείται. Μπορείτε να κλείσετε τη σελίδα και κάθε φορά απλώς να πατάτε το κουμπί σας για να ξεκινήσει το εργαλείο.</li>
+  </ol>
+  <p>
+    Την επόμενη φορά που θα πάρετε νέο κώδικα από έναν βοηθό AI, απλώς πηγαίνετε στην ίδια σελίδα, πατήστε <strong>Edit</strong>, επιλέξτε <strong>Select All and Paste</strong> στην οθόνη επεξεργασίας του WebView και πατήστε ξανά το κίτρινο κουμπί. Αν χρησιμοποιείτε το File Explorer, το τηλέφωνό σας ίσως δεν υποστηρίζει αυτό το τμήμα· τότε το καλύτερο είναι να εγκαταστήσετε στο τηλέφωνο έναν κατάλληλο διαχειριστή αρχείων.
+  </p>
+
+  <h2>40 διαφορετικές εφαρμογές web σε κάθε σελίδα</h2>
+  <p>
+    Μπορείτε να έχετε 40 διαφορετικές εφαρμογές web σε κάθε σελίδα. Δεν χρειάζεται να τις ζητάτε κάθε φορά από έναν βοηθό AI και μπορείτε να δουλεύετε μαζί τους εκτός σύνδεσης. Μπορείτε ακόμη και να τις στείλετε σε συναδέλφους, φίλους ή εκπαιδευόμενους για να τις κατεβάσουν και να τις εκτελέσουν.
+  </p>
+
+  <h2 id="features">Λειτουργίες του SoifGo</h2>
+  <div class="grid">
+    <div class="card"><h3>🌐 Πλήρες WebView</h3><p>Μια σύγχρονη μηχανή προγράμματος περιήγησης: Canvas, SVG, WebGL και βιβλιοθήκες όπως Chart.js, D3 και Three.js για γραφήματα, προσομοιώσεις και τρισδιάστατη απεικόνιση.</p></div>
+    <div class="card"><h3>🧩 Κλασική λειτουργία</h3><p>Έτοιμα κουμπιά και ολισθητές, χωρίς καθόλου κώδικα, για απλά χειριστήρια και μενού.</p></div>
+    <div class="card"><h3>💾 Τοπική αποθήκευση</h3><p>Αποθηκεύστε δεδομένα με <code>localStorage</code> ακόμη και αφού κλείσετε την εφαρμογή.</p></div>
+    <div class="card"><h3>🟢 Αισθητήρες τηλεφώνου</h3><p>Φως περιβάλλοντος, κίνηση (επιταχυνσιόμετρο) και μαγνητόμετρο, σε πραγματικό χρόνο.</p></div>
+    <div class="card"><h3>🎤 Μικρόφωνο και αναγνώριση ομιλίας</h3><p>Μετατρέψτε την ομιλία σε κείμενο και χρησιμοποιήστε την στα εργαλεία σας ή στείλτε την σε συσκευές.</p></div>
+    <div class="card"><h3>🔵 Σειριακό Bluetooth</h3><p>Στείλτε και λάβετε κείμενο με HC-05, HC-06, JDY-31, BLE, Arduino, ESP32 και Raspberry Pi.</p></div>
+    <div class="card"><h3>🟣 Πελάτης MQTT</h3><p>Συνδεθείτε σε οποιονδήποτε broker (tcp ή ssl), δημοσιεύστε και εγγραφείτε και ελέγξτε την κατάσταση της σύνδεσης.</p></div>
+    <div class="card"><h3>🟠 HTTP API</h3><p>Στείλτε JSON σε οποιαδήποτε διεύθυνση και λάβετε και εξάγετε τιμές από την απάντηση.</p></div>
+  </div>
+
+  <h2>Τι μπορείτε να φτιάξετε;</h2>
+  <ul class="use">
+    <li>Αριθμομηχανές και εξειδικευμένα υπολογιστικά εργαλεία</li>
+    <li>Σχεδίαση γραφημάτων, προσομοιώσεις και οπτικοποίηση δεδομένων</li>
+    <li>Διαδραστικά εκπαιδευτικά εργαλεία, εξάσκηση και τεστ</li>
+    <li>Τρισδιάστατη απεικόνιση και επιστημονικά εργαλεία</li>
+    <li>Πίνακες ελέγχου και προσαρμοσμένες διεπαφές για τη δουλειά σας</li>
+    <li>Έλεγχος LED, κινητήρων, ρελέ και ρομπότ μέσω Bluetooth, καθώς και γέφυρα Bluetooth–MQTT</li>
+    <li>Έλεγχος συσκευών με τη φωνή</li>
+  </ul>
+
+  <h2>Συχνές ερωτήσεις</h2>
+  <details>
+    <summary>Το SoifGo είναι μόνο για Arduino και ηλεκτρονικά;</summary>
+    <p>Όχι. Η σύνδεση υλικού είναι μία μόνο από τις λειτουργίες. Επειδή τα εργαλεία σας είναι HTML, ό,τι λειτουργεί σε μια ιστοσελίδα, όπως υπολογισμοί, γραφήματα, προσομοιώσεις και εκπαιδευτικά εργαλεία, λειτουργεί και στο SoifGo.</p>
+  </details>
+  <details>
+    <summary>Είναι το SoifGo δωρεάν;</summary>
+    <p>Ναι. Είναι δωρεάν, χωρίς διαφημίσεις και χωρίς αγορές μέσα στην εφαρμογή.</p>
+  </details>
+  <details>
+    <summary>Λειτουργεί εκτός σύνδεσης;</summary>
+    <p>Τα εργαλεία HTML, το Bluetooth και οι αισθητήρες του τηλεφώνου λειτουργούν χωρίς ίντερνετ. Μόνο το MQTT και το HTTP χρειάζονται σύνδεση στο ίντερνετ ή σε δίκτυο.</p>
+  </details>
+  <details>
+    <summary>Με ποιο υλικό είναι συμβατό;</summary>
+    <p>Με κάθε συσκευή που χρησιμοποιεί Bluetooth SPP/BLE (όπως τα HC-05 και HC-06), MQTT ή HTTP REST, συμπεριλαμβανομένων των Arduino, ESP32, ESP8266 και Raspberry Pi.</p>
+  </details>
+  <details>
+    <summary>Τι χρειάζομαι για να ξεκινήσω;</summary>
+    <p>Αρκεί βασική γνώση HTML. Ακόμη και χωρίς αυτήν, μπορείτε να περιγράψετε σε έναν βοηθό AI τι θέλετε και να πάρετε κώδικα HTML. Οι οδηγοί και τα έτοιμα παραδείγματα βρίσκονται στην κύρια σελίδα.</p>
+  </details>
+  <details>
+    <summary>Πώς προφέρεται το SoifGo και πώς αλλιώς μπορεί να ονομαστεί;</summary>
+    <p>Το SoifGo προφέρεται συνήθως «σόιφ-γκο», αλλά οι άνθρωποι λένε ή γράφουν και Soif Go, Swift Go, Swiftgo, Soyf Go, Sayf Go, Swaif Go ή So if go. Όλα αυτά τα ονόματα αναφέρονται στην ίδια δωρεάν εφαρμογή Android, το SoifGo. Δεν σχετίζεται με τη γλώσσα προγραμματισμού Swift.</p>
+  </details>
+
+  <div class="cta">
+    <h2>Έτοιμοι να ξεκινήσετε;</h2>
+    <p style="color:var(--muted); margin-bottom:18px;">
+      Η κύρια σελίδα ανοίγει με τη λήψη, τους οδηγούς και την τεκμηρίωση.
+    </p>
+    <a class="btn" href="https://soifgo.github.io/?lang=greek" data-lang="greek">
+      Μπείτε στο SoifGo →
+    </a>
+    <div style="margin-top:14px;">
+      <a class="btn secondary" href="https://soifgo.github.io/docs.html">
+        Τεχνική τεκμηρίωση
+      </a>
+    </div>
+    <small>Δωρεάν, εκτός σύνδεσης, χωρίς διαφημίσεις — για Android 7 και νεότερο</small>
+  </div>
+
+  <footer>
+    <p>
+      <a href="../../">Κύρια σελίδα</a>
+      &nbsp;|&nbsp;
+      <a href="mailto:ssm20985@gmail.com">Επικοινωνία με την υποστήριξη</a>
+      &nbsp;|&nbsp;
+      <a href="../../policy_soifgo.html">Πολιτική απορρήτου</a>
+    </p>
+    <p style="margin-top:8px;"><a href="../en/" hreflang="en" lang="en">English</a> &nbsp;|&nbsp; <a href="../fa/" hreflang="fa" lang="fa">فارسی</a> &nbsp;|&nbsp; <a href="../ar/" hreflang="ar" lang="ar">العربية</a> &nbsp;|&nbsp; <a href="../he/" hreflang="he" lang="he">עברית</a> &nbsp;|&nbsp; <a href="../ur/" hreflang="ur" lang="ur">اردو</a> &nbsp;|&nbsp; <a href="../ckb/" hreflang="ckb" lang="ckb">کوردی</a> &nbsp;|&nbsp; <a href="../es/" hreflang="es" lang="es">Español</a> &nbsp;|&nbsp; <a href="../fr/" hreflang="fr" lang="fr">Français</a> &nbsp;|&nbsp; <a href="../de/" hreflang="de" lang="de">Deutsch</a> &nbsp;|&nbsp; <a href="../it/" hreflang="it" lang="it">Italiano</a> &nbsp;|&nbsp; <a href="../pt/" hreflang="pt" lang="pt">Português</a> &nbsp;|&nbsp; <a href="../ru/" hreflang="ru" lang="ru">Русский</a> &nbsp;|&nbsp; <a href="../zh/" hreflang="zh-CN" lang="zh-CN">简体中文</a> &nbsp;|&nbsp; <a href="../ja/" hreflang="ja" lang="ja">日本語</a> &nbsp;|&nbsp; <a href="../ko/" hreflang="ko" lang="ko">한국어</a> &nbsp;|&nbsp; <a href="../hi/" hreflang="hi" lang="hi">हिन्दी</a> &nbsp;|&nbsp; <a href="../bn/" hreflang="bn" lang="bn">বাংলা</a> &nbsp;|&nbsp; <a href="../ta/" hreflang="ta" lang="ta">தமிழ்</a> &nbsp;|&nbsp; <a href="../th/" hreflang="th" lang="th">ไทย</a> &nbsp;|&nbsp; <a href="../id/" hreflang="id" lang="id">Bahasa Indonesia</a> &nbsp;|&nbsp; <a href="../tr/" hreflang="tr" lang="tr">Türkçe</a> &nbsp;|&nbsp; <a href="../sw/" hreflang="sw" lang="sw">Kiswahili</a> &nbsp;|&nbsp; <a href="../vi/" hreflang="vi" lang="vi">Tiếng Việt</a> &nbsp;|&nbsp; <a href="../pl/" hreflang="pl" lang="pl">Polski</a> &nbsp;|&nbsp; <a href="../uk/" hreflang="uk" lang="uk">Українська</a> &nbsp;|&nbsp; <a href="../nl/" hreflang="nl" lang="nl">Nederlands</a> &nbsp;|&nbsp; <a href="../cs/" hreflang="cs" lang="cs">Čeština</a> &nbsp;|&nbsp; <a href="../ro/" hreflang="ro" lang="ro">Română</a> &nbsp;|&nbsp; <a href="../hu/" hreflang="hu" lang="hu">Magyar</a> &nbsp;|&nbsp; <a href="../sv/" hreflang="sv" lang="sv">Svenska</a> &nbsp;|&nbsp; <a href="../no/" hreflang="no" lang="no">Norsk</a> &nbsp;|&nbsp; <a href="../da/" hreflang="da" lang="da">Dansk</a> &nbsp;|&nbsp; <a href="../az/" hreflang="az" lang="az">Azərbaycanca</a> &nbsp;|&nbsp; <a href="../ms/" hreflang="ms" lang="ms">Melayu</a> &nbsp;|&nbsp; <a href="../bg/" hreflang="bg" lang="bg">Български</a> &nbsp;|&nbsp; <a href="../sr/" hreflang="sr" lang="sr">Srpski</a> &nbsp;|&nbsp; <a href="../af/" hreflang="af" lang="af">Afrikaans</a> &nbsp;|&nbsp; <a href="../es-419/" hreflang="es-419" lang="es-419">Español (Latinoamérica)</a> &nbsp;|&nbsp; <a href="../ha/" hreflang="ha" lang="ha">Hausa</a> &nbsp;|&nbsp; <a href="../jv/" hreflang="jv" lang="jv">Basa Jawa</a> &nbsp;|&nbsp; <a href="../fil/" hreflang="fil" lang="fil">Filipino</a></p>
+    <p style="margin-top:8px;">&copy; 2026 SoifGo — δημιουργήθηκε από τον saeid moghadam</p>
+  </footer>
+
+</div>
+<script>
+  // Remember the chosen language for the main page.
+  // Both pages share one origin (soifgo.github.io), so localStorage is shared.
+  (function () {
+    function remember(lang) {
+      try {
+        if (lang === 'english') { localStorage.removeItem('soifgo-lang'); }
+        else { localStorage.setItem('soifgo-lang', lang); }
+        localStorage.setItem('soifgo-lang-auto', '1');
+      } catch (e) {}
+    }
+    document.querySelectorAll('a[data-lang]').forEach(function (a) {
+      ['click', 'auxclick'].forEach(function (ev) {
+        a.addEventListener(ev, function () { remember(a.getAttribute('data-lang')); });
+      });
+    });
+  })();
+</script>
+<script>
+  // Day / night toggle (shares the 'soifgo-theme' choice with the main page)
+  (function () {
+    var b = document.getElementById('themeToggle'), ic = document.getElementById('themeIcon');
+    function paint(t) { ic.textContent = t === 'light' ? '🌙' : '☀️'; b.title = t === 'light' ? 'Dark mode' : 'Light mode'; }
+    paint(document.documentElement.getAttribute('data-theme') || 'dark');
+    b.addEventListener('click', function () {
+      var n = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', n);
+      try { localStorage.setItem('soifgo-theme', n); } catch (e) {}
+      paint(n);
+    });
+  })();
+</script>
+</body>
+</html>

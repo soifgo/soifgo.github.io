@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="ha" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Theme boot: same storage key as the main page, so the choice is shared -->
+  <script>
+    (function () {
+      var t = 'dark';
+      try { var s = localStorage.getItem('soifgo-theme'); if (s === 'light' || s === 'dark') { t = s; } } catch (e) {}
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <!-- ============ PRIMARY SEO ============ -->
+  <title>SoifGo — hanya mafi sauƙi ta ƙirƙirar manhajojin Android, da taimakon AI kuma ba tare da wahalar rubuta lamba ba</title>
+  <meta name="description" content="Gaya wa mataimakin AI ra'ayinka, ka sami lambar HTML, ka kuma gudanar da ita a cikin SoifGo. Kyauta ne, kuma ba ya buƙatar ƙwarewar rubuta lamba ta ƙwararru." />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
+
+  <!-- ============ CANONICAL & HREFLANG ============ -->
+  <link rel="canonical" href="https://soifgo.github.io/intro/ha/" />
+  <link rel="alternate" hreflang="x-default" href="https://soifgo.github.io/" />
+  <link rel="alternate" hreflang="en" href="https://soifgo.github.io/intro/en/" />
+  <link rel="alternate" hreflang="fa" href="https://soifgo.github.io/intro/fa/" />
+  <link rel="alternate" hreflang="ar" href="https://soifgo.github.io/intro/ar/" />
+  <link rel="alternate" hreflang="he" href="https://soifgo.github.io/intro/he/" />
+  <link rel="alternate" hreflang="ur" href="https://soifgo.github.io/intro/ur/" />
+  <link rel="alternate" hreflang="ckb" href="https://soifgo.github.io/intro/ckb/" />
+  <link rel="alternate" hreflang="es" href="https://soifgo.github.io/intro/es/" />
+  <link rel="alternate" hreflang="fr" href="https://soifgo.github.io/intro/fr/" />
+  <link rel="alternate" hreflang="de" href="https://soifgo.github.io/intro/de/" />
+  <link rel="alternate" hreflang="it" href="https://soifgo.github.io/intro/it/" />
+  <link rel="alternate" hreflang="pt" href="https://soifgo.github.io/intro/pt/" />
+  <link rel="alternate" hreflang="ru" href="https://soifgo.github.io/intro/ru/" />
+  <link rel="alternate" hreflang="zh-CN" href="https://soifgo.github.io/intro/zh/" />
+  <link rel="alternate" hreflang="ja" href="https://soifgo.github.io/intro/ja/" />
+  <link rel="alternate" hreflang="ko" href="https://soifgo.github.io/intro/ko/" />
+  <link rel="alternate" hreflang="hi" href="https://soifgo.github.io/intro/hi/" />
+  <link rel="alternate" hreflang="bn" href="https://soifgo.github.io/intro/bn/" />
+  <link rel="alternate" hreflang="ta" href="https://soifgo.github.io/intro/ta/" />
+  <link rel="alternate" hreflang="th" href="https://soifgo.github.io/intro/th/" />
+  <link rel="alternate" hreflang="id" href="https://soifgo.github.io/intro/id/" />
+  <link rel="alternate" hreflang="tr" href="https://soifgo.github.io/intro/tr/" />
+  <link rel="alternate" hreflang="sw" href="https://soifgo.github.io/intro/sw/" />
+  <link rel="alternate" hreflang="az" href="https://soifgo.github.io/intro/az/" />
+  <link rel="alternate" hreflang="ms" href="https://soifgo.github.io/intro/ms/" />
+  <link rel="alternate" hreflang="bg" href="https://soifgo.github.io/intro/bg/" />
+  <link rel="alternate" hreflang="sr" href="https://soifgo.github.io/intro/sr/" />
+  <link rel="alternate" hreflang="no" href="https://soifgo.github.io/intro/no/" />
+  <link rel="alternate" hreflang="da" href="https://soifgo.github.io/intro/da/" />
+  <link rel="alternate" hreflang="el" href="https://soifgo.github.io/intro/el/" />
+  <link rel="alternate" hreflang="ro" href="https://soifgo.github.io/intro/ro/" />
+  <link rel="alternate" hreflang="hu" href="https://soifgo.github.io/intro/hu/" />
+  <link rel="alternate" hreflang="sv" href="https://soifgo.github.io/intro/sv/" />
+  <link rel="alternate" hreflang="nl" href="https://soifgo.github.io/intro/nl/" />
+  <link rel="alternate" hreflang="cs" href="https://soifgo.github.io/intro/cs/" />
+  <link rel="alternate" hreflang="vi" href="https://soifgo.github.io/intro/vi/" />
+  <link rel="alternate" hreflang="pl" href="https://soifgo.github.io/intro/pl/" />
+  <link rel="alternate" hreflang="uk" href="https://soifgo.github.io/intro/uk/" />
+  <link rel="alternate" hreflang="af" href="https://soifgo.github.io/intro/af/" />
+  <link rel="alternate" hreflang="es-419" href="https://soifgo.github.io/intro/es-419/" />
+  <link rel="alternate" hreflang="ha" href="https://soifgo.github.io/intro/ha/" />
+  <link rel="alternate" hreflang="jv" href="https://soifgo.github.io/intro/jv/" />
+  <link rel="alternate" hreflang="fil" href="https://soifgo.github.io/intro/fil/" />
+
+  <!-- ============ OPEN GRAPH ============ -->
+  <meta property="og:title" content="SoifGo — gaya ra'ayinka, bari AI ta rubuta lambar, ka gudanar da ita a cikin SoifGo" />
+  <meta property="og:description" content="Gaya wa mataimakin AI ra'ayinka, ka sami lambar HTML, ka kuma gudanar da ita a cikin SoifGo. Kyauta ne, kuma ba ya buƙatar ƙwarewar rubuta lamba ta ƙwararru." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://soifgo.github.io/intro/ha/" />
+  <meta property="og:image" content="https://soifgo.github.io/soifgo-logo.png" />
+  <meta property="og:image:alt" content="SoifGo — ƙirƙiri manhajojin Android da HTML" />
+  <meta property="og:locale" content="ha_NG" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:site_name" content="SoifGo" />
+
+  <!-- ============ TWITTER ============ -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SoifGo — gaya ra'ayinka, bari AI ta rubuta lambar, ka gudanar da ita a cikin SoifGo" />
+  <meta name="twitter:description" content="Gaya wa mataimakin AI ra'ayinka, ka sami lambar HTML, ka kuma gudanar da ita a cikin SoifGo. Kyauta." />
+  <meta name="twitter:image" content="https://soifgo.github.io/soifgo-logo.png" />
+
+  <!-- ============ PERFORMANCE HINTS ============ -->
+  <link rel="preconnect" href="https://cdn.staticfile.net" crossorigin />
+  <link rel="dns-prefetch" href="https://cdn.staticfile.net" />
+
+  <!-- ============ JSON-LD ============ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "SoifGo",
+    "alternateName": [
+      "Soif Go",
+      "Swift Go",
+      "Swiftgo",
+      "Soyf Go",
+      "Sayf Go",
+      "Swaif Go",
+      "Sewif Go",
+      "So if go"
+    ],
+    "operatingSystem": "Android 7.0+",
+    "applicationCategory": "DeveloperApplication",
+    "description": "Dandalin Android don ƙirƙirar manhajojinka da kayan aikinka da HTML, CSS da JavaScript, tare da masu sarrafa Bluetooth da MQTT don Arduino, ESP32 da ESP8266.",
+    "url": "https://soifgo.github.io/intro/ha/",
+    "downloadUrl": "https://soifgo.github.io/soifgo.zip",
+    "installUrl": "https://apkpure.com/soifgo/soifgo.saeidmoghadam",
+    "softwareVersion": "1.46",
+    "inLanguage": "ha",
+    "isAccessibleForFree": true,
+    "author": {
+      "@type": "Person",
+      "name": "saeid moghadam",
+      "email": "ssm20985@gmail.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "SoifGo",
+      "url": "https://soifgo.github.io/"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
+    },
+    "featureList": [
+      "Cikakken WebView mai goyon bayan HTML/CSS/JS",
+      "Mai sarrafa Bluetooth na serial (HC-05, HC-06, JDY-31, BLE)",
+      "Abokin MQTT mai buga saƙo (publish) da yin rajista (subscribe)",
+      "Neman bayanai da amsoshi na API na HTTP",
+      "Na'urorin ji na waya: haske, motsi, magnetometer",
+      "Makirufo da gane murya",
+      "Maɓalloli 40 da abubuwan zamiya 10 a kowane shafi",
+      "Tsara abubuwa a cikin manyan fayiloli da shafuka",
+      "Kyauta, ba tare da intanet ba, kuma ba tallace-tallace"
+    ],
+    "screenshot": [
+      "https://soifgo.github.io/icon/pic9.jpg",
+      "https://soifgo.github.io/icon/pic7.jpg",
+      "https://soifgo.github.io/icon/pic12.jpg"
+    ],
+    "softwareRequirements": "Android 7.0 (Nougat) ko sama da haka"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "inLanguage": "ha",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Shin SoifGo na Arduino da na'urorin lantarki kawai ne?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A'a. Haɗawa da kayan aiki wani abu ne kawai cikin siffofinsa. Saboda kayan aikinka HTML ne, duk abin da ke aiki a shafin yanar gizo, kamar lissafi, ginshiƙai, kwaikwayo da kayan koyarwa, yana aiki a cikin SoifGo ma."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Shin SoifGo kyauta ne?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Eh. Kyauta ne, ba tallace-tallace, kuma ba sayayya a cikin manhajar."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Shin yana aiki ba tare da intanet ba?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Kayan aikin HTML, Bluetooth da na'urorin ji na waya suna aiki ba tare da intanet ba. MQTT da HTTP ne kawai ke buƙatar haɗin intanet ko na hanyar sadarwa."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Da wane kayan aiki yake dacewa?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Da duk na'urar da ke amfani da Bluetooth SPP/BLE (kamar HC-05 da HC-06), MQTT ko HTTP REST, ciki har da Arduino, ESP32, ESP8266 da Raspberry Pi."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Me nake buƙata don farawa?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ilimin HTML na asali ya isa. Ko ba tare da shi ba, za ka iya bayyana wa mataimakin AI abin da kake so ka sami lambar HTML. Akwai koyarwa da misalai a shirye a babban shafi."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Yaya ake furta SoifGo, kuma menene sauran sunayensa?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yawanci ana furta SoifGo da “soif-go”, amma wasu mutane suna furtawa ko rubuta Soif Go, Swift Go, Swiftgo, Soyf Go, Sayf Go, Swaif Go ko So if go. Duk waɗannan sunayen suna nufin manhajar Android kyauta ɗaya, wato SoifGo. Ba shi da alaƙa da yaren shirye-shirye na Swift."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "SoifGo",
+        "item": "https://soifgo.github.io/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Gabatarwa da harshen Hausa",
+        "item": "https://soifgo.github.io/intro/ha/"
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "Yaya zan gudanar da lambar HTML da AI ta samar a cikin SoifGo?",
+    "inLanguage": "ha",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "Buɗe yanayin gyara",
+        "text": "Buɗe manhajar SoifGo. Taɓa alamar menu a saman hagu, sannan zaɓi Edit don shiga allon gyara."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "Ƙirƙiri babban fayil",
+        "text": "Sake taɓa menu a saman hagu, zaɓi Select Design, sannan Folder, ka taɓa Create. Canja sunan babban fayil idan kana so, in ba haka ba ka taɓa OK."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "Ƙirƙiri shafi",
+        "text": "Zaɓin Page yanzu ya bayyana kusa da Folder. Taɓa shi ka zaɓi New Page. Canja sunan shafin idan kana so, sannan ka taɓa OK."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 4,
+        "name": "Sanya maɓalloli a shafi",
+        "text": "Ana nuna maɓallai a cikin jerin. Kowane shafi yana da maɓalloli 40, kuma adadin yana raguwa duk lokacin da ka ɗauki ɗaya. Taɓa maɓalli ka zaɓi wurinsa a shafin da yatsanka."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 5,
+        "name": "Saita halayen maɓalli",
+        "text": "Taɓa maɓallin, buɗe menu, zaɓi Behavior daga jerin maɓallai, sannan Browser or HTML files. A nan za ka zaɓi ko maɓallin zai yi aiki kamar mai bincike ko zai ɗora fayil ɗin HTML. Zaɓi na biyun: Open or edit local HTML file in WebView."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 6,
+        "name": "Ƙirƙiri fayil ɗin HTML",
+        "text": "Mafi sauƙin zaɓi shi ne na farko, Create. Canja sunan fayil ɗin HTML idan kana so, in ba haka ba ka taɓa OK. Sample yana ba da misalai a shirye, File Explorer yana ɗora fayiloli daga ma'ajiyar waya, kuma Saved yana kai ka babban fayil ɗin HTML a cikin babban fayil ɗin da ka ƙirƙira a SoifGo."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 7,
+        "name": "Gudanar da maɓallin",
+        "text": "Yi amfani da alamar menu a sama don zuwa allon Play, sannan ka taɓa maɓallin da ka ƙirƙira. Wani shafi marar komai mai rubutun “Hello SoifGo” zai buɗe."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 8,
+        "name": "Manna lambar AI",
+        "text": "Sake buɗe menu ka zaɓi Edit don buɗe allon gyara na WebView. Manna lambar HTML da ka samu daga mataimakin AI a nan. Za ka iya zaɓar duka ka manna da hannu, ko ka buɗe menu ka zaɓi zaɓin ƙarshe, Select All and Paste, wanda ke maye gurbin lambar kai tsaye."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 9,
+        "name": "Gudanar da lambar",
+        "text": "Yanzu ka taɓa maɓallin rawaya (Close) a saman allo. Lambarka za ta gudana. Za ka iya rufe shafin, kuma duk lokacin da kake son fara kayan aikin sai ka taɓa maɓallinka kawai."
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg:#0f172a; --card:#1e293b; --text:#e2e8f0; --muted:#94a3b8;
+      --primary:#38bdf8; --primary-strong:#0ea5e9; --border:#334155;
+      --success:#4ade80;
+    }
+    :root[data-theme="light"] {
+        --bg:#f8fafc; --card:#ffffff; --text:#0f172a; --muted:#475569;
+        --primary:#0369a1; --primary-strong:#0284c7; --border:#e2e8f0;
+        --success:#16a34a;
+      }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body {
+      background:var(--bg); color:var(--text); line-height:1.7;
+      font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,sans-serif;
+      font-size:17px;
+    }
+    .wrap { max-width:860px; margin:0 auto; padding:24px 18px 48px; }
+
+    /* === Header === */
+    header { text-align:center; padding:24px 0 8px; }
+    header img.logo { width:84px; height:84px; border-radius:18px; }
+    h1 { font-size:1.7rem; line-height:1.5; margin:14px 0 10px; }
+    .lead { color:var(--muted); font-size:1.05rem; }
+    p { margin-bottom:10px; }
+
+    /* === Top CTA === */
+    .top-cta {
+      display:flex; justify-content:center; gap:10px; flex-wrap:wrap;
+      margin:20px 0 4px;
+    }
+    .top-cta .btn { padding:10px 22px; font-size:.95rem; }
+    .top-cta .btn.ghost {
+      background:transparent; color:var(--primary);
+      border:2px solid var(--primary);
+    }
+    .top-cta .btn.ghost:hover {
+      background:var(--primary); color:#fff;
+    }
+
+    /* === Version badge === */
+    .version-badge {
+      display:inline-block; margin:10px auto 0;
+      font-size:.82rem; color:var(--muted);
+      background:var(--card); border:1px solid var(--border);
+      padding:4px 12px; border-radius:20px;
+    }
+    .version-badge code { background:transparent; border:none; padding:0; }
+
+    /* === Headings === */
+    h2 {
+      font-size:1.3rem; margin:36px 0 12px; color:var(--primary);
+      line-height:1.5;
+    }
+    h2 .kw { color:var(--text); }
+
+    /* === Screenshots with captions === */
+    .shots {
+      display:grid; grid-template-columns:repeat(3,1fr); gap:10px;
+      margin:22px 0 4px; direction:ltr;
+    }
+    .shots figure { margin:0; }
+    .shots img {
+      width:100%; border-radius:12px; border:1px solid var(--border);
+      display:block;
+    }
+    .shots figcaption {
+      font-size:.82rem; color:var(--muted); text-align:center;
+      margin-top:6px; line-height:1.5;
+    }
+
+    /* === Grid & Cards === */
+    .grid {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:12px;
+    }
+    .card {
+      background:var(--card); border:1px solid var(--border);
+      border-radius:12px; padding:14px 16px;
+    }
+    .card h3 { font-size:1rem; margin-bottom:4px; }
+    .card p { color:var(--muted); font-size:.93rem; margin:0; }
+
+    /* === Lists === */
+    ul.use { padding-inline-start:22px; }
+    ul.use li { margin-bottom:6px; }
+    ol.use { padding-inline-start:22px; }
+    ol.use li { margin-bottom:10px; }
+
+    /* === FAQ === */
+    details {
+      background:var(--card); border:1px solid var(--border);
+      border-radius:12px; padding:12px 16px; margin-bottom:10px;
+    }
+    summary { cursor:pointer; font-weight:bold; }
+    details p { margin:8px 0 0; color:var(--muted); }
+
+    /* === Inline code === */
+    code {
+      direction:ltr; unicode-bidi:isolate;
+      background:var(--card); border:1px solid var(--border);
+      border-radius:6px; padding:1px 6px; font-size:.9em;
+    }
+
+    /* === CTA blocks === */
+    .cta {
+      text-align:center; margin-top:40px;
+      padding:28px 20px;
+      background:var(--card); border:1px solid var(--border);
+      border-radius:16px;
+    }
+    .cta h2 { margin-top:0; }
+    .btn {
+      display:inline-block; background:var(--primary); color:#fff;
+      text-decoration:none; font-weight:bold;
+      padding:14px 34px; border-radius:12px; font-size:1.1rem;
+      transition:background .2s, transform .15s;
+    }
+    .btn:hover { background:var(--primary-strong); transform:translateY(-2px); }
+    .btn.secondary {
+      background:transparent; color:var(--primary);
+      border:2px solid var(--primary);
+      padding:12px 30px; font-size:1rem;
+    }
+    .btn.secondary:hover { background:var(--primary); color:#fff; }
+    .cta small { display:block; margin-top:10px; color:var(--muted); }
+
+    /* === Mid CTA === */
+    .mid-cta {
+      text-align:center; margin:26px 0 6px;
+      padding:18px;
+      background:linear-gradient(135deg, rgba(56,189,248,.08), rgba(56,189,248,.02));
+      border:1px solid var(--border); border-radius:12px;
+    }
+    .mid-cta p { color:var(--muted); margin:0 0 12px; }
+
+    /* === Trust row === */
+    .trust {
+      display:flex; justify-content:center; gap:18px; flex-wrap:wrap;
+      margin-top:14px; font-size:.88rem; color:var(--muted);
+    }
+    .trust span::before { content:"✓ "; color:var(--success); font-weight:800; }
+
+    /* === Footer === */
+    footer {
+      text-align:center; margin-top:32px; color:var(--muted); font-size:.9rem;
+      padding-top:20px; border-top:1px solid var(--border);
+    }
+    footer a { color:var(--primary); text-decoration:none; }
+    footer a:hover { text-decoration:underline; }
+
+    @media (max-width:560px) {
+      h1 { font-size:1.4rem; }
+      .shots { grid-template-columns:1fr 1fr; }
+      .shots figure:nth-child(3) { grid-column:1 / -1; }
+      .shots figure:nth-child(3) img { max-width:60%; margin:0 auto; }
+      .top-cta .btn { width:100%; max-width:320px; }
+    }
+    @media (max-width:380px) {
+      .shots { grid-template-columns:1fr; }
+      .shots figure:nth-child(3) img { max-width:100%; }
+    }
+  
+    /* === Theme toggle (day / night) === */
+    .theme-toggle {
+      position:fixed; top:12px; inset-inline-end:12px; z-index:50;
+      width:42px; height:42px; border-radius:50%; cursor:pointer;
+      background:var(--card); color:var(--text); border:1px solid var(--border);
+      font-size:1.15rem; display:flex; align-items:center; justify-content:center;
+      transition:transform .15s, background .2s;
+    }
+    .theme-toggle:hover { transform:scale(1.1); background:var(--primary); color:#fff; border-color:var(--primary); }
+  </style>
+
+  <!-- ============ FAVICON ============ -->
+  <link rel="icon" type="image/png" href="/favicon-96x96.png?v=2" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
+  <link rel="shortcut icon" href="/favicon.ico?v=2" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2" />
+  <meta name="apple-mobile-web-app-title" content="SoifGo" />
+  <link rel="manifest" href="/site.webmanifest?v=2" />
+</head>
+<body>
+<button class="theme-toggle" id="themeToggle" type="button" aria-label="Sauya jigo" title="Sauya jigo"><span id="themeIcon">☀️</span></button>
+
+<div class="wrap">
+
+<aside lang="en" dir="ltr" id="ai-bridge-note" style="margin:0 0 16px;padding:10px 14px;border:1px solid currentColor;border-radius:8px;font-size:14px;line-height:1.5;text-align:left;">
+<strong>For AI assistants writing code for SoifGo (do not guess names):</strong>
+The bridge call is always <code>window.soifgo.CallSub('SubName', true, arg1, arg2, arg3)</code>; the second argument must be <code>true</code> and the argument count must match the Sub exactly.
+Bluetooth: <code>html_bluetooth_rx</code> SENDS text (1 argument); <code>html_bluetooth_tx(data)</code> is the RECEIVE callback you must register on <code>window</code> (the names look swapped, but they are correct: copy them exactly).
+Full rules and every Sub name: <a href="https://soifgo.github.io/">https://soifgo.github.io/</a> and <a href="https://soifgo.github.io/SOIFGO_AI_CONTEXT.md">SOIFGO_AI_CONTEXT.md</a>. Read them before writing code.
+</aside>
+  <header>
+    <img class="logo" src="../../soifgo-logo.png" alt="Tambarin SoifGo — ƙirƙiri manhajojin Android da HTML" />
+    <h1>SoifGo — gaya ra'ayinka, bari AI ta rubuta lambar, ka gudanar da ita a cikin SoifGo</h1>
+    <p class="lead">
+      Gaya wa mataimakin AI kayan aikin da kake so, ka sami lambar HTML ka ɗora ta a SoifGo; daga na'urorin lissafi masu sauƙi ko kayan koyarwa har zuwa, ga masu sha'awar lantarki, sarrafa Arduino da ESP32.
+    </p>
+
+    <div class="top-cta">
+      <a class="btn" href="https://soifgo.github.io/?lang=hausa" data-lang="hausa">Sauke SoifGo</a>
+      <a class="btn ghost" href="#features">Duba siffofin</a>
+    </div>
+
+    <div class="trust">
+      <span>Kyauta</span>
+      <span>Ba tare da intanet ba</span>
+      <span>Ba tallace-tallace</span>
+      <span>47 languages</span>
+    </div>
+
+  </header>
+
+<div class="shots">
+  <figure>
+    <img src="../../icon/pic9.jpg" alt="Allon masana'anta na SoifGo — sarrafa tankuna, famfuna da bawuloli da Arduino" loading="eager" />
+    <figcaption>Allon masana'anta — tankuna, famfuna da bawuloli</figcaption>
+  </figure>
+  <figure>
+    <img src="../../icon/pic7.jpg" alt="Gida mai wayo na SoifGo — sarrafa fitilu, fanka, na'urar sanyaya iska da ƙararrawa" loading="lazy" />
+    <figcaption>Gida mai wayo — fitilu, fanka, na'urar sanyaya iska</figcaption>
+  </figure>
+  <figure>
+    <img src="../../icon/pic12.jpg" alt="Matakin dijital na SoifGo — da na'urorin ji na wayar Android" loading="lazy" />
+    <figcaption>Matakin dijital — na'urorin ji na waya</figcaption>
+  </figure>
+</div>
+
+  <h2><span class="kw">Ƙirƙiri manhajojin Android da HTML</span> — ba tare da rubutun lamba na asali ba</h2>
+  <p>
+    Duk abin da za a iya yi a shafin yanar gizo za a iya yin sa a SoifGo. SoifGo yana gudanar da kayan aikinka a matsayin HTML kuma yana adana su cikin tsari a manyan fayiloli. Daga na'urorin lissafi da na kwaikwayo zuwa kayan koyarwa da allunan sa ido, kuma idan ana buƙata, sarrafa kayan aiki ta Bluetooth da MQTT.
+  </p>
+  <p>
+    SoifGo ba shi da AI a ciki. Tsarin aiki mai sauƙi ne: ka bayyana wa mataimakin AI da ka zaɓa abin da kake so, ya ba ka lambar HTML, kuma ka gudanar da lambar a SoifGo. Idan za ka iya rubuta shafin yanar gizo, ko kuma kawai ka bayyana ra'ayinka ga mataimakin AI, za ka iya ƙirƙirar kayan aikinka.
+  </p>
+
+  <h2>Ga su wane ne SoifGo?</h2>
+  <div class="grid">
+    <div class="card"><h3>📐 Masana lissafi da ɗalibai</h3><p>Na'urorin lissafi na musamman, zana ginshiƙai da ayyuka, kwaikwayo da kayan magance matsaloli, daidai yadda kake buƙata.</p></div>
+    <div class="card"><h3>🎓 Malamai da masu horarwa</h3><p>Kayan aiki masu mu'amala don aji, atisaye da jarrabawa. Aika fayiloli ga ɗalibai da mahalarta don su gudanar da su da kansu.</p></div>
+    <div class="card"><h3>🏗️ Injiniyoyi a kowane fanni</h3><p>Na'urorin lissafin injiniya, masu sauya ma'auni da takardun lissafi na kai-da-kai a hannunka a wurin aiki, ko da babu intanet.</p></div>
+    <div class="card"><h3>🔌 Masu ƙera da masu sha'awar lantarki</h3><p>Masu sarrafa Bluetooth da MQTT da allunan sa ido don Arduino, ESP32, ESP8266 da Raspberry Pi.</p></div>
+    <div class="card"><h3>💡 Duk wanda ke da ra'ayi</h3><p>Gaya wa mataimakin AI ra'ayinka, ka sami lambar HTML, ka kuma gudanar da ita a cikin SoifGo.</p></div>
+  </div>
+
+  <div class="mid-cta">
+    <p>Ka shirya don ƙirƙirar kayan aikinka na farko?</p>
+    <a class="btn" href="https://soifgo.github.io/?lang=hausa" data-lang="hausa">
+      Sauke SoifGo →
+    </a>
+  </div>
+
+  <h2><span class="kw">Mai sarrafa Arduino da ESP32</span> ta Bluetooth da MQTT daga wayar Android</h2>
+  <p>
+    Duk na'urar da ke amfani da Bluetooth SPP/BLE (kamar <code>HC-05</code> da <code>HC-06</code>), MQTT ko HTTP REST tana aiki da SoifGo: Arduino, ESP32, ESP8266 da Raspberry Pi.
+  </p>
+  <p>
+    Aika umarni ga LED, mota da relay ta Bluetooth, ƙirƙiri gadar Bluetooth–MQTT ko allon sa ido na na'urorin ji kai tsaye — duka a HTML, ba tare da lamba ta asali ba.
+  </p>
+
+  <h2>Manyan fayiloli da shafuka</h2>
+  <p>
+    SoifGo yana ba da manyan fayiloli da shafuka don tsara aikinka. Kowane shafi yana da <strong>maɓalloli 40</strong> da <strong>abubuwan zamiya 10</strong>, kuma za ka iya ba kowane maɓalli wani hali na musamman, ciki har da tafiya tsakanin manyan fayiloli da shafukan SoifGo. Ta haka za ka iya gina menu da yawa.
+  </p>
+  <p>
+    Maɓallai suna zuwa da zane na asali a shirye: launi, alama, suna, rubutu, sauti da girgiza. Ana iya motsa su ta jawowa. Kowane maɓalli na iya samun halaye na asali kamar aikawa da karɓa.
+  </p>
+
+  <h2>Halayen yanar gizo, da intanet da ba tare da intanet ba</h2>
+  <p>
+    “Halayen yanar gizo” (WebView) suna taimaka maka cika ra'ayoyinka da buƙatunka da mafi girman ƙarfi, a matsayin HTML, da intanet da ba tare da intanet ba. Kawai ka bayyana wa mataimakin AI abin da kake so ka nemi lambar HTML. Sannan kana da zaɓuɓɓuka biyu:
+  </p>
+  <ul class="use">
+    <li>Zazzage fayil ɗin ka ɗora shi ba tare da intanet ba a SoifGo da halayen yanar gizo.</li>
+    <li>Ko ka kwafi lambar ka manna ta a editan HTML na SoifGo da kansa.</li>
+  </ul>
+  <p>
+    Hanyoyin biyu suna aiki, kuma manhajar yanar gizonka tana adanuwa a babban fayil ɗin SoifGo naka. Ko na'urar lissafi ce, mai sarrafa Bluetooth, sa ido na IoT ko komai.
+  </p>
+
+  <h2 id="howto">Yaya zan gudanar da lambar HTML da AI ta samar a cikin SoifGo?</h2>
+  <p>
+    Yi waɗannan matakan sau ɗaya kawai, za ka sami maɓalli a shirye don gudanar da lambarka:
+  </p>
+  <ol class="use">
+    <li><strong>Buɗe yanayin gyara:</strong> Buɗe manhajar SoifGo. Taɓa alamar menu a saman hagu, sannan zaɓi <strong>Edit</strong> don shiga allon gyara.</li>
+    <li><strong>Ƙirƙiri babban fayil:</strong> Sake taɓa menu a saman hagu, zaɓi <strong>Select Design</strong>, sannan <strong>Folder</strong>, ka taɓa <strong>Create</strong>. Canja sunan babban fayil idan kana so, in ba haka ba ka taɓa <strong>OK</strong>.</li>
+    <li><strong>Ƙirƙiri shafi:</strong> Zaɓin <strong>Page</strong> yanzu ya bayyana kusa da <strong>Folder</strong>. Taɓa shi ka zaɓi <strong>New Page</strong>. Canja sunan shafin idan kana so, sannan ka taɓa <strong>OK</strong>.</li>
+    <li><strong>Sanya maɓalloli a shafi:</strong> Ana nuna maɓallai a cikin jerin. Kowane shafi yana da maɓalloli 40, kuma adadin yana raguwa duk lokacin da ka ɗauki ɗaya. Taɓa maɓalli ka zaɓi wurinsa a shafin da yatsanka.</li>
+    <li><strong>Saita halayen maɓalli:</strong> Taɓa maɓallin, buɗe menu, zaɓi <strong>Behavior</strong> daga jerin maɓallai, sannan <strong>Browser or HTML files</strong>. A nan za ka zaɓi ko maɓallin zai yi aiki kamar mai bincike ko zai ɗora fayil ɗin HTML. Zaɓi na biyun: <strong>Open or edit local HTML file in WebView</strong>.</li>
+    <li><strong>Ƙirƙiri fayil ɗin HTML:</strong> Mafi sauƙin zaɓi shi ne na farko, <strong>Create</strong>. Canja sunan fayil ɗin HTML idan kana so, in ba haka ba ka taɓa <strong>OK</strong>. <em>Sample</em> yana ba da misalai a shirye, <em>File Explorer</em> yana ɗora fayiloli daga ma'ajiyar waya, kuma <em>Saved</em> yana kai ka babban fayil ɗin HTML a cikin babban fayil ɗin da ka ƙirƙira a SoifGo.</li>
+    <li><strong>Gudanar da maɓallin:</strong> Yi amfani da alamar menu a sama don zuwa allon <strong>Play</strong>, sannan ka taɓa maɓallin da ka ƙirƙira. Wani shafi marar komai mai rubutun “Hello SoifGo” zai buɗe.</li>
+    <li><strong>Manna lambar AI:</strong> Sake buɗe menu ka zaɓi <strong>Edit</strong> don buɗe allon gyara na WebView. Manna lambar HTML da ka samu daga mataimakin AI a nan. Za ka iya zaɓar duka ka manna da hannu, ko ka buɗe menu ka zaɓi zaɓin ƙarshe, <strong>Select All and Paste</strong>, wanda ke maye gurbin lambar kai tsaye.</li>
+    <li><strong>Gudanar da lambar:</strong> Yanzu ka taɓa maɓallin rawaya (Close) a saman allo. Lambarka za ta gudana. Za ka iya rufe shafin, kuma duk lokacin da kake son fara kayan aikin sai ka taɓa maɓallinka kawai.</li>
+  </ol>
+  <p>
+    Idan ka sami sabuwar lamba daga mataimakin AI a gaba, kawai ka je shafi ɗaya, ka taɓa <strong>Edit</strong>, ka zaɓi <strong>Select All and Paste</strong> a allon gyara na WebView, sannan ka sake taɓa maɓallin rawaya. Idan kana amfani da File Explorer, wayarka na iya rashin goyon bayan wannan ɓangaren; a wannan yanayin, ya fi kyau ka shigar da mai sarrafa fayiloli da ya dace a wayarka.
+  </p>
+
+  <h2>Manhajojin yanar gizo 40 daban-daban a kowane shafi</h2>
+  <p>
+    Za ka iya samun manhajojin yanar gizo 40 daban-daban a kowane shafi. Ba sai ka nemi mataimakin AI ya ƙirƙire su kowane lokaci ba, kuma za ka iya amfani da su ba tare da intanet ba. Za ka iya aika su ga abokan aiki, abokai ko mahalarta don su zazzage su su gudanar da su.
+  </p>
+
+  <h2 id="features">Siffofin SoifGo</h2>
+  <div class="grid">
+    <div class="card"><h3>🌐 Cikakken WebView</h3><p>Injin bincike na zamani: Canvas, SVG, WebGL da ɗakunan karatu kamar Chart.js, D3 da Three.js don ginshiƙai, kwaikwayo da zane-zanen 3D.</p></div>
+    <div class="card"><h3>🧩 Yanayin gargajiya</h3><p>Maɓallai da abubuwan zamiya a shirye, ba tare da lamba ba, don sarrafawa da menu masu sauƙi.</p></div>
+    <div class="card"><h3>💾 Ajiyar gida</h3><p>Ajiye bayanai da <code>localStorage</code> ko da bayan an rufe manhajar.</p></div>
+    <div class="card"><h3>🟢 Na'urorin ji na waya</h3><p>Hasken muhalli, motsi (accelerometer) da magnetometer, kai tsaye.</p></div>
+    <div class="card"><h3>🎤 Makirufo da gane murya</h3><p>Mayar da magana zuwa rubutu ka yi amfani da shi a kayan aikinka ko ka aika zuwa na'urori.</p></div>
+    <div class="card"><h3>🔵 Bluetooth na serial</h3><p>Aika da karɓar rubutu da HC-05, HC-06, JDY-31, BLE, Arduino, ESP32 da Raspberry Pi.</p></div>
+    <div class="card"><h3>🟣 Abokin MQTT</h3><p>Haɗa da kowane broker (tcp ko ssl), ka wallafa ka yi rajista, ka duba matsayin haɗin.</p></div>
+    <div class="card"><h3>🟠 API na HTTP</h3><p>Aika JSON zuwa kowane adireshi, ka karɓa ka cire ƙima daga amsa.</p></div>
+  </div>
+
+  <h2>Me za ka iya ƙirƙira?</h2>
+  <ul class="use">
+    <li>Na'urorin lissafi da kayan aikin lissafi na musamman</li>
+    <li>Zana ginshiƙai, kwaikwayo da nuna bayanai a zahiri</li>
+    <li>Kayan koyarwa masu mu'amala, atisaye da jarrabawa</li>
+    <li>Zane-zanen 3D da kayan aikin kimiyya</li>
+    <li>Allunan sa ido da mu'amala na musamman don aikinka</li>
+    <li>Sarrafa LED, mota, relay da robot ta Bluetooth, da gadar Bluetooth–MQTT</li>
+    <li>Sarrafa na'urori da muryarka</li>
+  </ul>
+
+  <h2>Tambayoyin da ake yawan yi</h2>
+  <details>
+    <summary>Shin SoifGo na Arduino da na'urorin lantarki kawai ne?</summary>
+    <p>A'a. Haɗawa da kayan aiki wani abu ne kawai cikin siffofinsa. Saboda kayan aikinka HTML ne, duk abin da ke aiki a shafin yanar gizo, kamar lissafi, ginshiƙai, kwaikwayo da kayan koyarwa, yana aiki a cikin SoifGo ma.</p>
+  </details>
+  <details>
+    <summary>Shin SoifGo kyauta ne?</summary>
+    <p>Eh. Kyauta ne, ba tallace-tallace, kuma ba sayayya a cikin manhajar.</p>
+  </details>
+  <details>
+    <summary>Shin yana aiki ba tare da intanet ba?</summary>
+    <p>Kayan aikin HTML, Bluetooth da na'urorin ji na waya suna aiki ba tare da intanet ba. MQTT da HTTP ne kawai ke buƙatar haɗin intanet ko na hanyar sadarwa.</p>
+  </details>
+  <details>
+    <summary>Da wane kayan aiki yake dacewa?</summary>
+    <p>Da duk na'urar da ke amfani da Bluetooth SPP/BLE (kamar HC-05 da HC-06), MQTT ko HTTP REST, ciki har da Arduino, ESP32, ESP8266 da Raspberry Pi.</p>
+  </details>
+  <details>
+    <summary>Me nake buƙata don farawa?</summary>
+    <p>Ilimin HTML na asali ya isa. Ko ba tare da shi ba, za ka iya bayyana wa mataimakin AI abin da kake so ka sami lambar HTML. Akwai koyarwa da misalai a shirye a babban shafi.</p>
+  </details>
+  <details>
+    <summary>Yaya ake furta SoifGo, kuma menene sauran sunayensa?</summary>
+    <p>Yawanci ana furta SoifGo da “soif-go”, amma wasu mutane suna furtawa ko rubuta Soif Go, Swift Go, Swiftgo, Soyf Go, Sayf Go, Swaif Go ko So if go. Duk waɗannan sunayen suna nufin manhajar Android kyauta ɗaya, wato SoifGo. Ba shi da alaƙa da yaren shirye-shirye na Swift.</p>
+  </details>
+
+  <div class="cta">
+    <h2>Ka shirya don farawa?</h2>
+    <p style="color:var(--muted); margin-bottom:18px;">
+      Babban shafi yana buɗewa da sauke manhaja, koyarwa da bayanan fasaha.
+    </p>
+    <a class="btn" href="https://soifgo.github.io/?lang=hausa" data-lang="hausa">
+      Shiga SoifGo →
+    </a>
+    <div style="margin-top:14px;">
+      <a class="btn secondary" href="https://soifgo.github.io/docs.html">
+        Bayanan fasaha
+      </a>
+    </div>
+    <small>Kyauta, ba tare da intanet ba, ba tallace-tallace — don Android 7 da sama</small>
+  </div>
+
+  <footer>
+    <p>
+      <a href="../../">Babban shafi</a>
+      &nbsp;|&nbsp;
+      <a href="mailto:ssm20985@gmail.com">Tuntuɓi tallafi</a>
+      &nbsp;|&nbsp;
+      <a href="../../policy_soifgo.html">Manufar sirri</a>
+    </p>
+    <p style="margin-top:8px;"><a href="../en/" hreflang="en" lang="en">English</a> &nbsp;|&nbsp; <a href="../fa/" hreflang="fa" lang="fa">فارسی</a> &nbsp;|&nbsp; <a href="../ar/" hreflang="ar" lang="ar">العربية</a> &nbsp;|&nbsp; <a href="../he/" hreflang="he" lang="he">עברית</a> &nbsp;|&nbsp; <a href="../ur/" hreflang="ur" lang="ur">اردو</a> &nbsp;|&nbsp; <a href="../ckb/" hreflang="ckb" lang="ckb">کوردی</a> &nbsp;|&nbsp; <a href="../es/" hreflang="es" lang="es">Español</a> &nbsp;|&nbsp; <a href="../fr/" hreflang="fr" lang="fr">Français</a> &nbsp;|&nbsp; <a href="../de/" hreflang="de" lang="de">Deutsch</a> &nbsp;|&nbsp; <a href="../it/" hreflang="it" lang="it">Italiano</a> &nbsp;|&nbsp; <a href="../pt/" hreflang="pt" lang="pt">Português</a> &nbsp;|&nbsp; <a href="../ru/" hreflang="ru" lang="ru">Русский</a> &nbsp;|&nbsp; <a href="../zh/" hreflang="zh-CN" lang="zh-CN">简体中文</a> &nbsp;|&nbsp; <a href="../ja/" hreflang="ja" lang="ja">日本語</a> &nbsp;|&nbsp; <a href="../ko/" hreflang="ko" lang="ko">한국어</a> &nbsp;|&nbsp; <a href="../hi/" hreflang="hi" lang="hi">हिन्दी</a> &nbsp;|&nbsp; <a href="../bn/" hreflang="bn" lang="bn">বাংলা</a> &nbsp;|&nbsp; <a href="../ta/" hreflang="ta" lang="ta">தமிழ்</a> &nbsp;|&nbsp; <a href="../th/" hreflang="th" lang="th">ไทย</a> &nbsp;|&nbsp; <a href="../id/" hreflang="id" lang="id">Bahasa Indonesia</a> &nbsp;|&nbsp; <a href="../tr/" hreflang="tr" lang="tr">Türkçe</a> &nbsp;|&nbsp; <a href="../sw/" hreflang="sw" lang="sw">Kiswahili</a> &nbsp;|&nbsp; <a href="../vi/" hreflang="vi" lang="vi">Tiếng Việt</a> &nbsp;|&nbsp; <a href="../pl/" hreflang="pl" lang="pl">Polski</a> &nbsp;|&nbsp; <a href="../uk/" hreflang="uk" lang="uk">Українська</a> &nbsp;|&nbsp; <a href="../nl/" hreflang="nl" lang="nl">Nederlands</a> &nbsp;|&nbsp; <a href="../cs/" hreflang="cs" lang="cs">Čeština</a> &nbsp;|&nbsp; <a href="../ro/" hreflang="ro" lang="ro">Română</a> &nbsp;|&nbsp; <a href="../hu/" hreflang="hu" lang="hu">Magyar</a> &nbsp;|&nbsp; <a href="../sv/" hreflang="sv" lang="sv">Svenska</a> &nbsp;|&nbsp; <a href="../no/" hreflang="no" lang="no">Norsk</a> &nbsp;|&nbsp; <a href="../da/" hreflang="da" lang="da">Dansk</a> &nbsp;|&nbsp; <a href="../el/" hreflang="el" lang="el">Ελληνικά</a> &nbsp;|&nbsp; <a href="../az/" hreflang="az" lang="az">Azərbaycanca</a> &nbsp;|&nbsp; <a href="../bg/" hreflang="bg" lang="bg">Български</a> &nbsp;|&nbsp; <a href="../sr/" hreflang="sr" lang="sr">Srpski</a> &nbsp;|&nbsp; <a href="../af/" hreflang="af" lang="af">Afrikaans</a> &nbsp;|&nbsp; <a href="../es-419/" hreflang="es-419" lang="es-419">Español (Latinoamérica)</a> &nbsp;|&nbsp; <a href="../ms/" hreflang="ms" lang="ms">Melayu</a> &nbsp;|&nbsp; <a href="../jv/" hreflang="jv" lang="jv">Basa Jawa</a> &nbsp;|&nbsp; <a href="../fil/" hreflang="fil" lang="fil">Filipino</a></p>
+    <p style="margin-top:8px;">&copy; 2026 SoifGo — wanda saeid moghadam ya yi</p>
+  </footer>
+
+</div>
+<script>
+  // Remember the chosen language for the main page.
+  // Both pages share one origin (soifgo.github.io), so localStorage is shared.
+  (function () {
+    function remember(lang) {
+      try {
+        if (lang === 'english') { localStorage.removeItem('soifgo-lang'); }
+        else { localStorage.setItem('soifgo-lang', lang); }
+        localStorage.setItem('soifgo-lang-auto', '1');
+      } catch (e) {}
+    }
+    document.querySelectorAll('a[data-lang]').forEach(function (a) {
+      ['click', 'auxclick'].forEach(function (ev) {
+        a.addEventListener(ev, function () { remember(a.getAttribute('data-lang')); });
+      });
+    });
+  })();
+</script>
+<script>
+  // Day / night toggle (shares the 'soifgo-theme' choice with the main page)
+  (function () {
+    var b = document.getElementById('themeToggle'), ic = document.getElementById('themeIcon');
+    function paint(t) { ic.textContent = t === 'light' ? '🌙' : '☀️'; b.title = t === 'light' ? 'Dark mode' : 'Light mode'; }
+    paint(document.documentElement.getAttribute('data-theme') || 'dark');
+    b.addEventListener('click', function () {
+      var n = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', n);
+      try { localStorage.setItem('soifgo-theme', n); } catch (e) {}
+      paint(n);
+    });
+  })();
+</script>
+</body>
+</html>
