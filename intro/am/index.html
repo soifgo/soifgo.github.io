@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="am" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Theme boot: same storage key as the main page, so the choice is shared -->
+  <script>
+    (function () {
+      var t = 'dark';
+      try { var s = localStorage.getItem('soifgo-theme'); if (s === 'light' || s === 'dark') { t = s; } } catch (e) {}
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <!-- ============ PRIMARY SEO ============ -->
+  <title>SoifGo — የአንድሮይድ መተግበሪያዎችን ለመፍጠር ቀላሉ መንገድ፣ በAI እገዛ እና ያለ ከባድ ፕሮግራሚንግ</title>
+  <meta name="description" content="ሀሳብዎን ለAI ረዳት ይንገሩ፣ የHTML ኮድ ያግኙ እና በSoifGo ውስጥ ያሂዱት። ነፃ ነው እና ሙያዊ የፕሮግራሚንግ እውቀት አይፈልግም።" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
+
+  <!-- ============ CANONICAL & HREFLANG ============ -->
+  <link rel="canonical" href="https://soifgo.github.io/intro/am/" />
+  <link rel="alternate" hreflang="x-default" href="https://soifgo.github.io/" />
+  <link rel="alternate" hreflang="en" href="https://soifgo.github.io/intro/en/" />
+  <link rel="alternate" hreflang="fa" href="https://soifgo.github.io/intro/fa/" />
+  <link rel="alternate" hreflang="ar" href="https://soifgo.github.io/intro/ar/" />
+  <link rel="alternate" hreflang="he" href="https://soifgo.github.io/intro/he/" />
+  <link rel="alternate" hreflang="ur" href="https://soifgo.github.io/intro/ur/" />
+  <link rel="alternate" hreflang="ckb" href="https://soifgo.github.io/intro/ckb/" />
+  <link rel="alternate" hreflang="es" href="https://soifgo.github.io/intro/es/" />
+  <link rel="alternate" hreflang="fr" href="https://soifgo.github.io/intro/fr/" />
+  <link rel="alternate" hreflang="de" href="https://soifgo.github.io/intro/de/" />
+  <link rel="alternate" hreflang="it" href="https://soifgo.github.io/intro/it/" />
+  <link rel="alternate" hreflang="pt" href="https://soifgo.github.io/intro/pt/" />
+  <link rel="alternate" hreflang="ru" href="https://soifgo.github.io/intro/ru/" />
+  <link rel="alternate" hreflang="zh-CN" href="https://soifgo.github.io/intro/zh/" />
+  <link rel="alternate" hreflang="ja" href="https://soifgo.github.io/intro/ja/" />
+  <link rel="alternate" hreflang="ko" href="https://soifgo.github.io/intro/ko/" />
+  <link rel="alternate" hreflang="hi" href="https://soifgo.github.io/intro/hi/" />
+  <link rel="alternate" hreflang="bn" href="https://soifgo.github.io/intro/bn/" />
+  <link rel="alternate" hreflang="ta" href="https://soifgo.github.io/intro/ta/" />
+  <link rel="alternate" hreflang="th" href="https://soifgo.github.io/intro/th/" />
+  <link rel="alternate" hreflang="id" href="https://soifgo.github.io/intro/id/" />
+  <link rel="alternate" hreflang="tr" href="https://soifgo.github.io/intro/tr/" />
+  <link rel="alternate" hreflang="sw" href="https://soifgo.github.io/intro/sw/" />
+  <link rel="alternate" hreflang="az" href="https://soifgo.github.io/intro/az/" />
+  <link rel="alternate" hreflang="ms" href="https://soifgo.github.io/intro/ms/" />
+  <link rel="alternate" hreflang="bg" href="https://soifgo.github.io/intro/bg/" />
+  <link rel="alternate" hreflang="sr" href="https://soifgo.github.io/intro/sr/" />
+  <link rel="alternate" hreflang="no" href="https://soifgo.github.io/intro/no/" />
+  <link rel="alternate" hreflang="da" href="https://soifgo.github.io/intro/da/" />
+  <link rel="alternate" hreflang="el" href="https://soifgo.github.io/intro/el/" />
+  <link rel="alternate" hreflang="ro" href="https://soifgo.github.io/intro/ro/" />
+  <link rel="alternate" hreflang="hu" href="https://soifgo.github.io/intro/hu/" />
+  <link rel="alternate" hreflang="sv" href="https://soifgo.github.io/intro/sv/" />
+  <link rel="alternate" hreflang="nl" href="https://soifgo.github.io/intro/nl/" />
+  <link rel="alternate" hreflang="cs" href="https://soifgo.github.io/intro/cs/" />
+  <link rel="alternate" hreflang="vi" href="https://soifgo.github.io/intro/vi/" />
+  <link rel="alternate" hreflang="pl" href="https://soifgo.github.io/intro/pl/" />
+  <link rel="alternate" hreflang="uk" href="https://soifgo.github.io/intro/uk/" />
+  <link rel="alternate" hreflang="af" href="https://soifgo.github.io/intro/af/" />
+  <link rel="alternate" hreflang="es-419" href="https://soifgo.github.io/intro/es-419/" />
+  <link rel="alternate" hreflang="ha" href="https://soifgo.github.io/intro/ha/" />
+  <link rel="alternate" hreflang="jv" href="https://soifgo.github.io/intro/jv/" />
+  <link rel="alternate" hreflang="fil" href="https://soifgo.github.io/intro/fil/" />
+  <link rel="alternate" hreflang="hy" href="https://soifgo.github.io/intro/hy/" />
+  <link rel="alternate" hreflang="ka" href="https://soifgo.github.io/intro/ka/" />
+  <link rel="alternate" hreflang="am" href="https://soifgo.github.io/intro/am/" />
+  <link rel="alternate" hreflang="gu" href="https://soifgo.github.io/intro/gu/" />
+  <link rel="alternate" hreflang="ps" href="https://soifgo.github.io/intro/ps/" />
+
+  <!-- ============ OPEN GRAPH ============ -->
+  <meta property="og:title" content="SoifGo — ሀሳብዎን ይንገሩ፣ AI ኮዱን ይጻፍ፣ በSoifGo ውስጥ ያሂዱት" />
+  <meta property="og:description" content="ሀሳብዎን ለAI ረዳት ይንገሩ፣ የHTML ኮድ ያግኙ እና በSoifGo ውስጥ ያሂዱት። ነፃ ነው እና ሙያዊ የፕሮግራሚንግ እውቀት አይፈልግም።" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://soifgo.github.io/intro/am/" />
+  <meta property="og:image" content="https://soifgo.github.io/soifgo-logo.png" />
+  <meta property="og:image:alt" content="SoifGo — የአንድሮይድ መተግበሪያዎችን በHTML ይፍጠሩ" />
+  <meta property="og:locale" content="am_ET" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:site_name" content="SoifGo" />
+
+  <!-- ============ TWITTER ============ -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SoifGo — ሀሳብዎን ይንገሩ፣ AI ኮዱን ይጻፍ፣ በSoifGo ውስጥ ያሂዱት" />
+  <meta name="twitter:description" content="ሀሳብዎን ለAI ረዳት ይንገሩ፣ የHTML ኮድ ያግኙ እና በSoifGo ውስጥ ያሂዱት። ነፃ።" />
+  <meta name="twitter:image" content="https://soifgo.github.io/soifgo-logo.png" />
+
+  <!-- ============ PERFORMANCE HINTS ============ -->
+  <link rel="preconnect" href="https://cdn.staticfile.net" crossorigin />
+  <link rel="dns-prefetch" href="https://cdn.staticfile.net" />
+
+  <!-- ============ JSON-LD ============ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "SoifGo",
+    "alternateName": [
+      "Soif Go",
+      "Swift Go",
+      "Swiftgo",
+      "Soyf Go",
+      "Sayf Go",
+      "Swaif Go",
+      "Sewif Go",
+      "So if go"
+    ],
+    "operatingSystem": "Android 7.0+",
+    "applicationCategory": "DeveloperApplication",
+    "description": "የራስዎን መተግበሪያዎችና መሣሪያዎች በHTML፣ CSS እና JavaScript ለመፍጠር የአንድሮይድ መድረክ፣ ለArduino፣ ESP32 እና ESP8266 የብሉቱዝ እና MQTT ተቆጣጣሪዎች ያሉት።",
+    "url": "https://soifgo.github.io/intro/am/",
+    "downloadUrl": "https://soifgo.github.io/soifgo.zip",
+    "installUrl": "https://apkpure.com/soifgo/soifgo.saeidmoghadam",
+    "softwareVersion": "1.46",
+    "inLanguage": "am",
+    "isAccessibleForFree": true,
+    "author": {
+      "@type": "Person",
+      "name": "saeid moghadam",
+      "email": "ssm20985@gmail.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "SoifGo",
+      "url": "https://soifgo.github.io/"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
+    },
+    "featureList": [
+      "ሙሉ WebView ከHTML/CSS/JS ድጋፍ ጋር",
+      "ተከታታይ የብሉቱዝ ተቆጣጣሪ (HC-05፣ HC-06፣ JDY-31፣ BLE)",
+      "MQTT ደንበኛ ከማተም እና ከመመዝገብ ጋር",
+      "የHTTP API ጥያቄዎችና ምላሾች",
+      "የስልክ ዳሳሾች፡ ብርሃን፣ እንቅስቃሴ፣ ማግኔቶሜትር",
+      "ማይክሮፎን እና የድምፅ ማወቂያ",
+      "በእያንዳንዱ ገጽ 40 አዝራሮች እና 10 ተንሸራታቾች",
+      "በአቃፊዎችና በገጾች ማደራጀት",
+      "ነፃ፣ ያለ ኢንተርኔት እና ያለ ማስታወቂያ"
+    ],
+    "screenshot": [
+      "https://soifgo.github.io/icon/pic9.jpg",
+      "https://soifgo.github.io/icon/pic7.jpg",
+      "https://soifgo.github.io/icon/pic12.jpg"
+    ],
+    "softwareRequirements": "አንድሮይድ 7.0 (Nougat) ወይም አዲስ"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "inLanguage": "am",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "SoifGo ለArduino እና ለኤሌክትሮኒክስ ብቻ ነው?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "አይደለም። የሃርድዌር ግንኙነት ከባህሪያቱ አንዱ ብቻ ነው። መሣሪያዎችዎ HTML ስለሆኑ፣ በድር ጣቢያ ላይ የሚሰራ ማንኛውም ነገር፣ ለምሳሌ ስሌቶች፣ ቻርቶች፣ ማስመሰያዎች እና የማስተማሪያ መሣሪያዎች በSoifGo ውስጥም ይሰራል።"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "SoifGo ነፃ ነው?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "አዎ። ነፃ ነው፣ ማስታወቂያ የለውም፣ እና በመተግበሪያው ውስጥ ግዢ የለውም።"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ያለ ኢንተርኔት ይሰራል?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "የHTML መሣሪያዎች፣ ብሉቱዝ እና የስልክ ዳሳሾች ያለ ኢንተርኔት ይሰራሉ። MQTT እና HTTP ብቻ የኢንተርኔት ወይም የአውታረ መረብ ግንኙነት ይፈልጋሉ።"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ከየትኛው ሃርድዌር ጋር ይስማማል?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ብሉቱዝ SPP/BLE (እንደ HC-05 እና HC-06)፣ MQTT ወይም HTTP REST ከሚጠቀም ማንኛውም መሣሪያ ጋር፣ Arduino፣ ESP32፣ ESP8266 እና Raspberry Piን ጨምሮ።"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ለመጀመር ምን ያስፈልገኛል?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "መሠረታዊ የHTML እውቀት በቂ ነው። ያለ እሱም ቢሆን፣ የሚፈልጉትን ለAI ረዳት ገልጸው የHTML ኮድ ማግኘት ይችላሉ። አጋዥ ስልጠናዎችና ዝግጁ ምሳሌዎች በዋናው ገጽ ላይ አሉ።"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "SoifGo እንዴት ይነበባል፣ ሌሎች ስሞቹስ ምንድን ናቸው?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SoifGo ብዙውን ጊዜ “soif-go” ተብሎ ይነበባል፣ ሰዎች ግን Soif Go፣ Swift Go፣ Swiftgo፣ Soyf Go፣ Sayf Go፣ Swaif Go ወይም So if go ብለውም ይናገራሉ ወይም ይጽፋሉ። እነዚህ ሁሉ ስሞች ወደ አንድ ነፃ የአንድሮይድ መተግበሪያ፣ SoifGo ያመለክታሉ። ከSwift የፕሮግራሚንግ ቋንቋ ጋር ግንኙነት የለውም።"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "SoifGo",
+        "item": "https://soifgo.github.io/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "መግቢያ በአማርኛ",
+        "item": "https://soifgo.github.io/intro/am/"
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "በAI የተፈጠረውን የHTML ኮድ በSoifGo ውስጥ እንዴት ማሄድ እችላለሁ?",
+    "inLanguage": "am",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "የአርትዖት ሁነታን ይክፈቱ",
+        "text": "የSoifGo መተግበሪያን ይክፈቱ። በላይኛው ግራ ያለውን የምናሌ አዶ ይንኩ እና ወደ አርትዖት ማያ ገጽ ለመግባት Edit ይምረጡ።"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "አቃፊ ይፍጠሩ",
+        "text": "እንደገና በላይኛው ግራ ያለውን ምናሌ ይንኩ፣ Select Design ይምረጡ፣ ከዚያ Folder፣ እና Create ይንኩ። ከፈለጉ የአቃፊውን ስም ይቀይሩ፣ ካልሆነ OK ይንኩ።"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "ገጽ ይፍጠሩ",
+        "text": "የPage አማራጭ አሁን ከFolder አጠገብ ይታያል። ይንኩት እና New Page ይምረጡ። ከፈለጉ የገጹን ስም ይቀይሩ፣ ከዚያ OK ይንኩ።"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 4,
+        "name": "አዝራሮችን በገጹ ላይ ያስቀምጡ",
+        "text": "አዝራሮች በዝርዝር ውስጥ ይታያሉ። እያንዳንዱ ገጽ 40 አዝራሮች አሉት፣ እና አንድ በወሰዱ ቁጥር ቁጥራቸው ይቀንሳል። አንድ አዝራር ይንኩ እና በጣትዎ በገጹ ላይ ያለውን ቦታ ይምረጡ።"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 5,
+        "name": "የአዝራሩን ባህሪ ያዘጋጁ",
+        "text": "አዝራሩን ይንኩ፣ ምናሌውን ይክፈቱ፣ ከአዝራሮች ዝርዝር Behavior ይምረጡ፣ ከዚያ Browser or HTML files። እዚህ አዝራሩ እንደ አሳሽ እንዲሰራ ወይም የHTML ፋይል እንዲጭን ይመርጣሉ። ሁለተኛውን ይምረጡ፦ Open or edit local HTML file in WebView።"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 6,
+        "name": "የHTML ፋይል ይፍጠሩ",
+        "text": "በጣም ቀላሉ አማራጭ የመጀመሪያው ነው፣ Create። ከፈለጉ የHTML ፋይሉን ስም ይቀይሩ፣ ካልሆነ OK ይንኩ። Sample ዝግጁ ምሳሌዎችን ይሰጣል፣ File Explorer ፋይሎችን ከስልኩ ማከማቻ ይጭናል፣ Saved ደግሞ በSoifGo ውስጥ በፈጠሩት አቃፊ ውስጥ ወዳለው የHTML አቃፊ ይወስዳል።"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 7,
+        "name": "አዝራሩን ያሂዱ",
+        "text": "ወደ Play ማያ ገጽ ለመሄድ ከላይ ያለውን የምናሌ አዶ ይጠቀሙ፣ ከዚያ የፈጠሩትን አዝራር ይንኩ። “Hello SoifGo” የሚል ጽሑፍ ያለው ባዶ ገጽ ይከፈታል።"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 8,
+        "name": "የAI ኮድ ይለጥፉ",
+        "text": "ምናሌውን እንደገና ይክፈቱ እና የWebView አርትዖት ማያ ገጽን ለመክፈት Edit ይምረጡ። ከAI ረዳት ያገኙትን የHTML ኮድ እዚህ ይለጥፉ። ሁሉንም መርጠው በእጅ መለጠፍ ይችላሉ፣ ወይም ምናሌውን ከፍተው የመጨረሻውን አማራጭ Select All and Paste መምረጥ ይችላሉ፣ ይህም ኮዱን በራስ-ሰር ይተካል።"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 9,
+        "name": "ኮዱን ያሂዱ",
+        "text": "አሁን በማያ ገጹ አናት ላይ ያለውን ቢጫ አዝራር (Close) ይንኩ። ኮድዎ ይሰራል። ገጹን መዝጋት ይችላሉ፣ እና መሣሪያውን ለመጀመር በእያንዳንዱ ጊዜ አዝራርዎን መንካት ብቻ ነው የሚያስፈልግዎት።"
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg:#0f172a; --card:#1e293b; --text:#e2e8f0; --muted:#94a3b8;
+      --primary:#38bdf8; --primary-strong:#0ea5e9; --border:#334155;
+      --success:#4ade80;
+    }
+    :root[data-theme="light"] {
+        --bg:#f8fafc; --card:#ffffff; --text:#0f172a; --muted:#475569;
+        --primary:#0369a1; --primary-strong:#0284c7; --border:#e2e8f0;
+        --success:#16a34a;
+      }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body {
+      background:var(--bg); color:var(--text); line-height:1.7;
+      font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,sans-serif;
+      font-size:17px;
+    }
+    .wrap { max-width:860px; margin:0 auto; padding:24px 18px 48px; }
+
+    /* === Header === */
+    header { text-align:center; padding:24px 0 8px; }
+    header img.logo { width:84px; height:84px; border-radius:18px; }
+    h1 { font-size:1.7rem; line-height:1.5; margin:14px 0 10px; }
+    .lead { color:var(--muted); font-size:1.05rem; }
+    p { margin-bottom:10px; }
+
+    /* === Top CTA === */
+    .top-cta {
+      display:flex; justify-content:center; gap:10px; flex-wrap:wrap;
+      margin:20px 0 4px;
+    }
+    .top-cta .btn { padding:10px 22px; font-size:.95rem; }
+    .top-cta .btn.ghost {
+      background:transparent; color:var(--primary);
+      border:2px solid var(--primary);
+    }
+    .top-cta .btn.ghost:hover {
+      background:var(--primary); color:#fff;
+    }
+
+    /* === Version badge === */
+    .version-badge {
+      display:inline-block; margin:10px auto 0;
+      font-size:.82rem; color:var(--muted);
+      background:var(--card); border:1px solid var(--border);
+      padding:4px 12px; border-radius:20px;
+    }
+    .version-badge code { background:transparent; border:none; padding:0; }
+
+    /* === Headings === */
+    h2 {
+      font-size:1.3rem; margin:36px 0 12px; color:var(--primary);
+      line-height:1.5;
+    }
+    h2 .kw { color:var(--text); }
+
+    /* === Screenshots with captions === */
+    .shots {
+      display:grid; grid-template-columns:repeat(3,1fr); gap:10px;
+      margin:22px 0 4px; direction:ltr;
+    }
+    .shots figure { margin:0; }
+    .shots img {
+      width:100%; border-radius:12px; border:1px solid var(--border);
+      display:block;
+    }
+    .shots figcaption {
+      font-size:.82rem; color:var(--muted); text-align:center;
+      margin-top:6px; line-height:1.5;
+    }
+
+    /* === Grid & Cards === */
+    .grid {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:12px;
+    }
+    .card {
+      background:var(--card); border:1px solid var(--border);
+      border-radius:12px; padding:14px 16px;
+    }
+    .card h3 { font-size:1rem; margin-bottom:4px; }
+    .card p { color:var(--muted); font-size:.93rem; margin:0; }
+
+    /* === Lists === */
+    ul.use { padding-inline-start:22px; }
+    ul.use li { margin-bottom:6px; }
+    ol.use { padding-inline-start:22px; }
+    ol.use li { margin-bottom:10px; }
+
+    /* === FAQ === */
+    details {
+      background:var(--card); border:1px solid var(--border);
+      border-radius:12px; padding:12px 16px; margin-bottom:10px;
+    }
+    summary { cursor:pointer; font-weight:bold; }
+    details p { margin:8px 0 0; color:var(--muted); }
+
+    /* === Inline code === */
+    code {
+      direction:ltr; unicode-bidi:isolate;
+      background:var(--card); border:1px solid var(--border);
+      border-radius:6px; padding:1px 6px; font-size:.9em;
+    }
+
+    /* === CTA blocks === */
+    .cta {
+      text-align:center; margin-top:40px;
+      padding:28px 20px;
+      background:var(--card); border:1px solid var(--border);
+      border-radius:16px;
+    }
+    .cta h2 { margin-top:0; }
+    .btn {
+      display:inline-block; background:var(--primary); color:#fff;
+      text-decoration:none; font-weight:bold;
+      padding:14px 34px; border-radius:12px; font-size:1.1rem;
+      transition:background .2s, transform .15s;
+    }
+    .btn:hover { background:var(--primary-strong); transform:translateY(-2px); }
+    .btn.secondary {
+      background:transparent; color:var(--primary);
+      border:2px solid var(--primary);
+      padding:12px 30px; font-size:1rem;
+    }
+    .btn.secondary:hover { background:var(--primary); color:#fff; }
+    .cta small { display:block; margin-top:10px; color:var(--muted); }
+
+    /* === Mid CTA === */
+    .mid-cta {
+      text-align:center; margin:26px 0 6px;
+      padding:18px;
+      background:linear-gradient(135deg, rgba(56,189,248,.08), rgba(56,189,248,.02));
+      border:1px solid var(--border); border-radius:12px;
+    }
+    .mid-cta p { color:var(--muted); margin:0 0 12px; }
+
+    /* === Trust row === */
+    .trust {
+      display:flex; justify-content:center; gap:18px; flex-wrap:wrap;
+      margin-top:14px; font-size:.88rem; color:var(--muted);
+    }
+    .trust span::before { content:"✓ "; color:var(--success); font-weight:800; }
+
+    /* === Footer === */
+    footer {
+      text-align:center; margin-top:32px; color:var(--muted); font-size:.9rem;
+      padding-top:20px; border-top:1px solid var(--border);
+    }
+    footer a { color:var(--primary); text-decoration:none; }
+    footer a:hover { text-decoration:underline; }
+
+    @media (max-width:560px) {
+      h1 { font-size:1.4rem; }
+      .shots { grid-template-columns:1fr 1fr; }
+      .shots figure:nth-child(3) { grid-column:1 / -1; }
+      .shots figure:nth-child(3) img { max-width:60%; margin:0 auto; }
+      .top-cta .btn { width:100%; max-width:320px; }
+    }
+    @media (max-width:380px) {
+      .shots { grid-template-columns:1fr; }
+      .shots figure:nth-child(3) img { max-width:100%; }
+    }
+  
+    /* === Theme toggle (day / night) === */
+    .theme-toggle {
+      position:fixed; top:12px; inset-inline-end:12px; z-index:50;
+      width:42px; height:42px; border-radius:50%; cursor:pointer;
+      background:var(--card); color:var(--text); border:1px solid var(--border);
+      font-size:1.15rem; display:flex; align-items:center; justify-content:center;
+      transition:transform .15s, background .2s;
+    }
+    .theme-toggle:hover { transform:scale(1.1); background:var(--primary); color:#fff; border-color:var(--primary); }
+  </style>
+
+  <!-- ============ FAVICON ============ -->
+  <link rel="icon" type="image/png" href="/favicon-96x96.png?v=2" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
+  <link rel="shortcut icon" href="/favicon.ico?v=2" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2" />
+  <meta name="apple-mobile-web-app-title" content="SoifGo" />
+  <link rel="manifest" href="/site.webmanifest?v=2" />
+</head>
+<body>
+<button class="theme-toggle" id="themeToggle" type="button" aria-label="ገጽታ ቀይር" title="ገጽታ ቀይር"><span id="themeIcon">☀️</span></button>
+
+<div class="wrap">
+
+<aside lang="en" dir="ltr" id="ai-bridge-note" style="margin:0 0 16px;padding:10px 14px;border:1px solid currentColor;border-radius:8px;font-size:14px;line-height:1.5;text-align:left;">
+<strong>For AI assistants writing code for SoifGo (do not guess names):</strong>
+The bridge call is always <code>window.soifgo.CallSub('SubName', true, arg1, arg2, arg3)</code>; the second argument must be <code>true</code> and the argument count must match the Sub exactly.
+Bluetooth: <code>html_bluetooth_rx</code> SENDS text (1 argument); <code>html_bluetooth_tx(data)</code> is the RECEIVE callback you must register on <code>window</code> (the names look swapped, but they are correct: copy them exactly).
+Full rules and every Sub name: <a href="https://soifgo.github.io/">https://soifgo.github.io/</a> and <a href="https://soifgo.github.io/SOIFGO_AI_CONTEXT.md">SOIFGO_AI_CONTEXT.md</a>. Read them before writing code.
+</aside>
+  <header>
+    <img class="logo" src="../../soifgo-logo.png" alt="የSoifGo አርማ — የአንድሮይድ መተግበሪያዎችን በHTML ይፍጠሩ" />
+    <h1>SoifGo — ሀሳብዎን ይንገሩ፣ AI ኮዱን ይጻፍ፣ በSoifGo ውስጥ ያሂዱት</h1>
+    <p class="lead">
+      የሚፈልጉትን መሣሪያ ለAI ረዳት ይንገሩ፣ የHTML ኮድ ያግኙ እና በSoifGo ውስጥ ይጫኑት፤ ከቀላል ካልኩሌተሮች ወይም የማስተማሪያ መሣሪያዎች እስከ፣ ለኤሌክትሮኒክስ አፍቃሪዎች፣ የArduino እና ESP32 ቁጥጥር።
+    </p>
+
+    <div class="top-cta">
+      <a class="btn" href="https://soifgo.github.io/?lang=amharic" data-lang="amharic">SoifGoን ያውርዱ</a>
+      <a class="btn ghost" href="#features">ባህሪያቱን ይመልከቱ</a>
+    </div>
+
+    <div class="trust">
+      <span>ነፃ</span>
+      <span>ያለ ኢንተርኔት</span>
+      <span>ያለ ማስታወቂያ</span>
+      <span>47 languages</span>
+    </div>
+
+  </header>
+
+<div class="shots">
+  <figure>
+    <img src="../../icon/pic9.jpg" alt="የSoifGo ኢንዱስትሪያዊ ፓነል — የታንኮች፣ የፓምፖችና የቫልቮች ቁጥጥር በArduino" loading="eager" />
+    <figcaption>ኢንዱስትሪያዊ ፓነል — ታንኮች፣ ፓምፖችና ቫልቮች</figcaption>
+  </figure>
+  <figure>
+    <img src="../../icon/pic7.jpg" alt="የSoifGo ስማርት ቤት — የመብራቶች፣ የአድናቂዎች፣ የአየር ማቀዝቀዣዎችና የማንቂያ ቁጥጥር" loading="lazy" />
+    <figcaption>ስማርት ቤት — መብራቶች፣ አድናቂዎች፣ አየር ማቀዝቀዣዎች</figcaption>
+  </figure>
+  <figure>
+    <img src="../../icon/pic12.jpg" alt="የSoifGo ዲጂታል ደረጃ መለኪያ — በአንድሮይድ ስልክ ዳሳሾች" loading="lazy" />
+    <figcaption>ዲጂታል ደረጃ መለኪያ — የስልክ ዳሳሾች</figcaption>
+  </figure>
+</div>
+
+  <h2><span class="kw">የአንድሮይድ መተግበሪያዎችን በHTML ይፍጠሩ</span> — ያለ ቤተኛ ፕሮግራሚንግ</h2>
+  <p>
+    በድር ጣቢያ ላይ ሊደረግ የሚችል ማንኛውም ነገር በSoifGo ውስጥ ሊደረግ ይችላል። SoifGo መሣሪያዎችዎን እንደ HTML ያሂዳል እና በአቃፊዎች ውስጥ በሥርዓት ያስቀምጣቸዋል። ከካልኩሌተሮችና ከማስመሰያዎች እስከ የማስተማሪያ መሣሪያዎችና ዳሽቦርዶች፣ እና ካስፈለገ በብሉቱዝ እና MQTT የሃርድዌር ቁጥጥር ድረስ።
+  </p>
+  <p>
+    SoifGo አብሮ የተሰራ AI የለውም። የሥራ ሂደቱ ቀላል ነው፦ በመረጡት AI ረዳት የሚፈልጉትን ይገልጻሉ፣ እሱ የHTML ኮድ ይሰጥዎታል፣ እና ያንን ኮድ በSoifGo ውስጥ ያሂዳሉ። ድር ጣቢያ መጻፍ ከቻሉ፣ ወይም ሀሳብዎን ለAI ረዳት ብቻ መግለጽ ከቻሉ፣ የራስዎን መሣሪያዎች መፍጠር ይችላሉ።
+  </p>
+
+  <h2>SoifGo ለማን ነው?</h2>
+  <div class="grid">
+    <div class="card"><h3>📐 የሂሳብ ሊቃውንትና ተማሪዎች</h3><p>ልዩ ካልኩሌተሮች፣ ግራፎችንና ተግባራትን መሳል፣ ማስመሰያዎችና ችግር መፍቻ መሣሪያዎች፣ በትክክል በሚፈልጉት መንገድ።</p></div>
+    <div class="card"><h3>🎓 መምህራንና አሠልጣኞች</h3><p>ለክፍል፣ ለልምምድና ለፈተና የሚሆኑ ተግባቦታዊ መሣሪያዎች። ተማሪዎችና ተሳታፊዎች ራሳቸው እንዲያሂዱት ፋይሎችን ይላኩላቸው።</p></div>
+    <div class="card"><h3>🏗️ በሁሉም መስክ ያሉ መሐንዲሶች</h3><p>የምህንድስና ካልኩሌተሮች፣ የመለኪያ ክፍል መቀየሪያዎችና የግል የስሌት ሠንጠረዦች፣ በሥራ ቦታ ያለ ኢንተርኔትም ቢሆን በቀላሉ የሚደረስባቸው።</p></div>
+    <div class="card"><h3>🔌 ሠሪዎችና የኤሌክትሮኒክስ አፍቃሪዎች</h3><p>ለArduino፣ ESP32፣ ESP8266 እና Raspberry Pi የብሉቱዝ እና MQTT ተቆጣጣሪዎችና ዳሽቦርዶች።</p></div>
+    <div class="card"><h3>💡 ሀሳብ ያለው ማንኛውም ሰው</h3><p>ሀሳብዎን ለAI ረዳት ይንገሩ፣ የHTML ኮድ ያግኙ እና በSoifGo ውስጥ ያሂዱት።</p></div>
+  </div>
+
+  <div class="mid-cta">
+    <p>የመጀመሪያ መሣሪያዎን ለመፍጠር ዝግጁ ነዎት?</p>
+    <a class="btn" href="https://soifgo.github.io/?lang=amharic" data-lang="amharic">
+      SoifGoን ያውርዱ →
+    </a>
+  </div>
+
+  <h2><span class="kw">የArduino እና ESP32 ተቆጣጣሪ</span> በብሉቱዝ እና MQTT ከአንድሮይድ ስልክ</h2>
+  <p>
+    ብሉቱዝ SPP/BLE (እንደ <code>HC-05</code> እና <code>HC-06</code>)፣ MQTT ወይም HTTP REST የሚጠቀም ማንኛውም መሣሪያ ከSoifGo ጋር ይሰራል፦ Arduino፣ ESP32፣ ESP8266 እና Raspberry Pi።
+  </p>
+  <p>
+    በብሉቱዝ ለLED፣ ለሞተርና ለሪሌይ ትዕዛዞችን ይላኩ፣ የብሉቱዝ–MQTT ድልድይ ወይም የቀጥታ የዳሳሽ ዳሽቦርድ ይገንቡ — ሁሉም በHTML፣ ያለ ቤተኛ ኮድ።
+  </p>
+
+  <h2>አቃፊዎችና ገጾች</h2>
+  <p>
+    SoifGo ሥራዎን በሥርዓት ለማስቀመጥ አቃፊዎችንና ገጾችን ያቀርባል። እያንዳንዱ ገጽ <strong>40 አዝራሮች</strong> እና <strong>10 ተንሸራታቾች</strong> አሉት፣ እና ለእያንዳንዱ አዝራር የተወሰነ ባህሪ መስጠት ይችላሉ፣ በSoifGo አቃፊዎችና ገጾች መካከል ማሰስን ጨምሮ። በዚህ መንገድ ብዙ ምናሌዎችን መገንባት ይችላሉ።
+  </p>
+  <p>
+    አዝራሮች ዝግጁ መሠረታዊ ንድፎች አሏቸው፦ ቀለም፣ አዶ፣ ስም፣ ቅርጸ ቁምፊ፣ ድምፅ እና ንዝረት። በመጎተት ሊንቀሳቀሱ ይችላሉ። እያንዳንዱ አዝራር እንደ መላክና መቀበል ያሉ መሠረታዊ ባህሪያት ሊኖሩት ይችላል።
+  </p>
+
+  <h2>የድር ባህሪ፣ በመስመር ላይ እና ከመስመር ውጭ</h2>
+  <p>
+    “የድር ባህሪ” (WebView) ሀሳቦችዎንና ፍላጎቶችዎን በታላቅ አቅም፣ እንደ HTML፣ በመስመር ላይ እና ከመስመር ውጭ እንዲያሳኩ ይረዳዎታል። የሚፈልጉትን ለAI ረዳት ብቻ ይግለጹ እና የHTML ኮድ ይጠይቁ። ከዚያ ሁለት አማራጮች አሉዎት፦
+  </p>
+  <ul class="use">
+    <li>ፋይሉን ያውርዱ እና በድር ባህሪ ከመስመር ውጭ በSoifGo ውስጥ ይጫኑት።</li>
+    <li>ወይም ኮዱን ገልብጠው በSoifGo የራሱ HTML አርታዒ ውስጥ ይለጥፉት።</li>
+  </ul>
+  <p>
+    ሁለቱም መንገዶች ይሰራሉ፣ እና የድር መተግበሪያዎ በSoifGo አቃፊዎ ውስጥ ይቀመጣል። ካልኩሌተር፣ የብሉቱዝ ተቆጣጣሪ፣ የIoT ክትትል ወይም ማንኛውም ነገር ቢሆን።
+  </p>
+
+  <h2 id="howto">በAI የተፈጠረውን የHTML ኮድ በSoifGo ውስጥ እንዴት ማሄድ እችላለሁ?</h2>
+  <p>
+    እነዚህን ደረጃዎች አንድ ጊዜ ብቻ ያድርጉ፣ ኮድዎን ለማሄድ ዝግጁ የሆነ አዝራር ይኖርዎታል፦
+  </p>
+  <ol class="use">
+    <li><strong>የአርትዖት ሁነታን ይክፈቱ:</strong> የSoifGo መተግበሪያን ይክፈቱ። በላይኛው ግራ ያለውን የምናሌ አዶ ይንኩ እና ወደ አርትዖት ማያ ገጽ ለመግባት <strong>Edit</strong> ይምረጡ።</li>
+    <li><strong>አቃፊ ይፍጠሩ:</strong> እንደገና በላይኛው ግራ ያለውን ምናሌ ይንኩ፣ <strong>Select Design</strong> ይምረጡ፣ ከዚያ <strong>Folder</strong>፣ እና <strong>Create</strong> ይንኩ። ከፈለጉ የአቃፊውን ስም ይቀይሩ፣ ካልሆነ <strong>OK</strong> ይንኩ።</li>
+    <li><strong>ገጽ ይፍጠሩ:</strong> የ<strong>Page</strong> አማራጭ አሁን ከ<strong>Folder</strong> አጠገብ ይታያል። ይንኩት እና <strong>New Page</strong> ይምረጡ። ከፈለጉ የገጹን ስም ይቀይሩ፣ ከዚያ <strong>OK</strong> ይንኩ።</li>
+    <li><strong>አዝራሮችን በገጹ ላይ ያስቀምጡ:</strong> አዝራሮች በዝርዝር ውስጥ ይታያሉ። እያንዳንዱ ገጽ 40 አዝራሮች አሉት፣ እና አንድ በወሰዱ ቁጥር ቁጥራቸው ይቀንሳል። አንድ አዝራር ይንኩ እና በጣትዎ በገጹ ላይ ያለውን ቦታ ይምረጡ።</li>
+    <li><strong>የአዝራሩን ባህሪ ያዘጋጁ:</strong> አዝራሩን ይንኩ፣ ምናሌውን ይክፈቱ፣ ከአዝራሮች ዝርዝር <strong>Behavior</strong> ይምረጡ፣ ከዚያ <strong>Browser or HTML files</strong>። እዚህ አዝራሩ እንደ አሳሽ እንዲሰራ ወይም የHTML ፋይል እንዲጭን ይመርጣሉ። ሁለተኛውን ይምረጡ፦ <strong>Open or edit local HTML file in WebView</strong>።</li>
+    <li><strong>የHTML ፋይል ይፍጠሩ:</strong> በጣም ቀላሉ አማራጭ የመጀመሪያው ነው፣ <strong>Create</strong>። ከፈለጉ የHTML ፋይሉን ስም ይቀይሩ፣ ካልሆነ <strong>OK</strong> ይንኩ። <em>Sample</em> ዝግጁ ምሳሌዎችን ይሰጣል፣ <em>File Explorer</em> ፋይሎችን ከስልኩ ማከማቻ ይጭናል፣ <em>Saved</em> ደግሞ በSoifGo ውስጥ በፈጠሩት አቃፊ ውስጥ ወዳለው የHTML አቃፊ ይወስዳል።</li>
+    <li><strong>አዝራሩን ያሂዱ:</strong> ወደ <strong>Play</strong> ማያ ገጽ ለመሄድ ከላይ ያለውን የምናሌ አዶ ይጠቀሙ፣ ከዚያ የፈጠሩትን አዝራር ይንኩ። “Hello SoifGo” የሚል ጽሑፍ ያለው ባዶ ገጽ ይከፈታል።</li>
+    <li><strong>የAI ኮድ ይለጥፉ:</strong> ምናሌውን እንደገና ይክፈቱ እና የWebView አርትዖት ማያ ገጽን ለመክፈት <strong>Edit</strong> ይምረጡ። ከAI ረዳት ያገኙትን የHTML ኮድ እዚህ ይለጥፉ። ሁሉንም መርጠው በእጅ መለጠፍ ይችላሉ፣ ወይም ምናሌውን ከፍተው የመጨረሻውን አማራጭ <strong>Select All and Paste</strong> መምረጥ ይችላሉ፣ ይህም ኮዱን በራስ-ሰር ይተካል።</li>
+    <li><strong>ኮዱን ያሂዱ:</strong> አሁን በማያ ገጹ አናት ላይ ያለውን ቢጫ አዝራር (Close) ይንኩ። ኮድዎ ይሰራል። ገጹን መዝጋት ይችላሉ፣ እና መሣሪያውን ለመጀመር በእያንዳንዱ ጊዜ አዝራርዎን መንካት ብቻ ነው የሚያስፈልግዎት።</li>
+  </ol>
+  <p>
+    ወደፊት ከAI ረዳት አዲስ ኮድ ሲያገኙ፣ ወደ ተመሳሳዩ ገጽ ብቻ ይሂዱ፣ <strong>Edit</strong> ይንኩ፣ በWebView አርትዖት ማያ ገጽ ላይ <strong>Select All and Paste</strong> ይምረጡ፣ እና ቢጫውን አዝራር እንደገና ይንኩ። File Explorer የሚጠቀሙ ከሆነ ስልክዎ ያንን ክፍል ላይደግፍ ይችላል፤ በዚያ ሁኔታ ተስማሚ የፋይል አቀናባሪ በስልክዎ ላይ መጫን ይመከራል።
+  </p>
+
+  <h2>በእያንዳንዱ ገጽ 40 የተለያዩ የድር መተግበሪያዎች</h2>
+  <p>
+    በእያንዳንዱ ገጽ ላይ 40 የተለያዩ የድር መተግበሪያዎች ሊኖሩዎት ይችላሉ። በእያንዳንዱ ጊዜ AI ረዳት እንዲፈጥራቸው መጠየቅ አያስፈልግዎትም፣ እና ከመስመር ውጭ ሊጠቀሙባቸው ይችላሉ። እንዲሁም ለባልደረቦች፣ ለጓደኞች ወይም ለተሳታፊዎች እንዲያወርዱና እንዲያሂዱ ሊልኩላቸው ይችላሉ።
+  </p>
+
+  <h2 id="features">የSoifGo ባህሪያት</h2>
+  <div class="grid">
+    <div class="card"><h3>🌐 ሙሉ WebView</h3><p>ዘመናዊ የአሳሽ ሞተር፦ Canvas፣ SVG፣ WebGL እና እንደ Chart.js፣ D3 እና Three.js ያሉ ቤተ-መጻሕፍት ለቻርቶች፣ ማስመሰያዎችና 3D ምስሎች።</p></div>
+    <div class="card"><h3>🧩 ክላሲክ ሁነታ</h3><p>ዝግጁ አዝራሮችና ተንሸራታቾች፣ ያለ ምንም ኮድ፣ ለቀላል ቁጥጥርና ምናሌዎች።</p></div>
+    <div class="card"><h3>💾 አካባቢያዊ ማከማቻ</h3><p>መተግበሪያው ከተዘጋ በኋላም ቢሆን በ<code>localStorage</code> ውሂብ ያስቀምጡ።</p></div>
+    <div class="card"><h3>🟢 የስልክ ዳሳሾች</h3><p>የአካባቢ ብርሃን፣ እንቅስቃሴ (አክሰለሮሜትር) እና ማግኔቶሜትር፣ በቀጥታ።</p></div>
+    <div class="card"><h3>🎤 ማይክሮፎን እና የድምፅ ማወቂያ</h3><p>ንግግርን ወደ ጽሑፍ ይለውጡ እና በመሣሪያዎችዎ ውስጥ ይጠቀሙበት ወይም ወደ መሣሪያዎች ይላኩት።</p></div>
+    <div class="card"><h3>🔵 ተከታታይ ብሉቱዝ</h3><p>በHC-05፣ HC-06፣ JDY-31፣ BLE፣ Arduino፣ ESP32 እና Raspberry Pi ጽሑፍ ይላኩ እና ይቀበሉ።</p></div>
+    <div class="card"><h3>🟣 MQTT ደንበኛ</h3><p>ከማንኛውም ደላላ (tcp ወይም ssl) ጋር ይገናኙ፣ ያትሙ እና ይመዝገቡ፣ እና የግንኙነት ሁኔታን ይመልከቱ።</p></div>
+    <div class="card"><h3>🟠 HTTP API</h3><p>JSON ወደ ማንኛውም አድራሻ ይላኩ፣ እና ከምላሹ እሴቶችን ተቀብለው ያውጡ።</p></div>
+  </div>
+
+  <h2>ምን መፍጠር ይችላሉ?</h2>
+  <ul class="use">
+    <li>ካልኩሌተሮችና ልዩ የስሌት መሣሪያዎች</li>
+    <li>ግራፎችን መሳል፣ ማስመሰያዎችና የውሂብ ምስላዊ መግለጫ</li>
+    <li>ተግባቦታዊ የማስተማሪያ መሣሪያዎች፣ ልምምዶችና ፈተናዎች</li>
+    <li>3D ምስሎችና የሳይንስ መሣሪያዎች</li>
+    <li>ለሥራዎ የተበጁ ዳሽቦርዶችና በይነ ገጾች</li>
+    <li>LED፣ ሞተር፣ ሪሌይና ሮቦቶችን በብሉቱዝ መቆጣጠር፣ እንዲሁም የብሉቱዝ–MQTT ድልድዮች</li>
+    <li>መሣሪያዎችን በድምፅ መቆጣጠር</li>
+  </ul>
+
+  <h2>በተደጋጋሚ የሚጠየቁ ጥያቄዎች</h2>
+  <details>
+    <summary>SoifGo ለArduino እና ለኤሌክትሮኒክስ ብቻ ነው?</summary>
+    <p>አይደለም። የሃርድዌር ግንኙነት ከባህሪያቱ አንዱ ብቻ ነው። መሣሪያዎችዎ HTML ስለሆኑ፣ በድር ጣቢያ ላይ የሚሰራ ማንኛውም ነገር፣ ለምሳሌ ስሌቶች፣ ቻርቶች፣ ማስመሰያዎች እና የማስተማሪያ መሣሪያዎች በSoifGo ውስጥም ይሰራል።</p>
+  </details>
+  <details>
+    <summary>SoifGo ነፃ ነው?</summary>
+    <p>አዎ። ነፃ ነው፣ ማስታወቂያ የለውም፣ እና በመተግበሪያው ውስጥ ግዢ የለውም።</p>
+  </details>
+  <details>
+    <summary>ያለ ኢንተርኔት ይሰራል?</summary>
+    <p>የHTML መሣሪያዎች፣ ብሉቱዝ እና የስልክ ዳሳሾች ያለ ኢንተርኔት ይሰራሉ። MQTT እና HTTP ብቻ የኢንተርኔት ወይም የአውታረ መረብ ግንኙነት ይፈልጋሉ።</p>
+  </details>
+  <details>
+    <summary>ከየትኛው ሃርድዌር ጋር ይስማማል?</summary>
+    <p>ብሉቱዝ SPP/BLE (እንደ HC-05 እና HC-06)፣ MQTT ወይም HTTP REST ከሚጠቀም ማንኛውም መሣሪያ ጋር፣ Arduino፣ ESP32፣ ESP8266 እና Raspberry Piን ጨምሮ።</p>
+  </details>
+  <details>
+    <summary>ለመጀመር ምን ያስፈልገኛል?</summary>
+    <p>መሠረታዊ የHTML እውቀት በቂ ነው። ያለ እሱም ቢሆን፣ የሚፈልጉትን ለAI ረዳት ገልጸው የHTML ኮድ ማግኘት ይችላሉ። አጋዥ ስልጠናዎችና ዝግጁ ምሳሌዎች በዋናው ገጽ ላይ አሉ።</p>
+  </details>
+  <details>
+    <summary>SoifGo እንዴት ይነበባል፣ ሌሎች ስሞቹስ ምንድን ናቸው?</summary>
+    <p>SoifGo ብዙውን ጊዜ “soif-go” ተብሎ ይነበባል፣ ሰዎች ግን Soif Go፣ Swift Go፣ Swiftgo፣ Soyf Go፣ Sayf Go፣ Swaif Go ወይም So if go ብለውም ይናገራሉ ወይም ይጽፋሉ። እነዚህ ሁሉ ስሞች ወደ አንድ ነፃ የአንድሮይድ መተግበሪያ፣ SoifGo ያመለክታሉ። ከSwift የፕሮግራሚንግ ቋንቋ ጋር ግንኙነት የለውም።</p>
+  </details>
+
+  <div class="cta">
+    <h2>ለመጀመር ዝግጁ ነዎት?</h2>
+    <p style="color:var(--muted); margin-bottom:18px;">
+      ዋናው ገጽ ከማውረጃ፣ ከአጋዥ ስልጠናዎችና ከሰነዶች ጋር ይከፈታል።
+    </p>
+    <a class="btn" href="https://soifgo.github.io/?lang=amharic" data-lang="amharic">
+      ወደ SoifGo ይግቡ →
+    </a>
+    <div style="margin-top:14px;">
+      <a class="btn secondary" href="https://soifgo.github.io/docs.html">
+        ቴክኒካዊ ሰነዶች
+      </a>
+    </div>
+    <small>ነፃ፣ ያለ ኢንተርኔት፣ ያለ ማስታወቂያ — ለአንድሮይድ 7 እና ከዚያ በላይ</small>
+  </div>
+
+  <footer>
+    <p>
+      <a href="../../">ዋና ገጽ</a>
+      &nbsp;|&nbsp;
+      <a href="mailto:ssm20985@gmail.com">ድጋፍን ያግኙ</a>
+      &nbsp;|&nbsp;
+      <a href="../../policy_soifgo.html">የግላዊነት ፖሊሲ</a>
+    </p>
+    <p style="margin-top:8px;"><a href="../en/" hreflang="en" lang="en">English</a> &nbsp;|&nbsp; <a href="../fa/" hreflang="fa" lang="fa">فارسی</a> &nbsp;|&nbsp; <a href="../ar/" hreflang="ar" lang="ar">العربية</a> &nbsp;|&nbsp; <a href="../he/" hreflang="he" lang="he">עברית</a> &nbsp;|&nbsp; <a href="../ur/" hreflang="ur" lang="ur">اردو</a> &nbsp;|&nbsp; <a href="../ckb/" hreflang="ckb" lang="ckb">کوردی</a> &nbsp;|&nbsp; <a href="../es/" hreflang="es" lang="es">Español</a> &nbsp;|&nbsp; <a href="../fr/" hreflang="fr" lang="fr">Français</a> &nbsp;|&nbsp; <a href="../de/" hreflang="de" lang="de">Deutsch</a> &nbsp;|&nbsp; <a href="../it/" hreflang="it" lang="it">Italiano</a> &nbsp;|&nbsp; <a href="../pt/" hreflang="pt" lang="pt">Português</a> &nbsp;|&nbsp; <a href="../ru/" hreflang="ru" lang="ru">Русский</a> &nbsp;|&nbsp; <a href="../zh/" hreflang="zh-CN" lang="zh-CN">简体中文</a> &nbsp;|&nbsp; <a href="../ja/" hreflang="ja" lang="ja">日本語</a> &nbsp;|&nbsp; <a href="../ko/" hreflang="ko" lang="ko">한국어</a> &nbsp;|&nbsp; <a href="../hi/" hreflang="hi" lang="hi">हिन्दी</a> &nbsp;|&nbsp; <a href="../bn/" hreflang="bn" lang="bn">বাংলা</a> &nbsp;|&nbsp; <a href="../ta/" hreflang="ta" lang="ta">தமிழ்</a> &nbsp;|&nbsp; <a href="../th/" hreflang="th" lang="th">ไทย</a> &nbsp;|&nbsp; <a href="../id/" hreflang="id" lang="id">Bahasa Indonesia</a> &nbsp;|&nbsp; <a href="../tr/" hreflang="tr" lang="tr">Türkçe</a> &nbsp;|&nbsp; <a href="../sw/" hreflang="sw" lang="sw">Kiswahili</a> &nbsp;|&nbsp; <a href="../vi/" hreflang="vi" lang="vi">Tiếng Việt</a> &nbsp;|&nbsp; <a href="../pl/" hreflang="pl" lang="pl">Polski</a> &nbsp;|&nbsp; <a href="../uk/" hreflang="uk" lang="uk">Українська</a> &nbsp;|&nbsp; <a href="../nl/" hreflang="nl" lang="nl">Nederlands</a> &nbsp;|&nbsp; <a href="../cs/" hreflang="cs" lang="cs">Čeština</a> &nbsp;|&nbsp; <a href="../ro/" hreflang="ro" lang="ro">Română</a> &nbsp;|&nbsp; <a href="../hu/" hreflang="hu" lang="hu">Magyar</a> &nbsp;|&nbsp; <a href="../sv/" hreflang="sv" lang="sv">Svenska</a> &nbsp;|&nbsp; <a href="../no/" hreflang="no" lang="no">Norsk</a> &nbsp;|&nbsp; <a href="../da/" hreflang="da" lang="da">Dansk</a> &nbsp;|&nbsp; <a href="../el/" hreflang="el" lang="el">Ελληνικά</a> &nbsp;|&nbsp; <a href="../az/" hreflang="az" lang="az">Azərbaycanca</a> &nbsp;|&nbsp; <a href="../bg/" hreflang="bg" lang="bg">Български</a> &nbsp;|&nbsp; <a href="../sr/" hreflang="sr" lang="sr">Srpski</a> &nbsp;|&nbsp; <a href="../af/" hreflang="af" lang="af">Afrikaans</a> &nbsp;|&nbsp; <a href="../es-419/" hreflang="es-419" lang="es-419">Español (Latinoamérica)</a> &nbsp;|&nbsp; <a href="../ha/" hreflang="ha" lang="ha">Hausa</a> &nbsp;|&nbsp; <a href="../jv/" hreflang="jv" lang="jv">Basa Jawa</a> &nbsp;|&nbsp; <a href="../fil/" hreflang="fil" lang="fil">Filipino</a> &nbsp;|&nbsp; <a href="../ms/" hreflang="ms" lang="ms">Melayu</a> &nbsp;|&nbsp; <a href="../hy/" hreflang="hy" lang="hy">Հայերեն</a> &nbsp;|&nbsp; <a href="../ka/" hreflang="ka" lang="ka">ქართული</a> &nbsp;|&nbsp; <a href="../gu/" hreflang="gu" lang="gu">ગુજરાતી</a> &nbsp;|&nbsp; <a href="../ps/" hreflang="ps" lang="ps">پښتو</a></p>
+    <p style="margin-top:8px;">&copy; 2026 SoifGo — የተሰራው በsaeid moghadam</p>
+  </footer>
+
+</div>
+<script>
+  // Remember the chosen language for the main page.
+  // Both pages share one origin (soifgo.github.io), so localStorage is shared.
+  (function () {
+    function remember(lang) {
+      try {
+        if (lang === 'english') { localStorage.removeItem('soifgo-lang'); }
+        else { localStorage.setItem('soifgo-lang', lang); }
+        localStorage.setItem('soifgo-lang-auto', '1');
+      } catch (e) {}
+    }
+    document.querySelectorAll('a[data-lang]').forEach(function (a) {
+      ['click', 'auxclick'].forEach(function (ev) {
+        a.addEventListener(ev, function () { remember(a.getAttribute('data-lang')); });
+      });
+    });
+  })();
+</script>
+<script>
+  // Day / night toggle (shares the 'soifgo-theme' choice with the main page)
+  (function () {
+    var b = document.getElementById('themeToggle'), ic = document.getElementById('themeIcon');
+    function paint(t) { ic.textContent = t === 'light' ? '🌙' : '☀️'; b.title = t === 'light' ? 'Dark mode' : 'Light mode'; }
+    paint(document.documentElement.getAttribute('data-theme') || 'dark');
+    b.addEventListener('click', function () {
+      var n = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', n);
+      try { localStorage.setItem('soifgo-theme', n); } catch (e) {}
+      paint(n);
+    });
+  })();
+</script>
+</body>
+</html>
