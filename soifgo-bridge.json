@@ -20,7 +20,7 @@
       "notes": ["Name looks swapped but is correct: _rx = send.", "SoifGo appends CR+LF; do not add \\n.", "Works only while a module is connected.", "Same Sub for Classic SPP and BLE."] },
     { "name": "sensor_light", "group": "sensors", "arg_count": 0, "args": [], "purpose": "Activate light sensor.", "delivers_to": ["html_sensor_light"], "notes": ["Independent of the other sensor Subs.", "Call inside window.onload."] },
     { "name": "sensor_move", "group": "sensors", "arg_count": 0, "args": [], "purpose": "Activate accelerometer (X and Y only).", "delivers_to": ["html_sensor_movex", "html_sensor_movey"], "notes": ["No Z axis."] },
-    { "name": "sensor_magno", "group": "sensors", "arg_count": 0, "args": [], "purpose": "Activate magnetometer (one single value).", "delivers_to": ["html_sensor_magno"], "notes": ["No axes; cannot build a compass or 3-axis level."] },
+    { "name": "sensor_magno", "group": "sensors", "arg_count": 0, "args": [], "purpose": "Activate magnetometer (X, Y, Z).", "delivers_to": ["html_sensor_magnox", "html_sensor_magnoy", "html_sensor_magnoz"], "notes": ["Three separate receivers, one value each.", "Accelerometer Z is not forwarded, so no tilt-compensated compass or 3-axis level."] },
     { "name": "connecte_mqtt_ai", "group": "mqtt", "arg_count": 2, "args": [ { "name": "address", "type": "string", "note": "tcp://host:1883 or ssl://host:8883; empty -> tcp://test.mosquitto.org:1883" }, { "name": "id", "type": "string", "note": "Client ID; empty -> auto soifgo_XXXX" } ],
       "purpose": "MQTT connect, step 1." },
     { "name": "connecte_mqtt_up", "group": "mqtt", "arg_count": 2, "args": [ { "name": "username", "type": "string" }, { "name": "password", "type": "string" } ],
@@ -43,7 +43,9 @@
     { "name": "html_sensor_light", "args": ["data"], "value_format": "integer as string" },
     { "name": "html_sensor_movex", "args": ["data"], "value_format": "3 decimals as string" },
     { "name": "html_sensor_movey", "args": ["data"], "value_format": "3 decimals as string" },
-    { "name": "html_sensor_magno", "args": ["data"], "value_format": "2 decimals as string, single value" },
+    { "name": "html_sensor_magnox", "args": ["data"], "value_format": "2 decimals as string" },
+    { "name": "html_sensor_magnoy", "args": ["data"], "value_format": "2 decimals as string" },
+    { "name": "html_sensor_magnoz", "args": ["data"], "value_format": "2 decimals as string" },
     { "name": "mqtt_rx", "args": ["topic", "message"] },
     { "name": "html_mqtt_status", "args": ["connected"], "notes": ["Arrives as the STRING 'true' or 'false'. 'false' is truthy; compare with === 'true'."] },
     { "name": "api_rx", "args": ["number"], "notes": ["May be plain (86846.51) or B4A Map string ({usd=86750}); handle both."] }
@@ -53,7 +55,7 @@
   },
   "limitations": [
     "Accelerometer Z is not forwarded.",
-    "Magnetometer is a single value with no axes.",
+    "Magnetometer is delivered as three separate receivers (X, Y, Z); no tilt compensation because accelerometer Z is not forwarded.",
     "Camera is not defined in the current version.",
     "Headphones/speakers are not supported; data devices only."
   ],

@@ -8,121 +8,59 @@
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   body {
     font-family: 'Segoe UI', sans-serif; margin: 0; padding: 14px;
-    padding-top: calc(14px + 5vh); /* shifted down 5% from the top */
+    padding-top: calc(14px + 5vh);
     background: #0a0e14; color: #e6edf3;
     min-height: 100vh; display: flex; flex-direction: column;
     align-items: center; justify-content: flex-start;
     transition: background 0.3s, color 0.3s;
   }
 
-  /* ---- Light Theme Styles (For Video Recording / Reflection Fix) ---- */
-  body.light-theme {
-    background: #ffffff !important;
-    color: #111111 !important;
-  }
-  body.light-theme h2 {
-    color: #007791 !important;
-  }
-  body.light-theme .digital {
-    background: #f0f4f8 !important;
-    border-color: #0d5c4a !important;
-    box-shadow: 0 0 24px rgba(0,0,0,0.08) inset !important;
-  }
-  body.light-theme .digital .val {
-    color: #00875a !important;
-    text-shadow: 0 0 10px rgba(0,135,90,0.2) !important;
-  }
-  body.light-theme .digital .unit {
-    color: #0a8f6f !important;
-  }
-  body.light-theme .digital .sub {
-    color: #555555 !important;
-  }
-  body.light-theme #rangeBadge {
-    background: #e1e8ed !important;
-    color: #007791 !important;
-    border-color: #cbd5e1 !important;
-  }
-  body.light-theme .info .card {
-    background: #f0f4f8 !important;
-    color: #555555 !important;
-  }
-  body.light-theme .info .card b {
-    color: #111111 !important;
-  }
-  body.light-theme .cal {
-    background: #f0f4f8 !important;
-  }
-  body.light-theme .cal label {
-    color: #555555 !important;
-  }
-  body.light-theme .cal input {
-    background: #ffffff !important;
-    border-color: #cbd5e1 !important;
-    color: #007791 !important;
-  }
-  body.light-theme #status {
-    color: #666666 !important;
-  }
-  body.light-theme #arcTrack {
-    stroke: #d0d7de !important;
-  }
-  body.light-theme #arcFill {
-    stroke: #00a86b !important;
-  }
-  body.light-theme #ticks {
-    stroke: #94a3b8 !important;
-  }
-  body.light-theme #tickLabels {
-    fill: #555555 !important;
-  }
-  body.light-theme .btn-reset {
-    background: #cbd5e1 !important;
-    color: #111111 !important;
-  }
+  body.light-theme { background: #ffffff !important; color: #111111 !important; }
+  body.light-theme h2 { color: #007791 !important; }
+  body.light-theme .digital { background: #f0f4f8 !important; border-color: #0d5c4a !important; box-shadow: 0 0 24px rgba(0,0,0,0.08) inset !important; }
+  body.light-theme .digital .val { color: #00875a !important; text-shadow: 0 0 10px rgba(0,135,90,0.2) !important; }
+  body.light-theme .digital .unit { color: #0a8f6f !important; }
+  body.light-theme .digital .sub { color: #555555 !important; }
+  body.light-theme #rangeBadge { background: #e1e8ed !important; color: #007791 !important; border-color: #cbd5e1 !important; }
+  body.light-theme .info .card { background: #f0f4f8 !important; color: #555555 !important; }
+  body.light-theme .info .card b { color: #111111 !important; }
+  body.light-theme .cal { background: #f0f4f8 !important; }
+  body.light-theme .cal label { color: #555555 !important; }
+  body.light-theme .cal input { background: #ffffff !important; border-color: #cbd5e1 !important; color: #007791 !important; }
+  body.light-theme #status { color: #666666 !important; }
+  body.light-theme #arcTrack { stroke: #d0d7de !important; }
+  body.light-theme #arcFill { stroke: #00a86b !important; }
+  body.light-theme #ticks { stroke: #94a3b8 !important; }
+  body.light-theme #tickLabels { fill: #555555 !important; }
+  body.light-theme .btn-reset { background: #cbd5e1 !important; color: #111111 !important; }
 
-  h2 { margin: 4px 0 12px; font-size: 18px; font-weight: 600;
-       color: #4dd0e1; letter-spacing: 1px; }
+  h2 { margin: 4px 0 12px; font-size: 18px; font-weight: 600; color: #4dd0e1; letter-spacing: 1px; }
 
   .digital {
     background: #041410; border: 2px solid #0d5c4a; border-radius: 14px;
     padding: 14px 28px; margin-bottom: 16px; width: 100%; max-width: 340px;
     text-align: center; box-shadow: 0 0 24px rgba(0,255,180,.15) inset;
   }
-  .digital .val {
-    font-family: 'Courier New', monospace;
-    font-size: 56px; font-weight: 700; color: #00ffb3;
-    text-shadow: 0 0 18px rgba(0,255,179,.7); line-height: 1;
-  }
+  .digital .val { font-family: 'Courier New', monospace; font-size: 56px; font-weight: 700; color: #00ffb3; text-shadow: 0 0 18px rgba(0,255,179,.7); line-height: 1; }
   .digital .unit { font-size: 22px; color: #0a8f6f; margin-left: 6px; }
   .digital .sub { font-size: 12px; color: #3d8f7a; margin-top: 6px; letter-spacing: 1px; }
 
-  .gauge-wrap { position: relative; width: 300px; height: 214px; margin-bottom: 6px; }
+  .gauge-wrap { position: relative; width: 300px; height: 214px; margin-bottom: 6px; cursor: pointer; -webkit-tap-highlight-color: transparent; user-select: none; }
   .gauge-wrap svg { width: 100%; height: 100%; display: block; }
 
   #rangeBadge {
-    font-family: monospace; font-size: 13px; color: #4dd0e1;
-    letter-spacing: 1px; margin-bottom: 14px;
-    background: #101820; padding: 4px 14px; border-radius: 20px;
+    font-family: monospace; font-size: 13px; color: #4dd0e1; letter-spacing: 1px;
+    margin-bottom: 14px; background: #101820; padding: 4px 14px; border-radius: 20px;
     border: 1px solid #1d2c38;
   }
 
-  .info {
-    display: flex; gap: 10px; width: 100%; max-width: 340px;
-    margin-bottom: 12px;
-  }
-  .info .card {
-    flex: 1; background: #131a22; border-radius: 10px;
-    padding: 8px; text-align: center; font-size: 12px; color: #7d8b99;
-  }
+  .info { display: flex; gap: 10px; width: 100%; max-width: 340px; margin-bottom: 12px; }
+  .info .card { flex: 1; background: #131a22; border-radius: 10px; padding: 8px; text-align: center; font-size: 12px; color: #7d8b99; }
   .info .card b { display: block; font-size: 18px; color: #e6edf3; margin-top: 2px; }
 
   .controls { width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 10px; }
   .row { display: flex; gap: 10px; }
-  button {
-    flex: 1; padding: 14px; font-size: 15px; font-weight: 600;
-    border: 0; border-radius: 10px; cursor: pointer; transition: .15s;
-  }
+  button { flex: 1; padding: 14px; font-size: 15px; font-weight: 600; border: 0; border-radius: 10px; cursor: pointer; transition: .15s; }
   .btn-zero { background: #f5a623; color: #1a1a1a; }
   .btn-zero:active { background: #c8851a; }
   .btn-reset { background: #2b3540; color: #cfd8dc; }
@@ -132,42 +70,30 @@
   .btn-mode { background: #8b5cf6; color: #ffffff; }
   .btn-mode:active { background: #6d3fd6; }
 
-  .cal {
-    background: #131a22; border-radius: 10px; padding: 6px 8px;
-    display: flex; align-items: center; gap: 6px;
-  }
+  .cal { background: #131a22; border-radius: 10px; padding: 6px 8px; display: flex; flex-direction: column; gap: 6px; }
+  .cal .cal-line { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
   .cal label { font-size: 12px; color: #7d8b99; white-space: nowrap; }
-  .cal input {
-    flex: 0 0 62px; width: 62px; background: #0a0e14; border: 1px solid #2b3540; color: #4dd0e1;
-    border-radius: 8px; padding: 4px 2px; font-size: 14px; text-align: center;
-    font-family: monospace; min-width: 0;
+  .cal input { flex: 0 0 62px; width: 62px; background: #0a0e14; border: 1px solid #2b3540; color: #4dd0e1; border-radius: 8px; padding: 4px 2px; font-size: 14px; text-align: center; font-family: monospace; min-width: 0; }
+
+  .axis-row { display: flex; gap: 6px; }
+  .btn-axis {
+    flex: 1; height: 32px; padding: 0 4px; border-radius: 8px;
+    background: #2b3540; color: #7d8b99; font-size: 12px; font-weight: 700;
+    font-family: monospace; border: 0; cursor: pointer;
   }
-  .btn-info {
-    flex: 0 0 32px; width: 32px; height: 32px; padding: 0; border-radius: 50%;
-    background: #2b3540; color: #4dd0e1; font-size: 17px; font-weight: 700;
-    font-family: Georgia, serif; line-height: 1;
-  }
+  .btn-axis.active { background: #8b5cf6; color: #ffffff; }
+  body.light-theme .btn-axis { background: #cbd5e1 !important; color: #555 !important; }
+  body.light-theme .btn-axis.active { background: #8b5cf6 !important; color: #fff !important; }
+
+  .btn-info { flex: 0 0 32px; width: 32px; height: 32px; padding: 0; border-radius: 50%; background: #2b3540; color: #4dd0e1; font-size: 17px; font-weight: 700; font-family: Georgia, serif; line-height: 1; }
   .btn-info:active { background: #1f272f; }
-  .btn-wire {
-    flex: 1; width: auto; padding: 0 9px; height: 32px; border-radius: 8px;
-    background: #2b3540; color: #4dd0e1; font-size: 11px; font-weight: 700;
-    letter-spacing: .5px; font-family: monospace;
-  }
+  .btn-wire { flex: 1; width: auto; padding: 0 9px; height: auto; border-radius: 10px; background: #2b3540; color: #4dd0e1; font-size: 13px; font-weight: 700; letter-spacing: .5px; font-family: monospace; }
   .btn-wire:active { background: #1f272f; }
   body.light-theme .btn-wire { background: #cbd5e1 !important; color: #007791 !important; }
 
-  /* ---- Info overlay ---- */
-  #infoOverlay {
-    display: none; position: fixed; inset: 0; z-index: 50;
-    background: rgba(0,0,0,.7); align-items: center; justify-content: center;
-    padding: 18px;
-  }
+  #infoOverlay { display: none; position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.7); align-items: center; justify-content: center; padding: 18px; }
   #infoOverlay.show { display: flex; }
-  .info-box {
-    background: #131a22; color: #e6edf3; border: 1px solid #2b3540;
-    border-radius: 14px; padding: 18px; width: 100%; max-width: 340px;
-    max-height: 90vh; overflow-y: auto;
-  }
+  .info-box { background: #131a22; color: #e6edf3; border: 1px solid #2b3540; border-radius: 14px; padding: 18px; width: 100%; max-width: 340px; max-height: 90vh; overflow-y: auto; }
   .info-box h3 { margin: 0 0 10px; font-size: 16px; color: #4dd0e1; }
   .info-box ul { margin: 0 0 14px; padding-left: 18px; font-size: 13px; line-height: 1.55; }
   .info-box li { margin-bottom: 8px; }
@@ -186,40 +112,51 @@
   <h2 id="title">⚡ AC CLAMP METER</h2>
 
   <div class="digital">
-    <div><span class="val" id="amps">0.00</span><span class="unit">A</span></div>
+    <div><span class="val" id="amps">0.00</span><span class="unit" id="unitLabel">A</span></div>
     <div class="sub" id="subLabel">AC CURRENT (RMS EST.)</div>
   </div>
 
   <div class="gauge-wrap">
-    <svg viewBox="0 14 300 214">
-      <path id="arcTrack" fill="none" stroke="#1a232e" stroke-width="16"
-            stroke-linecap="round"/>
-      <path id="arcFill" fill="none" stroke="#00ffb3" stroke-width="16"
-            stroke-linecap="round"/>
+    <svg id="gaugeSvg" viewBox="0 14 300 214">
+      <path id="arcTrack" fill="none" stroke="#1a232e" stroke-width="16" stroke-linecap="round"/>
+      <path id="arcFill" fill="none" stroke="#00ffb3" stroke-width="16" stroke-linecap="round"/>
       <g id="ticks" stroke="#3d4b5a" stroke-width="2"></g>
-      <g id="tickLabels" fill="#7d8b99" font-size="12" text-anchor="middle"
-         font-family="monospace"></g>
+      <g id="tickLabels" fill="#7d8b99" font-size="12" text-anchor="middle" font-family="monospace"></g>
     </svg>
+    <canvas id="scope" style="display:none;width:100%;height:100%;border-radius:12px;"></canvas>
   </div>
   <div id="rangeBadge">RANGE · 0 – 5 A</div>
 
+  <!-- Info row: MAX / MIN / SPK -->
   <div class="info">
     <div class="card">MAX<b id="maxVal">0.00</b></div>
     <div class="card">MIN<b id="minVal">0.00</b></div>
-    <div class="card">SPIKES<b id="spikeCount">0</b></div>
+    <div class="card">SPK<b id="spikeCount">0</b></div>
   </div>
 
   <div class="controls">
     <div class="row">
       <button class="btn-zero" onclick="zeroNow()">🎯 ZERO</button>
       <button class="btn-reset" onclick="resetAll()">↺ RESET</button>
-    </div>
-    <div class="cal">
-      <label id="calLabel">CAL AC</label>
-      <input id="calFactor" type="number" value="480" inputmode="decimal">
       <button class="btn-wire" id="wireBtn" onclick="switchWire()">- SINGLE</button>
-      <button class="btn-info" onclick="showInfo(true)" aria-label="Info">i</button>
     </div>
+
+    <div class="cal" id="calContainer">
+      <div class="cal-line">
+        <label id="calLabel">CAL AC</label>
+        <input id="calFactor" type="number" value="480" inputmode="decimal">
+        <label id="graphLabel">GRAPH(s)</label>
+        <input id="graphTime" type="number" value="5" min="1" max="60" inputmode="numeric" style="flex: 0 0 42px; width: 42px;">
+      </div>
+      <div class="cal-line axis-row">
+        <button class="btn-axis" data-axis="x" onclick="setAxis('x')">X</button>
+        <button class="btn-axis" data-axis="y" onclick="setAxis('y')">Y</button>
+        <button class="btn-axis active" data-axis="z" onclick="setAxis('z')">Z</button>
+        <button class="btn-axis" data-axis="total" onclick="setAxis('total')">Σ</button>
+        <button class="btn-info" onclick="showInfo(true)" aria-label="Info">i</button>
+      </div>
+    </div>
+
     <div id="status">waiting…</div>
     <div class="row">
       <button class="btn-theme" onclick="toggleTheme()">☀️ THEME</button>
@@ -232,83 +169,101 @@
     <h3>ℹ️ Info</h3>
     <ul>
       <li>This app is designed for and compatible with SoifGo.</li>
-      <li>The calibration factor of each mode is set for 1 A. If your reading differs, adjust it.</li>
-      <li class="warn">Never use the phone to measure bare copper busbars or any uninsulated live parts.</li>
-      <li>Single wire and paired wire (two-core cable) each have their own calibration factor. Use the <b>- SINGLE</b> / <b>= PAIR</b> button to select the wire type (<b>-</b> = one wire, <b>=</b> = two wires); all four factors are saved.</li>
-      <li class="warn">In PAIR mode (two-core cable) the two currents flow in opposite directions, so their magnetic fields largely cancel each other. The field is reduced so much that the calibration factor becomes up to 10× smaller.</li>
-      <li>Keep the distance between the phone and the conductor the same for every measurement, otherwise the calculated value will not be correct.</li>
+      <li>Two modes: <b>AC</b> and <b>DC</b>.</li>
+      <li><b>Tap the gauge or the graph</b> to swap between them.</li>
+      <li>The graph shows the live sensor waveform in amps. In DC it is relative to the ZERO point; in AC it is centered on its own average.</li>
+      <li><b>GRAPH(s)</b> sets how many seconds of history the graph shows (1 – 60).</li>
+      <li><b>X / Y / Z / Σ</b> select the magnetometer axis used for the measurement. The change resets the meter and is saved automatically. Default: Z.</li>
     </ul>
     <button class="btn-close" onclick="showInfo(false)">✕ CLOSE</button>
   </div>
 </div>
 
 <script>
+/* ---------- Constants ---------- */
 var BUFFER_SIZE   = 25;
 var SCALE         = 10;
 var DEFAULT_CAL   = 480;
-
 var VOTE_SIZE     = 7;
 var VOTE_TOL      = 0.30;
 var EWMA_ALPHA    = 0.45;
 var HYST_DELTA    = 0.03;
-
 var SPIKE_DEV     = 0.35;
 var SPIKE_RETURN  = 0.20;
 var SPIKE_MAX     = 10;
-
 var TOL_MIN       = 0.20;
 var TOL_MAX       = 1.20;
-
-var START_ANGLE = -210;
-var END_ANGLE   =   30;
+var START_ANGLE = -210, END_ANGLE = 30;
 var TOTAL_ARC   = END_ANGLE - START_ANGLE;
-var CX = 150, CY = 150;
-var R  = 120;
-
+var CX = 150, CY = 150, R = 120;
 var RANGES = [5, 10, 20];
 var currentRange = RANGES[0];
+var MODES = ['AC', 'DC'];
+var mode  = 'AC';
+var AC_SILENCE_PP = 1.5;
+var DC_SILENCE    = 0.05;
 
-var buffer       = [];
-var voteBuffer   = [];
-var zeroOffset   = 0;
-var currentA     = 0;
-var votedA       = 0;
-var ewmaA        = 0;
-var filteredA    = 0;
-var maxSeen      = -Infinity;
-var minSeen      = Infinity;
-var calFactor    = DEFAULT_CAL;   // AC calibration
+var buffer = [], voteBuffer = [];
+var zeroOffset = 0, currentA = 0, votedA = 0, ewmaA = 0, filteredA = 0;
+var maxSeen = -Infinity, minSeen = Infinity;
+var calFactor = DEFAULT_CAL;
 var DEFAULT_DC_CAL = 220;
-var dcCal        = DEFAULT_DC_CAL;   // DC calibration (separate)
-var wire         = 1;                // 1 = single wire, 2 = paired wire (two-core cable)
-var calStore     = { ac1: 480, ac2: 48, dc1: 220, dc2: 22 };  // 4 saved calibration factors
-var mode         = 'AC';
-var DC_AVG       = 5;
-var dcZero       = 0;
-var dcEwma       = 0;
-var dcInit       = false;
-var pendingZero  = false;
-var lastPeak     = 0;
+var dcCal = DEFAULT_DC_CAL;
+var wire = 1;
+var calStore = { ac1: 480, ac2: 48, dc1: 220, dc2: 22 };
+var DC_AVG = 5, dcZero = 0, dcEwma = 0, dcInit = false, pendingZero = false;
+var lastPeak = 0;
+var baseline = 0, spikeMode = false, spikeLen = 0, spikeCount = 0, baselineInit = false;
 
-var baseline     = 0;
-var spikeMode    = false;
-var spikeLen     = 0;
-var spikeCount   = 0;
-var baselineInit = false;
+var GRAPH_MAX_SEC = 60, graphSec = 5, graphView = false;
+var gT = [], gV = [], graphQueued = false;
 
+/* ---------- Magnetometer state (3-axis) ---------- */
+var magX = NaN, magY = NaN, magZ = NaN;
+var AXIS_KEY = 'clamp_axis';
+var currentAxis = 'z';   // default
+try {
+    var savedAxis = localStorage.getItem(AXIS_KEY);
+    if (savedAxis === 'x' || savedAxis === 'y' || savedAxis === 'z' || savedAxis === 'total') {
+        currentAxis = savedAxis;
+    }
+} catch (e) {}
+
+function axisValue() {
+    if (currentAxis === 'x') return magX;
+    if (currentAxis === 'y') return magY;
+    if (currentAxis === 'z') return magZ;
+    if (isNaN(magX) || isNaN(magY) || isNaN(magZ)) return NaN;
+    return Math.sqrt(magX * magX + magY * magY + magZ * magZ);
+}
+
+function setAxis(axis) {
+    if (axis !== 'x' && axis !== 'y' && axis !== 'z' && axis !== 'total') return;
+    var changed = (axis !== currentAxis);
+    currentAxis = axis;
+    try { localStorage.setItem(AXIS_KEY, axis); } catch (e) {}
+    var btns = document.querySelectorAll('.btn-axis');
+    for (var i = 0; i < btns.length; i++) {
+        btns[i].classList.toggle('active', btns[i].getAttribute('data-axis') === axis);
+    }
+    if (changed) {
+        resetAll();
+        document.getElementById('status').textContent = 'Axis: ' + axis.toUpperCase() + ' · reset';
+    }
+    refreshReadout();
+}
+
+/* ---------- Geometry helpers ---------- */
 function angleToXY(deg, radius) {
   var a = deg * Math.PI / 180;
   return { x: CX + radius * Math.cos(a), y: CY + radius * Math.sin(a) };
 }
 function arcPath(degFrom, degTo, radius) {
-  var p1 = angleToXY(degFrom, radius);
-  var p2 = angleToXY(degTo,   radius);
+  var p1 = angleToXY(degFrom, radius), p2 = angleToXY(degTo, radius);
   var delta = degTo - degFrom;
   var largeArc = Math.abs(delta) > 180 ? 1 : 0;
   var sweep    = delta > 0 ? 1 : 0;
-  return 'M ' + p1.x + ' ' + p1.y +
-         ' A ' + radius + ' ' + radius + ' 0 ' + largeArc + ' ' + sweep +
-         ' ' + p2.x + ' ' + p2.y;
+  return 'M ' + p1.x + ' ' + p1.y + ' A ' + radius + ' ' + radius + ' 0 ' + largeArc + ' ' + sweep + ' ' + p2.x + ' ' + p2.y;
 }
 function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
 
@@ -316,21 +271,17 @@ function buildGauge() {
   var full = arcPath(START_ANGLE, END_ANGLE, R);
   document.getElementById('arcTrack').setAttribute('d', full);
   document.getElementById('arcFill').setAttribute('d',  full);
-  document.getElementById('arcFill')
-          .setAttribute('stroke-dasharray', '0 9999');
+  document.getElementById('arcFill').setAttribute('stroke-dasharray', '0 9999');
 
   var ticksG = document.getElementById('ticks');
   var labG   = document.getElementById('tickLabels');
-  ticksG.innerHTML = '';
-  labG.innerHTML   = '';
+  ticksG.innerHTML = ''; labG.innerHTML = '';
 
   var steps = 10;
   for (var i = 0; i <= steps; i++) {
     var frac = i / steps;
     var deg  = START_ANGLE + frac * TOTAL_ARC;
-    var p1 = angleToXY(deg, R);
-    var p2 = angleToXY(deg, R - 12);
-
+    var p1 = angleToXY(deg, R), p2 = angleToXY(deg, R - 12);
     var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     line.setAttribute('x1', p1.x); line.setAttribute('y1', p1.y);
     line.setAttribute('x2', p2.x); line.setAttribute('y2', p2.y);
@@ -338,22 +289,24 @@ function buildGauge() {
 
     var pl = angleToXY(deg, R - 28);
     var txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    txt.setAttribute('x', pl.x);
-    txt.setAttribute('y', pl.y + 4);
+    txt.setAttribute('x', pl.x); txt.setAttribute('y', pl.y + 4);
     var lbl = currentRange * frac;
     txt.textContent = (currentRange >= 10) ? lbl.toFixed(0) : lbl.toFixed(1);
     labG.appendChild(txt);
   }
+  updateBadge();
+}
 
-  document.getElementById('rangeBadge').textContent =
-    'RANGE · 0 – ' + currentRange + ' A';
+function updateBadge() {
+  document.getElementById('rangeBadge').textContent = graphView
+    ? 'GRAPH · last ' + graphSec + ' s · TAP TO SWITCH'
+    : 'RANGE · 0 – ' + currentRange + ' A · TAP FOR GRAPH';
 }
 
 function setArc(amps) {
   var frac = clamp(amps / currentRange, 0, 1);
   var arcLen = (2 * Math.PI * R) * (TOTAL_ARC / 360);
-  document.getElementById('arcFill')
-          .setAttribute('stroke-dasharray', (frac * arcLen) + ' 9999');
+  document.getElementById('arcFill').setAttribute('stroke-dasharray', (frac * arcLen) + ' 9999');
 }
 
 function fmt(v) {
@@ -363,28 +316,22 @@ function fmt(v) {
 
 function refreshReadout() {
   document.getElementById('amps').textContent = fmt(filteredA);
-  document.getElementById('maxVal').textContent =
-        isFinite(maxSeen) ? fmt(maxSeen) : '0.00';
-  document.getElementById('minVal').textContent =
-        isFinite(minSeen) ? fmt(minSeen) : '0.00';
+  document.getElementById('unitLabel').textContent = 'A';
+  document.getElementById('maxVal').textContent = isFinite(maxSeen) ? fmt(maxSeen) : '0.00';
+  document.getElementById('minVal').textContent = isFinite(minSeen) ? fmt(minSeen) : '0.00';
   document.getElementById('spikeCount').textContent = spikeCount;
   setArc(Math.abs(filteredA));
 }
 
 function pickRange(amps) {
-  for (var i = 0; i < RANGES.length; i++) {
-    if (amps <= RANGES[i]) return RANGES[i];
-  }
+  for (var i = 0; i < RANGES.length; i++) if (amps <= RANGES[i]) return RANGES[i];
   return RANGES[RANGES.length - 1];
 }
 
 function adaptiveTol(arr) {
   if (arr.length < 2) return VOTE_TOL;
   var mx = -Infinity, mn = Infinity;
-  for (var i = 0; i < arr.length; i++) {
-    if (arr[i] > mx) mx = arr[i];
-    if (arr[i] < mn) mn = arr[i];
-  }
+  for (var i = 0; i < arr.length; i++) { if (arr[i] > mx) mx = arr[i]; if (arr[i] < mn) mn = arr[i]; }
   var spread = mx - mn;
   var t = VOTE_TOL + spread * 0.5;
   return clamp(t, TOL_MIN, TOL_MAX);
@@ -393,62 +340,40 @@ function adaptiveTol(arr) {
 function weightedVote(arr, tol) {
   if (arr.length === 0) return 0;
   if (arr.length === 1) return arr[0];
-
-  var bestVal   = arr[0];
-  var bestScore = -1;
-
+  var bestVal = arr[0], bestScore = -1;
   for (var i = 0; i < arr.length; i++) {
     var score = 0;
     for (var j = 0; j < arr.length; j++) {
       var d = Math.abs(arr[i] - arr[j]);
       if (d <= tol) score += 1 / (1 + d);
     }
-    if (score > bestScore) {
-      bestScore = score;
-      bestVal   = arr[i];
-    }
+    if (score > bestScore) { bestScore = score; bestVal = arr[i]; }
   }
-
   var sumW = 0, sumWV = 0;
   for (var k = 0; k < arr.length; k++) {
     var dk = Math.abs(arr[k] - bestVal);
-    if (dk <= tol) {
-      var w = 1 / (1 + dk);
-      sumW  += w;
-      sumWV += w * arr[k];
-    }
+    if (dk <= tol) { var w = 1 / (1 + dk); sumW += w; sumWV += w * arr[k]; }
   }
   return sumW > 0 ? sumWV / sumW : bestVal;
 }
 
 function spikeFilter(val) {
-  if (!baselineInit) {
-    baseline = val;
-    baselineInit = true;
-    return { value: val, blocked: false };
-  }
-
+  if (!baselineInit) { baseline = val; baselineInit = true; return { value: val, blocked: false }; }
   if (spikeMode) {
     spikeLen++;
     var back = Math.abs(val - baseline);
-
     if (back <= SPIKE_RETURN || spikeLen >= SPIKE_MAX) {
-      spikeMode = false;
-      spikeLen  = 0;
+      spikeMode = false; spikeLen = 0;
       baseline = 0.7 * baseline + 0.3 * val;
       return { value: val, blocked: true };
     }
     return { value: val, blocked: true };
   }
-
   var dev = Math.abs(val - baseline);
   if (dev > SPIKE_DEV) {
-    spikeMode  = true;
-    spikeLen   = 1;
-    spikeCount++;
+    spikeMode = true; spikeLen = 1; spikeCount++;
     return { value: val, blocked: true };
   }
-
   baseline = 0.9 * baseline + 0.1 * val;
   return { value: val, blocked: false };
 }
@@ -467,12 +392,24 @@ function recentMean() {
 
 function processDC() {
   if (buffer.length < DC_AVG) {
-    document.getElementById('status').textContent =
-      'buffering ' + buffer.length + '/' + DC_AVG;
+    document.getElementById('status').textContent = 'buffering ' + buffer.length + '/' + DC_AVG;
     return;
   }
   if (pendingZero) { zeroNow(); pendingZero = false; }
-  var val = (recentMean() - dcZero) / dcCal;   // signed
+  var val = (recentMean() - dcZero) / dcCal;
+
+  if (Math.abs(val) < DC_SILENCE) {
+    filteredA = filteredA * 0.5;
+    if (Math.abs(filteredA) < 0.01) filteredA = 0;
+    dcEwma = filteredA;
+    if (filteredA < minSeen) minSeen = filteredA;
+    if (filteredA > maxSeen) maxSeen = filteredA;
+    var nr = pickRange(Math.abs(filteredA));
+    if (nr !== currentRange) { currentRange = nr; buildGauge(); }
+    refreshReadout();
+    document.getElementById('status').textContent = 'no signal (DC) · axis ' + currentAxis.toUpperCase();
+    return;
+  }
 
   if (!dcInit) { dcEwma = val; dcInit = true; }
   else dcEwma = EWMA_ALPHA * val + (1 - EWMA_ALPHA) * dcEwma;
@@ -483,83 +420,212 @@ function processDC() {
   if (filteredA < minSeen) minSeen = filteredA;
 
   var newRange = pickRange(Math.abs(filteredA));
-  if (newRange !== currentRange) {
-    currentRange = newRange;
-    buildGauge();
-  }
+  if (newRange !== currentRange) { currentRange = newRange; buildGauge(); }
   refreshReadout();
-  document.getElementById('status').textContent =
-    'live DC · out ' + fmt(filteredA);
+  document.getElementById('status').textContent = 'live DC · axis ' + currentAxis.toUpperCase() + ' · out ' + fmt(filteredA);
 }
 
-function html_sensor_magno(data) {
-  var raw = parseFloat(data);
-  if (isNaN(raw)) return;
+/* ---------- Graph ---------- */
+function pushGraphSample(v) {
+  var now = performance.now();
+  gT.push(now); gV.push(v);
+  var cut = now - GRAPH_MAX_SEC * 1000, k = 0;
+  while (k < gT.length - 1 && gT[k] < cut) k++;
+  if (k > 0) { gT.splice(0, k); gV.splice(0, k); }
+  if (graphView) scheduleGraph();
+}
 
-  raw = raw * SCALE;
+function scheduleGraph() {
+  if (graphQueued) return;
+  graphQueued = true;
+  var cb = function () { graphQueued = false; drawGraph(); };
+  if (window.requestAnimationFrame) requestAnimationFrame(cb); else setTimeout(cb, 30);
+}
+
+function drawGraph() {
+  var cv = document.getElementById('scope');
+  if (!cv || !cv.getContext || !graphView) return;
+  var cw = cv.clientWidth, ch = cv.clientHeight;
+  if (!cw || !ch) return;
+  var dpr = window.devicePixelRatio || 1;
+  if (cv.width !== Math.round(cw * dpr) || cv.height !== Math.round(ch * dpr)) {
+    cv.width = Math.round(cw * dpr); cv.height = Math.round(ch * dpr);
+  }
+  var c = cv.getContext('2d');
+  c.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  var light = document.body.classList.contains('light-theme');
+  var C = light
+    ? { bg: '#f0f4f8', grid: '#cbd5e1', txt: '#555555', line: '#007791', zero: '#d97706' }
+    : { bg: '#0a0e14', grid: '#1d2c38', txt: '#7d8b99', line: '#00ffb3', zero: '#f5a623' };
+  c.fillStyle = C.bg; c.fillRect(0, 0, cw, ch);
+
+  var PADL = 40, PADR = 6, PADT = 16, PADB = 16;
+  var pw = cw - PADL - PADR, ph = ch - PADT - PADB;
+  c.font = '10px monospace';
+
+  var n = gT.length, i;
+  if (n < 2) {
+    c.fillStyle = C.txt; c.textAlign = 'center';
+    c.fillText('waiting for data…', cw / 2, ch / 2);
+    return;
+  }
+
+  var tEnd = gT[n - 1], spanMs = graphSec * 1000, t0 = tEnd - spanMs;
+  var k0 = 0; while (k0 < n - 1 && gT[k0] < t0) k0++;
+
+  var isDC = (mode === 'DC');
+  var cal = isDC ? dcCal : calFactor;
+  var off;
+  if (isDC) off = dcZero;
+  else { var sm = 0; for (i = k0; i < n; i++) sm += gV[i]; off = sm / (n - k0); }
+
+  var ys = [], vmin = Infinity, vmax = -Infinity;
+  for (i = k0; i < n; i++) {
+    var y = (gV[i] - off) / cal;
+    ys.push(y);
+    if (y < vmin) vmin = y;
+    if (y > vmax) vmax = y;
+  }
+  if (isDC) { vmin = Math.min(vmin, 0); vmax = Math.max(vmax, 0); }
+  var span = vmax - vmin, MINSPAN = 0.2;
+  if (span < MINSPAN) { var mid = (vmax + vmin) / 2; vmin = mid - MINSPAN / 2; vmax = mid + MINSPAN / 2; span = MINSPAN; }
+  vmin -= span * 0.1; vmax += span * 0.1; span = vmax - vmin;
+
+  function X(t) { return PADL + (t - t0) / spanMs * pw; }
+  function Y(v) { return PADT + (1 - (v - vmin) / span) * ph; }
+
+  c.lineWidth = 1; c.strokeStyle = C.grid; c.fillStyle = C.txt;
+  c.textAlign = 'right';
+  for (i = 0; i <= 4; i++) {
+    var gv = vmin + span * i / 4, gy = Math.round(Y(gv)) + 0.5;
+    c.beginPath(); c.moveTo(PADL, gy); c.lineTo(PADL + pw, gy); c.stroke();
+    c.fillText(gv.toFixed(2), PADL - 4, gy + 3);
+  }
+  c.textAlign = 'center';
+  var divs = Math.min(graphSec, 5);
+  for (i = 0; i <= divs; i++) {
+    var gx = Math.round(PADL + pw * i / divs) + 0.5;
+    c.beginPath(); c.moveTo(gx, PADT); c.lineTo(gx, PADT + ph); c.stroke();
+    var secAgo = graphSec * (divs - i) / divs;
+    c.fillText(i === divs ? 'now' : '-' + (Math.round(secAgo * 10) / 10) + 's', Math.min(Math.max(gx, PADL + 10), cw - 14), ch - 3);
+  }
+
+  if (vmin < 0 && vmax > 0) {
+    c.strokeStyle = C.zero; c.setLineDash([4, 3]);
+    var zy = Math.round(Y(0)) + 0.5;
+    c.beginPath(); c.moveTo(PADL, zy); c.lineTo(PADL + pw, zy); c.stroke();
+    c.setLineDash([]);
+  }
+
+  c.save();
+  c.beginPath(); c.rect(PADL, PADT, pw, ph); c.clip();
+  c.strokeStyle = C.line; c.lineWidth = 1.8; c.lineJoin = 'round';
+  c.beginPath();
+  for (i = 0; i < ys.length; i++) {
+    var px = X(gT[k0 + i]), py = Y(ys[i]);
+    if (i === 0) c.moveTo(px, py); else c.lineTo(px, py);
+  }
+  c.stroke();
+  if (pw / Math.max(1, ys.length) > 5) {
+    c.fillStyle = C.line;
+    for (i = 0; i < ys.length; i++) c.fillRect(X(gT[k0 + i]) - 1.5, Y(ys[i]) - 1.5, 3, 3);
+  }
+  c.restore();
+
+  c.fillStyle = C.txt; c.textAlign = 'left';
+  c.fillText('A · ' + (isDC ? 'DC (rel. ZERO)' : 'AC (centered)') + ' · axis ' + currentAxis.toUpperCase(), PADL, 10);
+  c.textAlign = 'right';
+  c.fillText(graphSec + ' s window', cw - PADR, 10);
+}
+
+function setView(showGraph) {
+  graphView = showGraph;
+  document.getElementById('gaugeSvg').style.display = graphView ? 'none' : 'block';
+  document.getElementById('scope').style.display = graphView ? 'block' : 'none';
+  updateBadge();
+  if (graphView) drawGraph();
+}
+
+/* ---------- Sensor entry point (3-axis) ---------- */
+function html_sensor_magnox(data) { magX = parseFloat(data); }
+function html_sensor_magnoy(data) { magY = parseFloat(data); }
+function html_sensor_magnoz(data) {
+  magZ = parseFloat(data);
+
+  var v = axisValue();
+  if (isNaN(v)) return;
+
+  var raw = v * SCALE;
+  pushGraphSample(raw);
   buffer.push(raw);
   if (buffer.length > BUFFER_SIZE) buffer.shift();
 
   if (mode === 'DC') { processDC(); return; }
 
   if (buffer.length < BUFFER_SIZE) {
-    document.getElementById('status').textContent =
-      'buffering ' + buffer.length + '/' + BUFFER_SIZE;
+    document.getElementById('status').textContent = 'buffering ' + buffer.length + '/' + BUFFER_SIZE;
     return;
   }
 
   var mx = -Infinity, mn = Infinity;
   for (var i = 0; i < buffer.length; i++) {
-    var v = buffer[i] - zeroOffset;
-    if (v > mx) mx = v;
-    if (v < mn) mn = v;
+    var bv = buffer[i] - zeroOffset;
+    if (bv > mx) mx = bv;
+    if (bv < mn) mn = bv;
   }
   var pp = mx - mn;
   lastPeak = pp;
 
-  currentA = pp / calFactor;
+  if (pp < AC_SILENCE_PP) {
+    filteredA = filteredA * 0.5;
+    if (Math.abs(filteredA) < 0.01) filteredA = 0;
+    ewmaA = filteredA; votedA = 0; currentA = 0;
+    spikeMode = false; spikeLen = 0; baseline = 0; baselineInit = false;
+    if (filteredA < minSeen) minSeen = filteredA;
+    if (filteredA > maxSeen) maxSeen = filteredA;
+    var nr = pickRange(Math.abs(filteredA));
+    if (nr !== currentRange) { currentRange = nr; buildGauge(); }
+    refreshReadout();
+    document.getElementById('status').textContent = 'no signal (AC) · axis ' + currentAxis.toUpperCase();
+    return;
+  }
 
+  currentA = pp / calFactor;
   var sf = spikeFilter(currentA);
   if (sf.blocked) {
     refreshReadout();
-    document.getElementById('status').textContent =
-      'SPIKE BLOCKED · raw ' + currentA.toFixed(2) +
-      ' · base ' + baseline.toFixed(2);
+    document.getElementById('status').textContent = 'SPIKE BLOCKED · raw ' + currentA.toFixed(2) + ' · base ' + baseline.toFixed(2);
     return;
   }
 
   var cleanA = sf.value;
-
   voteBuffer.push(cleanA);
   if (voteBuffer.length > VOTE_SIZE) voteBuffer.shift();
-
   if (voteBuffer.length === VOTE_SIZE) {
     var tol = adaptiveTol(voteBuffer);
-    votedA  = weightedVote(voteBuffer, tol);
-  } else {
-    votedA = cleanA;
-  }
+    votedA = weightedVote(voteBuffer, tol);
+  } else votedA = cleanA;
 
   if (ewmaA === 0) ewmaA = votedA;
   else ewmaA = EWMA_ALPHA * votedA + (1 - EWMA_ALPHA) * ewmaA;
 
   filteredA = hysteresisFilter(ewmaA);
-
   if (filteredA > maxSeen) maxSeen = filteredA;
   if (filteredA < minSeen) minSeen = filteredA;
 
   var newRange = pickRange(filteredA);
-  if (newRange !== currentRange) {
-    currentRange = newRange;
-    buildGauge();
-  }
+  if (newRange !== currentRange) { currentRange = newRange; buildGauge(); }
 
   refreshReadout();
-  document.getElementById('status').textContent =
-    'live · out ' + filteredA.toFixed(2);
+  document.getElementById('status').textContent = 'live · axis ' + currentAxis.toUpperCase() + ' · out ' + filteredA.toFixed(2);
 }
-window.html_sensor_magno = html_sensor_magno;
 
+window.html_sensor_magnox = html_sensor_magnox;
+window.html_sensor_magnoy = html_sensor_magnoy;
+window.html_sensor_magnoz = html_sensor_magnoz;
+
+/* ---------- ZERO / RESET ---------- */
 function zeroNow() {
   if (buffer.length === 0) return;
   if (mode === 'DC') {
@@ -577,25 +643,22 @@ function zeroNow() {
 }
 
 function resetAll() {
-  buffer = [];
-  voteBuffer = [];
+  buffer = []; voteBuffer = [];
   zeroOffset = 0; dcZero = 0; dcEwma = 0; dcInit = false;
   currentA = 0; votedA = 0; ewmaA = 0; filteredA = 0;
   maxSeen = -Infinity; minSeen = Infinity;
-  lastPeak = 0;
-  baseline = 0; baselineInit = false;
+  lastPeak = 0; baseline = 0; baselineInit = false;
   spikeMode = false; spikeLen = 0; spikeCount = 0;
   currentRange = RANGES[0];
-  buildGauge();
-  refreshReadout();
-  document.getElementById('status').textContent = 'Reset.';
+  gT = []; gV = [];
+  buildGauge(); refreshReadout(); drawGraph();
 }
 
+/* ---------- MODE switching ---------- */
 function switchMode() {
-  mode = (mode === 'AC') ? 'DC' : 'AC';
+  var idx = MODES.indexOf(mode);
+  mode = MODES[(idx + 1) % MODES.length];
   pendingZero = false;
-
-  // clear measurement state (zero points and cal factors are kept)
   voteBuffer = [];
   currentA = 0; votedA = 0; ewmaA = 0; filteredA = 0;
   dcEwma = 0; dcInit = false;
@@ -603,39 +666,27 @@ function switchMode() {
   baseline = 0; baselineInit = false;
   spikeMode = false; spikeLen = 0; spikeCount = 0;
   currentRange = RANGES[0];
-
   document.getElementById('modeBtn').textContent = '🔄 MODE: ' + mode;
   document.getElementById('title').textContent = '⚡ ' + mode + ' CLAMP METER';
   document.getElementById('subLabel').textContent = (mode === 'AC')
-    ? 'AC CURRENT (RMS EST.)' : 'DC CURRENT (SIGNED)';
-  applyCal();
-
-  buildGauge();
-  refreshReadout();
+    ? 'AC CURRENT (RMS EST.) · axis ' + currentAxis.toUpperCase()
+    : 'DC CURRENT (SIGNED) · axis ' + currentAxis.toUpperCase();
+  applyCal(); buildGauge(); refreshReadout(); drawGraph();
   document.getElementById('status').textContent = 'Mode: ' + mode;
-
-  // entering DC: run ZERO automatically
   pendingZero = (mode === 'DC');
-  if (pendingZero && buffer.length >= DC_AVG) {
-    zeroNow();
-    pendingZero = false;
-  }
+  if (pendingZero && buffer.length >= DC_AVG) { zeroNow(); pendingZero = false; }
 }
 
+/* ---------- Calibration storage ---------- */
 function calKey() { return mode.toLowerCase() + wire; }
-
-function syncCal() {
-  calFactor = calStore['ac' + wire];
-  dcCal     = calStore['dc' + wire];
-}
-
+function syncCal() { calFactor = calStore['ac' + wire]; dcCal = calStore['dc' + wire]; }
 function applyCal() {
   syncCal();
   document.getElementById('calLabel').textContent = 'CAL ' + mode;
   document.getElementById('calFactor').value = calStore[calKey()];
+  document.getElementById('graphTime').value = graphSec;
   document.getElementById('wireBtn').textContent = (wire === 1) ? '- SINGLE' : '= PAIR';
 }
-
 function saveCal() {
   try {
     localStorage.setItem('clamp_cal_ac',  String(calStore.ac1));
@@ -643,27 +694,29 @@ function saveCal() {
     localStorage.setItem('clamp_cal_ac2', String(calStore.ac2));
     localStorage.setItem('clamp_cal_dc2', String(calStore.dc2));
     localStorage.setItem('clamp_wire',    String(wire));
+    localStorage.setItem('clamp_graph_sec', String(graphSec));
+    localStorage.setItem(AXIS_KEY, currentAxis);
   } catch (e) {}
 }
-
 function loadCal() {
   try {
-    var map = { ac1: 'clamp_cal_ac', dc1: 'clamp_cal_dc',
-                ac2: 'clamp_cal_ac2', dc2: 'clamp_cal_dc2' };
+    var map = { ac1: 'clamp_cal_ac', dc1: 'clamp_cal_dc', ac2: 'clamp_cal_ac2', dc2: 'clamp_cal_dc2' };
     for (var k in map) {
       var v = parseFloat(localStorage.getItem(map[k]));
       if (!isNaN(v) && v > 0) calStore[k] = v;
     }
     var w = parseInt(localStorage.getItem('clamp_wire'), 10);
     if (w === 1 || w === 2) wire = w;
+    var gs = parseFloat(localStorage.getItem('clamp_graph_sec'));
+    if (!isNaN(gs) && gs >= 1 && gs <= GRAPH_MAX_SEC) graphSec = gs;
+    var ax = localStorage.getItem(AXIS_KEY);
+    if (ax === 'x' || ax === 'y' || ax === 'z' || ax === 'total') currentAxis = ax;
   } catch (e) {}
   applyCal();
 }
 
 function switchWire() {
   wire = (wire === 1) ? 2 : 1;
-
-  // clear filter state; zero points and the raw buffer are kept
   voteBuffer = [];
   currentA = 0; votedA = 0; ewmaA = 0; filteredA = 0;
   dcEwma = 0; dcInit = false;
@@ -671,42 +724,41 @@ function switchWire() {
   baseline = 0; baselineInit = false;
   spikeMode = false; spikeLen = 0; spikeCount = 0;
   currentRange = RANGES[0];
-
-  applyCal();
-  saveCal();
-  buildGauge();
-  refreshReadout();
-  document.getElementById('status').textContent =
-    'Wire: ' + (wire === 1 ? 'SINGLE' : 'PAIR') + ' · CAL ' + mode + ' ' + calStore[calKey()];
+  applyCal(); saveCal(); buildGauge(); refreshReadout(); drawGraph();
+  document.getElementById('status').textContent = 'Wire: ' + (wire === 1 ? 'SINGLE' : 'PAIR');
 }
 
-function showInfo(on) {
-  document.getElementById('infoOverlay').classList.toggle('show', on);
-}
-
-function toggleTheme() {
-  document.body.classList.toggle('light-theme');
-}
+function showInfo(on) { document.getElementById('infoOverlay').classList.toggle('show', on); }
+function toggleTheme() { document.body.classList.toggle('light-theme'); drawGraph(); }
 
 document.getElementById('calFactor').addEventListener('input', function () {
   var v = parseFloat(this.value);
-  if (!isNaN(v) && v > 0) {
-    calStore[calKey()] = v;
-    syncCal();
-    saveCal();
+  if (!isNaN(v) && v > 0) { calStore[calKey()] = v; syncCal(); saveCal(); }
+});
+
+document.getElementById('graphTime').addEventListener('input', function () {
+  var v = parseFloat(this.value);
+  if (!isNaN(v) && v >= 1) {
+    graphSec = Math.min(v, GRAPH_MAX_SEC);
+    saveCal(); updateBadge(); drawGraph();
   }
 });
+document.getElementById('graphTime').addEventListener('change', function () { this.value = graphSec; });
+
+document.querySelector('.gauge-wrap').addEventListener('click', function () { setView(!graphView); });
+window.addEventListener('resize', drawGraph);
 
 window.onload = function () {
   loadCal();
+  setAxis(currentAxis);
   buildGauge();
   refreshReadout();
+
   if (window.soifgo) {
     window.soifgo.CallSub('sensor_magno', true);
-    document.getElementById('status').textContent = 'sensors activating…';
+    document.getElementById('status').textContent = 'sensor_magno activating… · axis ' + currentAxis.toUpperCase();
   } else {
-    document.getElementById('status').textContent =
-      'Not running inside SoifGo (bridge unavailable)';
+    document.getElementById('status').textContent = 'Not running inside SoifGo (bridge unavailable)';
   }
 };
 </script>

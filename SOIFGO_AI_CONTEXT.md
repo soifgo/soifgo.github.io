@@ -351,7 +351,7 @@ When a user says "how do I start" or "how do I add a button", answer in the user
 9. For polling APIs respect the rate limits in Section 8 and provide a **Stop** button.
 10. No external libraries unless the user asks or the feature clearly needs one; plain HTML/CSS/JS works offline. **If a library is used, download it only ONCE and reuse the stored copy on every later run** — never make the page fetch it again each time it is opened. Use the IndexedDB loader pattern in **Section 14.11** (taken from the working 3D File Viewer). A bare `<script src="https://cdn...">` is only acceptable for a quick one-off test.
 11. Start from the closest example in Section 14; do not write bridge code from memory.
-12. Every sensor receiver gets **one value as a string**. Never assume `(x, y, z)` tuples, `data.x`, or a vector. The magnetometer is one value (Section 9). Never invent a Sub called `Connect_Phone_Sensor`; that is the name of a **Classic** button behavior, not a bridge Sub.
+12. Every sensor receiver gets **one value as a string**. Never assume `(x, y, z)` tuples, `data.x`, or a vector. The magnetometer is split into three receivers, `html_sensor_magnox`, `html_sensor_magnoy` and `html_sensor_magnoz`, one value each (Section 9). Never invent a Sub called `Connect_Phone_Sensor`; that is the name of a **Classic** button behavior, not a bridge Sub.
 13. **Bluetooth names look swapped. Do not guess them.** To SEND text to the hardware, use `window.soifgo.CallSub('html_bluetooth_rx', true, txt)` (exactly 1 argument after `true`). To RECEIVE text from the hardware, define `function html_bluetooth_tx(data)` and register it with `window.html_bluetooth_tx = html_bluetooth_tx;`. SoifGo appends a line ending (CR+LF) to every text sent with `html_bluetooth_rx`, so do not add `\n` yourself. Names such as `SoifGo.btSend`, `onBtReceive`, `SendBT` or `html_bluetooth_send` do not exist.
 
 ### 0.5 Minimal Starter Template
@@ -565,7 +565,7 @@ Activates the movement sensor. SoifGo starts sending X/Y data to `html_sensor_mo
 window.soifgo.CallSub('sensor_magno', true);
 ```
 
-Activates the magnetic sensor. SoifGo starts sending data to `html_sensor_magno`.
+Activates the magnetic sensor. SoifGo starts sending data to `html_sensor_magnox`, `html_sensor_magnoy` and `html_sensor_magnoz`.
 
 > **Note:** The three activation Subs (`sensor_light`, `sensor_move`, `sensor_magno`) are **independent of each other**. Call only the Sub(s) for the sensor(s) your page needs — for example, only `sensor_magno` if you just need the magnetic sensor. Calling one does not require or trigger the others. Call them inside `window.onload`.
 
@@ -726,18 +726,24 @@ Delivery limits: a message of 1 to 2000 characters is delivered, and only to Web
 #### `html_sensor_light(data)` — light sensor value
 #### `html_sensor_movex(data)` — movement sensor X-axis
 #### `html_sensor_movey(data)` — movement sensor Y-axis
-#### `html_sensor_magno(data)` — magnetic sensor value (ONE value, string; no components)
+#### `html_sensor_magnox(data)` — magnetic sensor X
+#### `html_sensor_magnoy(data)` — magnetic sensor Y
+#### `html_sensor_magnoz(data)` — magnetic sensor Z
 
 ```js
 function html_sensor_light(data) { /* ... */ }
 function html_sensor_movex(data) { /* ... */ }
 function html_sensor_movey(data) { /* ... */ }
-function html_sensor_magno(data) { /* ... */ }
+function html_sensor_magnox(data) { /* ... */ }
+function html_sensor_magnoy(data) { /* ... */ }
+function html_sensor_magnoz(data) { /* ... */ }
 
 window.html_sensor_light = html_sensor_light;
 window.html_sensor_movex = html_sensor_movex;
 window.html_sensor_movey = html_sensor_movey;
-window.html_sensor_magno = html_sensor_magno;
+window.html_sensor_magnox = html_sensor_magnox;
+window.html_sensor_magnoy = html_sensor_magnoy;
+window.html_sensor_magnoz = html_sensor_magnoz;
 ```
 
 ---
@@ -828,7 +834,9 @@ Count = the exact number of arguments to pass after `'subName', true`.
 | `html_sensor_light` | `data` | Receive light sensor data |
 | `html_sensor_movex` | `data` | Receive movement X data |
 | `html_sensor_movey` | `data` | Receive movement Y data |
-| `html_sensor_magno` | `data` | Receive magnetic sensor data |
+| `html_sensor_magnox` | `data` | Receive magnetic sensor X data |
+| `html_sensor_magnoy` | `data` | Receive magnetic sensor Y data |
+| `html_sensor_magnoz` | `data` | Receive magnetic sensor Z data |
 | `mqtt_rx` | `topic, message` | Receive MQTT message |
 | `html_mqtt_status` | `connected` | Receive MQTT status (`'true'`/`'false'`) |
 | `api_rx` | `number` | Receive API response |
@@ -972,9 +980,9 @@ Always include a **Stop** button so the user can halt polling.
 
 ### Sensors (WebView bridge)
 
-- There are four receivers and **each one receives a single value as a string**: light (integer), move X (3 decimals), move Y (3 decimals), magneto (2 decimals).
-- The magnetometer has **no components at all**. After `sensor_magno` is activated, `html_sensor_magno` delivers **one single value** (a string). Never destructure it into x/y/z, never use `data.x`, never expect a tuple, vector or object. Show it as-is, or use it for a threshold, graph or alarm.
-- Accelerometer **Z** is **not forwarded**, and the magnetometer has no axes. A compass (heading) or a 3-axis spirit level cannot be built inside the WebView. A 2-axis tilt level using Move X / Move Y is possible.
+- There are six receivers and **each one receives a single value as a string**: light (integer), move X (3 decimals), move Y (3 decimals), magneto X, magneto Y and magneto Z (2 decimals each).
+- The magnetometer is delivered as **three separate receivers**. After `sensor_magno` is activated, SoifGo calls `html_sensor_magnox`, `html_sensor_magnoy` and `html_sensor_magnoz`, each with **one value** (a string). Never use `data.x`, never expect a tuple, vector or object: keep each axis in its own variable (for example `magX`, `magY`, `magZ`) and combine them yourself when you need a total (`Math.sqrt(x*x + y*y + z*z)`). The three calls can arrive together, in the order X, Y, Z.
+- Accelerometer **Z** is **not forwarded**. A tilt-compensated compass or a 3-axis spirit level therefore cannot be built inside the WebView. A 2-axis tilt level using Move X / Move Y is possible.
 - There is **no** `Connect_Phone_Sensor` Sub. `Connect Phone Sensor` is a Classic button behavior (Section 13.4). In WebView use `sensor_light`, `sensor_move`, `sensor_magno`.
 
 ### Microphone
@@ -1482,7 +1490,9 @@ window.html_bluetooth_tx = html_bluetooth_tx;
   <div class="box" id="light">Light: waiting...</div>
   <div class="box" id="movex">Move X: waiting...</div>
   <div class="box" id="movey">Move Y: waiting...</div>
-  <div class="box" id="magno">Magneto: waiting...</div>
+  <div class="box" id="magnox">Magneto X: waiting...</div>
+  <div class="box" id="magnoy">Magneto Y: waiting...</div>
+  <div class="box" id="magnoz">Magneto Z: waiting...</div>
   <div id="info"></div>
 
 <script>
@@ -1490,12 +1500,16 @@ window.html_bluetooth_tx = html_bluetooth_tx;
 function html_sensor_light(data) { document.getElementById('light').textContent = 'Light: ' + data; }
 function html_sensor_movex(data) { document.getElementById('movex').textContent = 'Move X: ' + data; }
 function html_sensor_movey(data) { document.getElementById('movey').textContent = 'Move Y: ' + data; }
-function html_sensor_magno(data) { document.getElementById('magno').textContent = 'Magneto: ' + data; }
+function html_sensor_magnox(data) { document.getElementById('magnox').textContent = 'Magneto X: ' + data; }
+function html_sensor_magnoy(data) { document.getElementById('magnoy').textContent = 'Magneto Y: ' + data; }
+function html_sensor_magnoz(data) { document.getElementById('magnoz').textContent = 'Magneto Z: ' + data; }
 
 window.html_sensor_light = html_sensor_light;
 window.html_sensor_movex = html_sensor_movex;
 window.html_sensor_movey = html_sensor_movey;
-window.html_sensor_magno = html_sensor_magno;
+window.html_sensor_magnox = html_sensor_magnox;
+window.html_sensor_magnoy = html_sensor_magnoy;
+window.html_sensor_magnoz = html_sensor_magnoz;
 
 window.onload = function () {
   if (window.soifgo) {
@@ -1945,8 +1959,9 @@ reading, live on screen.
 
 **How it works (5 steps):**
 
-1. **Decimal → integer.** Multiply the raw magnetometer value by `10`
-   (`raw = parseFloat(data) * 10`) to get a better numeric sample.
+1. **Combine the axes, then decimal → integer.** Combine X, Y and Z into one
+   field-strength value (`Math.sqrt(x*x + y*y + z*z)`), then multiply it by `10`
+   (`raw = total * 10`) to get a better numeric sample.
 2. **Take 50 samples.** Fill a rolling buffer with the last 50 readings of
    the alternating field.
 3. **Find the peak.** Track the highest and the lowest value in the buffer
@@ -1961,19 +1976,27 @@ give a different number. Calibrate with a known load (for example a 1 kW
 heater ≈ 4.35 A at 230 V), compare with a reference ammeter, and adjust the
 **CAL FACTOR** field in the app until the reading matches.
 
-**Bridge usage:** the page needs only **one** receiver
-(`html_sensor_magno`) — and therefore only **one** activation Sub,
+**Bridge usage:** the page needs only the three magnetometer receivers
+(`html_sensor_magnox`, `html_sensor_magnoy`, `html_sensor_magnoz`) — and therefore only **one** activation Sub,
 `sensor_magno` (the sensor Subs are independent, Section 0.4 rule 7):
 
 ```js
-function html_sensor_magno(data) {
-  var raw = parseFloat(data) * 10;          // decimal -> integer
+var magX = NaN, magY = NaN, magZ = NaN;
+function html_sensor_magnox(data) { magX = parseFloat(data); }
+function html_sensor_magnoy(data) { magY = parseFloat(data); }
+function html_sensor_magnoz(data) {
+  magZ = parseFloat(data);
+  if (isNaN(magX) || isNaN(magY) || isNaN(magZ)) return;
+  var raw = Math.sqrt(magX*magX + magY*magY + magZ*magZ) * 10;   // total field, decimal -> integer
+  magX = NaN; magY = NaN; magZ = NaN;
   // buffer.push(raw)
   // peak-to-peak over the buffer
   // currentA = peak / calFactor
   // update the display
 }
-window.html_sensor_magno = html_sensor_magno;
+window.html_sensor_magnox = html_sensor_magnox;
+window.html_sensor_magnoy = html_sensor_magnoy;
+window.html_sensor_magnoz = html_sensor_magnoz;
 
 window.onload = function () {
   if (window.soifgo) {
@@ -2133,7 +2156,7 @@ function startPage() {
 | Nothing happens when a button is tapped | Page opened in a normal browser, or bridge not guarded | `window.soifgo` only exists inside SoifGo. Use `if (window.soifgo)` |
 | Receiver never fires | Not registered on `window` | `window.myReceiver = myReceiver;` |
 | Sensors show nothing | The activation Sub for that specific sensor was not called, or not called in `window.onload` | Call the matching Sub (`sensor_light`, `sensor_move` or `sensor_magno`) in `window.onload` (14.3); each sensor is activated independently |
-| Code works for light/move but magnetic looks wrong | Code expects x/y/z | Magneto is a single string value; use `parseFloat(data)` |
+| Code works for light/move but magnetic looks wrong | Code still uses the old single `html_sensor_magno` receiver, or expects `data.x` | Use the three receivers `html_sensor_magnox`, `html_sensor_magnoy`, `html_sensor_magnoz`; each gets one string value, so use `parseFloat(data)` |
 | `CallSub` does nothing, a warning sound/message appears, or the app closes | Second argument is not `true`, wrong number of arguments, a wrong or invented Sub name, or no Bluetooth/MQTT connection | Pass `true`, pass exactly the Sub's count from Section 6, copy the Sub name exactly, and connect first. If SoifGo shows the wrong-Sub warning, the correct Sub list is now on the clipboard: paste it into the AI and rewrite the call from it |
 | Bluetooth sending does nothing | The receive name was used to send, an invented Sub name was used, or no module is connected | Send with `html_bluetooth_rx`, receive with `html_bluetooth_tx`, and connect the module first |
 | Arduino sees an extra blank line after each command | `\n` was added in JavaScript, but SoifGo already appends CR+LF | Send the text without `\n` |

@@ -1873,7 +1873,7 @@
       <h3>Receivers: functions the app calls in your page (register each on window)</h3>
       <ul>
         <li><code>html_bluetooth_tx(data)</code>: RECEIVES Bluetooth text, Classic or BLE (the name looks swapped, but this is the receive callback)</li>
-        <li><code>html_sensor_light(data)</code>, <code>html_sensor_movex(data)</code>, <code>html_sensor_movey(data)</code>, <code>html_sensor_magno(data)</code>: one value each, as a string</li>
+        <li><code>html_sensor_light(data)</code>, <code>html_sensor_movex(data)</code>, <code>html_sensor_movey(data)</code>, <code>html_sensor_magnox(data)</code>, <code>html_sensor_magnoy(data)</code>, <code>html_sensor_magnoz(data)</code>: one value each, as a string</li>
         <li><code>mqtt_rx(topic, message)</code>, <code>html_mqtt_status(connected)</code> (the string 'true' or 'false'), <code>api_rx(number)</code></li>
       </ul>
 
@@ -1990,12 +1990,16 @@ window.onload = function () {
             <pre><code class="plain-code">function html_sensor_light(data) { document.getElementById('light').textContent  = 'Light: '   + data; }
 function html_sensor_movex(data) { document.getElementById('movex').textContent  = 'Move X: '  + data; }
 function html_sensor_movey(data) { document.getElementById('movey').textContent  = 'Move Y: '  + data; }
-function html_sensor_magno(data) { document.getElementById('magno').textContent  = 'Magneto: ' + data; }
+function html_sensor_magnox(data) { document.getElementById('magnox').textContent = 'Magneto X: ' + data; }
+function html_sensor_magnoy(data) { document.getElementById('magnoy').textContent = 'Magneto Y: ' + data; }
+function html_sensor_magnoz(data) { document.getElementById('magnoz').textContent = 'Magneto Z: ' + data; }
 
 window.html_sensor_light = html_sensor_light;
 window.html_sensor_movex = html_sensor_movex;
 window.html_sensor_movey = html_sensor_movey;
-window.html_sensor_magno = html_sensor_magno;
+window.html_sensor_magnox = html_sensor_magnox;
+window.html_sensor_magnoy = html_sensor_magnoy;
+window.html_sensor_magnoz = html_sensor_magnoz;
 
 window.onload = function () {
   if (window.soifgo) {
@@ -2006,9 +2010,10 @@ window.onload = function () {
     document.getElementById('info').textContent = 'Not running inside SoifGo';
   }
 };</code></pre><br>
-            <b>⚠️ Warning:</b> The magnetometer (<code>html_sensor_magno</code>) delivers
-            <u>one single value</u> as a string — never destructure it into x/y/z,
-            never use <code>data.x</code>. Accelerometer <b>Z</b> is not forwarded.<br>
+            <b>⚠️ Warning:</b> The magnetometer delivers its three axes through three separate receivers
+            (<code>html_sensor_magnox</code>, <code>html_sensor_magnoy</code>, <code>html_sensor_magnoz</code>).
+            Each one gets <u>one value</u> as a string (2 decimals) — never expect an object or
+            <code>data.x</code>. Accelerometer <b>Z</b> is not forwarded.<br>
             <b>Real-World Use:</b> activate <code>sensor_magno</code> to measure AC current
             with the phone's magnetometer (clamp meter).
           </li>

@@ -572,7 +572,7 @@
         <ul style="margin-top:6px;">
           <li>The <code>window.soifgo.CallSub()</code> bridge and its golden rules</li>
           <li>Bluetooth send and receive</li>
-          <li>Phone sensors (light, accelerometer X/Y, magnetometer Z)</li>
+          <li>Phone sensors (light, accelerometer X/Y, magnetometer X/Y/Z)</li>
           <li>MQTT connect, publish, subscribe, status</li>
           <li>REST API with two response formats</li>
           <li>localStorage</li>
@@ -614,7 +614,7 @@ window.html_bluetooth_tx = html_bluetooth_tx;   // must be on window</code></pre
     <section id="sensors">
       <h2>3. Phone Sensors</h2>
 
-      <p>Three sensors available: <strong>Light</strong>, <strong>Movement (X/Y)</strong>, <strong>Magnetic field</strong>.</p>
+      <p>Three sensors available: <strong>Light</strong>, <strong>Movement (X/Y)</strong>, <strong>Magnetic field (X/Y/Z)</strong>.</p>
 
       <h3>Activate (in <code>window.onload</code>)</h3>
       <pre><code>window.soifgo.CallSub('sensor_light', true);
@@ -625,12 +625,16 @@ window.soifgo.CallSub('sensor_magno', true);</code></pre>
       <pre><code>function html_sensor_light(data) { /* light value */ }
 function html_sensor_movex(data) { /* move X */ }
 function html_sensor_movey(data) { /* move Y */ }
-function html_sensor_magno(data) { /* magnetic */ }
+function html_sensor_magnox(data) { /* magnetic X */ }
+function html_sensor_magnoy(data) { /* magnetic Y */ }
+function html_sensor_magnoz(data) { /* magnetic Z */ }
 
 window.html_sensor_light = html_sensor_light;
 window.html_sensor_movex = html_sensor_movex;
 window.html_sensor_movey = html_sensor_movey;
-window.html_sensor_magno = html_sensor_magno;</code></pre>
+window.html_sensor_magnox = html_sensor_magnox;
+window.html_sensor_magnoy = html_sensor_magnoy;
+window.html_sensor_magnoz = html_sensor_magnoz;</code></pre>
 
       <div class="success-box">
         <strong>✅ Done.</strong> The page receives continuous real-time sensor data.
@@ -825,7 +829,7 @@ localStorage.removeItem('my_key');</code></pre>
           <tr>
             <td><code>sensor_magno</code></td>
             <td><span class="tag act">ACT</span></td>
-            <td>Activate magnetic field sensor stream.</td>
+            <td>Activate magnetic field sensor stream (X, Y, Z).</td>
           </tr>
           <tr>
             <td><code>connecte_mqtt_ai(address, id)</code></td>
@@ -896,9 +900,19 @@ localStorage.removeItem('my_key');</code></pre>
             <td>Movement Y value.</td>
           </tr>
           <tr>
-            <td><code>html_sensor_magno(data)</code></td>
+            <td><code>html_sensor_magnox(data)</code></td>
             <td><span class="tag recv">RECV</span></td>
-            <td>Magnetic field value.</td>
+            <td>Magnetic field X value.</td>
+          </tr>
+          <tr>
+            <td><code>html_sensor_magnoy(data)</code></td>
+            <td><span class="tag recv">RECV</span></td>
+            <td>Magnetic field Y value.</td>
+          </tr>
+          <tr>
+            <td><code>html_sensor_magnoz(data)</code></td>
+            <td><span class="tag recv">RECV</span></td>
+            <td>Magnetic field Z value.</td>
           </tr>
           <tr>
             <td><code>mqtt_rx(topic, message)</code></td>

@@ -1199,7 +1199,7 @@ window.soifgo.CallSub('api_recive', true, address, key);</code></pre>
     <ul>
       <li><strong>Light</strong> — Light intensity sensor</li>
       <li><strong>Move X/Y</strong> — Movement/acceleration sensor (X and Y axis)</li>
-      <li><strong>Magneto</strong> — Magnetic field sensor</li>
+      <li><strong>Magneto X/Y/Z</strong> — Magnetic field sensor (three axes, three receivers)</li>
     </ul>
 
     <div class="note-warning">
@@ -1231,8 +1231,14 @@ window.soifgo.CallSub('sensor_magno', true);   // Activate magneto sensor</code>
     &lt;div id="movey"  style="font-size:20px;color:white;background:#555;padding:15px;margin:5px;border-radius:8px;"&gt;
         Move Y: waiting...
     &lt;/div&gt;
-    &lt;div id="magno"  style="font-size:20px;color:white;background:#666;padding:15px;margin:5px;border-radius:8px;"&gt;
-        Magneto: waiting...
+    &lt;div id="magnox" style="font-size:20px;color:white;background:#666;padding:15px;margin:5px;border-radius:8px;"&gt;
+        Magneto X: waiting...
+    &lt;/div&gt;
+    &lt;div id="magnoy" style="font-size:20px;color:white;background:#777;padding:15px;margin:5px;border-radius:8px;"&gt;
+        Magneto Y: waiting...
+    &lt;/div&gt;
+    &lt;div id="magnoz" style="font-size:20px;color:white;background:#888;padding:15px;margin:5px;border-radius:8px;"&gt;
+        Magneto Z: waiting...
     &lt;/div&gt;
 
     &lt;script&gt;
@@ -1246,15 +1252,23 @@ window.soifgo.CallSub('sensor_magno', true);   // Activate magneto sensor</code>
         function html_sensor_movey(data) {
             document.getElementById('movey').innerHTML = 'Move Y: ' + data;
         }
-        function html_sensor_magno(data) {
-            document.getElementById('magno').innerHTML = 'Magneto: ' + data;
+        function html_sensor_magnox(data) {
+            document.getElementById('magnox').innerHTML = 'Magneto X: ' + data;
+        }
+        function html_sensor_magnoy(data) {
+            document.getElementById('magnoy').innerHTML = 'Magneto Y: ' + data;
+        }
+        function html_sensor_magnoz(data) {
+            document.getElementById('magnoz').innerHTML = 'Magneto Z: ' + data;
         }
 
         // Expose them
         window.html_sensor_light = html_sensor_light;
         window.html_sensor_movex = html_sensor_movex;
         window.html_sensor_movey = html_sensor_movey;
-        window.html_sensor_magno = html_sensor_magno;
+        window.html_sensor_magnox = html_sensor_magnox;
+        window.html_sensor_magnoy = html_sensor_magnoy;
+        window.html_sensor_magnoz = html_sensor_magnoz;
 
         // ---- Auto-start sensors on page load ----
         window.onload = function() {

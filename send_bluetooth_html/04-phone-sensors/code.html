@@ -101,18 +101,24 @@
   &lt;div class="card"&gt;&lt;span class="label"&gt;💡 Light&lt;/span&gt;&lt;span class="value" id="light"&gt;—&lt;/span&gt;&lt;/div&gt;
   &lt;div class="card"&gt;&lt;span class="label"&gt;🏃 Motion X&lt;/span&gt;&lt;span class="value" id="mx"&gt;—&lt;/span&gt;&lt;/div&gt;
   &lt;div class="card"&gt;&lt;span class="label"&gt;🏃 Motion Y&lt;/span&gt;&lt;span class="value" id="my"&gt;—&lt;/span&gt;&lt;/div&gt;
-  &lt;div class="card"&gt;&lt;span class="label"&gt;🧲 Magnetic&lt;/span&gt;&lt;span class="value" id="magno"&gt;—&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="card"&gt;&lt;span class="label"&gt;🧲 Magnetic X&lt;/span&gt;&lt;span class="value" id="magnox"&gt;—&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="card"&gt;&lt;span class="label"&gt;🧲 Magnetic Y&lt;/span&gt;&lt;span class="value" id="magnoy"&gt;—&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="card"&gt;&lt;span class="label"&gt;🧲 Magnetic Z&lt;/span&gt;&lt;span class="value" id="magnoz"&gt;—&lt;/span&gt;&lt;/div&gt;
 
   &lt;script&gt;
     function html_sensor_light(data)  { document.getElementById('light').innerText = data; }
     function html_sensor_movex(data)  { document.getElementById('mx').innerText = data; }
     function html_sensor_movey(data)  { document.getElementById('my').innerText = data; }
-    function html_sensor_magno(data)  { document.getElementById('magno').innerText = data; }
+    function html_sensor_magnox(data) { document.getElementById('magnox').innerText = data; }
+    function html_sensor_magnoy(data) { document.getElementById('magnoy').innerText = data; }
+    function html_sensor_magnoz(data) { document.getElementById('magnoz').innerText = data; }
 
     window.html_sensor_light = html_sensor_light;
     window.html_sensor_movex = html_sensor_movex;
     window.html_sensor_movey = html_sensor_movey;
-    window.html_sensor_magno = html_sensor_magno;
+    window.html_sensor_magnox = html_sensor_magnox;
+    window.html_sensor_magnoy = html_sensor_magnoy;
+    window.html_sensor_magnoz = html_sensor_magnoz;
 
     window.onload = function () {
       if (window.soifgo) {

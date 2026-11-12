@@ -1325,8 +1325,21 @@ function processDC() {
     'live DC · out ' + fmt(filteredA);
 }
 
-function html_sensor_magno(data) {
-  var raw = parseFloat(data);
+// SoifGo delivers the magnetic field as three separate values (X, Y, Z).
+var magX = NaN, magY = NaN, magZ = NaN;
+
+function html_sensor_magnox(data) { magX = parseFloat(data); }
+function html_sensor_magnoy(data) { magY = parseFloat(data); }
+function html_sensor_magnoz(data) {
+  magZ = parseFloat(data);
+  if (isNaN(magX) || isNaN(magY) || isNaN(magZ)) return;
+  // Z arrives last: combine the 3 axes into one field-strength sample
+  processMagSample(Math.sqrt(magX * magX + magY * magY + magZ * magZ));
+  magX = NaN; magY = NaN; magZ = NaN;
+}
+
+function processMagSample(rawValue) {
+  var raw = rawValue;
   if (isNaN(raw)) return;
 
   raw = raw * SCALE;
@@ -1391,7 +1404,9 @@ function html_sensor_magno(data) {
   document.getElementById('status').textContent =
     'live · out ' + filteredA.toFixed(2);
 }
-window.html_sensor_magno = html_sensor_magno;
+window.html_sensor_magnox = html_sensor_magnox;
+window.html_sensor_magnoy = html_sensor_magnoy;
+window.html_sensor_magnoz = html_sensor_magnoz;
 
 function zeroNow() {
   if (buffer.length === 0) return;

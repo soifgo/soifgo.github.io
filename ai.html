@@ -114,7 +114,7 @@
     <tr><td><code>html_bluetooth_rx</code></td><td>1: text</td><td>SEND text to Bluetooth (the name looks swapped, it is correct). SoifGo adds CR+LF.</td></tr>
     <tr><td><code>sensor_light</code></td><td>0</td><td>Activate light sensor</td></tr>
     <tr><td><code>sensor_move</code></td><td>0</td><td>Activate accelerometer (X and Y)</td></tr>
-    <tr><td><code>sensor_magno</code></td><td>0</td><td>Activate magnetometer (one value)</td></tr>
+    <tr><td><code>sensor_magno</code></td><td>0</td><td>Activate magnetometer (X, Y, Z)</td></tr>
     <tr><td><code>connecte_mqtt_ai</code></td><td>2: address, id</td><td>MQTT connect, step 1</td></tr>
     <tr><td><code>connecte_mqtt_up</code></td><td>2: username, password (both non-empty)</td><td>MQTT connect, step 2 (optional)</td></tr>
     <tr><td><code>mqtt_retained</code></td><td>1: <code>1</code> or <code>0</code></td><td>Retained option for the next publish. Call before <code>mqtt_publish</code>.</td></tr>
@@ -132,7 +132,9 @@
     <tr><td><code>html_sensor_light</code></td><td>data</td><td>Light value (integer, as string)</td></tr>
     <tr><td><code>html_sensor_movex</code></td><td>data</td><td>Movement X (3 decimals, as string)</td></tr>
     <tr><td><code>html_sensor_movey</code></td><td>data</td><td>Movement Y (3 decimals, as string)</td></tr>
-    <tr><td><code>html_sensor_magno</code></td><td>data</td><td>Magnetic value: ONE single value (2 decimals, as string), no x, y, z</td></tr>
+    <tr><td><code>html_sensor_magnox</code></td><td>data</td><td>Magnetic X (2 decimals, as string)</td></tr>
+    <tr><td><code>html_sensor_magnoy</code></td><td>data</td><td>Magnetic Y (2 decimals, as string)</td></tr>
+    <tr><td><code>html_sensor_magnoz</code></td><td>data</td><td>Magnetic Z (2 decimals, as string)</td></tr>
     <tr><td><code>mqtt_rx</code></td><td>topic, message</td><td>MQTT message</td></tr>
     <tr><td><code>html_mqtt_status</code></td><td>connected</td><td>The string <code>'true'</code> or <code>'false'</code>; compare with <code>=== 'true'</code></td></tr>
     <tr><td><code>api_rx</code></td><td>number</td><td>API response (a plain value or a Map string like <code>{usd=86750}</code>; handle both)</td></tr>
@@ -153,7 +155,7 @@ window.html_bluetooth_tx = function (data) {
 
   <h2>8. Limits to remember</h2>
   <ul>
-    <li>Sensors are independent: activate only the ones the page uses. The accelerometer gives X and Y only (no Z); the magnetometer gives one single value with no axes. A compass or a 3-axis level cannot be built. A 2-axis tilt level with Move X and Move Y is possible.</li>
+    <li>Sensors are independent: activate only the ones the page uses. The accelerometer gives X and Y only (no Z); the magnetometer gives X, Y and Z through three separate receivers. A tilt-compensated compass or a 3-axis level cannot be built (no accelerometer Z). A 2-axis tilt level with Move X and Move Y is possible.</li>
     <li>MQTT and API work only inside SoifGo's WebView. API calls have rate limits: use safe intervals and give the user a Stop button.</li>
     <li>For Classic Bluetooth modules (HC-05, HC-06, JDY-31), the device must be paired in Android Settings first. SoifGo's list is the phone's own Bluetooth list.</li>
     <li><code>localStorage</code> persists across reloads; wrap it in <code>try/catch</code>. <code>alert</code>, <code>confirm</code> and <code>prompt</code> work natively.</li>
