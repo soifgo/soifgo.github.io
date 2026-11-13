@@ -393,11 +393,12 @@
             <tr><th>Feature</th><th>Specification</th></tr>
             <tr><td>Microcontroller</td><td>STM32F030K6T6 (ARM Cortex-M0, 48 MHz, LQFP32)</td></tr>
             <tr><td>Channels</td><td>19 independent LED data lines (A1–A19)</td></tr>
-            <tr><td>Pixels per Channel</td><td>Up to 256 (Total 4,864 pixels)</td></tr>
+            <tr><td>Pixels per Channel</td><td>100 by default (1,900 total). The protocol supports up to 256 (<code>00</code>–<code>FF</code>).</td></tr>
             <tr><td>Storage</td><td>SD Card via SPI1 (Raw access, no filesystem)</td></tr>
             <tr><td>Communication</td><td>Bluetooth HC-05 (UART, 115200 baud; set the module with <code>AT+UART=115200,0,0</code>)</td></tr>
             <tr><td>Supported LEDs</td><td>WS2812, WS2812B, WS2811, WS2813, WS2815</td></tr>
         </table>
+        <p><strong>Why 100 pixels?</strong> The channels are sent one after another, so more pixels per channel means a lower frame rate. The limit is set to 100 (<code>STRIP_LEN</code> in <code>main.c</code>) to avoid frame drops on this microcontroller, and it is enough for normal displays. If speed is not critical for you, or if you migrate to a faster processor, you can change <code>STRIP_LEN</code> from 100 up to 256. After the change, check the RAM usage of the build: the STM32F030K6 has only 4 KB of RAM. Large banners need a stronger microcontroller and modified code.</p>
     </div>
 
     <h2>Pinout &amp; Channel Map</h2>
@@ -506,6 +507,9 @@
         <tr><td><code>ERASE</code></td><td>Clears the recording header (frames=0)</td><td><code>ERASED</code>, then <code>next</code></td></tr>
         <tr><td><code>INFO</code></td><td>Shows current status (frames, channels, delay, auto)</td><td><code>frames=.. ch=..</code>, then <code>next</code></td></tr>
         <tr><td><code>DUMP</code></td><td>Sends raw data of all stored frames to terminal (for debugging)</td><td><code>HDR raw:...</code>, then <code>next</code></td></tr>
+        <tr><td><code>DUMP=N</code></td><td>Sends the raw data of frame number N only (for debugging)</td><td><code>HDR raw:...</code>, then <code>next</code></td></tr>
+        <tr><td><code>CH=N</code></td><td>Sets the number of active channels (1 – 19) and saves it on the SD card</td><td><code>OK CH=N</code>, then <code>next</code></td></tr>
+        <tr><td><code>DELAY=N</code></td><td>Sets the default delay between frames in milliseconds (used when a frame has no <code>wait=N</code>) and saves it on the SD card</td><td><code>OK DELAY=N</code>, then <code>next</code></td></tr>
     </table>
 
     <h2>Web Application</h2>
@@ -592,19 +596,31 @@
     <h2>Safety Warning</h2>
     <div class="warning">
         <h3>⚠️ Important Notice</h3>
-        <p>1. The SD card is accessed in <strong>RAW mode</strong>. There is no filesystem (FAT32) on it. The controller will overwrite sectors starting around <code>2000</code>. Always use a spare or blank SD card.</p>
+        <p>1. The SD card is accessed in <strong>RAW mode</strong>. The controller does not need a filesystem and writes sectors starting around <code>2000</code>, so any data already on the card will be damaged, and after use your computer may not read the card and may ask to format it. Always use a spare or blank SD card. As a precaution, format the card once as FAT32 on a computer before first use, so it is in a standard state that other systems can recognize. This is only a precaution and is not required by the firmware.</p>
         <p>2. The STM32 outputs <strong>3.3V logic</strong>, while 5V LED strips (WS2812B) officially expect a higher input level (about 70% of the supply, i.e. 3.5V). In practice most strips work fine when connected <strong>directly</strong> with a short data wire and a common ground, and GIF209 has been tested this way. A logic level converter (like 74HCT245 or 74HCT125) is only needed when you notice problems, for example a long data cable, flickering or wrong colors on the first LEDs, or a strip that does not accept 3.3V. GIF209 aims for simplicity and avoiding unnecessary hardware complexity. If you see a need for extra caution or have a different opinion, the Proteus project file is open and available: modify it and apply whatever protection or parts you prefer.</p>
+        <p>3. <strong>LED power:</strong> the 5V input (J6) feeds the 3.3V regulator and the Bluetooth module. With 5V strips you can use the same 5V supply for the board and the strips (size it for your strips: up to about 60 mA per pixel at full white), with a common GND. With 12V strips, <strong>never connect 12V to J6</strong>: give the board its own 5V (a separate supply, a buck converter or a regulator from the 12V), power the strips from the 12V, and connect all grounds together.</p>
     </div>
 
     <h2>Flashing the Firmware (Boot Jumper)</h2>
     <div class="card">
-        <p>The two SWD programming pins (<strong>PA13</strong> and <strong>PA14</strong>) are used as LED outputs on this board, so the firmware cannot be flashed or debugged through SWD. Instead, the STM32 built-in bootloader is used over <strong>UART (PA9 / PA10)</strong>, and it only starts when the <strong>BOOT0</strong> pin is held high during reset. This is the job of the <strong>BOOT jumper</strong>.</p>
+        <p>The two SWD programming pins (<strong>PA13</strong> and <strong>PA14</strong>) are used as LED outputs on this board. A few microseconds after start the firmware turns them into GPIO outputs, so a programmer can no longer see the chip while the firmware is running, and live debugging through SWD is not available. To flash, the chip must be kept in its built-in bootloader: the <strong>BOOT0</strong> pin is held high during reset. This is the job of the <strong>BOOT jumper</strong>. In this mode the firmware does not run and the SWD pins stay available. You can then flash in either of two ways.</p>
+
+        <h3>Method 1: ST-LINK V2 (SWD)</h3>
+        <ol>
+            <li>Connect the ST-LINK V2 to the <strong>J2</strong> header on the board: SWDIO, SWCLK, RESET, GND and 3.3V.</li>
+            <li><strong>Flash mode:</strong> connect (install) the BOOT jumper, then power the board or press reset.</li>
+            <li>Flash the compiled firmware from STM32CubeIDE or STM32CubeProgrammer (SWD mode).</li>
+            <li><strong>Normal mode:</strong> remove the BOOT jumper and the programmer, and reset the board so the firmware starts.</li>
+        </ol>
+
+        <h3>Method 2: USB-to-serial adapter (UART)</h3>
         <ol>
             <li>Disconnect the Bluetooth module (it shares PA9/PA10), and connect a 3.3V USB-to-serial adapter: adapter TX to PA10 (RX), adapter RX to PA9 (TX), and GND to GND.</li>
             <li><strong>Flash mode:</strong> connect (install) the BOOT jumper, then power the board or press reset.</li>
-            <li>Flash <code>main.c</code> (compiled) with a UART bootloader tool such as STM32CubeProgrammer (UART mode) or stm32flash.</li>
+            <li>Flash the compiled firmware with a UART bootloader tool such as STM32CubeProgrammer (UART mode) or stm32flash.</li>
             <li><strong>Normal mode:</strong> remove the BOOT jumper, reconnect the Bluetooth module, and reset the board so the firmware starts.</li>
         </ol>
+
         <p><strong>Important:</strong> if the BOOT jumper stays connected, the board will enter the bootloader on every reset and the LEDs will not work. Always remove the jumper after flashing.</p>
     </div>
 
@@ -623,6 +639,7 @@
     <div class="card" style="text-align: center;">
         <p>Get the source code, PCB schematics, and the latest firmware updates from the repository.</p>
         <a href="ALL_File.zip" download class="download-link">📦 Download ALL_File.zip</a>
+        <p style="margin-top:16px;font-size:0.9em;"><strong>License:</strong> free to use, modify and share, with no restrictions and no follow-up. The only requirement is to credit the source (GIF209, Saeid Moghadam).</p>
     </div>
 
     <!-- ===== Back to Home & Footer (aligned with CMI209) ===== -->
