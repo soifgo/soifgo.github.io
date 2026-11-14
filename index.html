@@ -311,7 +311,7 @@
         "name": "How can I get support or report a bug?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "You can report bugs and ask questions through the SoifGo GitHub repository (github.com/soifgo/soifgo.github.io) or by email via the contact link on the website."
+          "text": "You can ask questions and report bugs in the GitHub Discussions forum (github.com/soifgo/soifgo.github.io/discussions), in the SoifGo Reddit community (reddit.com/r/SoifGoApp), or by email at ssm20985@gmail.com."
         }
       }
     ]
@@ -336,10 +336,19 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* Readable default link color in both themes (also replaces the dark
+       browser-default blue/purple for visited links). :where() keeps the
+       specificity at zero, so component rules (buttons, nav, cards, footer)
+       still override this. */
+    :where(a) { color: var(--link); }
+    :where(a:hover) { color: var(--link-hover); }
+
     :root,
     [data-theme="dark"] {
       --primary: #4f8cff;
       --primary-light: #6aa0ff;
+      --link: #7db4ff;
+      --link-hover: #b3d2ff;
       --purple: #9b59b6;
       --purple-light: #c084fc;
       --arduino-teal: #1abc9c;
@@ -374,6 +383,8 @@
     [data-theme="light"] {
       --primary: #2563eb;
       --primary-light: #3b82f6;
+      --link: #1d4ed8;
+      --link-hover: #1e3a8a;
       --purple: #9333ea;
       --purple-light: #a855f7;
       --arduino-teal: #0d9488;
@@ -545,6 +556,15 @@
     .cta-button.cta-youtube:hover {
       background: linear-gradient(135deg, #f87171, #ef4444);
       box-shadow: 0 15px 30px rgba(239, 68, 68, 0.55);
+    }
+
+    .cta-button.cta-github {
+      background: linear-gradient(135deg, #3b4252, #161b22);
+      box-shadow: 0 10px 25px rgba(22, 27, 34, 0.45);
+    }
+    .cta-button.cta-github:hover {
+      background: linear-gradient(135deg, #4b5567, #21262d);
+      box-shadow: 0 15px 30px rgba(22, 27, 34, 0.6);
     }
 
     .cta-button.cta-reddit {
@@ -985,6 +1005,8 @@
 
     .faq-item a { color: var(--primary); text-decoration: none; }
     .faq-item a:hover { text-decoration: underline; }
+    .faq-item ul { color: var(--text-muted); margin: 8px 0 0; padding-left: 22px; }
+    .faq-item li { margin: 6px 0; }
 
     #ecosystem ul {
       list-style: none;
@@ -1300,10 +1322,15 @@
            class="cta-button cta-youtube">
           <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="vertical-align:-5px;margin-right:6px"><path fill="#ffffff" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8z"/><path fill="#b91c1c" d="M9.6 15.6V8.4l6.2 3.6z"/></svg>Watch tutorials
         </a>
+        <a href="https://github.com/soifgo/soifgo.github.io/discussions"
+           target="_blank" rel="noopener noreferrer"
+           class="cta-button cta-github">
+          💬 GitHub Discussions
+        </a>
         <a href="https://www.reddit.com/r/SoifGoApp/"
            target="_blank" rel="noopener noreferrer"
            class="cta-button cta-reddit">
-          💬 Join the community
+          💬 Reddit community
         </a>
         <a href="intro/en/" id="ctaNative" class="cta-button cta-native" title="Quick and easy start, in your language">
           🚀 Quick &amp; easy start
@@ -1356,7 +1383,8 @@
     <a href="#tutorials">Examples & Tutorials</a>
     <a href="#faq">FAQ</a>
     <a href="docs.html">Docs</a>
-    <a href="https://www.reddit.com/r/SoifGoApp/" target="_blank" rel="noopener noreferrer">Community</a>
+    <a href="https://github.com/soifgo/soifgo.github.io/discussions" target="_blank" rel="noopener noreferrer">Discussions</a>
+    <a href="https://www.reddit.com/r/SoifGoApp/" target="_blank" rel="noopener noreferrer">Reddit</a>
     <a href="#ai-context" class="ai-link">AI</a>
   </nav>
 
@@ -1541,11 +1569,20 @@
           </a>
         </li>
         <li>
+          <a href="https://github.com/soifgo/soifgo.github.io/discussions" target="_blank" rel="noopener noreferrer">
+            <span class="no-icon">💬</span>
+            <div>
+              <strong>Community (GitHub Discussions)</strong>
+              <span>Ask questions, share your pages, report bugs and suggest features on GitHub</span>
+            </div>
+          </a>
+        </li>
+        <li>
           <a href="https://www.reddit.com/r/SoifGoApp/" target="_blank" rel="noopener noreferrer">
             <span class="no-icon">💬</span>
             <div>
               <strong>Community (Reddit)</strong>
-              <span>Ask questions, share your pages, report bugs and suggest features at r/SoifGoApp</span>
+              <span>Chat with other makers and share your projects at r/SoifGoApp</span>
             </div>
           </a>
         </li>
@@ -1829,7 +1866,12 @@
 
       <div class="faq-item">
         <strong>Where can I ask questions or report issues?</strong>
-        <p>You can contact support at <a href="mailto:ssm20985@gmail.com">ssm20985@gmail.com</a>.</p>
+        <p>You have three options:</p>
+        <ul>
+          <li><strong>GitHub forum:</strong> open a topic in the <a href="https://github.com/soifgo/soifgo.github.io/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions</a>.</li>
+          <li><strong>Reddit:</strong> ask questions and share your pages in the community at <a href="https://www.reddit.com/r/SoifGoApp/" target="_blank" rel="noopener noreferrer">r/SoifGoApp</a>.</li>
+          <li><strong>Email:</strong> write to <a href="mailto:ssm20985@gmail.com">ssm20985@gmail.com</a>.</li>
+        </ul>
       </div>
     </section>
 
@@ -2339,6 +2381,8 @@ window.api_rx = api_rx;</code></pre><br>
       <a href="https://soifgo.github.io/SOIFGO_AI_CONTEXT.md">🤖 AI Context</a>
       &nbsp;|&nbsp;
       <a href="send_bluetooth_html/html_guide_1.html">📦 Examples</a>
+      &nbsp;|&nbsp;
+      <a href="https://github.com/soifgo/soifgo.github.io/discussions" target="_blank" rel="noopener noreferrer">💬 Discussions</a>
       &nbsp;|&nbsp;
       <a href="https://www.reddit.com/r/SoifGoApp/" target="_blank" rel="noopener noreferrer">💬 Reddit</a>
     </p>
