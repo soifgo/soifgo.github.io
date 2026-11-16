@@ -598,7 +598,7 @@
     <div class="card">
       <p>
         If the required hardware for applying values by address to test button actions is unavailable,
-        you can enable the simulator. It provides an internal counter ranging from <code>1</code> to
+        you can enable the simulator. It provides an internal test value, either a linear counter or a sine wave, ranging from <code>0</code> (or <code>-1024</code>) to
         <code>1024</code>, allowing you to prototype and test your button behavior.
       </p>
       <p>
@@ -609,8 +609,8 @@
       <ul>
         <li>Set the button behavior to <strong>numeric input</strong> (Bluetooth, API, or MQTT).</li>
         <li>Set <strong>maximum input value</strong> to <code>1024</code>.</li>
-        <li>Enable <strong>Simulation Input Value</strong> from the <em>Play</em> menu.</li>
-        <li>The simulator will apply values from <code>1</code> to <code>1024</code> automatically.</li>
+        <li>Enable <strong>Simulation Input Value</strong> from the <em>Play</em> menu and choose a mode: <code>0 to 1024 /</code>, <code>-1024 to 1024 /</code> (linear counter) or <code>0 to 1024 ~</code>, <code>-1024 to 1024 ~</code> (sine wave).</li>
+        <li>The simulator applies values automatically (about 6 seconds per cycle). Tap <strong>Stop</strong> to end it.</li>
         <li>Once testing is complete, configure the external hardware address as needed.</li>
       </ul>
     </div>
@@ -622,7 +622,7 @@
       <ul>
         <li><strong>Create the button:</strong> Set behavior to numeric input (Bluetooth, API, or MQTT).</li>
         <li><strong>Maximum:</strong> <code>1024</code>.</li>
-        <li><strong>Enable simulator:</strong> Use <em>simulation input value</em> in Play to generate values <code>1 → 1024</code>.</li>
+        <li><strong>Enable simulator:</strong> Use <em>simulation input value</em> in Play to generate test values up to <code>1024</code>, as a linear counter or a sine wave.</li>
         <li><strong>Edit mode:</strong> Click the button and open <em>Effects</em>. Options include Size, Circle, Move, Rotate, Color, Graph, Formula, and ALARM. In the app menu the same effects may be labeled Circular, Rotation, Math Formula and Alarm.</li>
       </ul>
     </div>
