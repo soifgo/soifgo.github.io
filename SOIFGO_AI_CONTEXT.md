@@ -2,7 +2,7 @@
 
 **Purpose:** Comprehensive AI-readable reference for the SoifGo Android application and its official website resources. When a user asks about SoifGo, this file serves as the primary source of truth for all documentation, tutorials, native bridges, and ecosystem components.
 
-**SoifGo Version:** 1.46 (VersionCode 146)
+**SoifGo Version:** 1.47 (VersionCode 147)
 **Platform:** Android (built with B4A / Basic4Android)
 **Official Website:** https://soifgo.github.io/
 **Short manual (if you cannot load this long file):** https://soifgo.github.io/ai.html
@@ -38,7 +38,7 @@ You are a SoifGo expert assistant. You help users build SoifGo projects: HTML pa
 - Use **only** the Subs and receivers listed in Section 6 and the menu names listed in Section 13. **Never invent** a Sub, receiver, parameter, menu item or feature.
 - If something is not covered here, say you are not sure and point to the official docs: https://soifgo.github.io/docs.html and the Complete User Guide https://soifgo.github.io/soifgo_info/soifgo_info.html . Do not guess.
 - If the user asks for something SoifGo cannot do (see Section 9: no camera, no Bluetooth audio devices, the bridge does not exist in a normal browser), say so and offer the closest supported alternative.
-- Current version: 1.46 (VersionCode 146).
+- Current version: 1.47 (VersionCode 147).
 
 ### 0.2-A Creating the First Button (MANDATORY — read before telling any user to "add a button")
 
@@ -83,7 +83,7 @@ You are a SoifGo expert assistant. You help users build SoifGo projects: HTML pa
 #### Menu of a selected button (Edit)
 
 When a button is selected, the top-left menu contains, in this order:
-**Play · Select Design · Option · Undo · Redo** (Undo and Redo are icons only) **· Copy Properties · Paste Properties · Delete Object · Background · Name · Size · Move · Behavior · Audio · Vibra** — and **Effects** (last item). **Effects appears only after Behavior is set to a *Receive ... Value* option or *Connect Phone Sensor*.**
+**Play · Select Design · Undo · Redo** (Undo and Redo are icons only) **· Copy Properties · Paste Properties · Delete Object · Background · Name · Size · Move · Behavior · Audio · Vibra** — and **Effects** (last item). **Effects appears only after Behavior is set to a *Receive ... Value* option or *Connect Phone Sensor*.**
 
 | Item | What it does |
 |---|---|
@@ -1023,7 +1023,7 @@ A: Classic modules (HC-05, HC-06, JDY-31) work in the default Classic mode. For 
 A: No.
 
 **Q: What Android version is required?**
-A: See the official Download page. Version 1.46 is the current release.
+A: See the official Download page. Version 1.47 is the current release.
 
 **Q: Can the same HTML run in a normal browser?**
 A: It can, but the `window.soifgo` bridge won't exist. Always guard with `if (window.soifgo) { ... }`.
@@ -1118,13 +1118,27 @@ Use this section to tell users **where to tap**. Use the exact English menu name
 
 | Screen | Top-left icon looks like | Menu items |
 |---|---|---|
-| Play | Play symbol | **Edit** (first), Language, Help ?, Update 1.46, Simulation Input Value ON/OFF, Bluetooth mode (**Classic Bluetooth** / **Bluetooth Low Energy**) |
-| Edit | Pause symbol | **Play** (first), Select Design, Option, Undo, Redo (Undo and Redo are shown as **icons only**, no text) |
+| Play | Play symbol | **Edit** (first), **Option**, **Simulation Input Value ON/OFF**, Bluetooth mode (**Classic Bluetooth** / **Bluetooth Low Energy**) |
+| Edit | Pause symbol | **Play** (first), Select Design, Undo, Redo (Undo and Redo are shown as **icons only**, no text) |
 
 - Play top bar also shows the current page path (for example `soifgo/folder1/page/p1`) and the Bluetooth icon at the top right (long-press it to change the Bluetooth module).
-- **Simulation Input Value** (Play menu) lets users test received-value effects without hardware.
+- **Simulation Input Value** (Play menu, shown as **Simulation Input Value ON/OFF**) lets users test received-value effects and practice the Start/End Word setup without hardware. Tapping it opens the simulator menu:
+  - Four simulation modes: **0 to 1024 /**, **-1024 to 1024 /**, **0 to 1024 ~**, **-1024 to 1024 ~**. The **/** modes are a linear, repeating counter (`0 to 1024` wraps back to `0`; `-1024 to 1024` wraps back to `-1024`). The **~** modes are a smooth sine wave (`0 to 1024` swings between 0 and 1024; `-1024 to 1024` swings between -1024 and 1024).
+  - The simulator is slow: one full cycle takes about 6 seconds. There is no speed setting in the menu.
+  - **Stop** stops the simulator.
+  - **Input Value Show Off / On** shows the current simulated value (with its prefix and suffix) on screen.
+  - **Start Word for Value:** and **End Word for Value:** set a text placed **before** and **after** the simulated number, so the value reaches the button as `prefix + number + suffix`, exactly like data from a real device. Use them to practice a button's Start Word / End Word filters before connecting an address or a real source.
 - **Bluetooth mode** (last item of the Play menu) shows **Classic Bluetooth** or **Bluetooth Low Energy**. Tapping it opens a **Select?** dialog with **Classic Bluetooth (BR/EDR)** and **Bluetooth Low Energy(BLE)**; choose the one that matches the user's module.
-- **Option** (Edit menu) currently only has two switches: *MENU Sounds* and *Screen Alive* (keep screen on). Minor; do not teach it unless asked.
+- **Option** (Play menu, second item) opens the app settings list:
+  - **All Sounds ON/OFF** — turns the app sounds on or off.
+  - **Screen Alive ON/OFF** — keeps the screen on all the time so it does not turn off.
+  - **Help ?** — opens a **Select? Help ? AI** list of AI guides: *01. Quick Start & UI Guide*, *02. Classic Behaviors & Effects*, *03. AI Native Bridge Core Rules*, *04. Phone Sensors & Voice Guide*, *05. Network, MQTT & API Guide*, *06. Code Editor & Templates*, *07. Master Complete Guide (All-in-One)*. They are quick guides / context files for AI assistants. Item 07 is the complete one; the others are smaller topic files, useful when the full context is too large for the user's AI.
+  - **Update 1.47** — opens a **Select?** dialog with two ways to update: **Direct** (direct download) or **APKPURE** (APKPure market).
+  - **Language** — 47 menu languages, including English, Español, Español (Latinoamérica), 简体中文, Français, Deutsch, 日本語, Русский, العربية, فارسی, Italiano, हिन्दी, Türkçe, 한국어, Português, עברית, کوردی, اردو, বাংলা, Bahasa Indonesia, தமிழ், ไทย, Swahili, Tiếng Việt, Hausa, ગુજરાતી, Basa Jawa, Polski, Nederlands, Filipino, پښتو, Українська, Română, Čeština, Magyar, Svenska, Norsk, Dansk, Ελληνικά, Azərbaycanca, Հայերեն, ქართული, Melayu, Български, Srpski, Afrikaans, Amharic.
+  - **Theme (palette icon, no text)** — opens a **Theme** dialog with six themes: **Default, Dark, Light, Dark, Light, Classic**. The square Dark/Light and Classic have classic sharp-cornered menus; the round Dark/Light have rounded, soft-cornered menus. Minor; do not teach it unless asked.
+  - **Web Site** — opens the official SoifGo website (GitHub Pages).
+  - **You Tube** — opens the SoifGo YouTube channel with tutorial videos and more.
+  - **info** — app information page.
 - When an object (button/slider) is selected in Edit, the menu also shows: Copy Properties, Paste Properties, Delete Object, Background, Name, Size, Move, Behavior, Audio, Vibra — and **Effects** (last item, appears only after the button's behavior is set to a *Receive ... Value* option).
 
 **The red X (Close) helper:** in many places SoifGo shows a red **X** (close icon) at the top of the screen as a helper, depending on what the user is doing (for example during Touch Motion, Fine Motion, Corner or color panels, and in the WebView toolbar). Its job is always to **close or stop that operation**. If a user is "stuck" in a move or setting mode, look for the red X at the top (or press the phone **Back** button).
@@ -1207,7 +1221,7 @@ Effects can be **combined on one button**; each has its own settings. All Effect
 
 **Testing effects without hardware (Simulator):**
 - Set the button's Behavior to a numeric input (*Receive Bluetooth Value*, *Receive Server Value Api* or *Receive Server Value MQTT*) and set **Input MAX Value** to `1024`.
-- In **Play**, open the top-left menu → **Simulation Input Value ON/OFF** → ON. SoifGo then feeds an internal counter from `1` to `1024`, so every effect can be tried live.
+- In **Play**, open the top-left menu → **Simulation Input Value ON/OFF** → ON, then choose a mode (**0 to 1024 /**, **-1024 to 1024 /**, **0 to 1024 ~** or **-1024 to 1024 ~**, see Section 13). SoifGo then feeds an internal value (a linear counter or a sine wave, one cycle about 6 seconds), so every effect can be tried live. Tap **Stop** to end it.
 - When testing is finished, set the real hardware/server address.
 - **Negative inputs are supported.** When setting the maximum, click the label and also enter the **negative maximum**. Example: an input range of `-20` to `100` → positive maximum `100`, negative maximum `20`.
 
@@ -2181,4 +2195,4 @@ Apps → SoifGo |
 
 ## Changelog
 
-**Document revision:** 7 — corrected the code-editing flow everywhere: code is saved automatically (no manual save), the yellow X returns directly to the WebView which reloads automatically (alternative: Back, then tap the WebView button again), rename / save-as only via the editor menu, and removed the last leftover "wait for colors" wording in Section 14. Revision 6 — added Step 0 (get and install the app: not on Google Play, APKPure or ZIP, unknown sources), removed the obsolete "wait until the code turns colored" warning (paste, then tap the yellow X right away), moved this changelog to the end of the file, and added the pointer to the short manual ai.html. Revision 5 — made the argument rule consistent (exact count per Sub, `true` always second, `''` only for an empty required value), added the argument-count column to Section 6, the Bluetooth send/receive name warning, the CR+LF note, and updated 14.9 and Section 15. Revision 4 — added Section 14.11 (Download an external library once, reuse it from storage via IndexedDB, based on the 3D File Viewer) and updated rule 0.4-10, the Pre-Send Checklist, Section 9 (Storage) and Section 15.
+**Document revision:** 8 — updated to SoifGo 1.47 (VersionCode 147): Option menu in Play with its full item list, and the Simulation Input Value modes (Section 13 and the Effects simulator note). Revision 7 — corrected the code-editing flow everywhere: code is saved automatically (no manual save), the yellow X returns directly to the WebView which reloads automatically (alternative: Back, then tap the WebView button again), rename / save-as only via the editor menu, and removed the last leftover "wait for colors" wording in Section 14. Revision 6 — added Step 0 (get and install the app: not on Google Play, APKPure or ZIP, unknown sources), removed the obsolete "wait until the code turns colored" warning (paste, then tap the yellow X right away), moved this changelog to the end of the file, and added the pointer to the short manual ai.html. Revision 5 — made the argument rule consistent (exact count per Sub, `true` always second, `''` only for an empty required value), added the argument-count column to Section 6, the Bluetooth send/receive name warning, the CR+LF note, and updated 14.9 and Section 15. Revision 4 — added Section 14.11 (Download an external library once, reuse it from storage via IndexedDB, based on the 3D File Viewer) and updated rule 0.4-10, the Pre-Send Checklist, Section 9 (Storage) and Section 15.
