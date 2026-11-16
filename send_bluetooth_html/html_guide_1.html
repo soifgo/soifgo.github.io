@@ -7,8 +7,8 @@
   <meta name="color-scheme" content="light dark" />
 
   <title>SoifGo HTML Guide — Bluetooth, Sensors, Microphone, MQTT, API &amp; Storage with WebView</title>
-  <meta name="description" content="Complete guide for building HTML apps inside SoifGo. Learn Bluetooth send/receive, sensor data (Light, Movement, Magneto), microphone access, MQTT publish/subscribe, API send/receive, persistent storage with localStorage, and custom UI with WebView." />
-  <meta name="keywords" content="SoifGo guide, HTML Bluetooth, WebView integration, sensor data, MQTT, WebView MQTT, publish subscribe, light sensor, movement sensor, magneto sensor, Bluetooth send receive, API send receive, api_send, api_recive, custom UI, SoifGo tutorial, localStorage, persistent storage, microphone" />
+  <meta name="description" content="Complete guide for building HTML apps inside SoifGo. Learn Bluetooth send/receive, sensor data (Light, Movement, Magneto, Barometer), microphone access, MQTT publish/subscribe, API send/receive, persistent storage with localStorage, and custom UI with WebView." />
+  <meta name="keywords" content="SoifGo guide, HTML Bluetooth, WebView integration, sensor data, MQTT, WebView MQTT, publish subscribe, light sensor, movement sensor, magneto sensor, barometer sensor, Bluetooth send receive, API send receive, api_send, api_recive, custom UI, SoifGo tutorial, localStorage, persistent storage, microphone" />
 
   <meta property="og:title" content="SoifGo HTML Guide — Bluetooth, Sensors, Microphone, MQTT, API &amp; Storage" />
   <meta property="og:description" content="Complete guide for building HTML apps inside SoifGo. Bluetooth, sensors, microphone, MQTT, API, persistent storage, and custom UI." />
@@ -43,7 +43,7 @@
     "teaches": [
       "Bluetooth send from WebView to SoifGo",
       "Bluetooth receive from SoifGo to WebView",
-      "Sensor activation (Light, Movement, Magneto)",
+      "Sensor activation (Light, Movement, Magneto, Barometer)",
       "Sensor data reception in WebView",
       "Microphone access via Standard Web Speech API",
       "MQTT connect, publish, subscribe from WebView",
@@ -984,7 +984,7 @@
     <p>This guide shows you how to:</p>
     <ul>
       <li>✅ Send and receive Bluetooth data</li>
-      <li>✅ Activate and read sensors (Light, Movement, Magneto)</li>
+      <li>✅ Activate and read sensors (Light, Movement, Magneto, Barometer)</li>
       <li>✅ Access the microphone for audio or voice-to-Bluetooth projects</li>
       <li>✅ Connect, publish, and receive MQTT messages</li>
       <li>✅ Send and receive data via <span class="ignore">SoifGo</span> API</li>
@@ -1051,7 +1051,7 @@
         <a href="04-phone-sensors/index.html" class="ex-main-link">
           <span class="ex-icon">📱</span>
           <span class="ex-title">Phone Sensors</span>
-          <span class="ex-desc">Stream phone light / motion / magnetic data</span>
+          <span class="ex-desc">Stream phone light / motion / magnetic / pressure data</span>
         </a>
         <div class="ex-badges">
           <a href="04-phone-sensors/index.html" class="ex-badge ex-badge-html" title="Live demo">HTML</a>
@@ -1195,20 +1195,22 @@ window.soifgo.CallSub('api_recive', true, address, key);</code></pre>
     <h2>🟢 3. Sensor Data — Receive</h2>
     <p>Sensors → <span class="ignore">SoifGo</span> → WebView</p>
 
-    <p>This page displays data from 3 sensors:</p>
+    <p>This page displays data from 4 sensors:</p>
     <ul>
       <li><strong>Light</strong> — Light intensity sensor</li>
       <li><strong>Move X/Y/Z</strong> — Movement/acceleration sensor (X, Y and Z axis; Z is perpendicular to the screen and is not for tilt)</li>
       <li><strong>Magneto X/Y/Z</strong> — Magnetic field sensor (three axes, three receivers)</li>
+      <li><strong>Barometer</strong> — Air pressure sensor (one receiver, one value)</li>
     </ul>
 
     <div class="note-warning">
-      <strong>⚠️ IMPORTANT:</strong> Each sensor has its own activation command, and the three are <strong>independent</strong> — call only the one(s) for the sensor(s) you use. This demo page shows all three sensors, so it calls all three:
+      <strong>⚠️ IMPORTANT:</strong> Each sensor has its own activation command, and the four are <strong>independent</strong> — call only the one(s) for the sensor(s) you use. This demo page shows all four sensors, so it calls all four:
       <pre style="background:var(--pre-bg); color:var(--pre-text); padding:12px; border-radius:6px; margin:10px 0;"><code>window.soifgo.CallSub('sensor_light', true);   // Activate light sensor
 window.soifgo.CallSub('sensor_move', true);    // Activate movement sensor
-window.soifgo.CallSub('sensor_magno', true);   // Activate magneto sensor</code></pre>
+window.soifgo.CallSub('sensor_magno', true);   // Activate magneto sensor
+window.soifgo.CallSub('sensor_barometer', true); // Activate barometer sensor</code></pre>
       <p style="margin-top:8px;">
-        In this demo the 3 commands are called inside <code>window.onload</code> to auto-start the sensors when the page loads. If you only need, for example, the magnetic sensor, call just <code>sensor_magno</code>.
+        In this demo the 4 commands are called inside <code>window.onload</code> to auto-start the sensors when the page loads. If you only need, for example, the magnetic sensor, call just <code>sensor_magno</code>; for air pressure only, call just <code>sensor_barometer</code>.
       </p>
     </div>
 
@@ -1240,6 +1242,9 @@ window.soifgo.CallSub('sensor_magno', true);   // Activate magneto sensor</code>
     &lt;div id="magnoz" style="font-size:20px;color:white;background:#888;padding:15px;margin:5px;border-radius:8px;"&gt;
         Magneto Z: waiting...
     &lt;/div&gt;
+    &lt;div id="barometer" style="font-size:20px;color:white;background:#999;padding:15px;margin:5px;border-radius:8px;"&gt;
+        Barometer: waiting...
+    &lt;/div&gt;
 
     &lt;script&gt;
         // ---- Receiver functions (called by SoifGo) ----
@@ -1261,6 +1266,9 @@ window.soifgo.CallSub('sensor_magno', true);   // Activate magneto sensor</code>
         function html_sensor_magnoz(data) {
             document.getElementById('magnoz').innerHTML = 'Magneto Z: ' + data;
         }
+        function html_sensor_barometer(data) {
+            document.getElementById('barometer').innerHTML = 'Barometer: ' + data;
+        }
 
         // Expose them
         window.html_sensor_light = html_sensor_light;
@@ -1269,12 +1277,14 @@ window.soifgo.CallSub('sensor_magno', true);   // Activate magneto sensor</code>
         window.html_sensor_magnox = html_sensor_magnox;
         window.html_sensor_magnoy = html_sensor_magnoy;
         window.html_sensor_magnoz = html_sensor_magnoz;
+        window.html_sensor_barometer = html_sensor_barometer;
 
         // ---- Auto-start sensors on page load ----
         window.onload = function() {
             window.soifgo.CallSub('sensor_light', true);
             window.soifgo.CallSub('sensor_move', true);
             window.soifgo.CallSub('sensor_magno', true);
+            window.soifgo.CallSub('sensor_barometer', true);
         };
     &lt;/script&gt;
 &lt;/body&gt;

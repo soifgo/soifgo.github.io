@@ -546,7 +546,7 @@
         <ol>
           <li><a href="#ai-context">AI Context — machine-readable reference for AI assistants</a></li>
           <li><a href="#bluetooth">Bluetooth — Send / Receive</a></li>
-          <li><a href="#sensors">Phone sensors — Light / Move X,Y,Z / Magneto</a></li>
+          <li><a href="#sensors">Phone sensors — Light / Move X,Y,Z / Magneto / Barometer</a></li>
           <li><a href="#mqtt">MQTT — Connect / Publish / Subscribe / Status</a></li>
           <li><a href="#api">REST API — Send / Receive / Response Formats</a></li>
           <li><a href="#storage">Storage — localStorage</a></li>
@@ -572,7 +572,7 @@
         <ul style="margin-top:6px;">
           <li>The <code>window.soifgo.CallSub()</code> bridge and its golden rules</li>
           <li>Bluetooth send and receive</li>
-          <li>Phone sensors (light, accelerometer X/Y/Z, magnetometer X/Y/Z)</li>
+          <li>Phone sensors (light, accelerometer X/Y/Z, magnetometer X/Y/Z, barometer)</li>
           <li>MQTT connect, publish, subscribe, status</li>
           <li>REST API with two response formats</li>
           <li>localStorage</li>
@@ -614,12 +614,13 @@ window.html_bluetooth_tx = html_bluetooth_tx;   // must be on window</code></pre
     <section id="sensors">
       <h2>3. Phone Sensors</h2>
 
-      <p>Three sensors available: <strong>Light</strong>, <strong>Movement (X/Y/Z)</strong>, <strong>Magnetic field (X/Y/Z)</strong>.</p>
+      <p>Four sensors available: <strong>Light</strong>, <strong>Movement (X/Y/Z)</strong>, <strong>Magnetic field (X/Y/Z)</strong>, <strong>Barometer (air pressure)</strong>.</p>
 
       <h3>Activate (in <code>window.onload</code>)</h3>
       <pre><code>window.soifgo.CallSub('sensor_light', true);
 window.soifgo.CallSub('sensor_move',  true);
-window.soifgo.CallSub('sensor_magno', true);</code></pre>
+window.soifgo.CallSub('sensor_magno', true);
+window.soifgo.CallSub('sensor_barometer', true);</code></pre>
 
       <h3>Receive (register each on window)</h3>
       <pre><code>function html_sensor_light(data) { /* light value */ }
@@ -629,6 +630,7 @@ function html_sensor_movez(data) { /* move Z (perpendicular to the screen) */ }
 function html_sensor_magnox(data) { /* magnetic X */ }
 function html_sensor_magnoy(data) { /* magnetic Y */ }
 function html_sensor_magnoz(data) { /* magnetic Z */ }
+function html_sensor_barometer(data) { /* air pressure, hPa, 3 decimals */ }
 
 window.html_sensor_light = html_sensor_light;
 window.html_sensor_movex = html_sensor_movex;
@@ -636,7 +638,8 @@ window.html_sensor_movey = html_sensor_movey;
 window.html_sensor_movez = html_sensor_movez;
 window.html_sensor_magnox = html_sensor_magnox;
 window.html_sensor_magnoy = html_sensor_magnoy;
-window.html_sensor_magnoz = html_sensor_magnoz;</code></pre>
+window.html_sensor_magnoz = html_sensor_magnoz;
+window.html_sensor_barometer = html_sensor_barometer;</code></pre>
 
       <div class="success-box">
         <strong>✅ Done.</strong> The page receives continuous real-time sensor data.
@@ -834,6 +837,11 @@ localStorage.removeItem('my_key');</code></pre>
             <td>Activate magnetic field sensor stream (X, Y, Z).</td>
           </tr>
           <tr>
+            <td><code>sensor_barometer</code></td>
+            <td><span class="tag act">ACT</span></td>
+            <td>Activate barometer (air pressure) stream.</td>
+          </tr>
+          <tr>
             <td><code>connecte_mqtt_ai(address, id)</code></td>
             <td><span class="tag send">SEND</span></td>
             <td>MQTT connect step 1 — broker URL + client ID.</td>
@@ -922,6 +930,11 @@ localStorage.removeItem('my_key');</code></pre>
             <td>Magnetic field Z value.</td>
           </tr>
           <tr>
+            <td><code>html_sensor_barometer(data)</code></td>
+            <td><span class="tag recv">RECV</span></td>
+            <td>Barometer (air pressure) value in hPa, 3 decimals.</td>
+          </tr>
+          <tr>
             <td><code>mqtt_rx(topic, message)</code></td>
             <td><span class="tag recv">RECV</span></td>
             <td>Incoming MQTT message on a subscribed topic.</td>
@@ -971,7 +984,7 @@ localStorage.removeItem('my_key');</code></pre>
         <a href="send_bluetooth_html/04-phone-sensors/index.html" class="example-card">
           <span class="ex-icon">📱</span>
           <span class="ex-title">Phone Sensors</span>
-          <span class="ex-desc">Stream phone light / motion / magnetic data</span>
+          <span class="ex-desc">Stream phone light / motion / magnetic / pressure data</span>
         </a>
       </div>
 

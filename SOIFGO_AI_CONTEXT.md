@@ -346,12 +346,12 @@ When a user says "how do I start" or "how do I add a button", answer in the user
 4. Register every receiver on `window` (`window.html_bluetooth_tx = html_bluetooth_tx;`).
 5. Compare MQTT status with `=== 'true'` (it arrives as a string).
 6. `api_recive` needs **both** `address` and `key`; `api_rx` may deliver a plain value or a B4A Map string — use `extractValue()` from Section 8.
-7. Activate sensors and request microphone permission inside `window.onload`. The three sensor activation Subs (`sensor_light`, `sensor_move`, `sensor_magno`) are **fully independent** — activate **only** the ones the page actually uses; none depends on another.
+7. Activate sensors and request microphone permission inside `window.onload`. The four sensor activation Subs (`sensor_light`, `sensor_move`, `sensor_magno`, `sensor_barometer`) are **fully independent** — activate **only** the ones the page actually uses; none depends on another.
 8. Wrap `localStorage` access in `try/catch`.
 9. For polling APIs respect the rate limits in Section 8 and provide a **Stop** button.
 10. No external libraries unless the user asks or the feature clearly needs one; plain HTML/CSS/JS works offline. **If a library is used, download it only ONCE and reuse the stored copy on every later run** — never make the page fetch it again each time it is opened. Use the IndexedDB loader pattern in **Section 14.11** (taken from the working 3D File Viewer). A bare `<script src="https://cdn...">` is only acceptable for a quick one-off test.
 11. Start from the closest example in Section 14; do not write bridge code from memory.
-12. Every sensor receiver gets **one value as a string**. Never assume `(x, y, z)` tuples, `data.x`, or a vector. The magnetometer is split into three receivers, `html_sensor_magnox`, `html_sensor_magnoy` and `html_sensor_magnoz`, one value each (Section 9). Never invent a Sub called `Connect_Phone_Sensor`; that is the name of a **Classic** button behavior, not a bridge Sub.
+12. Every sensor receiver gets **one value as a string**. Never assume `(x, y, z)` tuples, `data.x`, or a vector. The magnetometer is split into three receivers, `html_sensor_magnox`, `html_sensor_magnoy` and `html_sensor_magnoz`, one value each (Section 9); the barometer has a single receiver, `html_sensor_barometer`, one value. Never invent a Sub called `Connect_Phone_Sensor`; that is the name of a **Classic** button behavior, not a bridge Sub.
 13. **Bluetooth names look swapped. Do not guess them.** To SEND text to the hardware, use `window.soifgo.CallSub('html_bluetooth_rx', true, txt)` (exactly 1 argument after `true`). To RECEIVE text from the hardware, define `function html_bluetooth_tx(data)` and register it with `window.html_bluetooth_tx = html_bluetooth_tx;`. SoifGo appends a line ending (CR+LF) to every text sent with `html_bluetooth_rx`, so do not add `\n` yourself. Names such as `SoifGo.btSend`, `onBtReceive`, `SendBT` or `html_bluetooth_send` do not exist.
 
 ### 0.5 Minimal Starter Template
@@ -396,6 +396,7 @@ window.onload = function () {
     // window.soifgo.CallSub('sensor_light', true);
     // window.soifgo.CallSub('sensor_move', true);
     // window.soifgo.CallSub('sensor_magno', true);
+    // window.soifgo.CallSub('sensor_barometer', true);
     // Microphone (see 14.4):
   }
 };
@@ -434,7 +435,7 @@ The main philosophy of SoifGo is to reduce the need for traditional Android deve
 ### Key Supported Features
 
 - **Bluetooth Serial (SPP / BLE):** Bi-directional communication with microcontrollers (two module families, both tested: Classic SPP: HC-05, HC-06, JDY-31; BLE: JDY-23, DX-BT05, CC2541), and with Arduino, ESP32, ESP8266, Raspberry Pi boards.
-- **Phone Sensors:** Real-time data streams from ambient light, accelerometer (X, Y and Z axes), and magnetometer.
+- **Phone Sensors:** Real-time data streams from ambient light, accelerometer (X, Y and Z axes), magnetometer, and barometer (air pressure).
 - **Voice Integration:** Built-in microphone processing and speech-to-text routines (supporting 47 languages).
 - **IoT & Networking:** Built-in MQTT client and HTTP API networking client.
 - **Local Storage & UI:** Persistent `localStorage` support paired with native Android dialog popups (`alert`, `confirm`, `prompt`).
@@ -567,7 +568,15 @@ window.soifgo.CallSub('sensor_magno', true);
 
 Activates the magnetic sensor. SoifGo starts sending data to `html_sensor_magnox`, `html_sensor_magnoy` and `html_sensor_magnoz`.
 
-> **Note:** The three activation Subs (`sensor_light`, `sensor_move`, `sensor_magno`) are **independent of each other**. Call only the Sub(s) for the sensor(s) your page needs — for example, only `sensor_magno` if you just need the magnetic sensor. Calling one does not require or trigger the others. Call them inside `window.onload`.
+#### `sensor_barometer`
+
+```javascript
+window.soifgo.CallSub('sensor_barometer', true);
+```
+
+Activates the barometer (air pressure). SoifGo starts sending one value to `html_sensor_barometer`.
+
+> **Note:** The four activation Subs (`sensor_light`, `sensor_move`, `sensor_magno`, `sensor_barometer`) are **independent of each other**. Call only the Sub(s) for the sensor(s) your page needs — for example, only `sensor_magno` if you just need the magnetic sensor. Calling one does not require or trigger the others. Call them inside `window.onload`.
 
 ---
 
@@ -730,6 +739,7 @@ Delivery limits: a message of 1 to 2000 characters is delivered, and only to Web
 #### `html_sensor_magnox(data)` — magnetic sensor X
 #### `html_sensor_magnoy(data)` — magnetic sensor Y
 #### `html_sensor_magnoz(data)` — magnetic sensor Z
+#### `html_sensor_barometer(data)` — barometer (air pressure)
 
 ```js
 function html_sensor_light(data) { /* ... */ }
@@ -739,6 +749,7 @@ function html_sensor_movez(data) { /* ... */ }
 function html_sensor_magnox(data) { /* ... */ }
 function html_sensor_magnoy(data) { /* ... */ }
 function html_sensor_magnoz(data) { /* ... */ }
+function html_sensor_barometer(data) { /* ... */ }
 
 window.html_sensor_light = html_sensor_light;
 window.html_sensor_movex = html_sensor_movex;
@@ -747,6 +758,7 @@ window.html_sensor_movez = html_sensor_movez;
 window.html_sensor_magnox = html_sensor_magnox;
 window.html_sensor_magnoy = html_sensor_magnoy;
 window.html_sensor_magnoz = html_sensor_magnoz;
+window.html_sensor_barometer = html_sensor_barometer;
 ```
 
 ---
@@ -820,6 +832,7 @@ Count = the exact number of arguments to pass after `'subName', true`.
 | `sensor_light` | 0 (none) | Activate light sensor |
 | `sensor_move` | 0 (none) | Activate movement sensor |
 | `sensor_magno` | 0 (none) | Activate magnetic sensor |
+| `sensor_barometer` | 0 (none) | Activate barometer (air pressure) |
 | `connecte_mqtt_ai` | 2: `address, id` | MQTT connect step 1 |
 | `connecte_mqtt_up` | 2: `username, password` (both must be non-empty) | MQTT connect step 2 (optional) |
 | `mqtt_publish` | 3: `topic, message, qos` | Publish MQTT message |
@@ -841,6 +854,7 @@ Count = the exact number of arguments to pass after `'subName', true`.
 | `html_sensor_magnox` | `data` | Receive magnetic sensor X data |
 | `html_sensor_magnoy` | `data` | Receive magnetic sensor Y data |
 | `html_sensor_magnoz` | `data` | Receive magnetic sensor Z data |
+| `html_sensor_barometer` | `data` | Receive barometer data (air pressure, hPa, 3 decimals) |
 | `mqtt_rx` | `topic, message` | Receive MQTT message |
 | `html_mqtt_status` | `connected` | Receive MQTT status (`'true'`/`'false'`) |
 | `api_rx` | `number` | Receive API response |
@@ -984,10 +998,10 @@ Always include a **Stop** button so the user can halt polling.
 
 ### Sensors (WebView bridge)
 
-- There are seven receivers and **each one receives a single value as a string**: light (integer), move X (3 decimals), move Y (3 decimals), move Z, magneto X, magneto Y and magneto Z (2 decimals each).
+- There are eight receivers and **each one receives a single value as a string**: light (integer), move X (3 decimals), move Y (3 decimals), move Z (3 decimals), magneto X, magneto Y and magneto Z (3 decimals each), and barometer (air pressure in hPa, 3 decimals).
 - The magnetometer is delivered as **three separate receivers**. After `sensor_magno` is activated, SoifGo calls `html_sensor_magnox`, `html_sensor_magnoy` and `html_sensor_magnoz`, each with **one value** (a string). Never use `data.x`, never expect a tuple, vector or object: keep each axis in its own variable (for example `magX`, `magY`, `magZ`) and combine them yourself when you need a total (`Math.sqrt(x*x + y*y + z*z)`). The three calls can arrive together, in the order X, Y, Z.
-- Accelerometer **Z** arrives in `html_sensor_movez`, one string value like the other receivers. It is the axis perpendicular to the screen and reflects movement along that axis (for example lifting or lowering the phone). Do **not** use it for tilt: a tilt level (a marble in a bubble) uses Move X / Move Y. It does not give height or floor number (no barometer or altimeter is available). Do not promise a tilt-compensated compass built on it.
-- There is **no** `Connect_Phone_Sensor` Sub. `Connect Phone Sensor` is a Classic button behavior (Section 13.4). In WebView use `sensor_light`, `sensor_move`, `sensor_magno`.
+- Accelerometer **Z** arrives in `html_sensor_movez`, one string value like the other receivers. It is the axis perpendicular to the screen and reflects movement along that axis (for example lifting or lowering the phone). Do **not** use it for tilt: a tilt level (a marble in a bubble) uses Move X / Move Y. It does not give height or floor number by itself. The barometer (`html_sensor_barometer`) delivers air pressure as one string value; do not promise an exact altitude or floor number from it. Do not promise a tilt-compensated compass built on it.
+- There is **no** `Connect_Phone_Sensor` Sub. `Connect Phone Sensor` is a Classic button behavior (Section 13.4). In WebView use `sensor_light`, `sensor_move`, `sensor_magno`, `sensor_barometer`.
 
 ### Microphone
 
@@ -1082,7 +1096,7 @@ SoifGo is not a single application — it is an ecosystem of interrelated compon
 
 ### Device Features
 
-- **Phone Sensors** — ambient light, accelerometer (X/Y/Z), magnetometer
+- **Phone Sensors** — ambient light, accelerometer (X/Y/Z), magnetometer, barometer
 - **Speech Recognition** — 47 languages
 - **Local Storage** — `localStorage` persistence
 - **Native Dialogs** — `alert`, `confirm`, `prompt`
@@ -1399,7 +1413,7 @@ All examples are self-contained single HTML files for the SoifGo WebView. Paste 
 |---|---|
 | Send text/commands over Bluetooth | 14.1 |
 | Show Bluetooth data / labelled values | 14.2 |
-| Phone sensors (light, motion, magnetic) | 14.3 |
+| Phone sensors (light, motion, magnetic, barometer) | 14.3 |
 | Voice → Bluetooth | 14.4 |
 | MQTT control panel | 14.5 |
 | Bluetooth ↔ MQTT relay | 14.6 |
@@ -1512,6 +1526,7 @@ window.html_bluetooth_tx = html_bluetooth_tx;
   <div class="box" id="magnox">Magneto X: waiting...</div>
   <div class="box" id="magnoy">Magneto Y: waiting...</div>
   <div class="box" id="magnoz">Magneto Z: waiting...</div>
+  <div class="box" id="barometer">Barometer: waiting...</div>
   <div id="info"></div>
 
 <script>
@@ -1523,6 +1538,7 @@ function html_sensor_movez(data) { document.getElementById('movez').textContent 
 function html_sensor_magnox(data) { document.getElementById('magnox').textContent = 'Magneto X: ' + data; }
 function html_sensor_magnoy(data) { document.getElementById('magnoy').textContent = 'Magneto Y: ' + data; }
 function html_sensor_magnoz(data) { document.getElementById('magnoz').textContent = 'Magneto Z: ' + data; }
+function html_sensor_barometer(data) { document.getElementById('barometer').textContent = 'Barometer: ' + data; }
 
 window.html_sensor_light = html_sensor_light;
 window.html_sensor_movex = html_sensor_movex;
@@ -1531,14 +1547,16 @@ window.html_sensor_movez = html_sensor_movez;
 window.html_sensor_magnox = html_sensor_magnox;
 window.html_sensor_magnoy = html_sensor_magnoy;
 window.html_sensor_magnoz = html_sensor_magnoz;
+window.html_sensor_barometer = html_sensor_barometer;
 
 window.onload = function () {
   if (window.soifgo) {
-    // Each Sub is independent. This demo shows all sensors, so it calls all three;
+    // Each Sub is independent. This demo shows all sensors, so it calls all four;
     // in your own page call only the ones you need.
     window.soifgo.CallSub('sensor_light', true);
     window.soifgo.CallSub('sensor_move', true);
     window.soifgo.CallSub('sensor_magno', true);
+    window.soifgo.CallSub('sensor_barometer', true);
   } else {
     document.getElementById('info').textContent = 'Not running inside SoifGo';
   }

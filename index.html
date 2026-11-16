@@ -166,7 +166,7 @@
       "Bluetooth Serial communication with two module families, both tested: Classic Bluetooth SPP (HC-05, HC-06, JDY-31) and Bluetooth Low Energy BLE (JDY-23, DX-BT05, CC2541)",
       "MQTT client with publish and subscribe",
       "HTTP REST API send and receive",
-      "Phone sensors: light, motion, magnetometer",
+      "Phone sensors: light, motion, magnetometer, barometer",
       "Microphone and speech recognition",
       "WebView with full HTML, CSS and JavaScript",
       "Offline support for Bluetooth and sensors",
@@ -1846,7 +1846,7 @@
 
       <div class="faq-item">
         <strong>What can I actually do inside the WebView?</strong>
-        <p>You can send and receive Bluetooth data, read phone sensors (light, motion, magnetometer), use the microphone and speech recognition in more languages, connect to MQTT brokers, call HTTP APIs, store data with <code>localStorage</code>, and use native <code>alert/confirm/prompt</code> dialogs. On top of that, the WebView itself is a full modern browser engine — so Canvas 2D, WebGL 3D, SVG, Web Audio, Gamepad, Web Workers, and any JavaScript library (Chart.js, Three.js, D3.js, TensorFlow.js…) all work out of the box.</p>
+        <p>You can send and receive Bluetooth data, read phone sensors (light, motion, magnetometer, barometer), use the microphone and speech recognition in more languages, connect to MQTT brokers, call HTTP APIs, store data with <code>localStorage</code>, and use native <code>alert/confirm/prompt</code> dialogs. On top of that, the WebView itself is a full modern browser engine — so Canvas 2D, WebGL 3D, SVG, Web Audio, Gamepad, Web Workers, and any JavaScript library (Chart.js, Three.js, D3.js, TensorFlow.js…) all work out of the box.</p>
       </div>
 
       <div class="faq-item">
@@ -1925,6 +1925,7 @@
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>sensor_light</code></td><td style="padding:6px 8px; border:1px solid var(--border);">0</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('sensor_light', true)</code>: starts the light sensor</td></tr>
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>sensor_move</code></td><td style="padding:6px 8px; border:1px solid var(--border);">0</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('sensor_move', true)</code>: starts the movement sensor</td></tr>
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>sensor_magno</code></td><td style="padding:6px 8px; border:1px solid var(--border);">0</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('sensor_magno', true)</code>: starts the magnetic sensor</td></tr>
+            <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>sensor_barometer</code></td><td style="padding:6px 8px; border:1px solid var(--border);">0</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('sensor_barometer', true)</code>: starts the barometer (air pressure)</td></tr>
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>connecte_mqtt_ai</code></td><td style="padding:6px 8px; border:1px solid var(--border);">2</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('connecte_mqtt_ai', true, address, id)</code>: connects to the broker</td></tr>
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>connecte_mqtt_up</code></td><td style="padding:6px 8px; border:1px solid var(--border);">2</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('connecte_mqtt_up', true, username, password)</code>: connects with a login (both values must be non-empty)</td></tr>
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>mqtt_publish</code></td><td style="padding:6px 8px; border:1px solid var(--border);">3</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('mqtt_publish', true, topic, message, qos)</code>: publishes (works only while connected)</td></tr>
@@ -1940,7 +1941,7 @@
       <h3>Receivers: functions the app calls in your page (register each on window)</h3>
       <ul>
         <li><code>html_bluetooth_tx(data)</code>: RECEIVES Bluetooth text, Classic or BLE (the name looks swapped, but this is the receive callback)</li>
-        <li><code>html_sensor_light(data)</code>, <code>html_sensor_movex(data)</code>, <code>html_sensor_movey(data)</code>, <code>html_sensor_movez(data)</code>, <code>html_sensor_magnox(data)</code>, <code>html_sensor_magnoy(data)</code>, <code>html_sensor_magnoz(data)</code>: one value each, as a string</li>
+        <li><code>html_sensor_light(data)</code>, <code>html_sensor_movex(data)</code>, <code>html_sensor_movey(data)</code>, <code>html_sensor_movez(data)</code>, <code>html_sensor_magnox(data)</code>, <code>html_sensor_magnoy(data)</code>, <code>html_sensor_magnoz(data)</code>, <code>html_sensor_barometer(data)</code>: one value each, as a string</li>
         <li><code>mqtt_rx(topic, message)</code>, <code>html_mqtt_status(connected)</code> (the string 'true' or 'false'), <code>api_rx(number)</code></li>
       </ul>
 
@@ -2041,6 +2042,7 @@ window.onload = function () {
     // window.soifgo.CallSub('sensor_light', true);
     // window.soifgo.CallSub('sensor_move', true);
     // window.soifgo.CallSub('sensor_magno', true);
+    // window.soifgo.CallSub('sensor_barometer', true);
   }
 };</code></pre><br>
             <b>Real-World Use:</b> send <code>ON</code> to Arduino to toggle a relay (SoifGo adds the line ending itself);
@@ -2051,7 +2053,7 @@ window.onload = function () {
           <li style="margin-bottom: 18px;">
             <strong>Phone Sensors (Independent Activation):</strong><br>
             - Rule: All sensors are completely independent. Activate only the specific sensor you need; there is no need to turn on the others if unused.<br>
-            - Activation Subs, each with <b>0 arguments</b> after <code>true</code>: <code>sensor_light</code>, <code>sensor_move</code>, <code>sensor_magno</code> (example: <code>CallSub('sensor_light', true)</code>)<br><br>
+            - Activation Subs, each with <b>0 arguments</b> after <code>true</code>: <code>sensor_light</code>, <code>sensor_move</code>, <code>sensor_magno</code>, <code>sensor_barometer</code> (example: <code>CallSub('sensor_light', true)</code>)<br><br>
             <b>Complete script (paste as-is; call only the sensors you use):</b><br>
             <button class="copy-btn" type="button" onclick="copyPlain(this)">📋 Copy code</button>
             <pre><code class="plain-code">function html_sensor_light(data) { document.getElementById('light').textContent  = 'Light: '   + data; }
@@ -2061,6 +2063,7 @@ function html_sensor_movez(data) { document.getElementById('movez').textContent 
 function html_sensor_magnox(data) { document.getElementById('magnox').textContent = 'Magneto X: ' + data; }
 function html_sensor_magnoy(data) { document.getElementById('magnoy').textContent = 'Magneto Y: ' + data; }
 function html_sensor_magnoz(data) { document.getElementById('magnoz').textContent = 'Magneto Z: ' + data; }
+function html_sensor_barometer(data) { document.getElementById('barometer').textContent = 'Barometer: ' + data; }
 
 window.html_sensor_light = html_sensor_light;
 window.html_sensor_movex = html_sensor_movex;
@@ -2069,20 +2072,22 @@ window.html_sensor_movez = html_sensor_movez;
 window.html_sensor_magnox = html_sensor_magnox;
 window.html_sensor_magnoy = html_sensor_magnoy;
 window.html_sensor_magnoz = html_sensor_magnoz;
+window.html_sensor_barometer = html_sensor_barometer;
 
 window.onload = function () {
   if (window.soifgo) {
     window.soifgo.CallSub('sensor_light', true);
     window.soifgo.CallSub('sensor_move',  true);
     window.soifgo.CallSub('sensor_magno', true);
+    window.soifgo.CallSub('sensor_barometer', true);
   } else {
     document.getElementById('info').textContent = 'Not running inside SoifGo';
   }
 };</code></pre><br>
             <b>⚠️ Warning:</b> The magnetometer delivers its three axes through three separate receivers
             (<code>html_sensor_magnox</code>, <code>html_sensor_magnoy</code>, <code>html_sensor_magnoz</code>).
-            Each one gets <u>one value</u> as a string (2 decimals) — never expect an object or
-            <code>data.x</code>. Accelerometer <b>Z</b> (<code>html_sensor_movez</code>) is the axis perpendicular to the screen and reflects movement along it; it is not for tilt and gives no height.<br>
+            Each one gets <u>one value</u> as a string (3 decimals) — never expect an object or
+            <code>data.x</code>. Accelerometer <b>Z</b> (<code>html_sensor_movez</code>) is the axis perpendicular to the screen and reflects movement along it; it is not for tilt and gives no height. The barometer (<code>html_sensor_barometer</code>) delivers one air-pressure value as a string through a single receiver.<br>
             <b>Real-World Use:</b> activate <code>sensor_magno</code> to measure AC current
             with the phone's magnetometer (clamp meter).
           </li>

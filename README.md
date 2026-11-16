@@ -20,7 +20,7 @@
 - **WebView & JavaScript Bridge (`window.soifgo`):** Host custom HTML applications and dashboards inside independent button WebViews with full two-way communication to native Android features and external hardware.
 - **Bluetooth Serial (SPP / BLE):** Bi-directional communication with microcontrollers like Arduino, ESP32, ESP8266, HC-05, HC-06, JDY-31, and BLE modules.
 - **IoT & Networking:** Built-in MQTT messaging client and HTTP API GET/POST fetcher with JSON extraction handlers.
-- **Phone Sensors:** Real-time data streams from ambient light, motion/accelerometer (X/Y/Z axes), and magnetometers.
+- **Phone Sensors:** Real-time data streams from ambient light, motion/accelerometer (X/Y/Z axes), magnetometer (X/Y/Z), and barometer (air pressure).
 - **Voice & Speech:** Microphone integration with speech-to-text supporting 47 languages.
 - **Classic Mode:** Native buttons and sliders with flexible behaviors, data filtering, and rich graphical effects (rotation, size change, color shifts, and charts) without writing HTML.
 - **Specialized Modules:** Built-in tools for CNC machine control (G-code via **CMI209** and **Gcod** module) and WS2812/WS2811 pixel LED sign design (**RANGMANG** and **GIF209**).
