@@ -434,7 +434,7 @@ The main philosophy of SoifGo is to reduce the need for traditional Android deve
 ### Key Supported Features
 
 - **Bluetooth Serial (SPP / BLE):** Bi-directional communication with microcontrollers (two module families, both tested: Classic SPP: HC-05, HC-06, JDY-31; BLE: JDY-23, DX-BT05, CC2541), and with Arduino, ESP32, ESP8266, Raspberry Pi boards.
-- **Phone Sensors:** Real-time data streams from ambient light, accelerometer (X and Y axes), and magnetometer.
+- **Phone Sensors:** Real-time data streams from ambient light, accelerometer (X, Y and Z axes), and magnetometer.
 - **Voice Integration:** Built-in microphone processing and speech-to-text routines (supporting 47 languages).
 - **IoT & Networking:** Built-in MQTT client and HTTP API networking client.
 - **Local Storage & UI:** Persistent `localStorage` support paired with native Android dialog popups (`alert`, `confirm`, `prompt`).
@@ -557,7 +557,7 @@ Activates the light sensor. SoifGo starts sending light data to `html_sensor_lig
 window.soifgo.CallSub('sensor_move', true);
 ```
 
-Activates the movement sensor. SoifGo starts sending X/Y data to `html_sensor_movex` and `html_sensor_movey`.
+Activates the movement sensor. SoifGo starts sending X/Y/Z data to `html_sensor_movex`, `html_sensor_movey` and `html_sensor_movez`.
 
 #### `sensor_magno`
 
@@ -726,6 +726,7 @@ Delivery limits: a message of 1 to 2000 characters is delivered, and only to Web
 #### `html_sensor_light(data)` — light sensor value
 #### `html_sensor_movex(data)` — movement sensor X-axis
 #### `html_sensor_movey(data)` — movement sensor Y-axis
+#### `html_sensor_movez(data)` — movement sensor Z-axis
 #### `html_sensor_magnox(data)` — magnetic sensor X
 #### `html_sensor_magnoy(data)` — magnetic sensor Y
 #### `html_sensor_magnoz(data)` — magnetic sensor Z
@@ -734,6 +735,7 @@ Delivery limits: a message of 1 to 2000 characters is delivered, and only to Web
 function html_sensor_light(data) { /* ... */ }
 function html_sensor_movex(data) { /* ... */ }
 function html_sensor_movey(data) { /* ... */ }
+function html_sensor_movez(data) { /* ... */ }
 function html_sensor_magnox(data) { /* ... */ }
 function html_sensor_magnoy(data) { /* ... */ }
 function html_sensor_magnoz(data) { /* ... */ }
@@ -741,6 +743,7 @@ function html_sensor_magnoz(data) { /* ... */ }
 window.html_sensor_light = html_sensor_light;
 window.html_sensor_movex = html_sensor_movex;
 window.html_sensor_movey = html_sensor_movey;
+window.html_sensor_movez = html_sensor_movez;
 window.html_sensor_magnox = html_sensor_magnox;
 window.html_sensor_magnoy = html_sensor_magnoy;
 window.html_sensor_magnoz = html_sensor_magnoz;
@@ -834,6 +837,7 @@ Count = the exact number of arguments to pass after `'subName', true`.
 | `html_sensor_light` | `data` | Receive light sensor data |
 | `html_sensor_movex` | `data` | Receive movement X data |
 | `html_sensor_movey` | `data` | Receive movement Y data |
+| `html_sensor_movez` | `data` | Receive movement Z data (axis perpendicular to the screen) |
 | `html_sensor_magnox` | `data` | Receive magnetic sensor X data |
 | `html_sensor_magnoy` | `data` | Receive magnetic sensor Y data |
 | `html_sensor_magnoz` | `data` | Receive magnetic sensor Z data |
@@ -980,9 +984,9 @@ Always include a **Stop** button so the user can halt polling.
 
 ### Sensors (WebView bridge)
 
-- There are six receivers and **each one receives a single value as a string**: light (integer), move X (3 decimals), move Y (3 decimals), magneto X, magneto Y and magneto Z (2 decimals each).
+- There are seven receivers and **each one receives a single value as a string**: light (integer), move X (3 decimals), move Y (3 decimals), move Z, magneto X, magneto Y and magneto Z (2 decimals each).
 - The magnetometer is delivered as **three separate receivers**. After `sensor_magno` is activated, SoifGo calls `html_sensor_magnox`, `html_sensor_magnoy` and `html_sensor_magnoz`, each with **one value** (a string). Never use `data.x`, never expect a tuple, vector or object: keep each axis in its own variable (for example `magX`, `magY`, `magZ`) and combine them yourself when you need a total (`Math.sqrt(x*x + y*y + z*z)`). The three calls can arrive together, in the order X, Y, Z.
-- Accelerometer **Z** is **not forwarded**. A tilt-compensated compass or a 3-axis spirit level therefore cannot be built inside the WebView. A 2-axis tilt level using Move X / Move Y is possible.
+- Accelerometer **Z** arrives in `html_sensor_movez`, one string value like the other receivers. It is the axis perpendicular to the screen and reflects movement along that axis (for example lifting or lowering the phone). Do **not** use it for tilt: a tilt level (a marble in a bubble) uses Move X / Move Y. It does not give height or floor number (no barometer or altimeter is available). Do not promise a tilt-compensated compass built on it.
 - There is **no** `Connect_Phone_Sensor` Sub. `Connect Phone Sensor` is a Classic button behavior (Section 13.4). In WebView use `sensor_light`, `sensor_move`, `sensor_magno`.
 
 ### Microphone
@@ -1078,7 +1082,7 @@ SoifGo is not a single application — it is an ecosystem of interrelated compon
 
 ### Device Features
 
-- **Phone Sensors** — ambient light, accelerometer (X/Y), magnetometer
+- **Phone Sensors** — ambient light, accelerometer (X/Y/Z), magnetometer
 - **Speech Recognition** — 47 languages
 - **Local Storage** — `localStorage` persistence
 - **Native Dialogs** — `alert`, `confirm`, `prompt`
@@ -1504,6 +1508,7 @@ window.html_bluetooth_tx = html_bluetooth_tx;
   <div class="box" id="light">Light: waiting...</div>
   <div class="box" id="movex">Move X: waiting...</div>
   <div class="box" id="movey">Move Y: waiting...</div>
+  <div class="box" id="movez">Move Z: waiting...</div>
   <div class="box" id="magnox">Magneto X: waiting...</div>
   <div class="box" id="magnoy">Magneto Y: waiting...</div>
   <div class="box" id="magnoz">Magneto Z: waiting...</div>
@@ -1514,6 +1519,7 @@ window.html_bluetooth_tx = html_bluetooth_tx;
 function html_sensor_light(data) { document.getElementById('light').textContent = 'Light: ' + data; }
 function html_sensor_movex(data) { document.getElementById('movex').textContent = 'Move X: ' + data; }
 function html_sensor_movey(data) { document.getElementById('movey').textContent = 'Move Y: ' + data; }
+function html_sensor_movez(data) { document.getElementById('movez').textContent = 'Move Z: ' + data; }
 function html_sensor_magnox(data) { document.getElementById('magnox').textContent = 'Magneto X: ' + data; }
 function html_sensor_magnoy(data) { document.getElementById('magnoy').textContent = 'Magneto Y: ' + data; }
 function html_sensor_magnoz(data) { document.getElementById('magnoz').textContent = 'Magneto Z: ' + data; }
@@ -1521,6 +1527,7 @@ function html_sensor_magnoz(data) { document.getElementById('magnoz').textConten
 window.html_sensor_light = html_sensor_light;
 window.html_sensor_movex = html_sensor_movex;
 window.html_sensor_movey = html_sensor_movey;
+window.html_sensor_movez = html_sensor_movez;
 window.html_sensor_magnox = html_sensor_magnox;
 window.html_sensor_magnoy = html_sensor_magnoy;
 window.html_sensor_magnoz = html_sensor_magnoz;
@@ -2195,4 +2202,4 @@ Apps → SoifGo |
 
 ## Changelog
 
-**Document revision:** 8 — updated to SoifGo 1.47 (VersionCode 147): Option menu in Play with its full item list, and the Simulation Input Value modes (Section 13 and the Effects simulator note). Revision 7 — corrected the code-editing flow everywhere: code is saved automatically (no manual save), the yellow X returns directly to the WebView which reloads automatically (alternative: Back, then tap the WebView button again), rename / save-as only via the editor menu, and removed the last leftover "wait for colors" wording in Section 14. Revision 6 — added Step 0 (get and install the app: not on Google Play, APKPure or ZIP, unknown sources), removed the obsolete "wait until the code turns colored" warning (paste, then tap the yellow X right away), moved this changelog to the end of the file, and added the pointer to the short manual ai.html. Revision 5 — made the argument rule consistent (exact count per Sub, `true` always second, `''` only for an empty required value), added the argument-count column to Section 6, the Bluetooth send/receive name warning, the CR+LF note, and updated 14.9 and Section 15. Revision 4 — added Section 14.11 (Download an external library once, reuse it from storage via IndexedDB, based on the 3D File Viewer) and updated rule 0.4-10, the Pre-Send Checklist, Section 9 (Storage) and Section 15.
+**Document revision:** 9 — added the accelerometer Z receiver `html_sensor_movez`. Revision 8 — updated to SoifGo 1.47 (VersionCode 147): Option menu in Play with its full item list, and the Simulation Input Value modes (Section 13 and the Effects simulator note). Revision 7 — corrected the code-editing flow everywhere: code is saved automatically (no manual save), the yellow X returns directly to the WebView which reloads automatically (alternative: Back, then tap the WebView button again), rename / save-as only via the editor menu, and removed the last leftover "wait for colors" wording in Section 14. Revision 6 — added Step 0 (get and install the app: not on Google Play, APKPure or ZIP, unknown sources), removed the obsolete "wait until the code turns colored" warning (paste, then tap the yellow X right away), moved this changelog to the end of the file, and added the pointer to the short manual ai.html. Revision 5 — made the argument rule consistent (exact count per Sub, `true` always second, `''` only for an empty required value), added the argument-count column to Section 6, the Bluetooth send/receive name warning, the CR+LF note, and updated 14.9 and Section 15. Revision 4 — added Section 14.11 (Download an external library once, reuse it from storage via IndexedDB, based on the 3D File Viewer) and updated rule 0.4-10, the Pre-Send Checklist, Section 9 (Storage) and Section 15.

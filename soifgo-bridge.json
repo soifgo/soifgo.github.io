@@ -2,7 +2,7 @@
   "$schema_note": "Machine-readable summary of the SoifGo WebView bridge. Source of truth: https://soifgo.github.io/SOIFGO_AI_CONTEXT.md (Sections 3-6, 8, 9). If this file and the Markdown disagree, the Markdown wins.",
   "name": "SoifGo WebView bridge",
   "soifgo_version": "1.47",
-  "spec_revision": 1,
+  "spec_revision": 2,
   "namespace": "window.soifgo",
   "call_syntax": "window.soifgo.CallSub(subName, true, arg1?, arg2?, arg3?)",
   "rules": {
@@ -19,8 +19,8 @@
       "purpose": "SEND text to the connected Bluetooth module.",
       "notes": ["Name looks swapped but is correct: _rx = send.", "SoifGo appends CR+LF; do not add \\n.", "Works only while a module is connected.", "Same Sub for Classic SPP and BLE."] },
     { "name": "sensor_light", "group": "sensors", "arg_count": 0, "args": [], "purpose": "Activate light sensor.", "delivers_to": ["html_sensor_light"], "notes": ["Independent of the other sensor Subs.", "Call inside window.onload."] },
-    { "name": "sensor_move", "group": "sensors", "arg_count": 0, "args": [], "purpose": "Activate accelerometer (X and Y only).", "delivers_to": ["html_sensor_movex", "html_sensor_movey"], "notes": ["No Z axis."] },
-    { "name": "sensor_magno", "group": "sensors", "arg_count": 0, "args": [], "purpose": "Activate magnetometer (X, Y, Z).", "delivers_to": ["html_sensor_magnox", "html_sensor_magnoy", "html_sensor_magnoz"], "notes": ["Three separate receivers, one value each.", "Accelerometer Z is not forwarded, so no tilt-compensated compass or 3-axis level."] },
+    { "name": "sensor_move", "group": "sensors", "arg_count": 0, "args": [], "purpose": "Activate accelerometer (X, Y and Z).", "delivers_to": ["html_sensor_movex", "html_sensor_movey", "html_sensor_movez"], "notes": ["Z is the axis perpendicular to the screen and reflects movement along it; not for tilt (use X and Y) and gives no height or floor."] },
+    { "name": "sensor_magno", "group": "sensors", "arg_count": 0, "args": [], "purpose": "Activate magnetometer (X, Y, Z).", "delivers_to": ["html_sensor_magnox", "html_sensor_magnoy", "html_sensor_magnoz"], "notes": ["Three separate receivers, one value each.", "Do not promise a tilt-compensated compass built on accelerometer Z (html_sensor_movez)."] },
     { "name": "connecte_mqtt_ai", "group": "mqtt", "arg_count": 2, "args": [ { "name": "address", "type": "string", "note": "tcp://host:1883 or ssl://host:8883; empty -> tcp://test.mosquitto.org:1883" }, { "name": "id", "type": "string", "note": "Client ID; empty -> auto soifgo_XXXX" } ],
       "purpose": "MQTT connect, step 1." },
     { "name": "connecte_mqtt_up", "group": "mqtt", "arg_count": 2, "args": [ { "name": "username", "type": "string" }, { "name": "password", "type": "string" } ],
@@ -43,6 +43,7 @@
     { "name": "html_sensor_light", "args": ["data"], "value_format": "integer as string" },
     { "name": "html_sensor_movex", "args": ["data"], "value_format": "3 decimals as string" },
     { "name": "html_sensor_movey", "args": ["data"], "value_format": "3 decimals as string" },
+    { "name": "html_sensor_movez", "args": ["data"], "value_format": "string", "notes": ["Axis perpendicular to the screen; reflects movement along it.", "Not for tilt (use X and Y). Gives no height or floor number."] },
     { "name": "html_sensor_magnox", "args": ["data"], "value_format": "2 decimals as string" },
     { "name": "html_sensor_magnoy", "args": ["data"], "value_format": "2 decimals as string" },
     { "name": "html_sensor_magnoz", "args": ["data"], "value_format": "2 decimals as string" },
@@ -54,8 +55,8 @@
     "microphone": "No Sub. Use the standard browser speech/mic request; SoifGo shows one permission prompt (only once)."
   },
   "limitations": [
-    "Accelerometer Z is not forwarded.",
-    "Magnetometer is delivered as three separate receivers (X, Y, Z); no tilt compensation because accelerometer Z is not forwarded.",
+    "Accelerometer Z (html_sensor_movez) is not a tilt axis: use X and Y for a tilt level. It gives no height or floor (no barometer or altimeter).",
+    "Magnetometer is delivered as three separate receivers (X, Y, Z).",
     "Camera is not defined in the current version.",
     "Headphones/speakers are not supported; data devices only."
   ],

@@ -546,7 +546,7 @@
         <ol>
           <li><a href="#ai-context">AI Context — machine-readable reference for AI assistants</a></li>
           <li><a href="#bluetooth">Bluetooth — Send / Receive</a></li>
-          <li><a href="#sensors">Phone sensors — Light / Move X,Y / Magneto</a></li>
+          <li><a href="#sensors">Phone sensors — Light / Move X,Y,Z / Magneto</a></li>
           <li><a href="#mqtt">MQTT — Connect / Publish / Subscribe / Status</a></li>
           <li><a href="#api">REST API — Send / Receive / Response Formats</a></li>
           <li><a href="#storage">Storage — localStorage</a></li>
@@ -572,7 +572,7 @@
         <ul style="margin-top:6px;">
           <li>The <code>window.soifgo.CallSub()</code> bridge and its golden rules</li>
           <li>Bluetooth send and receive</li>
-          <li>Phone sensors (light, accelerometer X/Y, magnetometer X/Y/Z)</li>
+          <li>Phone sensors (light, accelerometer X/Y/Z, magnetometer X/Y/Z)</li>
           <li>MQTT connect, publish, subscribe, status</li>
           <li>REST API with two response formats</li>
           <li>localStorage</li>
@@ -614,7 +614,7 @@ window.html_bluetooth_tx = html_bluetooth_tx;   // must be on window</code></pre
     <section id="sensors">
       <h2>3. Phone Sensors</h2>
 
-      <p>Three sensors available: <strong>Light</strong>, <strong>Movement (X/Y)</strong>, <strong>Magnetic field (X/Y/Z)</strong>.</p>
+      <p>Three sensors available: <strong>Light</strong>, <strong>Movement (X/Y/Z)</strong>, <strong>Magnetic field (X/Y/Z)</strong>.</p>
 
       <h3>Activate (in <code>window.onload</code>)</h3>
       <pre><code>window.soifgo.CallSub('sensor_light', true);
@@ -625,6 +625,7 @@ window.soifgo.CallSub('sensor_magno', true);</code></pre>
       <pre><code>function html_sensor_light(data) { /* light value */ }
 function html_sensor_movex(data) { /* move X */ }
 function html_sensor_movey(data) { /* move Y */ }
+function html_sensor_movez(data) { /* move Z (perpendicular to the screen) */ }
 function html_sensor_magnox(data) { /* magnetic X */ }
 function html_sensor_magnoy(data) { /* magnetic Y */ }
 function html_sensor_magnoz(data) { /* magnetic Z */ }
@@ -632,6 +633,7 @@ function html_sensor_magnoz(data) { /* magnetic Z */ }
 window.html_sensor_light = html_sensor_light;
 window.html_sensor_movex = html_sensor_movex;
 window.html_sensor_movey = html_sensor_movey;
+window.html_sensor_movez = html_sensor_movez;
 window.html_sensor_magnox = html_sensor_magnox;
 window.html_sensor_magnoy = html_sensor_magnoy;
 window.html_sensor_magnoz = html_sensor_magnoz;</code></pre>
@@ -824,7 +826,7 @@ localStorage.removeItem('my_key');</code></pre>
           <tr>
             <td><code>sensor_move</code></td>
             <td><span class="tag act">ACT</span></td>
-            <td>Activate accelerometer (X/Y) stream.</td>
+            <td>Activate accelerometer (X/Y/Z) stream.</td>
           </tr>
           <tr>
             <td><code>sensor_magno</code></td>
@@ -898,6 +900,11 @@ localStorage.removeItem('my_key');</code></pre>
             <td><code>html_sensor_movey(data)</code></td>
             <td><span class="tag recv">RECV</span></td>
             <td>Movement Y value.</td>
+          </tr>
+          <tr>
+            <td><code>html_sensor_movez(data)</code></td>
+            <td><span class="tag recv">RECV</span></td>
+            <td>Movement Z value (axis perpendicular to the screen; not for tilt).</td>
           </tr>
           <tr>
             <td><code>html_sensor_magnox(data)</code></td>
