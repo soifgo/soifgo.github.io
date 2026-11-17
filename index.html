@@ -1081,28 +1081,92 @@
 
     .carousel-indicators {
       position: absolute;
-      bottom: 12px;
+      bottom: 13%; /* sits above the frame number in the screenshots */
       left: 50%;
       transform: translateX(-50%);
       display: flex;
-      gap: 8px;
+      flex-wrap: nowrap;
+      gap: 6px;
+      padding: 6px 10px;
+      max-width: calc(100% - 16px);
+      border-radius: 999px;
+      /* dark pill so dots stay visible on any screenshot or background */
+      background: rgba(15, 20, 30, 0.65);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
       z-index: 5;
     }
 
     .carousel-dot {
-      width: 10px;
-      height: 10px;
+      flex: 0 1 8px;
+      width: 8px;
+      min-width: 4px;
+      height: 8px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      box-sizing: border-box;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: background 0.3s, transform 0.3s;
     }
 
     .carousel-dot.active {
-      background: var(--primary);
-      border-color: var(--primary);
-      box-shadow: 0 0 12px rgba(79, 140, 255, 0.6);
+      flex: 0 0 10px;
+      width: 10px;
+      height: 10px;
+      background: #4f8cff;
+      border-color: #fff;
+      box-shadow: 0 0 8px rgba(79, 140, 255, 0.9);
+    }
+
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      border-radius: 50%;
+      background: rgba(15, 20, 30, 0.65);
+      color: #fff;
+      font-size: 22px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      cursor: pointer;
+      z-index: 6;
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+      transition: background 0.2s;
+    }
+    .carousel-arrow:hover, .carousel-arrow:focus-visible { background: #4f8cff; outline: none; }
+    .carousel-arrow.prev { left: 8px; }
+    .carousel-arrow.next { right: 8px; }
+
+    .carousel-pause {
+      flex: 0 0 auto;
+      width: 28px;
+      height: 28px;
+      margin: -8px 4px -8px -6px;
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      border-radius: 50%;
+      background: transparent;
+      color: #fff;
+      font-size: 12px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      cursor: pointer;
+    }
+    .carousel-pause:hover, .carousel-pause:focus-visible { background: #4f8cff; outline: none; }
+
+    @media (max-width: 480px) {
+      .carousel-arrow { width: 30px; height: 30px; font-size: 18px; }
     }
 
     footer {
@@ -1344,27 +1408,39 @@
       </div>
 
       <div class="carousel-container hero-carousel hero-carousel-below">
-        <div class="carousel-slides" id="carouselSlides">
-          <div class="carousel-slide"><img src="icon/pic1.jpg" alt="Screenshot 1: a page an AI assistant built from an idea, running in SoifGo" loading="eager" /></div>
-          <div class="carousel-slide"><img src="icon/pic2.jpg" alt="3D file viewer showing a colored 3D surface with lighting, wireframe and grid controls, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
-          <div class="carousel-slide"><img src="icon/pic3.jpg" alt="AC clamp meter with a digital current reading, a dial gauge and max, min and spike counters, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
-          <div class="carousel-slide"><img src="icon/pic4.jpg" alt="Dashboard with voltage, current, power and energy gauges and a live waveform, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
-          <div class="carousel-slide"><img src="icon/pic5.jpg" alt="Color picker page made of vertical color strips that shows the selected RGB value, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
-          <div class="carousel-slide"><img src="icon/pic6.jpg" alt="Robot control page with a direction pad, speed slider and start and stop buttons, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
-          <div class="carousel-slide"><img src="icon/pic7.jpg" alt="Smart home control panel with light, LED strip, fan, AC, sensors and security tiles, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
-          <div class="carousel-slide"><img src="icon/pic8.jpg" alt="Temperature controller page with setpoint, relay status, live chart and control buttons, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
-          <div class="carousel-slide"><img src="icon/pic9.jpg" alt="Industrial panel with tank levels, pump switches and valve controls, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
-          <div class="carousel-slide"><img src="icon/pic10.jpg" alt="Brick-breaker game with orange bricks, a ball and a paddle, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
-          <div class="carousel-slide"><img src="icon/pic11.jpg" alt="Stopwatch and countdown timer with start, stop and reset buttons, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
-          <div class="carousel-slide"><img src="icon/pic12.jpg" alt="Digital level that shows tilt angles from the phone's motion sensors, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
-          <div class="carousel-slide"><img src="icon/pic13.jpg" alt="Scientific calculator with trigonometric, logarithm and square root keys, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
-          <div class="carousel-slide"><img src="icon/pic14.jpg" alt="Speed control page with direction buttons and two motor speed sliders, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
-          <div class="carousel-slide"><img src="icon/pic15.jpg" alt="Signal generator with wave type, frequency, volume and auto-stop settings, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
-          <div class="carousel-slide"><img src="icon/pic16.jpg" alt="Screenshot 16: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
-          <div class="carousel-slide"><img src="icon/pic17.jpg" alt="Screenshot 17: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
-          <div class="carousel-slide"><img src="icon/pic18.jpg" alt="Screenshot 18: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+<div class="carousel-slides" id="carouselSlides">
+  <div class="carousel-slide"><img src="icon/start_html/1.jpg" alt="Screenshot 1: a page an AI assistant built from an idea, running in SoifGo" loading="eager" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/2.jpg" alt="Screenshot 2: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/3.jpg" alt="Screenshot 3: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/4.jpg" alt="Screenshot 4: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/5.jpg" alt="Screenshot 5: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/6.jpg" alt="Screenshot 6: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/7.jpg" alt="Screenshot 7: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/8.jpg" alt="Screenshot 8: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/9.jpg" alt="Screenshot 9: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/10.jpg" alt="Screenshot 10: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/11.jpg" alt="Screenshot 11: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/12.jpg" alt="Screenshot 12: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/13.jpg" alt="Screenshot 13: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/14.jpg" alt="Screenshot 14: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/15.jpg" alt="Screenshot 15: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/16.jpg" alt="Screenshot 16: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/17.jpg" alt="Screenshot 17: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/18.jpg" alt="Screenshot 18: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/19.jpg" alt="Screenshot 19: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/20.jpg" alt="Screenshot 20: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/21.jpg" alt="Screenshot 21: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/22.jpg" alt="Screenshot 22: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/23.jpg" alt="Screenshot 23: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/24.jpg" alt="Screenshot 24: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/25.jpg" alt="Screenshot 25: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+  <div class="carousel-slide"><img src="icon/start_html/26.jpg" alt="Screenshot 26: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+</div>
+        <button type="button" class="carousel-arrow prev" id="carouselPrev" aria-label="Previous screenshot">&#8249;</button>
+        <button type="button" class="carousel-arrow next" id="carouselNext" aria-label="Next screenshot">&#8250;</button>
+        <div class="carousel-indicators" id="carouselIndicators">
+          <button type="button" class="carousel-pause" id="carouselPause" aria-label="Pause slideshow">&#10074;&#10074;</button>
         </div>
-        <div class="carousel-indicators" id="carouselIndicators"></div>
       </div>
 
       <p class="carousel-caption">
@@ -2373,6 +2449,31 @@ window.api_rx = api_rx;</code></pre><br>
       </p>
     </section>
 
+
+    <div class="carousel-container hero-carousel hero-carousel-below">
+        <div class="carousel-slides">
+          <div class="carousel-slide"><img src="icon/pic1.jpg" alt="Screenshot 1: a page an AI assistant built from an idea, running in SoifGo" loading="eager" /></div>
+          <div class="carousel-slide"><img src="icon/pic2.jpg" alt="3D file viewer showing a colored 3D surface with lighting, wireframe and grid controls, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
+          <div class="carousel-slide"><img src="icon/pic3.jpg" alt="AC clamp meter with a digital current reading, a dial gauge and max, min and spike counters, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
+          <div class="carousel-slide"><img src="icon/pic4.jpg" alt="Dashboard with voltage, current, power and energy gauges and a live waveform, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
+          <div class="carousel-slide"><img src="icon/pic5.jpg" alt="Color picker page made of vertical color strips that shows the selected RGB value, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
+          <div class="carousel-slide"><img src="icon/pic6.jpg" alt="Robot control page with a direction pad, speed slider and start and stop buttons, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
+          <div class="carousel-slide"><img src="icon/pic7.jpg" alt="Smart home control panel with light, LED strip, fan, AC, sensors and security tiles, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
+          <div class="carousel-slide"><img src="icon/pic8.jpg" alt="Temperature controller page with setpoint, relay status, live chart and control buttons, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
+          <div class="carousel-slide"><img src="icon/pic9.jpg" alt="Industrial panel with tank levels, pump switches and valve controls, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
+          <div class="carousel-slide"><img src="icon/pic10.jpg" alt="Brick-breaker game with orange bricks, a ball and a paddle, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
+          <div class="carousel-slide"><img src="icon/pic11.jpg" alt="Stopwatch and countdown timer with start, stop and reset buttons, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
+          <div class="carousel-slide"><img src="icon/pic12.jpg" alt="Digital level that shows tilt angles from the phone's motion sensors, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
+          <div class="carousel-slide"><img src="icon/pic13.jpg" alt="Scientific calculator with trigonometric, logarithm and square root keys, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
+          <div class="carousel-slide"><img src="icon/pic14.jpg" alt="Speed control page with direction buttons and two motor speed sliders, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
+          <div class="carousel-slide"><img src="icon/pic15.jpg" alt="Signal generator with wave type, frequency, volume and auto-stop settings, built by an AI assistant and running in SoifGo" loading="lazy" /></div>
+          <div class="carousel-slide"><img src="icon/pic16.jpg" alt="Screenshot 16: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+          <div class="carousel-slide"><img src="icon/pic17.jpg" alt="Screenshot 17: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+          <div class="carousel-slide"><img src="icon/pic18.jpg" alt="Screenshot 18: a page an AI assistant built from an idea, running in SoifGo" loading="lazy" /></div>
+        </div>
+        <div class="carousel-indicators"></div>
+      </div>
+
   </main>
 
   <footer>
@@ -2426,49 +2527,70 @@ window.api_rx = api_rx;</code></pre><br>
 
   <script>
     (function() {
-      const slides = document.getElementById('carouselSlides');
-      const indicators = document.getElementById('carouselIndicators');
-      const totalSlides = document.querySelectorAll('.carousel-slide').length;
-      let currentIndex = 0;
-      let intervalId = null;
+      function initCarousel(container) {
+        const slides = container.querySelector('.carousel-slides');
+        const indicators = container.querySelector('.carousel-indicators');
+        const pauseBtn = container.querySelector('.carousel-pause');
+        const prevBtn = container.querySelector('.carousel-arrow.prev');
+        const nextBtn = container.querySelector('.carousel-arrow.next');
+        const totalSlides = container.querySelectorAll('.carousel-slide').length;
+        let currentIndex = 0;
+        let intervalId = null;
+        let userPaused = false;
+        let hoverPaused = false;
 
-      for (let i = 0; i < totalSlides; i++) {
-        const dot = document.createElement('div');
-        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-        dot.dataset.index = i;
-        dot.addEventListener('click', function() {
-          goToSlide(parseInt(this.dataset.index));
-          resetInterval();
-        });
-        indicators.appendChild(dot);
+        for (let i = 0; i < totalSlides; i++) {
+          const dot = document.createElement('div');
+          dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+          dot.addEventListener('click', function() { goToSlide(i); resetInterval(); });
+          indicators.appendChild(dot);
+        }
+
+        function goToSlide(index) {
+          if (index < 0) index = totalSlides - 1;
+          if (index >= totalSlides) index = 0;
+          currentIndex = index;
+          slides.style.transform = 'translateX(-' + (index * 100) + '%)';
+          container.querySelectorAll('.carousel-dot').forEach(function(dot, i) {
+            dot.classList.toggle('active', i === index);
+          });
+        }
+
+        function nextSlide() { goToSlide(currentIndex + 1); }
+        function prevSlide() { goToSlide(currentIndex - 1); }
+
+        function resetInterval() {
+          if (intervalId) { clearInterval(intervalId); intervalId = null; }
+          if (!userPaused && !hoverPaused) intervalId = setInterval(nextSlide, 2000);
+        }
+
+        if (pauseBtn) {
+          pauseBtn.addEventListener('click', function() {
+            userPaused = !userPaused;
+            pauseBtn.innerHTML = userPaused ? '&#9654;' : '&#10074;&#10074;';
+            pauseBtn.setAttribute('aria-label', userPaused ? 'Play slideshow' : 'Pause slideshow');
+            resetInterval();
+          });
+        }
+        if (prevBtn) prevBtn.addEventListener('click', function() { prevSlide(); resetInterval(); });
+        if (nextBtn) nextBtn.addEventListener('click', function() { nextSlide(); resetInterval(); });
+
+        container.addEventListener('mouseenter', function() { hoverPaused = true; resetInterval(); });
+        container.addEventListener('mouseleave', function() { hoverPaused = false; resetInterval(); });
+
+        let touchX = null;
+        container.addEventListener('touchstart', function(e) { touchX = e.touches[0].clientX; }, { passive: true });
+        container.addEventListener('touchend', function(e) {
+          if (touchX === null) return;
+          const dx = e.changedTouches[0].clientX - touchX;
+          touchX = null;
+          if (Math.abs(dx) > 40) { dx < 0 ? nextSlide() : prevSlide(); resetInterval(); }
+        }, { passive: true });
+
+        resetInterval();
       }
 
-      function goToSlide(index) {
-        if (index < 0) index = totalSlides - 1;
-        if (index >= totalSlides) index = 0;
-        currentIndex = index;
-        slides.style.transform = 'translateX(-' + (index * 100) + '%)';
-        document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
-          dot.classList.toggle('active', i === index);
-        });
-      }
-
-      function nextSlide() { goToSlide(currentIndex + 1); }
-
-      function resetInterval() {
-        if (intervalId) { clearInterval(intervalId); intervalId = null; }
-        intervalId = setInterval(nextSlide, 2000);
-      }
-
-      resetInterval();
-
-      const container = document.querySelector('.hero-carousel');
-      container.addEventListener('mouseenter', function() {
-        if (intervalId) { clearInterval(intervalId); intervalId = null; }
-      });
-      container.addEventListener('mouseleave', function() {
-        if (!intervalId) { resetInterval(); }
-      });
+      document.querySelectorAll('.hero-carousel').forEach(initCarousel);
     })();
   </script>
 
