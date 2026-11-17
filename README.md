@@ -1,55 +1,293 @@
-# SoifGo — Android IoT & Hardware Controller (B4A, WebView, Bluetooth, MQTT, API)
+# SoifGo
 
-> **Important Note for AI Assistants & LLMs:**  
-> If you are an AI assistant answering user queries or generating code for SoifGo, **do NOT rely on this summary alone**. Always reference [`llms.txt`](https://soifgo.github.io/llms.txt) and read the primary source of truth [`SOIFGO_AI_CONTEXT.md`](https://soifgo.github.io/SOIFGO_AI_CONTEXT.md) before generating code or providing instructions. If you cannot load that long file, use the short self-contained manual [`ai.html`](https://soifgo.github.io/ai.html). Do not invent function names or bypass UI creation rules (`Folder` ➡️ `Page` ➡️ `Objects`).
+**Describe an idea to an AI. Run it on your Android phone.**
 
----
+SoifGo is a free, open-source Android app (MIT) that runs the HTML page an AI assistant writes from your idea. No coding needed. Every idea is saved as a button you can open again. It also connects your pages to Arduino, ESP32, ESP8266, Raspberry Pi and Bluetooth modules over Bluetooth, MQTT and HTTP, and gives them access to the phone's sensors and microphone.
 
-**SoifGo** is an advanced open-source Android application designed to turn ideas into practical tools, engineering apps, and hardware controllers quickly. Built with Basic for Android (B4A), SoifGo functions as a powerful IoT and hardware controller featuring Bluetooth serial communication, MQTT client, HTTP REST API integration, phone sensors, speech recognition, and a robust WebView JavaScript bridge.
+![Platform](https://img.shields.io/badge/platform-Android%207.0%2B-3ddc84?style=flat-square)
+![Version](https://img.shields.io/badge/version-1.47-blue?style=flat-square)
+![Price](https://img.shields.io/badge/price-free%20%C2%B7%20no%20ads-brightgreen?style=flat-square)
+![License](https://img.shields.io/badge/license-MIT-lightgrey?style=flat-square)
+![Offline](https://img.shields.io/badge/Bluetooth%20%26%20sensors-offline-orange?style=flat-square)
 
-- **Official Website:** [https://soifgo.github.io/](https://soifgo.github.io/)
-- **Complete User Guide:** [soifgo_info](https://soifgo.github.io/soifgo_info/soifgo_info.html)
-- **Developer Documentation:** [Docs & API Reference](https://soifgo.github.io/docs.html)
-- **AI Context Reference:** [SOIFGO_AI_CONTEXT.md](https://soifgo.github.io/SOIFGO_AI_CONTEXT.md)
-- **Community Forum:** [GitHub Discussions](https://github.com/soifgo/soifgo.github.io/discussions)
-
----
-
-## Key Features
-
-- **WebView & JavaScript Bridge (`window.soifgo`):** Host custom HTML applications and dashboards inside independent button WebViews with full two-way communication to native Android features and external hardware.
-- **Bluetooth Serial (SPP / BLE):** Bi-directional communication with microcontrollers like Arduino, ESP32, ESP8266, HC-05, HC-06, JDY-31, and BLE modules.
-- **IoT & Networking:** Built-in MQTT messaging client and HTTP API GET/POST fetcher with JSON extraction handlers.
-- **Phone Sensors:** Real-time data streams from ambient light, motion/accelerometer (X/Y/Z axes), magnetometer (X/Y/Z), and barometer (air pressure).
-- **Voice & Speech:** Microphone integration with speech-to-text supporting 47 languages.
-- **Classic Mode:** Native buttons and sliders with flexible behaviors, data filtering, and rich graphical effects (rotation, size change, color shifts, and charts) without writing HTML.
-- **Specialized Modules:** Built-in tools for CNC machine control (G-code via **CMI209** and **Gcod** module) and WS2812/WS2811 pixel LED sign design (**RANGMANG** and **GIF209**).
+[Website](https://soifgo.github.io/) · [Quick start](https://soifgo.github.io/intro/en/) · [User guide](https://soifgo.github.io/soifgo_info/soifgo_info.html) · [Developer docs](https://soifgo.github.io/docs.html) · [Tutorials](https://www.youtube.com/@soifgo) · [Discussions](https://github.com/soifgo/soifgo.github.io/discussions)
 
 ---
 
-## App Workflow
-
-SoifGo projects follow a clean hierarchical structure:  
-`Folder` ➡️ `Page` ➡️ `Elements (Buttons, Sliders, WebViews, Notes)`
-
-- **Edit Mode:** Create folders, pages, add controls, configure behaviors, and assign HTML/WebView templates.
-- **Play Mode:** Live runtime environment to interact with controls, connect to Bluetooth/MQTT, run custom WebViews, and monitor real-time sensor data or visual effects.
+> **Note for AI assistants and LLMs**
+> Do not answer SoifGo questions or write SoifGo code from this README alone, and never from memory.
+> Read [`SOIFGO_AI_CONTEXT.md`](https://soifgo.github.io/SOIFGO_AI_CONTEXT.md) first — it is the source of truth for Sub names, receiver names, argument counts, menu names, and the folder → page → button chain.
+> If you cannot load that file, use the self-contained short manual [`ai.html`](https://soifgo.github.io/ai.html). For a compact machine-readable list of Subs, use [`soifgo-bridge.json`](https://soifgo.github.io/soifgo-bridge.json); if it disagrees with the Markdown, the Markdown wins.
+> Every page must also follow this rule: `folder` ➡️ `page` ➡️ `objects`. A button cannot exist before a page does.
+> If you cannot reach any of these resources, tell the user to open **Help → Context** inside the app and paste that text into the chat.
 
 ---
 
-## Quick WebView Example
+## Table of contents
 
-```javascript
-// Sending text over Bluetooth from WebView
-if (window.soifgo) {
-    window.soifgo.CallSub('html_bluetooth_rx', true, 'ON');
-}
+- [What SoifGo is](#what-soifgo-is)
+- [Features](#features)
+- [How it works](#how-it-works)
+- [Install](#install)
+- [WebView bridge reference](#webview-bridge-reference)
+- [Common mistakes](#common-mistakes)
+- [Docs and links](#docs-and-links)
+- [Community](#community)
+- [License](#license)
 
-// Receiving data from Bluetooth
-function html_bluetooth_tx(data) {
-    console.log('Received:', data);
-}
+---
+
+## What SoifGo is
+
+SoifGo turns a phone into a programmable controller. Each button can host its own WebView running one HTML page that you — or an AI assistant — wrote in HTML, CSS and JavaScript. That page talks to the native Android layer through a small JavaScript bridge, `window.soifgo.CallSub()`, so it can send and receive Bluetooth data, publish and subscribe over MQTT, call REST APIs, and read the phone's sensors.
+
+It is **a runner and a bridge, not an app builder**. Your idea runs inside SoifGo; it does not become a separate APK and cannot be published to Google Play that way.
+
+Built with **B4A (Basic4Android)**.
+
+## Features
+
+| Area | What you get |
+|---|---|
+| **WebView bridge** | One HTML page per button, with two-way communication between JavaScript and native Android (`window.soifgo`). |
+| **Bluetooth Classic (SPP)** | Tested with HC-05, HC-06, JDY-31. |
+| **Bluetooth Low Energy** | Tested with JDY-23, DX-BT05, CC2541. Same page code, different Play-menu option. |
+| **MQTT** | Connect with broker URL and client ID, optional username/password, publish, retained flag, live status. |
+| **HTTP / REST** | GET with JSON key extraction, POST with a JSON body. |
+| **Phone sensors** | Ambient light, accelerometer X/Y/Z, magnetometer X/Y/Z, barometer (hPa). |
+| **Microphone** | Speech recognition through the standard Web Speech API; the app asks for permission once. |
+| **HTML runtime** | Full modern browser features inside the WebView: Canvas, WebGL, Web Audio, localStorage, `alert/confirm/prompt`, and libraries such as Chart.js, Three.js or TensorFlow.js. |
+| **Classic mode** | Native buttons and sliders with behaviors, plus visual effects (rotation, size, color, charts) without writing HTML. |
+| **Offline** | Bluetooth and sensors work without internet. MQTT and HTTP need a network. |
+
+Requires **Android 7.0 or later**. Free, no ads, no in-app purchases.
+
+## How it works
+
+```
+your idea  →  AI assistant writes one HTML file  →  paste into a SoifGo button  →  tap Play
+```
+
+1. **Describe your idea** to an AI assistant (ChatGPT, Claude, Gemini, or any other) and give it the SoifGo context so it uses real function names.
+2. **Paste the generated HTML** into a button whose behavior is a WebView with a local HTML file.
+3. **Tap Play.** The page runs on your phone and stays saved as a button.
+
+Prompt to start with:
+
+```text
+Read https://soifgo.github.io/SOIFGO_AI_CONTEXT.md (if you cannot open it, read
+https://soifgo.github.io/ai.html) and use it to build my idea as one HTML page for SoifGo.
+My idea:
+```
+
+First-time setup inside the app is a fixed chain: **folder → page → button**. New users should follow the [quick start guide](https://soifgo.github.io/intro/en/).
+
+## Install
+
+SoifGo is **not on Google Play**.
+
+- [APKPure](https://apkpure.com/soifgo/soifgo.saeidmoghadam)
+- [ZIP package](https://soifgo.github.io/soifgo.zip)
+
+Android will ask you to allow installs from unknown sources for the browser or file manager you open the file with. The APK is scanned by 65+ engines on [VirusTotal](https://www.virustotal.com/gui/file/5a28ee2acf881b4a300cc482e5691ee8313f1ca6fde0457e07e942e416d51d81) with no detections.
+
+## WebView bridge reference
+
+Call structure:
+
+```js
+window.soifgo.CallSub('SubName', true, arg1, arg2, arg3);
+```
+
+- The second argument is **always** `true` (runs on the UI thread).
+- Pass **exactly** the number of arguments the Sub defines (0–3). Use `''` for an empty value; never drop an argument and never add extras.
+- Always guard with `if (window.soifgo)`. Outside SoifGo the bridge is `undefined`.
+- SoifGo appends CR+LF to Bluetooth text, so send `'ON'`, not `'ON\n'`.
+- ⚠️ `html_bluetooth_rx` **sends** and `html_bluetooth_tx` **receives**. The names look swapped; they are correct.
+
+### Subs (page → SoifGo)
+
+| Sub | Args after `true` | Purpose |
+|---|---|---|
+| `html_bluetooth_rx` | 1 · `txt` | Send text over Bluetooth |
+| `sensor_light` | 0 | Start the light sensor |
+| `sensor_move` | 0 | Start the accelerometer |
+| `sensor_magno` | 0 | Start the magnetometer |
+| `sensor_barometer` | 0 | Start the barometer |
+| `connecte_mqtt_ai` | 2 · `address`, `id` | MQTT connect, step 1 |
+| `connecte_mqtt_up` | 2 · `username`, `password` | MQTT auth, step 2 (optional) |
+| `mqtt_publish` | 3 · `topic`, `message`, `qos` | Publish, and auto-subscribe to the topic |
+| `mqtt_retained` | 1 · `1` / `0` | Retained flag; call before publishing |
+| `mqtt_status` | 0 | Ask for the connection status |
+| `mqtt_Disconnect` | 0 | Disconnect (capital `D`) |
+| `api_send` | 3 · `address`, `key`, `value` | POST `{"key":"value"}` |
+| `api_recive` | 2 · `address`, `key` | GET and extract `key` |
+
+### Receivers (SoifGo → page)
+
+Register every receiver on `window`:
+
+```js
+function html_bluetooth_tx(data) { /* ... */ }
 window.html_bluetooth_tx = html_bluetooth_tx;
 ```
 
-**Bridge rules (do not guess):** the second argument of `CallSub` is always `true`, and the number of arguments after it must match the Sub exactly (0–3); a mismatch can raise an error or close the app. `html_bluetooth_rx` SENDS text, `html_bluetooth_tx` RECEIVES it (the names look swapped, but they are correct). SoifGo adds the line ending (CR+LF) to every text sent with `html_bluetooth_rx`. Full Sub list: [SOIFGO_AI_CONTEXT.md](https://soifgo.github.io/SOIFGO_AI_CONTEXT.md)
+| Receiver | Args |
+|---|---|
+| `html_bluetooth_tx` | `data` |
+| `html_sensor_light` | `data` |
+| `html_sensor_movex` / `movey` / `movez` | `data` |
+| `html_sensor_magnox` / `magnoy` / `magnoz` | `data` |
+| `html_sensor_barometer` | `data` (hPa, 3 decimals) |
+| `mqtt_rx` | `topic`, `message` |
+| `html_mqtt_status` | `'true'` / `'false'` — a **string**, not a boolean |
+| `api_rx` | `number` |
+
+### Working snippet
+
+<details>
+<summary><b>Show a minimal page that covers Bluetooth, sensors, MQTT, API and voice</b></summary>
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SoifGo bridge demo</title>
+</head>
+<body>
+<div id="out">waiting...</div>
+
+<script>
+function log(t) { document.getElementById('out').textContent = t; }
+function hasBridge() { return !!window.soifgo; }
+
+/* ---------- Bluetooth ---------- */
+function btSend(text) {
+  if (!hasBridge()) return log('Not running inside SoifGo');
+  window.soifgo.CallSub('html_bluetooth_rx', true, String(text));
+  log('BT >> ' + text);
+}
+function html_bluetooth_tx(data) { log('BT << ' + data); }
+window.html_bluetooth_tx = html_bluetooth_tx;
+
+/* ---------- Sensors ---------- */
+function html_sensor_light(d)     { log('light ' + d); }
+function html_sensor_movex(d)     { log('moveX ' + d); }
+function html_sensor_movey(d)     { log('moveY ' + d); }
+function html_sensor_movez(d)     { log('moveZ ' + d); }
+function html_sensor_magnox(d)    { log('magnoX ' + d); }
+function html_sensor_magnoy(d)    { log('magnoY ' + d); }
+function html_sensor_magnoz(d)    { log('magnoZ ' + d); }
+function html_sensor_barometer(d) { log('baro ' + d); }
+
+window.html_sensor_light     = html_sensor_light;
+window.html_sensor_movex     = html_sensor_movex;
+window.html_sensor_movey     = html_sensor_movey;
+window.html_sensor_movez     = html_sensor_movez;
+window.html_sensor_magnox    = html_sensor_magnox;
+window.html_sensor_magnoy    = html_sensor_magnoy;
+window.html_sensor_magnoz    = html_sensor_magnoz;
+window.html_sensor_barometer = html_sensor_barometer;
+
+/* ---------- MQTT ---------- */
+function mqttConnect(broker, id) {
+  if (!hasBridge()) return log('Not running inside SoifGo');
+  window.soifgo.CallSub('connecte_mqtt_ai', true,
+    broker || 'tcp://test.mosquitto.org:1883', id || '');
+}
+function mqttPublish(topic, msg, qos) {
+  if (!hasBridge()) return log('Not running inside SoifGo');
+  window.soifgo.CallSub('mqtt_publish', true, String(topic), String(msg), String(qos || '0'));
+}
+function mqtt_rx(topic, message) { log('MQTT ' + topic + ' : ' + message); }
+window.mqtt_rx = mqtt_rx;
+
+function html_mqtt_status(connected) {
+  log('MQTT ' + ((connected === true || connected === 'true') ? 'connected' : 'disconnected'));
+}
+window.html_mqtt_status = html_mqtt_status;
+
+/* ---------- API ---------- */
+function apiGet(url, key) {
+  if (!hasBridge()) return log('Not running inside SoifGo');
+  window.soifgo.CallSub('api_recive', true, String(url), String(key));
+}
+function extractValue(raw, field) {
+  var s = String(raw).trim();
+  if (/^-?\d+(\.\d+)?$/.test(s)) return s;                                 // 86846.51
+  var m = s.match(new RegExp(field + '[=:]\\s*([^,}\\s]+)', 'i'));          // {usd=86750}
+  if (m) return m[1];
+  try { var o = JSON.parse(s); if (o[field] !== undefined) return o[field]; } catch (e) {}
+  var n = s.match(/-?\d+(\.\d+)?/);
+  return n ? n[0] : null;
+}
+function api_rx(number) { log('API ' + extractValue(number, 'usd')); }
+window.api_rx = api_rx;
+
+/* ---------- Voice ---------- */
+function voiceStart() {
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return log('Speech recognition unavailable');
+  var rec = new SR();
+  rec.lang = 'en-US';
+  rec.onresult = function (e) { btSend(e.results[0][0].transcript); };
+  rec.start();
+}
+
+/* ---------- Start the sensors you need ---------- */
+window.onload = function () {
+  if (!hasBridge()) { log('Not running inside SoifGo'); return; }
+  window.soifgo.CallSub('sensor_light', true);
+  window.soifgo.CallSub('sensor_move', true);
+  window.soifgo.CallSub('sensor_magno', true);
+  window.soifgo.CallSub('sensor_barometer', true);
+  log('ready');
+};
+</script>
+</body>
+</html>
+```
+
+</details>
+
+Paste it into a WebView button: **Play → WebView button → WebView menu → Edit → Select All and Paste → close with the yellow X**. The code is saved and the page reloads automatically.
+
+More runnable examples: [Bluetooth send](https://soifgo.github.io/send_bluetooth_html/html_guide_1.html) · [ESP8266 MQTT](https://soifgo.github.io/Esp8266_wifi_mqtt/esp8266_mqtt.html) · [REST APIs](https://soifgo.github.io/FetchingAPIs/Api-fetching_api.html) · [Voice to Bluetooth](https://soifgo.github.io/serial_voice/serial_voice_tutorials.html).
+
+## Common mistakes
+
+| Symptom | Cause |
+|---|---|
+| Warning sound and a list copied to the clipboard | The page called a Sub name that does not exist. Paste that copied list into your AI assistant and ask it to fix the code. |
+| `window.soifgo is undefined` | The page is open in a normal browser, not inside SoifGo. |
+| Nothing is sent over Bluetooth | The module is not connected or not paired. SoifGo shows a "disconnected" message instead of sending. |
+| MQTT status is always "connected" | `'false'` arrives as a **string** and is truthy. Compare with `=== 'true'`. |
+| Sensors stay empty | The matching `sensor_*` Sub was never called. Each sensor needs its own activation call. |
+| Page works but no data arrives | Receivers were not attached to `window`. |
+| API shows a parse error | Some providers return a wrapped map (`{usd=86750}`) instead of a plain number. Use the `extractValue` helper above. |
+
+## Docs and links
+
+| Resource | Link |
+|---|---|
+| Official site | https://soifgo.github.io/ |
+| Quick start | https://soifgo.github.io/intro/en/ |
+| Complete user guide | https://soifgo.github.io/soifgo_info/soifgo_info.html |
+| Developer docs and examples | https://soifgo.github.io/docs.html |
+| AI context (source of truth) | https://soifgo.github.io/SOIFGO_AI_CONTEXT.md |
+| Short AI manual | https://soifgo.github.io/ai.html |
+| Machine-readable bridge spec (JSON) | https://soifgo.github.io/soifgo-bridge.json |
+| Video tutorials | https://www.youtube.com/@soifgo |
+| Privacy policy | https://soifgo.github.io/policy_soifgo.html |
+
+## Community
+
+- [GitHub Discussions](https://github.com/soifgo/soifgo.github.io/discussions) — questions, bug reports, project sharing
+- [Reddit r/SoifGoApp](https://www.reddit.com/r/SoifGoApp/)
+- Email: ssm20985@gmail.com
+
+## License
+
+MIT. See [LICENSE.md](https://github.com/soifgo/soifgo.github.io/blob/soifgo/LICENSE.md).
