@@ -2702,6 +2702,10 @@ window.api_rx = api_rx;</code></pre><br>
       'spanish_latam': { label: 'Español (Latinoamérica)', dir: 'ltr' }
     };
 
+    var LANG_CODE = { persian:'fa', arabic:'ar', hebrew:'he', urdu:'ur', kurdish_sorani:'ckb', spanish:'es',
+      french:'fr', deutsch:'de', italian:'it', portuguese:'pt', russian:'ru', chinese_simplified:'zh',
+      japanese:'ja', korean:'ko', hindi:'hi', bengali:'bn', tamil:'ta', thai:'th', indonesian:'id',
+      turkish:'tr', swahili:'sw' };
     var DEFAULT_LANG = 'english';
     var localApplied = false;
     var FALLBACK_CHANNELS = ['siliconflow', 'client.edge', 'giteeAI'];
@@ -2769,6 +2773,26 @@ window.api_rx = api_rx;</code></pre><br>
         return;
       }
 
+      // Local dictionary first: instant, offline, and consistent with the page text.
+      if (window.SoifI18n && SoifI18n.has(langCode)) {
+        SoifI18n.apply(langCode, function(ok) {
+          if (ok) {
+            localApplied = true;
+            try { localStorage.setItem('soifgo-lang', langCode); } catch (e) {}
+            document.documentElement.setAttribute('dir', langDir);
+            document.documentElement.setAttribute('lang', LANG_CODE[langCode] || langCode);
+            currentLangLabel.textContent = LANGUAGES[langCode].label;
+            langDropdown.classList.remove('show');
+          } else {
+            changeLanguageRemote(langCode, langDir);
+          }
+        });
+        return;
+      }
+      changeLanguageRemote(langCode, langDir);
+    }
+
+    function changeLanguageRemote(langCode, langDir) {
       var testElement = document.querySelector('h1');
       var originalText = testElement ? testElement.textContent : '';
 
@@ -2797,7 +2821,7 @@ window.api_rx = api_rx;</code></pre><br>
           translate.execute();
         }
 
-        waitForTranslation(testElement, originalText, 3000).then(function(success) {
+        waitForTranslation(testElement, originalText, 2500).then(function(success) {
           if (!success) {
             console.warn('Channel ' + channel + ' failed, trying next...');
             tryChannel(index + 1);
@@ -2838,6 +2862,9 @@ window.api_rx = api_rx;</code></pre><br>
       var savedLang = getSavedLang();
       if (!savedLang) {
         return;
+      }
+      if (window.SoifI18n && SoifI18n.has(savedLang)) {
+        return; // local dictionary handles it; do not wake the online translator
       }
 
       translate.language.setLocal('english');
@@ -2909,9 +2936,7 @@ window.api_rx = api_rx;</code></pre><br>
     function bootTranslate() {
       initTranslate();
       if (restored) {
-        setTimeout(function() {
-          changeLanguage(restored, LANGUAGES[restored].dir);
-        }, 500);
+        changeLanguage(restored, LANGUAGES[restored].dir);
       }
     }
 
