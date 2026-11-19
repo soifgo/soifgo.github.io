@@ -393,12 +393,12 @@
             <tr><th>Feature</th><th>Specification</th></tr>
             <tr><td>Microcontroller</td><td>STM32F030K6T6 (ARM Cortex-M0, 48 MHz, LQFP32)</td></tr>
             <tr><td>Channels</td><td>19 independent LED data lines (A1–A19)</td></tr>
-            <tr><td>Pixels per Channel</td><td>100 by default (1,900 total). The protocol supports up to 256 (<code>00</code>–<code>FF</code>).</td></tr>
+            <tr><td>Pixels per Channel</td><td>220 by default (4,180 total). The protocol supports up to 256 (<code>00</code>–<code>FF</code>).</td></tr>
             <tr><td>Storage</td><td>SD Card via SPI1 (Raw access, no filesystem)</td></tr>
             <tr><td>Communication</td><td>Bluetooth HC-05 (UART, 115200 baud; set the module with <code>AT+UART=115200,0,0</code>)</td></tr>
             <tr><td>Supported LEDs</td><td>WS2812, WS2812B, WS2811, WS2813, WS2815</td></tr>
         </table>
-        <p><strong>Why 100 pixels?</strong> The channels are sent one after another, so more pixels per channel means a lower frame rate. The limit is set to 100 (<code>STRIP_LEN</code> in <code>main.c</code>) to avoid frame drops on this microcontroller, and it is enough for normal displays. If speed is not critical for you, or if you migrate to a faster processor, you can change <code>STRIP_LEN</code> from 100 up to 256. After the change, check the RAM usage of the build: the STM32F030K6 has only 4 KB of RAM. Large banners need a stronger microcontroller and modified code.</p>
+        <p><strong>Why 220 pixels?</strong> The channels are sent one after another, so more pixels per channel means a lower frame rate. The limit is set to 220 (<code>STRIP_LEN</code> in <code>main.c</code>) to avoid frame drops on this microcontroller, and it is enough for normal displays. If speed is not critical for you, or if you migrate to a faster processor, you can change <code>STRIP_LEN</code> from 220 up to 256. After the change, check the RAM usage of the build: the STM32F030K6 has only 4 KB of RAM. Large banners need a stronger microcontroller and modified code.</p>
     </div>
 
     <h2>Pinout &amp; Channel Map</h2>
