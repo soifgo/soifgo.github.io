@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <title>GIF209 · Hex Output · Round Pixels</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #0a0e1a; color: #d0d8f0; font-family: 'Segoe UI', Tahoma, sans-serif; padding: 8px; touch-action: manipulation; min-height: 100vh; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 { font-size: 18px; font-weight: 300; letter-spacing: 1px; color: #6a8aba; text-align: center; margin-bottom: 10px; }
+        .tab-bar { display: flex; gap: 4px; margin-bottom: 10px; border-bottom: 1px solid #1a2a3a; padding-bottom: 6px; flex-wrap: wrap; }
+        .tab-btn { background: transparent; border: none; color: #6a8aba; padding: 8px 16px; font-size: 14px; cursor: pointer; border-radius: 6px 6px 0 0; transition: 0.2s; font-weight: 500; flex: 0 0 auto; }
+        .tab-btn.active { background: #1a2a3a; color: #d0d8f0; }
+        .tab-btn:hover { background: #141a2b; color: #aab8d0; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .card { background: #141a2b; border: 1px solid #1a2a3a; border-radius: 12px; padding: 10px 12px; margin-bottom: 8px; }
+        .row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 4px 0; }
+        .row label { font-size: 13px; color: #8a9aba; min-width: 50px; }
+        .row input[type="number"] { flex: 1; min-width: 50px; background: #0a0e1a; border: 1px solid #1a2a3a; border-radius: 6px; color: #c0d0e8; padding: 6px 8px; font-size: 14px; width: 100%; }
+        .row input[type="file"] { display: none; }
+        .file-label { background: #1e2640; border: 1px solid #3a4a6a; padding: 10px 16px; border-radius: 8px; cursor: pointer; text-align: center; flex: 1; font-size: 14px; min-height: 44px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .file-label:hover { background: #2a3a5a; }
+        .file-label .badge { background: #2a6a4a; padding: 2px 10px; border-radius: 12px; font-size: 11px; }
+        button { background: #2a4a6a; border: none; border-radius: 8px; color: #fff; padding: 10px 14px; font-size: 14px; cursor: pointer; touch-action: manipulation; flex: 1; min-width: 60px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+        button.primary { background: #2a6a4a; }
+        button.primary:hover { background: #3a8a5a; }
+        button.danger { background: #6a2a2a; }
+        button.danger:hover { background: #8a3a3a; }
+        button.small { flex: 0 0 auto; min-width: 44px; min-height: 36px; padding: 4px 10px; }
+        button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .canvas-wrapper { background: #060a12; border-radius: 8px; border: 1px solid #1a2a3a; overflow: visible; touch-action: auto; position: relative; width: 100%; aspect-ratio: 16 / 9; max-height: 55vh; }
+        .canvas-wrapper canvas { display: block; width: 100%; height: 100%; image-rendering: pixelated; touch-action: auto; }
+        .preview-grid { display: grid; gap: 2px; padding: 4px; background: #060a12; border-radius: 8px; border: 1px solid #1a2a3a; margin-top: 4px; max-height: 300px; overflow: auto; width: 100%; }
+        .preview-cell { aspect-ratio: 1 / 1; border-radius: 50%; min-width: 4px; min-height: 4px; width: 100%; height: 100%; border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 0 6px rgba(255, 255, 255, 0.05); }
+        .status { display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px; color: #5a6a8a; padding: 4px 0; }
+        .status span { background: #0a0e1a; padding: 2px 10px; border-radius: 12px; border: 1px solid #1a2a3a; }
+        #batchStatus { color: #8a9aba; font-size: 13px; padding: 4px 0; }
+        .nav-row { display: flex; gap: 6px; align-items: center; margin: 6px 0; }
+        .nav-row button { flex: 0 0 auto; min-width: 44px; padding: 6px 12px; font-size: 18px; min-height: 38px; }
+        .nav-row input[type="range"] { flex: 1; accent-color: #4a8aba; background: transparent; height: 6px; }
+        .nav-row .frame-label { font-size: 13px; color: #8a9aba; min-width: 70px; text-align: center; }
+        .rbg-toggle { display: flex; align-items: center; gap: 6px; background: #0a0e1a; padding: 4px 12px; border-radius: 20px; border: 1px solid #1a2a3a; cursor: pointer; user-select: none; }
+        .rbg-toggle input { width: 18px; height: 18px; accent-color: #4a8aba; cursor: pointer; }
+        .brightness-row input[type="range"] { flex: 1; accent-color: #4a8aba; background: transparent; height: 6px; }
+        .brightness-row .val { min-width: 40px; text-align: center; color: #8a9aba; font-size: 14px; }
+        .bottom-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: flex-start; margin-top: 4px; }
+        .bottom-actions .rbg-toggle { margin-right: 4px; }
+        .hex-preview { background: #0a0e1a; border: 1px solid #1a2a3a; border-radius: 6px; padding: 6px 10px; font-family: 'Courier New', monospace; font-size: 12px; color: #6a8aba; word-break: break-all; max-height: 80px; overflow: auto; margin-top: 4px; }
+        .pixel-toolbar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 4px 0; }
+        .pixel-toolbar .btn-eraser.active { background: #8a3a2a !important; border-color: #ff6666; }
+        .grid-scroll { overflow-x: auto; overflow-y: visible; touch-action: pan-x pan-y; padding: 4px 0; }
+        #tab-matrix .hide-in-matrix { display: none !important; }
+        .mode-indicator { font-size: 13px; padding: 4px 12px; border-radius: 20px; background: #0a0e1a; border: 1px solid #1a2a3a; color: #8a9aba; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+        .mode-indicator .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; transition: 0.2s; }
+        .mode-indicator .dot.paint { background: #4aba6a; }
+        .mode-indicator .dot.erase { background: #cc6644; }
+        #pixelCanvas { width: 100%; aspect-ratio: 1 / 1; background: #000; border-radius: 8px; touch-action: none; image-rendering: pixelated; display: block; border: 1px solid #1a2a3a; }
+        @media (max-width: 480px) {
+            .row label { min-width: 40px; font-size: 12px; }
+            .row input[type="number"] { font-size: 12px; padding: 4px 6px; }
+            button { font-size: 12px; padding: 6px 8px; min-height: 38px; }
+            .file-label { font-size: 12px; padding: 6px 8px; min-height: 38px; }
+            .preview-cell { min-width: 3px; min-height: 3px; }
+            .nav-row button { min-width: 36px; padding: 4px 8px; font-size: 16px; }
+            .rbg-toggle { padding: 2px 8px; font-size: 12px; }
+            .bottom-actions button { min-height: 32px; padding: 4px 8px; font-size: 12px; }
+            .preview-grid { max-height: 200px; }
+            .hex-preview { font-size: 10px; max-height: 60px; }
+            .mode-indicator { font-size: 11px; padding: 2px 10px; }
+        }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes loading { 0% { width: 0%; } 50% { width: 70%; } 100% { width: 100%; } }
+        .footer { text-align: center; padding: 10px 0 6px 0; font-size: 14px; color: #6a8aba; border-top: 1px solid #1a2a3a; margin-top: 6px; background: #0a0e1a; position: relative; z-index: 10; }
+        .footer strong { color: #ff8844; }
+        #toastMessage { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #2a1a1a; border: 1px solid #cc6644; color: #ffaa88; padding: 10px 20px; border-radius: 10px; font-size: 14px; font-family: 'Segoe UI', sans-serif; z-index: 9999; max-width: 90%; text-align: center; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8); animation: fadeInUp 0.3s ease; pointer-events: none; }
+    </style>
+</head>
+<body>
+    <div id="splashScreen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0a0e1a; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.8s ease; font-family: 'Segoe UI', sans-serif; pointer-events: none;">
+        <div style="text-align: center; animation: fadeInUp 1s ease;">
+            <div style="font-size: 48px; margin-bottom: 12px;">⚙️</div>
+            <div style="font-size: 32px; font-weight: 700; color: #e8e8f0; letter-spacing: 2px;">GIF209</div>
+            <div style="font-size: 24px; color: #88aacc; margin-top: 12px; font-weight: 300; letter-spacing: 1px;">Built with DeepSeek · Gemini · Claude</div>
+            <div style="font-size: 43px; color: #ff5500; margin-top: 4px; font-weight: 300;">SoifGo</div>
+            <div style="margin-top: 24px; width: 120px; height: 2px; background: #1a2a3a; border-radius: 2px; overflow: hidden;">
+                <div style="width: 0%; height: 100%; background: linear-gradient(90deg, #4488dd, #66dd88); animation: loading 1.2s ease-in-out infinite;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>⬡ GIF209 · Round Pixels (WS2812 Style)</h1>
+        <div class="tab-bar">
+            <button class="tab-btn active" data-tab="tab-convert">📷 Image Converter</button>
+            <button class="tab-btn" data-tab="tab-matrix">🎨 Pixel Editor</button>
+            <button class="tab-btn" data-tab="tab-fx">✨ Text &amp; FX</button>
+        </div>
+
+        <!-- ===== TAB 1: IMAGE CONVERTER ===== -->
+        <div id="tab-convert" class="tab-content active">
+            <div class="card">
+                <div class="row">
+                    <label>Channels</label>
+                    <input type="number" id="channelsCount" value="19" min="1" max="55" oninput="validateInput(this, 1, 55, 'Channels')" onfocus="this.select()" />
+                    <label>Pixels/CH</label>
+                    <input type="number" id="pixelsPerChannel" value="100" min="1" max="256" oninput="validateInput(this, 1, 256, 'Pixels/CH')" onfocus="this.select()" />
+                </div>
+                <div class="row" style="justify-content:space-between;">
+                    <label class="file-label" for="imageInput">📂 Choose Image <span class="badge" id="fileCountBadge">0</span></label>
+                    <input type="file" id="imageInput" accept="image/*" multiple />
+                    <button class="danger" onclick="clearAll()">🗑️ Clear All</button>
+                </div>
+                <div class="row" id="gifOptions" style="margin-top:6px; gap:10px; flex-wrap:wrap;">
+                    <label><input type="checkbox" id="gifSplit" checked /> 🎞️ Split GIF into frames</label>
+                    <label>Every Nth <input type="number" id="gifStep" value="1" min="1" max="20" style="width:56px;" /></label>
+                    <label><input type="checkbox" id="gifDelay" checked /> Use GIF delays as wait</label>
+                </div>
+                <div class="row brightness-row" style="margin-top:6px;">
+                    <label style="min-width:40px;">☀️</label>
+                    <input type="range" id="brightnessSlider" min="10" max="150" value="100" step="1" oninput="saveSettings(); applyBrightnessToCurrentImage()" />
+                    <span class="val" id="brightnessVal">100%</span>
+                </div>
+                <div id="batchStatus">⏳ Select an image – it will be added as a frame automatically.</div>
+            </div>
+        </div>
+
+        <!-- ===== TAB 2: PIXEL EDITOR ===== -->
+        <div id="tab-matrix" class="tab-content">
+            <div class="card">
+                <div class="row">
+                    <label>Channels</label>
+                    <input type="number" id="matrixChannels" value="19" min="1" max="55" oninput="validateInput(this, 1, 55, 'Channels'); initPixelCanvas();" onfocus="this.select()" />
+                    <label>Pixels/CH</label>
+                    <input type="number" id="matrixPixels" value="100" min="1" max="256" oninput="validateInput(this, 1, 256, 'Pixels/CH'); initPixelCanvas();" onfocus="this.select()" />
+                </div>
+                <div class="pixel-toolbar">
+                    <label>🎨 Color</label>
+                    <input type="color" id="pixelColor" value="#ffffff" style="width:40px;height:40px;border:none;cursor:pointer;background:transparent;" />
+                    <button class="small" id="eraserBtn" onclick="toggleEraser()" style="background:#6a4a2a;flex:0 0 auto;">🧹 Eraser</button>
+                    <span class="mode-indicator" id="modeIndicator"><span class="dot paint" id="modeDot"></span><span id="modeLabel">Paint mode</span></span>
+                    <label title="Brush width in pixels">🖌️ <input type="number" id="brushW" value="1" min="1" max="20" style="width:52px;" onfocus="this.select()" /></label>
+                    <button class="small" onclick="undoPixel()" style="background:#2a4a6a;flex:0 0 auto;">↩️ Undo</button>
+                    <button class="small" onclick="loadFrameIntoEditor()" style="background:#2a5a5a;flex:0 0 auto;">✏️ Load frame</button>
+                    <button class="small" onclick="clearPixelCanvas()" style="background:#6a2a2a;flex:0 0 auto;">🗑️ Clear</button>
+                    <button class="small primary" onclick="generateHexFromGrid()" style="flex:0 0 auto;min-width:80px;">🔄 Generate</button>
+                </div>
+                <div class="pixel-toolbar" style="margin-top:6px; border-top:1px solid #1a2a3a; padding-top:6px;">
+                    <button class="small" onclick="edZoom(-1)" title="Smaller cells">🔍−</button><button class="small" onclick="edZoom(0)" title="Fit to screen">Fit</button><button class="small" onclick="edZoom(1)" title="Bigger cells">🔍+</button><button class="small" id="panBtn" onclick="togglePan()" title="Scroll the grid with your finger">✋ Pan</button>
+                    <button class="small primary" id="addFrameBtn" onclick="addPixelGridAsFrame()" style="background:#2a6a4a;">➕ Add Frame</button>
+                    <button class="small" id="replaceFrameBtn" onclick="replaceCurrentFrameWithGrid()" style="background:#6a5a2a;">🔄 Replace</button>
+                    <button class="small danger" id="deleteFrameBtn" onclick="deleteCurrentFrame()" style="background:#6a2a2a;">🗑️ Delete Frame</button>
+                    <span style="font-size:11px;color:#5a6a8a;margin-left:4px;" id="frameActionStatus">(insert after current)</span>
+                </div>
+                <div class="grid-scroll" id="gridScroll">
+                    <canvas id="pixelCanvas"></canvas>
+                </div>
+                <input type="range" id="edHScroll" min="0" max="0" value="0" step="1" style="width:100%;height:28px;accent-color:#4a8aba;margin-top:4px;display:none;" title="Scroll the grid left / right" />
+                <div id="pixelStatus" style="font-size:12px;color:#6a8aba;margin-top:4px;">⏳ Click cells to paint. Drag to fill. Touch & slide on mobile.</div>
+            </div>
+        </div>
+
+        <!-- ===== TAB 3: TEXT & FX ===== -->
+        <div id="tab-fx" class="tab-content">
+            <div class="card">
+                <div class="row">
+                    <input type="text" id="fxText" value="HELLO" style="flex:1;min-width:140px;" />
+                    <select id="fxFont">
+                        <option value="bold {s}px monospace">Mono Bold</option><option value="{s}px monospace">Mono</option>
+                        <option value="bold {s}px Arial">Arial Bold</option><option value="{s}px Arial">Arial</option>
+                        <option value="bold {s}px 'Courier New'">Courier</option><option value="{s}px Impact">Impact</option>
+                    </select>
+                    <label>Size</label><input type="number" id="fxSize" value="9" min="4" max="200" style="width:56px;" onfocus="this.select()" />
+                    <label>Rows</label><input type="number" id="fxCh" min="1" max="55" style="width:56px;" onfocus="this.select()" />
+                    <label>Cols</label><input type="number" id="fxPx" min="1" max="256" style="width:62px;" onfocus="this.select()" />
+                </div>
+                <div class="row">
+                    <label>Effect</label>
+                    <select id="fxEffect">
+                        <option value="scrollL">⬅ Scroll left</option><option value="scrollR">➡ Scroll right</option>
+                        <option value="scrollU">⬆ Scroll up</option><option value="scrollD">⬇ Scroll down</option>
+                        <option value="static">Static</option><option value="blink">Blink</option><option value="fade">Fade in/out</option>
+                        <option value="type">Typewriter</option><option value="bounce">Bounce</option><option value="wave">Wave</option>
+                    </select>
+                    <label>Step px</label><input type="number" id="fxStep" value="1" min="1" max="50" style="width:52px;" onfocus="this.select()" />
+                    <label>ms/frame</label><input type="number" id="fxWait" value="60" min="0" max="60000" style="width:66px;" onfocus="this.select()" />
+                    <label>Y shift</label><input type="number" id="fxY" value="0" min="-20" max="20" style="width:52px;" onfocus="this.select()" />
+                </div>
+                <div class="row">
+                    <label>Color</label>
+                    <select id="fxColMode"><option value="solid">Solid</option><option value="gradx">Gradient →</option><option value="grady">Gradient ↓</option><option value="rainx">Rainbow →</option><option value="rainy">Rainbow ↓</option></select>
+                    <input type="color" id="fxC1" value="#ff0000" style="width:40px;height:34px;padding:0;" />
+                    <input type="color" id="fxC2" value="#3060ff" style="width:40px;height:34px;padding:0;" />
+                    <label>BG</label><input type="color" id="fxBg" value="#000000" style="width:40px;height:34px;padding:0;" />
+                    <label><input type="checkbox" id="fxAnim" checked /> animate colors</label>
+                    <label><input type="checkbox" id="fxCrisp" checked /> crisp</label>
+                    <label><input type="checkbox" id="fxVC" checked /> center vertically</label>
+                </div>
+                <canvas id="fxPrev" style="max-width:100%;background:#05070d;border-radius:8px;display:block;margin:6px 0;"></canvas>
+                <div class="row">
+                    <button class="small" id="fxPlayBtn" style="background:#2a4a6a;">⏸ Pause</button>
+                    <select id="fxIns"><option value="after">Insert after current</option><option value="end">Add at end</option><option value="replace">Replace all frames</option></select>
+                    <button class="small primary" id="fxAddBtn" style="background:#2a6a4a;">➕ Add as frames</button>
+                    <span id="fxInfo" style="font-size:12px;color:#6a8aba;"></span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="row"><b style="color:#8aa8d0;">🛠 Frame tools</b>
+                    <label>Apply to</label><select id="fxTarget"><option value="cur">Current frame</option><option value="all">All frames</option></select></div>
+                <div class="row">
+                    <button class="small" data-fx="flipH">⇄ Flip H</button><button class="small" data-fx="flipV">⇅ Flip V</button>
+                    <button class="small" data-fx="inv">◐ Invert</button><button class="small" data-fx="gray">▒ Gray</button>
+                    <label>Shift</label><input type="number" id="fxShift" value="1" min="1" max="100" style="width:56px;" onfocus="this.select()" />
+                    <button class="small" data-fx="sl">←</button><button class="small" data-fx="sr">→</button><button class="small" data-fx="su">↑</button><button class="small" data-fx="sd">↓</button>
+                </div>
+                <div class="row">
+                    <label>Hue</label><input type="range" id="fxHue" min="-180" max="180" value="30" style="flex:1;min-width:90px;" /><button class="small" data-fx="hue">Apply</button>
+                    <label>Bright %</label><input type="range" id="fxBr" min="10" max="300" value="150" style="flex:1;min-width:90px;" /><button class="small" data-fx="br">Apply</button>
+                </div>
+                <div class="row">
+                    <label>Replace</label><input type="color" id="fxFrom" value="#ff0000" style="width:40px;height:34px;padding:0;" /> →
+                    <input type="color" id="fxTo" value="#00ff00" style="width:40px;height:34px;padding:0;" />
+                    <label>Tol</label><input type="number" id="fxTol" value="40" min="0" max="255" style="width:56px;" onfocus="this.select()" />
+                    <button class="small" data-fx="rep">Apply</button>
+                </div>
+                <div class="row" style="border-top:1px solid #1a2a3a;padding-top:6px;">
+                    <button class="small" data-fx="rev">⏪ Reverse order</button><button class="small" data-fx="pp">↔ Ping-pong</button>
+                    <label>Copies</label><input type="number" id="fxDup" value="2" min="1" max="100" style="width:56px;" onfocus="this.select()" />
+                    <button class="small" data-fx="dup">⧉ Duplicate</button>
+                    <button class="small" data-fx="dedupe" title="If the same animation pass was added several times, keep only the first copy">✂ Remove repeated passes</button>
+                </div>
+                <div class="row">
+                    <label>Animate current frame</label>
+                    <select id="fxSdir"><option value="l">Scroll ←</option><option value="r">Scroll →</option><option value="u">Scroll ↑</option><option value="d">Scroll ↓</option></select>
+                    <button class="small" data-fx="scr">▶ Make</button><button class="small" data-fx="fout">Fade out</button><button class="small" data-fx="fin">Fade in</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== COMMON UI ===== -->
+        <div class="hide-in-matrix">
+            <div class="card" style="padding:6px 10px;">
+                <div class="nav-row">
+                    <button onclick="prevFrame()">◀</button>
+                    <input type="range" id="frameSlider" min="0" max="0" value="0" step="1" oninput="updateFrameFromSlider()" />
+                    <button onclick="nextFrame()">▶</button>
+                    <span class="frame-label" id="frameLabel">0 / 0</span>
+                    <button class="small" onclick="deleteCurrentFrame()" style="background:#6a2a2a;min-width:30px;font-size:12px;">✕</button>
+                </div>
+                <div class="row" style="margin-top:4px;">
+                    <label style="min-width:40px;">Wait (ms)</label>
+                    <input type="number" id="frameWaitInput" value="0" min="0" max="60000" step="10" style="flex:1;max-width:80px;" />
+                    <button onclick="applyWaitToCurrent()" style="flex:0 0 auto;min-width:70px;padding:4px 10px;min-height:32px;font-size:12px;">Apply</button>
+                    <span style="font-size:11px;color:#5a6a8a;margin-left:4px;">(applies to current frame only)</span>
+                </div>
+            </div>
+            <div class="canvas-wrapper" id="canvasWrapper">
+                <canvas id="mainCanvas" width="800" height="450"></canvas>
+            </div>
+            <div class="card" style="padding:6px;">
+                <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:4px;">
+                    <span style="font-size:12px;color:#8a9aba;">Matrix preview</span>
+                    <span style="font-size:11px;color:#5a6a8a;" id="gridInfo">0×0</span>
+                </div>
+                <div class="preview-grid" id="gridPreview"></div>
+            </div>
+        </div>
+
+        <!-- ===== RECORD WRAPPER + GLOBAL DELAY ===== -->
+        <div class="card" style="padding:10px 12px; border-color:#3a5a3a; background:#0f1a12;">
+            <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:6px;">
+                <span style="font-size:13px;color:#8aba9a;font-weight:600;">📼 Record to SD</span>
+            </div>
+            <div class="row" style="align-items:center;">
+                <label style="min-width:90px;color:#8aba9a;">Delay all (ms)</label>
+                <input type="number" id="globalDelayInput" value="0" min="0" max="60000" step="10"
+                       style="flex:1;max-width:100px;" onfocus="this.select()" />
+                <button class="small" onclick="applyDelayToAll()" style="flex:0 0 auto;min-width:90px;background:#3a6a4a;">Apply to all</button>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">
+                <label class="rbg-toggle" style="background:#1a2a1a;border-color:#3a6a3a;">
+                    <input type="checkbox" id="wrapWithRec" checked />
+                    <span style="color:#8aba9a;">Wrap with REC / END (with STOP)</span>
+                </label>
+                <label class="rbg-toggle" style="background:#1a2a1a;border-color:#3a6a3a;" title="ON: wait=N is glued to the end of the previous command line (fewer lines, faster upload). OFF: wait=N is always its own line.">
+                    <input type="checkbox" id="mergeWait" />
+                    <span style="color:#8aba9a;">Glue wait to command line (faster)</span>
+                </label>
+                <label class="rbg-toggle" style="background:#1a2a1a;border-color:#3a6a3a;">
+                    <input type="checkbox" id="loopAfterEnd" checked />
+                    <span style="color:#8aba9a;">Add LOOP after END (auto-play)</span>
+                </label>
+            </div>
+            <div style="font-size:11px;color:#5a7a5a;margin-top:6px;">
+                Adds <code style="color:#8aba9a;">STOP</code> at the top, then <code style="color:#8aba9a;">REC</code>, and <code style="color:#8aba9a;">END</code> at the bottom.
+                "Delay all" sets the same <code style="color:#8aba9a;">wait=N</code> for every frame.
+            </div>
+        </div>
+
+        <!-- ===== HEX OUTPUT ===== -->
+        <div class="card" style="padding:6px 10px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:12px;color:#8a9aba;">📟 Hex Output (12 chars per command, paired)</span>
+                <span style="font-size:11px;color:#5a6a8a;" id="hexCount">0 commands</span>
+            </div>
+            <div class="hex-preview" id="hexPreview">⏳ No data yet</div>
+        </div>
+
+        <div class="card" style="padding:6px 10px;">
+            <div class="bottom-actions">
+                <label class="rbg-toggle"><input type="checkbox" id="rbgToggle" /><span style="color:#8a9aba;">RBG (WS2811)</span></label>
+                <button class="small" onclick="copyLastOutput()" style="background:#2a4a6a;">📋 Copy</button>
+                <button class="small" onclick="sendLastOutput()" style="background:#2a6a4a;">📝 Send</button>
+                <button class="small" id="directBtn" onclick="toggleDirectSend()" style="background:#8a4a1a;" title="Send line by line straight to Bluetooth. Waits for 'next' from the microcontroller after every line."><svg width="14" height="18" viewBox="0 0 14 18" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:4px;"><path d="M1.5 5l11 8-5.5 4.5V.5L12.5 5l-11 8"/></svg>Direct</button>
+                <span style="font-size:11px;color:#5a6a8a;margin-left:4px;">(swap G↔B for WS2811)</span>
+            </div>
+            <div id="directBox" style="display:none;margin-top:6px;">
+                <div style="height:8px;background:#0a0e1a;border:1px solid #1a2a3a;border-radius:4px;overflow:hidden;">
+                    <div id="directFill" style="height:100%;width:0;background:#e08a2a;"></div>
+                </div>
+                <div id="directInfo" style="font-size:11px;color:#8a9aba;margin-top:3px;word-break:break-all;"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="status">
+                <span id="cmdCount">Commands: 0</span>
+                <span id="pixelCount">Pixels: 0</span>
+                <span id="channelStatus">Channels: 0</span>
+                <span id="sendStatus" style="color:#4aba6a;">⏳ Ready</span>
+                <span id="frameCount" style="color:#8a9aba;">Frames: 0</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">⚡ Built with the help of <strong>DeepSeek</strong>, <strong>Gemini</strong> &amp; <strong>Claude</strong> · GIF209 · Round Pixels · 2026</div>
+
+    <script>
+        // ============================================================
+        // CORE FUNCTIONS
+        // ============================================================
+        let validationTimer = null;
+
+        // Max channels: STM32F030RC (LQFP64) has up to 55 I/Os, the largest chip of the F030 family.
+        // The address byte in the protocol is 2 hex digits, so the format itself allows up to 255.
+        const MAX_CH = 55;
+
+        function validateInput(input, min, max, fieldName) {
+            if (validationTimer) { clearTimeout(validationTimer); validationTimer = null; }
+            validationTimer = setTimeout(() => {
+                let val = input.value.replace(/^0+/, '');
+                if (val === '' || val === '-') { input.value = min; showToast(`⚠️ ${fieldName} must be at least ${min}. Set to ${min}.`); return; }
+                let num = parseInt(val);
+                if (isNaN(num)) { input.value = min; showToast(`⚠️ ${fieldName} must be a number. Set to ${min}.`); return; }
+                if (num < min) { input.value = min; showToast(`⚠️ ${fieldName} must be at least ${min}. Set to ${min}.`); return; }
+                if (num > max) { input.value = max; showToast(`⚠️ ${fieldName} maximum is ${max}. Set to ${max}.`); return; }
+                input.value = num;
+                if (input.id === 'channelsCount' || input.id === 'pixelsPerChannel') applyBrightnessToCurrentImage();
+                if (input.id === 'matrixChannels' || input.id === 'matrixPixels') initPixelCanvas();
+                saveSettings();
+                validationTimer = null;
+            }, 800);
+        }
+
+        function showToast(message) {
+            const old = document.getElementById('toastMessage');
+            if (old) old.remove();
+            const toast = document.createElement('div');
+            toast.id = 'toastMessage';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.5s';
+                setTimeout(() => toast.remove(), 500);
+            }, 3000);
+        }
+
+        function saveSettings() {
+            try {
+                localStorage.setItem('gif209_channels', document.getElementById('channelsCount').value);
+                localStorage.setItem('gif209_pixels', document.getElementById('pixelsPerChannel').value);
+                localStorage.setItem('gif209_brightness', document.getElementById('brightnessSlider').value);
+                localStorage.setItem('gif209_globaldelay', document.getElementById('globalDelayInput').value);
+                localStorage.setItem('gif209_wraprec', document.getElementById('wrapWithRec').checked ? '1' : '0');
+            } catch (e) {}
+        }
+
+        function loadSettings() {
+            try {
+                const ch = localStorage.getItem('gif209_channels');
+                const px = localStorage.getItem('gif209_pixels');
+                const br = localStorage.getItem('gif209_brightness');
+                const gd = localStorage.getItem('gif209_globaldelay');
+                const wr = localStorage.getItem('gif209_wraprec');
+                if (ch !== null) document.getElementById('channelsCount').value = ch;
+                if (px !== null) document.getElementById('pixelsPerChannel').value = px;
+                if (br !== null) {
+                    document.getElementById('brightnessSlider').value = br;
+                    document.getElementById('brightnessVal').textContent = Math.round(parseInt(br)) + '%';
+                }
+                if (gd !== null) document.getElementById('globalDelayInput').value = gd;
+                if (wr !== null) document.getElementById('wrapWithRec').checked = (wr === '1');
+            } catch (e) {}
+        }
+
+        function getSettings() {
+            const channels = parseInt(document.getElementById('channelsCount').value) || 19;
+            const pixels = parseInt(document.getElementById('pixelsPerChannel').value) || 100;
+            return { channels, pixels };
+        }
+
+        function isRbgMode() { return document.getElementById('rbgToggle').checked; }
+        function getBrightness() { return parseInt(document.getElementById('brightnessSlider').value) / 100; }
+
+        function padHex(num) { return num.toString(16).toUpperCase().padStart(2, '0'); }
+
+        function applyBrightnessToImage(img, brightness) {
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = 800;
+            tempCanvas.height = 450;
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCtx.drawImage(img, 0, 0, 800, 450);
+            const imageData = tempCtx.getImageData(0, 0, 800, 450);
+            const data = imageData.data;
+            for (let i = 0; i < data.length; i += 4) {
+                data[i] = Math.min(255, Math.round(data[i] * brightness));
+                data[i + 1] = Math.min(255, Math.round(data[i + 1] * brightness));
+                data[i + 2] = Math.min(255, Math.round(data[i + 2] * brightness));
+            }
+            tempCtx.putImageData(imageData, 0, 0);
+            return tempCanvas;
+        }
+
+        function extractMatrixFromCanvas(canvas, channels, pixels) {
+            const tempCtx = canvas.getContext('2d');
+            const imageData = tempCtx.getImageData(0, 0, 800, 450);
+            const data = imageData.data;
+            const matrix = [];
+            const cellH = 450 / channels;
+            const cellW = 800 / pixels;
+            const THRESHOLD = 0;
+            for (let ch = 0; ch < channels; ch++) {
+                const row = [];
+                for (let p = 0; p < pixels; p++) {
+                    const cx = Math.floor((p + 0.5) * cellW);
+                    const cy = Math.floor((ch + 0.5) * cellH);
+                    const idx = (cy * 800 + cx) * 4;
+                    let r = 0, g = 0, b = 0;
+                    if (idx >= 0 && idx < data.length) {
+                        r = data[idx]; g = data[idx + 1]; b = data[idx + 2];
+                        if (r < THRESHOLD) r = 0;
+                        if (g < THRESHOLD) g = 0;
+                        if (b < THRESHOLD) b = 0;
+                    }
+                    row.push({ r, g, b });
+                }
+                matrix.push(row);
+            }
+            return matrix;
+        }
+
+        function generateHexLines(matrix, channels, pixels, rbgMode) {
+            const rawLines = [];
+            for (let ch = 0; ch < channels; ch++) {
+                let start = -1, end = -1, lastR = -1, lastG = -1, lastB = -1;
+                for (let p = 0; p < pixels; p++) {
+                    const c = matrix[ch]?.[p] || { r: 0, g: 0, b: 0 };
+                    if (c.r === 0 && c.g === 0 && c.b === 0) {
+                        if (start !== -1) {
+                            let gVal = lastG, bVal = lastB;
+                            if (rbgMode) { const t = gVal; gVal = bVal; bVal = t; }
+                            rawLines.push(padHex(ch + 1) + padHex(lastR) + padHex(gVal) + padHex(bVal) + padHex(start) + padHex(end));
+                            start = -1;
+                        }
+                        continue;
+                    }
+                    if (start === -1) {
+                        start = p; end = p; lastR = c.r; lastG = c.g; lastB = c.b;
+                    } else if (c.r === lastR && c.g === lastG && c.b === lastB) {
+                        end = p;
+                    } else {
+                        let gVal = lastG, bVal = lastB;
+                        if (rbgMode) { const t = gVal; gVal = bVal; bVal = t; }
+                        rawLines.push(padHex(ch + 1) + padHex(lastR) + padHex(gVal) + padHex(bVal) + padHex(start) + padHex(end));
+                        start = p; end = p; lastR = c.r; lastG = c.g; lastB = c.b;
+                    }
+                }
+                if (start !== -1) {
+                    let gVal = lastG, bVal = lastB;
+                    if (rbgMode) { const t = gVal; gVal = bVal; bVal = t; }
+                    rawLines.push(padHex(ch + 1) + padHex(lastR) + padHex(gVal) + padHex(bVal) + padHex(start) + padHex(end));
+                }
+            }
+            const filteredLines = rawLines.filter(line => {
+                const parts = line.match(/.{2}/g) || [];
+                if (parts.length < 6) return false;
+                if (parts[0] === '00') return false;
+                if (parts[1] === '00' && parts[2] === '00' && parts[3] === '00') return false;
+                return true;
+            });
+            if (filteredLines.length === 0) return [];
+            const groupSize = 41; // 41*12=492 chars; leaves room for wait=N (max 511 total)
+            const groupedLines = [];
+            for (let i = 0; i < filteredLines.length; i += groupSize) {
+                let combined = '';
+                for (let j = 0; j < groupSize; j++) {
+                    if (i + j < filteredLines.length) combined += filteredLines[i + j];
+                }
+                groupedLines.push(combined);
+            }
+            return groupedLines;
+        }
+
+        // ============================================================
+        // STATE
+        // ============================================================
+        const canvas = document.getElementById('mainCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 800;
+        canvas.height = 450;
+
+        let loadedFiles = [], frameData = [], currentFrameIndex = 0, lastOutput = '',
+            allFramesText = [], pixelMatrix = [], currentDisplayImage = null, lastHexLines = [];
+
+        // Compact storage: each row is run-length encoded as "count*rrggbb|..." (saves ~95% memory vs. {r,g,b} objects)
+        function encodeMatrix(m) {
+            const hx = v => (v & 255).toString(16).padStart(2, '0');
+            return m.map(row => {
+                const out = []; let prev = null, n = 0;
+                for (let i = 0; i < row.length; i++) {
+                    const c = row[i] || { r: 0, g: 0, b: 0 }, k = hx(c.r) + hx(c.g) + hx(c.b);
+                    if (k === prev) n++; else { if (prev !== null) out.push(n + '*' + prev); prev = k; n = 1; }
+                }
+                if (prev !== null) out.push(n + '*' + prev);
+                return out.join('|');
+            });
+        }
+        function decodeMatrix(rows) {
+            return rows.map(r => {
+                const row = [];
+                if (r) r.split('|').forEach(t => {
+                    const q = t.indexOf('*'), n = +t.slice(0, q), k = t.slice(q + 1);
+                    const c = { r: parseInt(k.substr(0, 2), 16), g: parseInt(k.substr(2, 2), 16), b: parseInt(k.substr(4, 2), 16) };
+                    for (let i = 0; i < n; i++) row.push({ r: c.r, g: c.g, b: c.b });
+                });
+                return row;
+            });
+        }
+        function autoSaveLocal() {
+            try {
+                const saveableFrames = frameData.map(f => ({ mx: encodeMatrix(f.matrix), wait: f.wait, lines: f.lines, isManual: f.isManual }));
+                const state = { v: 2, frameData: saveableFrames, currentFrameIndex };
+                localStorage.setItem('gif209_state', JSON.stringify(state));
+                return true;
+            } catch (e) { try { showToast('⚠️ Auto-save failed (storage full) — export your data'); } catch (e2) {} return false; }
+        }
+
+        function loadFromLocal() {
+            try {
+                const data = localStorage.getItem('gif209_state');
+                if (!data) return false;
+                const state = JSON.parse(data);
+                frameData = state.frameData.map(f => {
+                    const g = { ...f, image: null };
+                    if (f.mx) { g.matrix = decodeMatrix(f.mx); delete g.mx; }
+                    return g;
+                });
+                currentFrameIndex = state.currentFrameIndex || 0;
+                if (currentFrameIndex >= frameData.length && frameData.length > 0) currentFrameIndex = frameData.length - 1;
+                lastOutput = state.lastOutput || '';
+                allFramesText = state.allFramesText || [];
+                pixelMatrix = frameData[currentFrameIndex]?.matrix || state.pixelMatrix || [];
+                lastHexLines = frameData[currentFrameIndex]?.lines || state.lastHexLines || [];
+                return true;
+            } catch (e) { return false; }
+        }
+
+        // ============================================================
+        // BUILD OUTPUT (with REC/END wrap and STOP)
+        // ============================================================
+        function rebuildAllFramesText() {
+            // wait=N is merged onto the end of the previous command line (fewer lines = fewer next-cycles).
+            // Same playback timing as before: frame i's wait is applied right after frame i-1's commands.
+            const MAXL = 511;
+            const outLines = [];
+            const mergeW = document.getElementById('mergeWait')?.checked !== false;
+            const appendWait = (w) => {
+                const tag = `wait=${w}`;
+                const lastIdx = outLines.length - 1, last = outLines[lastIdx] || '';
+                const mm = /^wait=(\d+)$/.exec(last);
+                if (mm && +mm[1] > 0 && w > 0) {
+                    outLines[lastIdx] = `wait=${+mm[1] + w}`;          // run of blank frames -> ONE wait line (same total time)
+                } else if (mergeW && lastIdx >= 0 && !last.includes('wait') && last.length + tag.length <= MAXL) {
+                    outLines[lastIdx] += tag;                            // glue to end of previous command line
+                } else {
+                    outLines.push(tag);                                  // own line
+                }
+            };
+            frameData.forEach(f => {
+                const w = (f.wait !== undefined && f.wait !== null) ? f.wait : 0;
+                appendWait(w);
+                f.lines.forEach(l => outLines.push(l));
+            });
+            let body = outLines.join('\n');
+
+            // sanity check: every line must be  (12 hex chars)*  followed by optional  wait=N
+            const badIdx = outLines.reduce((a, l, i) => (/^(?:[0-9A-F]{12})*(?:wait=\d+)?$/.test(l) ? a : a.concat(i + 1)), []);
+            if (badIdx.length) showToast('⚠️ Invalid output line(s): ' + badIdx.slice(0, 5).join(', ') + ' — check frame data');
+
+            const wrap = document.getElementById('wrapWithRec')?.checked;
+            if (wrap && frameData.length > 0) {
+                // اضافه کردن STOP در بالای REC برای توقف پخش همزمان
+                body = 'STOP\nREC\n' + body + '\nEND';
+                if (document.getElementById('loopAfterEnd')?.checked) body += '\nLOOP';
+            }
+
+            lastOutput = body;
+
+            if (frameData.length > 0) {
+                const last = frameData[frameData.length - 1];
+                lastHexLines = last.lines;
+                updateHexPreview();
+                document.getElementById('hexCount').textContent = `${last.lines.length} commands`;
+            } else {
+                document.getElementById('hexPreview').textContent = '⏳ No data yet';
+                document.getElementById('hexCount').textContent = '0 commands';
+            }
+
+            document.getElementById('cmdCount').textContent =
+                `Commands: ${frameData.reduce((sum, f) => sum + f.lines.length, 0)}`;
+            document.getElementById('pixelCount').textContent =
+                `Pixels: ${frameData.reduce((sum, f) => sum + f.matrix.reduce((s, row) => s + row.filter(c => c.r >= 0 || c.g >= 0 || c.b >= 0).length, 0), 0)}`;
+            document.getElementById('channelStatus').textContent = `Channels: ${frameData[0]?.matrix.length || 0}`;
+            document.getElementById('frameCount').textContent = `Frames: ${frameData.length}`;
+            autoSaveLocal();
+        }
+
+        // ... بقیه توابع همان قبلی هستند ...
+        
+        function renderGridPreview() {
+            const container = document.getElementById('gridPreview');
+            const settings = getSettings();
+            const channels = pixelMatrix.length || settings.channels, pixels = pixelMatrix[0]?.length || settings.pixels;
+            document.getElementById('gridInfo').textContent = `${channels}×${pixels}`;
+            container.style.display = 'block';
+            let cv = container.querySelector('canvas');
+            if (!cv) { container.innerHTML = ''; cv = document.createElement('canvas'); cv.style.cssText = 'display:block;max-width:100%;height:auto;'; container.appendChild(cv); }
+            const cell = Math.max(3, Math.min(14, Math.floor(Math.min(1100 / pixels, 600 / channels))));
+            cv.width = pixels * cell; cv.height = channels * cell;
+            const c = cv.getContext('2d');
+            c.fillStyle = '#060a12'; c.fillRect(0, 0, cv.width, cv.height);
+            const BOOST = 1.8;
+            for (let ch = 0; ch < channels; ch++) {
+                for (let p = 0; p < pixels; p++) {
+                    const col = pixelMatrix[ch]?.[p] || { r: 0, g: 0, b: 0 };
+                    const r = Math.min(255, Math.round(col.r * BOOST)), g = Math.min(255, Math.round(col.g * BOOST)), b = Math.min(255, Math.round(col.b * BOOST));
+                    c.fillStyle = (r | g | b) ? `rgb(${r},${g},${b})` : '#10151f';
+                    c.beginPath(); c.arc((p + .5) * cell, (ch + .5) * cell, cell * .42, 0, 6.2832); c.fill();
+                }
+            }
+        }
+
+        function updateHexPreview() {
+            const preview = document.getElementById('hexPreview');
+            const count = document.getElementById('hexCount');
+            if (!lastHexLines || lastHexLines.length === 0) {
+                preview.textContent = '⏳ No data yet (all pixels are off)';
+                count.textContent = '0 commands';
+                return;
+            }
+            const show = lastHexLines.slice(0, 5);
+            let text = show.join('\n');
+            if (lastHexLines.length > 5) text += `\n... and ${lastHexLines.length - 5} more`;
+            preview.textContent = text;
+            count.textContent = `${lastHexLines.length} commands`;
+        }
+
+        function updateStats() {
+            let totalCmds = 0, totalPixels = 0;
+            frameData.forEach(f => {
+                totalCmds += f.lines.length;
+                totalPixels += f.matrix.reduce((sum, row) => sum + row.filter(c => c.r >= 0 || c.g >= 0 || c.b >= 0).length, 0);
+            });
+            document.getElementById('cmdCount').textContent = `Commands: ${totalCmds}`;
+            document.getElementById('pixelCount').textContent = `Pixels: ${totalPixels}`;
+            document.getElementById('channelStatus').textContent = `Channels: ${frameData[0]?.matrix.length || 0}`;
+            document.getElementById('frameCount').textContent = `Frames: ${frameData.length}`;
+        }
+
+        function updateFrameActionButtons() {
+            const hasFrames = frameData.length > 0;
+            document.getElementById('replaceFrameBtn').disabled = !hasFrames;
+            document.getElementById('deleteFrameBtn').disabled = !hasFrames || frameData.length <= 1;
+            const status = document.getElementById('frameActionStatus');
+            if (!hasFrames) {
+                status.textContent = '✨ No frames yet — click Add Frame to create first manual frame';
+                status.style.color = '#8aba6a';
+            } else {
+                status.textContent = '(insert after current)';
+                status.style.color = '#5a6a8a';
+            }
+        }
+
+        function applyBrightnessToCurrentImage() {
+            if (!currentDisplayImage) return;
+            const brightness = getBrightness();
+            document.getElementById('brightnessVal').textContent = Math.round(brightness * 50) + '%';
+            const adjustedCanvas = applyBrightnessToImage(currentDisplayImage, brightness);
+            ctx.clearRect(0, 0, 800, 450);
+            ctx.drawImage(adjustedCanvas, 0, 0);
+            if (frameData.length > 0 && currentFrameIndex < frameData.length) {
+                const f = frameData[currentFrameIndex];
+                const settings = getSettings();
+                const { channels, pixels } = settings;
+                const newMatrix = extractMatrixFromCanvas(adjustedCanvas, channels, pixels);
+                f.matrix = newMatrix;
+                pixelMatrix = newMatrix;
+                renderGridPreview();
+                const rbgMode = isRbgMode();
+                f.lines = generateHexLines(newMatrix, channels, pixels, rbgMode);
+                rebuildAllFramesText();
+                document.getElementById('batchStatus').textContent = '✅ Brightness updated.';
+                autoSaveLocal();
+            }
+        }
+
+        // ===== Multi-file / GIF loading (ordered, sequential) =====
+        function setBatchStatus(t) { document.getElementById('batchStatus').textContent = t; }
+        const tick = () => new Promise(r => setTimeout(r, 0));
+
+        function loadStill(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onerror = reject;
+                reader.onload = function(ev) {
+                    const img = new Image();
+                    img.onerror = reject;
+                    img.onload = function() {
+                        currentDisplayImage = img;
+                        const brightness = getBrightness();
+                        ctx.clearRect(0, 0, 800, 450);
+                        ctx.drawImage(applyBrightnessToImage(img, brightness), 0, 0);
+                        document.getElementById('brightnessVal').textContent = Math.round(brightness * 50) + '%';
+                        addCurrentImageAsFrame();
+                        setBatchStatus(`✅ Image "${file.name}" added as frame ${frameData.length}.`);
+                        resolve();
+                    };
+                    img.src = ev.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function pushGifFrame(source, wait) {
+            const { channels, pixels } = getSettings();
+            const adj = applyBrightnessToImage(source, getBrightness());
+            const matrix = extractMatrixFromCanvas(adj, channels, pixels);
+            const lines = generateHexLines(matrix, channels, pixels, isRbgMode());
+            const idx = frameData.length ? currentFrameIndex + 1 : 0;
+            frameData.splice(idx, 0, { matrix, wait, lines, image: null, isManual: false });
+            currentFrameIndex = idx;
+        }
+
+        async function loadGif(file) {
+            if (!('ImageDecoder' in window)) {
+                setBatchStatus('⚠️ This browser cannot split GIFs (needs Chrome/Edge). Added as a still image.');
+                return loadStill(file);
+            }
+            const dec = new ImageDecoder({ data: await file.arrayBuffer(), type: 'image/gif' });
+            await dec.tracks.ready;
+            await dec.completed;
+            const n = dec.tracks.selectedTrack.frameCount;
+            const step = Math.max(1, parseInt(document.getElementById('gifStep').value) || 1);
+            const useDelay = document.getElementById('gifDelay').checked;
+            let added = 0;
+            for (let i = 0; i < n; i += step) {
+                const { image } = await dec.decode({ frameIndex: i });
+                const ms = Math.round(((image.duration || 100000) / 1000) * step);
+                pushGifFrame(image, useDelay ? ms : 0);
+                image.close();
+                added++;
+                if (added % 5 === 0) { setBatchStatus(`⏳ "${file.name}": ${i + 1}/${n} frames...`); await tick(); }
+            }
+            dec.close();
+            document.getElementById('frameSlider').max = Math.max(0, frameData.length - 1);
+            showFrame(currentFrameIndex);
+            rebuildAllFramesText();
+            updateStats();
+            updateFrameActionButtons();
+            copyToClipboard(lastOutput);
+            setBatchStatus(`✅ GIF "${file.name}": ${added} of ${n} frames added (total ${frameData.length}).`);
+        }
+
+        async function handleFiles(list) {
+            const files = Array.from(list).filter(f => f.type.startsWith('image/'));
+            if (!files.length) return;
+            files.sort((a, b) => {
+                const na = parseInt(a.name.match(/\d+/)?.[0] || '0'), nb = parseInt(b.name.match(/\d+/)?.[0] || '0');
+                return na - nb;
+            });
+            loadedFiles = loadedFiles.concat(files);
+            document.getElementById('fileCountBadge').textContent = loadedFiles.length;
+            for (const file of files) {
+                try {
+                    if (file.type === 'image/gif' && document.getElementById('gifSplit').checked) await loadGif(file);
+                    else await loadStill(file);
+                } catch (err) {
+                    console.error(err);
+                    setBatchStatus(`❌ Could not load "${file.name}".`);
+                }
+            }
+        }
+
+        document.getElementById('imageInput').addEventListener('change', function() {
+            handleFiles(this.files).then(() => { this.value = ''; });
+        });
+
+        (function gifOptionsPersist() {
+            const ids = ['gifSplit', 'gifDelay', 'gifStep'];
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                try {
+                    const v = localStorage.getItem('gif209_' + id);
+                    if (v !== null) { if (el.type === 'checkbox') el.checked = v === '1'; else el.value = v; }
+                } catch (e) {}
+                el.addEventListener('change', () => {
+                    try { localStorage.setItem('gif209_' + id, el.type === 'checkbox' ? (el.checked ? '1' : '0') : el.value); } catch (e) {}
+                });
+            });
+        })();
+
+        function addCurrentImageAsFrame() {
+            if (!currentDisplayImage) { alert('⚠️ No image loaded.'); return; }
+            const settings = getSettings();
+            const { channels, pixels } = settings;
+            const brightness = getBrightness();
+            const adjustedCanvas = applyBrightnessToImage(currentDisplayImage, brightness);
+            const matrix = extractMatrixFromCanvas(adjustedCanvas, channels, pixels);
+            const rbgMode = isRbgMode();
+            const lines = generateHexLines(matrix, channels, pixels, rbgMode);
+            const wait = 0;
+            const newFrame = { matrix, wait, lines, image: currentDisplayImage, isManual: false };
+            if (frameData.length === 0) { frameData.push(newFrame); currentFrameIndex = 0; }
+            else { const insertIdx = currentFrameIndex + 1; frameData.splice(insertIdx, 0, newFrame); currentFrameIndex = insertIdx; }
+            document.getElementById('frameSlider').max = Math.max(0, frameData.length - 1);
+            document.getElementById('frameSlider').value = currentFrameIndex;
+            document.getElementById('frameLabel').textContent = `${currentFrameIndex+1} / ${frameData.length}`;
+            document.getElementById('frameCount').textContent = `Frames: ${frameData.length}`;
+            pixelMatrix = matrix;
+            showFrame(currentFrameIndex);
+            rebuildAllFramesText();
+            updateStats();
+            updateFrameActionButtons();
+            autoSaveLocal();
+            copyToClipboard(lastOutput);
+        }
+
+        function sendToSoifGo(data) {
+            if (!data) return;
+            if (window.soifgod && window.soifgod.CallSub) {
+                try {
+                    window.soifgod.CallSub('savegcode', true, data);
+                    document.getElementById('sendStatus').textContent = '✅ Sent to SoifGo!';
+                    document.getElementById('sendStatus').style.color = '#4aba6a';
+                } catch (e) {
+                    document.getElementById('sendStatus').textContent = '⚠️ SoifGo failed';
+                    document.getElementById('sendStatus').style.color = '#aa6a4a';
+                }
+            } else {
+                document.getElementById('sendStatus').textContent = '⚠️ SoifGo not available';
+                document.getElementById('sendStatus').style.color = '#8a9aba';
+            }
+        }
+
+        function copyToClipboard(text) {
+            if (!text) return;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    document.getElementById('sendStatus').textContent = '✅ Copied!';
+                    document.getElementById('sendStatus').style.color = '#4aba6a';
+                }).catch(() => fallbackCopy(text));
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            document.getElementById('sendStatus').textContent = '✅ Copied!';
+            document.getElementById('sendStatus').style.color = '#4aba6a';
+        }
+
+        function copyLastOutput() {
+            if (!lastOutput) { alert('No data to copy.'); return; }
+            sendToSoifGo(lastOutput);
+            copyToClipboard(lastOutput);
+        }
+
+        function sendLastOutput() {
+            if (!lastOutput) { alert('No data to send.'); return; }
+            sendToSoifGo(lastOutput);
+        }
+
+        function prevFrame() { if (frameData.length) { currentFrameIndex = Math.max(0, currentFrameIndex - 1); showFrame(currentFrameIndex); } }
+        function nextFrame() { if (frameData.length) { currentFrameIndex = Math.min(frameData.length - 1, currentFrameIndex + 1); showFrame(currentFrameIndex); } }
+
+        function updateFrameFromSlider() {
+            const val = parseInt(document.getElementById('frameSlider').value);
+            if (frameData.length) { currentFrameIndex = Math.min(frameData.length - 1, Math.max(0, val)); showFrame(currentFrameIndex); }
+        }
+
+        function showFrame(idx) {
+            if (idx < 0 || idx >= frameData.length) return;
+            const f = frameData[idx];
+            if (f.isManual) {
+                const tempCanvas = matrixToCanvas(f.matrix);
+                ctx.clearRect(0, 0, 800, 450);
+                ctx.drawImage(tempCanvas, 0, 0);
+                pixelMatrix = f.matrix;
+            } else {
+                if (f.image) {
+                    const brightness = getBrightness();
+                    const brightCanvas = applyBrightnessToImage(f.image, brightness);
+                    ctx.clearRect(0, 0, 800, 450);
+                    ctx.drawImage(brightCanvas, 0, 0);
+                    pixelMatrix = f.matrix;
+                } else {
+                    const tempCanvas = matrixToCanvas(f.matrix);
+                    ctx.clearRect(0, 0, 800, 450);
+                    ctx.drawImage(tempCanvas, 0, 0);
+                    pixelMatrix = f.matrix;
+                }
+            }
+            renderGridPreview();
+            document.getElementById('frameSlider').value = idx;
+            document.getElementById('frameLabel').textContent = `${idx+1} / ${frameData.length}`;
+            document.getElementById('frameWaitInput').value = f.wait;
+            currentFrameIndex = idx;
+            lastHexLines = f.lines;
+            updateHexPreview();
+        }
+
+        function applyWaitToCurrent() {
+            if (!frameData.length) return;
+            const idx = currentFrameIndex;
+            const newWait = parseInt(document.getElementById('frameWaitInput').value) || 0;
+            frameData[idx].wait = newWait;
+            rebuildAllFramesText();
+            document.getElementById('batchStatus').textContent = `✅ Frame ${idx+1} wait set to ${newWait}ms.`;
+            autoSaveLocal();
+            copyToClipboard(lastOutput);
+        }
+
+        function applyDelayToAll() {
+            if (!frameData.length) { showToast('⚠️ No frames yet — add at least one frame first.'); return; }
+            const v = parseInt(document.getElementById('globalDelayInput').value) || 0;
+            frameData.forEach(f => { f.wait = v; });
+            rebuildAllFramesText();
+            document.getElementById('batchStatus').textContent = `✅ All ${frameData.length} frames set to wait=${v}ms.`;
+            if (currentFrameIndex < frameData.length) {
+                document.getElementById('frameWaitInput').value = frameData[currentFrameIndex].wait;
+            }
+            autoSaveLocal();
+            saveSettings();
+            copyToClipboard(lastOutput);
+        }
+
+        // ===== Pixel editor (state-based, continuous strokes, undo) =====
+        const pixelCanvas = document.getElementById('pixelCanvas');
+        const pCtx = pixelCanvas.getContext('2d');
+        let canvasCh = 19, canvasPx = 100;
+        let isEraser = false, isPainting = false, strokeErase = false, lastPaintedCoord = null;
+        let pgrid = [];            // pgrid[row][col] = null | {r,g,b}
+        let undoStack = [];
+        let cellW = 8, cellH = 20, cellOverride = 0, panMode = false;
+
+        function hexToRgb(h) {
+            const x = h.replace('#', '');
+            return { r: parseInt(x.substr(0, 2), 16), g: parseInt(x.substr(2, 2), 16), b: parseInt(x.substr(4, 2), 16) };
+        }
+
+        function drawCell(r, c) {
+            const x = c * cellW, y = r * cellH, v = pgrid[r][c];
+            pCtx.fillStyle = '#05070d';
+            pCtx.fillRect(x, y, cellW, cellH);
+            pCtx.strokeStyle = 'rgba(255,255,255,0.07)';
+            pCtx.lineWidth = 1;
+            pCtx.strokeRect(x + 0.5, y + 0.5, cellW - 1, cellH - 1);
+            pCtx.beginPath();
+            pCtx.ellipse(x + cellW / 2, y + cellH / 2, cellW * 0.42, cellH * 0.42, 0, 0, Math.PI * 2);
+            pCtx.fillStyle = v ? `rgb(${v.r},${v.g},${v.b})` : 'rgba(255,255,255,0.05)';
+            pCtx.fill();
+        }
+
+        function redrawAll() {
+            for (let r = 0; r < canvasCh; r++) for (let c = 0; c < canvasPx; c++) drawCell(r, c);
+        }
+
+        function initPixelCanvas() {
+            const ch = Math.max(1, parseInt(document.getElementById('matrixChannels').value) || 19);
+            const px = Math.max(1, parseInt(document.getElementById('matrixPixels').value) || 100);
+            const old = pgrid;
+            pgrid = [];
+            for (let r = 0; r < ch; r++) {            // keep what was drawn when only the size changes
+                const row = [];
+                for (let c = 0; c < px; c++) row.push(old[r]?.[c] || null);
+                pgrid.push(row);
+            }
+            if (ch !== canvasCh || px !== canvasPx) undoStack = [];
+            canvasCh = ch; canvasPx = px;
+            // square cells, fitted so the whole grid is visible (no half-cut last row); zoom/pan for big grids
+            const availW = Math.max(120, (document.getElementById('gridScroll').clientWidth || (window.innerWidth - 24)) - 4);
+            const availH = Math.max(160, window.innerHeight * 0.55);
+            const cs = Math.max(8, Math.min(48, cellOverride || Math.floor(Math.min(availW / px, availH / ch))));
+            cellW = cellH = cs;
+            pixelCanvas.width = cs * px;
+            pixelCanvas.height = cs * ch;
+            pixelCanvas.style.width = pixelCanvas.width + 'px';
+            pixelCanvas.style.height = pixelCanvas.height + 'px';
+            pixelCanvas.style.aspectRatio = 'auto';
+            redrawAll();
+            document.getElementById('pixelStatus').textContent = `✅ Canvas ${ch}×${px} ready. Drag to paint · right-click = erase · Alt+click = pick color · Ctrl+Z = undo.`;
+        }
+
+        function cellFromEvent(e) {
+            const rect = pixelCanvas.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width * pixelCanvas.width;
+            const y = (e.clientY - rect.top) / rect.height * pixelCanvas.height;
+            return {
+                c: Math.min(canvasPx - 1, Math.max(0, Math.floor(x / cellW))),
+                r: Math.min(canvasCh - 1, Math.max(0, Math.floor(y / cellH)))
+            };
+        }
+
+        function pushUndo() {
+            undoStack.push(pgrid.map(row => row.slice()));
+            if (undoStack.length > 60) undoStack.shift();
+        }
+
+        function undoPixel() {
+            if (!undoStack.length) { document.getElementById('pixelStatus').textContent = '↩️ Nothing to undo.'; return; }
+            pgrid = undoStack.pop();
+            redrawAll();
+            document.getElementById('pixelStatus').textContent = '↩️ Undone.';
+        }
+
+        function paintCell(r, c) {
+            const bw = Math.max(1, parseInt(document.getElementById('brushW').value) || 1);
+            const from = c - Math.floor((bw - 1) / 2), to = from + bw - 1;
+            const val = strokeErase ? null : hexToRgb(document.getElementById('pixelColor').value);
+            for (let k = Math.max(0, from); k <= Math.min(canvasPx - 1, to); k++) {
+                pgrid[r][k] = val ? { r: val.r, g: val.g, b: val.b } : null;
+                drawCell(r, k);
+            }
+        }
+
+        function paintLine(a, b) {                       // Bresenham: no gaps on fast drags
+            let x0 = a.c, y0 = a.r;
+            const x1 = b.c, y1 = b.r;
+            const dx = Math.abs(x1 - x0), dy = -Math.abs(y1 - y0);
+            const sx = x0 < x1 ? 1 : -1, sy = y0 < y1 ? 1 : -1;
+            let err = dx + dy;
+            for (;;) {
+                paintCell(y0, x0);
+                if (x0 === x1 && y0 === y1) break;
+                const e2 = 2 * err;
+                if (e2 >= dy) { err += dy; x0 += sx; }
+                if (e2 <= dx) { err += dx; y0 += sy; }
+            }
+        }
+
+        pixelCanvas.addEventListener('contextmenu', e => e.preventDefault());
+
+        pixelCanvas.addEventListener('pointerdown', (e) => {
+            if (panMode) return;                          // pan mode: let the finger scroll instead of paint
+            e.preventDefault();
+            const cell = cellFromEvent(e);
+            if (e.altKey) {                               // eyedropper
+                const v = pgrid[cell.r][cell.c];
+                if (v) {
+                    const h = n => n.toString(16).padStart(2, '0');
+                    document.getElementById('pixelColor').value = '#' + h(v.r) + h(v.g) + h(v.b);
+                }
+                return;
+            }
+            pixelCanvas.setPointerCapture(e.pointerId);
+            pushUndo();
+            isPainting = true;
+            strokeErase = isEraser || e.button === 2;
+            lastPaintedCoord = cell;
+            paintCell(cell.r, cell.c);
+        });
+
+        pixelCanvas.addEventListener('pointermove', (e) => {
+            if (!isPainting) return;
+            const cell = cellFromEvent(e);
+            if (lastPaintedCoord && (cell.r !== lastPaintedCoord.r || cell.c !== lastPaintedCoord.c)) {
+                paintLine(lastPaintedCoord, cell);
+                lastPaintedCoord = cell;
+            }
+        });
+
+        const endStroke = () => { isPainting = false; lastPaintedCoord = null; };
+        pixelCanvas.addEventListener('pointerup', endStroke);
+        pixelCanvas.addEventListener('pointercancel', endStroke);
+
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && (e.key === 'z' || e.key === 'Z')) {
+                const tab = document.getElementById('tab-matrix');
+                if (tab && tab.classList.contains('active')) { undoPixel(); e.preventDefault(); }
+            }
+        });
+
+        function toggleEraser() {
+            isEraser = !isEraser;
+            const dot = document.getElementById('modeDot');
+            const label = document.getElementById('modeLabel');
+            const btn = document.getElementById('eraserBtn');
+            if (isEraser) {
+                dot.className = 'dot erase';
+                label.textContent = 'Eraser mode';
+                btn.textContent = '🧹 Eraser [ON]';
+                btn.style.background = '#8a3a2a';
+                btn.classList.add('active');
+                document.getElementById('pixelStatus').textContent = '🧹 Eraser mode — drag to erase (toggle off to paint)';
+            } else {
+                dot.className = 'dot paint';
+                label.textContent = 'Paint mode';
+                btn.textContent = '🧹 Eraser';
+                btn.style.background = '#6a4a2a';
+                btn.classList.remove('active');
+                document.getElementById('pixelStatus').textContent = `🎨 Paint mode — color ${document.getElementById('pixelColor').value}`;
+            }
+        }
+
+        function clearPixelCanvas() {
+            pushUndo();
+            pgrid = pgrid.map(row => row.map(() => null));
+            redrawAll();
+            pixelMatrix = [];
+            document.getElementById('pixelStatus').textContent = '↺ Canvas cleared. (Ctrl+Z to undo)';
+        }
+
+        function loadFrameIntoEditor() {
+            const m = frameData[currentFrameIndex]?.matrix;
+            if (!m || !m.length) { document.getElementById('pixelStatus').textContent = '⚠️ No frame to load.'; return; }
+            document.getElementById('matrixChannels').value = Math.min(MAX_CH, m.length);
+            document.getElementById('matrixPixels').value = Math.min(256, m[0].length);
+            initPixelCanvas();
+            pushUndo();
+            for (let r = 0; r < canvasCh; r++)
+                for (let c = 0; c < canvasPx; c++) {
+                    const v = m[r]?.[c];
+                    pgrid[r][c] = (v && (v.r || v.g || v.b)) ? { r: v.r, g: v.g, b: v.b } : null;
+                }
+            redrawAll();
+            document.getElementById('pixelStatus').textContent = `✏️ Frame ${currentFrameIndex + 1} loaded — edit, then press Replace.`;
+        }
+
+        function getMatrixFromCanvas() {
+            return pgrid.map(row => row.map(v => v ? { r: v.r, g: v.g, b: v.b } : { r: 0, g: 0, b: 0 }));
+        }
+
+        function matrixToCanvas(matrix) {
+            const ch = matrix.length;
+            const px = matrix[0]?.length || 1;
+            const cvs = document.createElement('canvas');
+            cvs.width = 800;
+            cvs.height = 450;
+            const c = cvs.getContext('2d');
+            c.fillStyle = '#0a0e1a';
+            c.fillRect(0, 0, 800, 450);
+            const cellW = 800 / px;
+            const cellH = 450 / ch;
+            const BOOST = 1.8;
+            const fancy = ch * px <= 1500;   // shadow + gradient per cell is far too heavy for big grids
+            for (let r = 0; r < ch; r++) {
+                for (let p = 0; p < px; p++) {
+                    const col = matrix[r]?.[p] || { r: 0, g: 0, b: 0 };
+                    let red = Math.min(255, Math.round(col.r * BOOST));
+                    let green = Math.min(255, Math.round(col.g * BOOST));
+                    let blue = Math.min(255, Math.round(col.b * BOOST));
+                    const cx = p * cellW + cellW / 2;
+                    const cy = r * cellH + cellH / 2;
+                    const radius = Math.min(cellW, cellH) * 0.4;
+                    if (!fancy) {
+                        c.beginPath(); c.arc(cx, cy, radius, 0, 2 * Math.PI);
+                        c.fillStyle = `rgb(${red},${green},${blue})`; c.fill();
+                        continue;
+                    }
+                    c.shadowColor = `rgba(${red},${green},${blue},0.2)`;
+                    c.shadowBlur = 4;
+                    c.beginPath();
+                    c.arc(cx, cy, radius, 0, 2 * Math.PI);
+                    c.fillStyle = `rgb(${red},${green},${blue})`;
+                    c.fill();
+                    c.shadowBlur = 0;
+                    const grad = c.createRadialGradient(cx - radius * 0.2, cy - radius * 0.2, 0, cx, cy, radius);
+                    grad.addColorStop(0, `rgba(255,255,255,0.2)`);
+                    grad.addColorStop(0.5, `rgba(255,255,255,0.05)`);
+                    grad.addColorStop(1, `rgba(0,0,0,0.1)`);
+                    c.beginPath();
+                    c.arc(cx, cy, radius, 0, 2 * Math.PI);
+                    c.fillStyle = grad;
+                    c.fill();
+                }
+            }
+            return cvs;
+        }
+
+        function getCurrentGridMatrix() { return getMatrixFromCanvas(); }
+
+        function addPixelGridAsFrame() {
+            const matrix = getCurrentGridMatrix();
+            const ch = matrix.length;
+            const px = matrix[0]?.length || 1;
+            const rbgMode = isRbgMode();
+            const lines = generateHexLines(matrix, ch, px, rbgMode);
+            const wait = 0;
+            const newFrame = { matrix, wait, lines, image: null, isManual: true };
+            if (frameData.length === 0) { frameData.push(newFrame); currentFrameIndex = 0; }
+            else { const insertIdx = currentFrameIndex + 1; frameData.splice(insertIdx, 0, newFrame); currentFrameIndex = insertIdx; }
+            document.getElementById('frameSlider').max = Math.max(0, frameData.length - 1);
+            document.getElementById('frameCount').textContent = `Frames: ${frameData.length}`;
+            showFrame(currentFrameIndex);
+            rebuildAllFramesText();
+            document.getElementById('pixelStatus').textContent = `✅ Frame ${currentFrameIndex+1} added (manual).`;
+            updateStats();
+            updateFrameActionButtons();
+            autoSaveLocal();
+        }
+
+        function replaceCurrentFrameWithGrid() {
+            if (frameData.length === 0) { alert('⚠️ No frames exist.'); return; }
+            const matrix = getCurrentGridMatrix();
+            const ch = matrix.length;
+            const px = matrix[0]?.length || 1;
+            const rbgMode = isRbgMode();
+            const lines = generateHexLines(matrix, ch, px, rbgMode);
+            const wait = frameData[currentFrameIndex].wait || 0;
+            const newFrame = { matrix, wait, lines, image: null, isManual: true };
+            frameData[currentFrameIndex] = newFrame;
+            showFrame(currentFrameIndex);
+            rebuildAllFramesText();
+            document.getElementById('pixelStatus').textContent = `✅ Frame ${currentFrameIndex+1} replaced with grid.`;
+            updateStats();
+            updateFrameActionButtons();
+            autoSaveLocal();
+        }
+
+        function deleteCurrentFrame() {
+            if (frameData.length <= 1) { alert('Cannot delete the last frame.'); return; }
+            const idx = currentFrameIndex;
+            frameData.splice(idx, 1);
+            if (idx >= frameData.length) currentFrameIndex = frameData.length - 1;
+            else currentFrameIndex = idx;
+            document.getElementById('frameSlider').max = Math.max(0, frameData.length - 1);
+            document.getElementById('frameCount').textContent = `Frames: ${frameData.length}`;
+            showFrame(currentFrameIndex);
+            rebuildAllFramesText();
+            updateStats();
+            document.getElementById('pixelStatus').textContent = `🗑️ Frame ${idx+1} deleted.`;
+            updateFrameActionButtons();
+            autoSaveLocal();
+        }
+
+        function generateHexFromGrid() {
+            const matrix = getCurrentGridMatrix();
+            const ch = matrix.length;
+            const px = matrix[0]?.length || 1;
+            const rbgMode = isRbgMode();
+            const hexLines = generateHexLines(matrix, ch, px, rbgMode);
+            pixelMatrix = matrix;
+            lastHexLines = hexLines;
+            renderGridPreview();
+            updateHexPreview();
+            document.getElementById('pixelStatus').textContent = `✅ Generated ${hexLines.length} commands for ${ch}×${px}.`;
+            document.getElementById('cmdCount').textContent = `Commands: ${hexLines.length}`;
+            document.getElementById('pixelCount').textContent = `Pixels: ${matrix.reduce((sum, row) => sum + row.filter(c => c.r >= 0 || c.g >= 0 || c.b >= 0).length, 0)}`;
+            document.getElementById('channelStatus').textContent = `Channels: ${ch}`;
+            autoSaveLocal();
+        }
+
+        function clearAll() {
+            loadedFiles = []; frameData = []; allFramesText = []; pixelMatrix = [];
+            lastOutput = ''; lastHexLines = []; currentFrameIndex = 0; currentDisplayImage = null;
+            ctx.clearRect(0, 0, 800, 450);
+            (function(){ const gp = document.getElementById('gridPreview'); const cv = gp.querySelector('canvas'); if (cv) cv.getContext('2d').clearRect(0, 0, cv.width, cv.height); })();
+            document.getElementById('gridInfo').textContent = '0×0';
+            document.getElementById('cmdCount').textContent = 'Commands: 0';
+            document.getElementById('pixelCount').textContent = 'Pixels: 0';
+            document.getElementById('channelStatus').textContent = 'Channels: 0';
+            document.getElementById('sendStatus').textContent = '⏳ Ready';
+            document.getElementById('sendStatus').style.color = '#4aba6a';
+            document.getElementById('frameCount').textContent = 'Frames: 0';
+            document.getElementById('fileCountBadge').textContent = '0';
+            document.getElementById('batchStatus').textContent = '⏳ Ready — select an image.';
+            document.getElementById('imageInput').value = '';
+            document.getElementById('frameSlider').max = 0;
+            document.getElementById('frameSlider').value = 0;
+            document.getElementById('frameLabel').textContent = '0 / 0';
+            document.getElementById('frameWaitInput').value = 0;
+            document.getElementById('hexPreview').textContent = '⏳ No data yet';
+            document.getElementById('hexCount').textContent = '0 commands';
+            document.getElementById('pixelStatus').textContent = '⏳ Click cells to paint.';
+            isEraser = false;
+            document.getElementById('modeDot').className = 'dot paint';
+            document.getElementById('modeLabel').textContent = 'Paint mode';
+            document.getElementById('eraserBtn').textContent = '🧹 Eraser';
+            document.getElementById('eraserBtn').style.background = '#6a4a2a';
+            document.getElementById('eraserBtn').classList.remove('active');
+            clearPixelCanvas();
+            updateFrameActionButtons();
+            localStorage.removeItem('gif209_state');
+        }
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+                const tabId = this.dataset.tab;
+                document.getElementById(tabId).classList.add('active');
+                const hideElements = document.querySelectorAll('.hide-in-matrix');
+                if (tabId === 'tab-matrix') {
+                    hideElements.forEach(el => el.style.display = 'none');
+                    syncEditorSizeFromConverter();
+                    initPixelCanvas();
+                    updateFrameActionButtons();
+                } else {
+                    hideElements.forEach(el => el.style.display = '');
+                }
+            });
+        });
+
+        const wrapper = document.getElementById('canvasWrapper');
+        wrapper.addEventListener('dragover', e => e.preventDefault());
+        wrapper.addEventListener('drop', e => {
+            e.preventDefault();
+            handleFiles(e.dataTransfer.files);
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') clearAll();
+            if (e.key === 'ArrowLeft' && frameData.length) { prevFrame(); e.preventDefault(); }
+            if (e.key === 'ArrowRight' && frameData.length) { nextFrame(); e.preventDefault(); }
+            if (e.key === 'e' || e.key === 'E') {
+                const tab = document.getElementById('tab-matrix');
+                if (tab && tab.classList.contains('active')) { toggleEraser(); e.preventDefault(); }
+            }
+        });
+
+        document.addEventListener('pointerup', () => { isPainting = false; lastPaintedCoord = null; });
+        window.addEventListener('resize', () => { initPixelCanvas(); });
+
+        loadSettings();
+
+        // Pixel editor takes Channels / Pixels-per-CH from the Image Converter (which is saved)
+        function syncEditorSizeFromConverter() {
+            document.getElementById('matrixChannels').value = document.getElementById('channelsCount').value;
+            document.getElementById('matrixPixels').value = document.getElementById('pixelsPerChannel').value;
+        }
+        ['channelsCount', 'pixelsPerChannel'].forEach(id => {
+            document.getElementById(id).addEventListener('input', () => { syncEditorSizeFromConverter(); initPixelCanvas(); });
+        });
+        syncEditorSizeFromConverter();
+        initPixelCanvas();
+        initPixelCanvas();
+        updateFrameActionButtons();
+
+        document.getElementById('mergeWait').addEventListener('change', () => {
+            try { localStorage.setItem('gif209_mergewait', document.getElementById('mergeWait').checked ? '1' : '0'); } catch (e) {}
+            rebuildAllFramesText();
+        });
+        try { const mw = localStorage.getItem('gif209_mergewait'); if (mw !== null) document.getElementById('mergeWait').checked = (mw === '1'); } catch (e) {}
+
+        document.getElementById('wrapWithRec').addEventListener('change', () => {
+            saveSettings();
+            rebuildAllFramesText();
+        });
+
+        (function loopOptionPersist() {
+            const el = document.getElementById('loopAfterEnd');
+            try { const v = localStorage.getItem('gif209_loopafterend'); if (v !== null) el.checked = (v === '1'); } catch (e) {}
+            el.addEventListener('change', () => {
+                try { localStorage.setItem('gif209_loopafterend', el.checked ? '1' : '0'); } catch (e) {}
+                rebuildAllFramesText();
+            });
+        })();
+
+        const loaded = loadFromLocal();
+        if (loaded && frameData.length > 0) {
+            document.getElementById('frameCount').textContent = `Frames: ${frameData.length}`;
+            document.getElementById('frameSlider').max = frameData.length - 1;
+            document.getElementById('frameSlider').value = currentFrameIndex;
+            document.getElementById('frameLabel').textContent = `${currentFrameIndex+1} / ${frameData.length}`;
+            document.getElementById('frameWaitInput').value = frameData[currentFrameIndex].wait || 0;
+            showFrame(currentFrameIndex);
+            rebuildAllFramesText();
+            updateStats();
+            updateHexPreview();
+        }
+
+        setTimeout(() => {
+            isEraser = false;
+            document.getElementById('modeDot').className = 'dot paint';
+            document.getElementById('modeLabel').textContent = 'Paint mode';
+            document.getElementById('eraserBtn').textContent = '🧹 Eraser';
+            document.getElementById('eraserBtn').style.background = '#6a4a2a';
+            document.getElementById('eraserBtn').classList.remove('active');
+        }, 100);
+
+        setTimeout(() => {
+            const splash = document.getElementById('splashScreen');
+            if (splash) {
+                splash.style.opacity = '0';
+                setTimeout(() => { splash.style.display = 'none'; }, 800);
+            }
+        }, 500);
+    </script>
+<script>
+/* ===== TEXT & FX module ===== */
+(function () {
+    const $ = id => document.getElementById(id);
+    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+    const hex2rgb = h => [1, 3, 5].map(i => parseInt(h.substr(i, 2), 16));
+    const clone = m => m.map(r => r.map(c => ({ r: c.r, g: c.g, b: c.b })));
+    function hsv(h, s, v) {
+        h = ((h % 360) + 360) % 360; const c = v * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), m = v - c; let r = 0, g = 0, b = 0;
+        if (h < 60) { r = c; g = x; } else if (h < 120) { r = x; g = c; } else if (h < 180) { g = c; b = x; }
+        else if (h < 240) { g = x; b = c; } else if (h < 300) { r = x; b = c; } else { r = c; b = x; }
+        return [r, g, b].map(k => Math.round((k + m) * 255));
+    }
+    function rgb2hsv(r, g, b) {
+        r /= 255; g /= 255; b /= 255; const M = Math.max(r, g, b), d = M - Math.min(r, g, b); let h = 0;
+        if (d) h = M === r ? 60 * (((g - b) / d) % 6) : M === g ? 60 * ((b - r) / d + 2) : 60 * ((r - g) / d + 4);
+        return [(h + 360) % 360, M ? d / M : 0, M];
+    }
+    let touched = false;
+    function dims() {
+        const s = getSettings();
+        return { ch: clamp(+$('fxCh').value || s.channels, 1, MAX_CH), px: clamp(+$('fxPx').value || s.pixels, 1, 256) };
+    }
+    function syncDims() { if (touched) return; const s = getSettings(); $('fxCh').value = s.channels; $('fxPx').value = s.pixels; $('fxSize').value = s.channels; }
+
+    /* ---- text -> alpha mask ---- */
+    function raster() {
+        const txt = $('fxText').value || ' ', H = dims().ch, size = +$('fxSize').value || H;
+        const c = document.createElement('canvas'), x = c.getContext('2d'), font = $('fxFont').value.replace('{s}', size);
+        x.font = font; const w = Math.max(1, Math.ceil(x.measureText(txt).width) + 2);
+        c.width = w; c.height = H; x.font = font; x.textBaseline = 'middle'; x.fillStyle = '#fff';
+        x.fillText(txt, 1, H / 2);
+        const d = x.getImageData(0, 0, w, H).data, crisp = $('fxCrisp').checked; let M = [];
+        for (let y = 0; y < H; y++) { const row = new Float32Array(w); for (let i = 0; i < w; i++) { const a = d[(y * w + i) * 4 + 3] / 255; row[i] = crisp ? (a > 0.5 ? 1 : 0) : a; } M.push(row); }
+        // vertical placement: centre the real ink (not the font box) in the rows, then add the manual Y shift
+        let top = H, bot = -1; M.forEach((row, y) => { if (row.some(v => v > 0)) { if (y < top) top = y; bot = y; } });
+        let sh = +$('fxY').value || 0;
+        if (bot >= 0 && $('fxVC').checked) sh += Math.round((H - (bot - top + 1)) / 2) - top;
+        if (sh) { const N = []; for (let y = 0; y < H; y++) N.push(M[y - sh] || new Float32Array(w)); M = N; }
+        return { M, w, H };
+    }
+    function colorAt(x, y, w, H, t) {
+        const mode = $('fxColMode').value, an = $('fxAnim').checked, c1 = hex2rgb($('fxC1').value), c2 = hex2rgb($('fxC2').value);
+        if (mode === 'solid') return c1;
+        const u = mode.endsWith('x') ? x / Math.max(1, w - 1) : y / Math.max(1, H - 1);
+        if (mode.startsWith('rain')) return hsv((u + (an ? t : 0)) * 360, 1, 1);
+        let k = u; if (an) { k = (u + t) % 1; k = k < .5 ? k * 2 : 2 - k * 2; }
+        return c1.map((v, i) => Math.round(v + (c2[i] - v) * k));
+    }
+    function compose(R, ox, oy, t, o) {
+        const { ch, px } = dims(), bg = hex2rgb($('fxBg').value), m = [];
+        for (let y = 0; y < ch; y++) {
+            const row = [];
+            for (let x = 0; x < px; x++) {
+                const tx = x - ox; let ty = y - oy;
+                if (o.wave) ty -= Math.round(o.wave.A * Math.sin(2 * Math.PI * tx / o.wave.per - o.wave.ph));
+                let a = 0;
+                if (tx >= 0 && tx < R.w && ty >= 0 && ty < R.H && (!o.cols || tx < o.cols)) a = R.M[ty][tx] * (o.br === undefined ? 1 : o.br);
+                if (a > 0) { const c = colorAt(tx, ty, R.w, R.H, t); row.push({ r: Math.round(bg[0] + (c[0] - bg[0]) * a), g: Math.round(bg[1] + (c[1] - bg[1]) * a), b: Math.round(bg[2] + (c[2] - bg[2]) * a) }); }
+                else row.push({ r: bg[0], g: bg[1], b: bg[2] });
+            }
+            m.push(row);
+        }
+        return m;
+    }
+    function gen() {
+        const R = raster(), { ch, px } = dims(), e = $('fxEffect').value, st = Math.max(1, +$('fxStep').value || 1), F = [], CAP = 1500;
+        const cx = R.w <= px ? Math.round((px - R.w) / 2) : 0;
+        const add = (ox, oy, t, o) => { if (F.length < CAP) F.push(compose(R, ox, oy, t, o || {})); };
+        const animCol = $('fxAnim').checked && $('fxColMode').value !== 'solid';
+        if (e === 'scrollL') { const T = px + R.w; for (let s = st; s < T; s += st) add(px - s, 0, s / T); }
+        else if (e === 'scrollR') { const T = px + R.w; for (let s = st; s < T; s += st) add(-R.w + s, 0, s / T); }
+        else if (e === 'scrollU') { const T = ch + R.H; for (let s = st; s < T; s += st) add(cx, ch - s, s / T); }
+        else if (e === 'scrollD') { const T = ch + R.H; for (let s = st; s < T; s += st) add(cx, -R.H + s, s / T); }
+        else if (e === 'blink') { add(cx, 0, 0); add(cx, 0, .5, { br: 0 }); }
+        else if (e === 'fade') { const n = 16; for (let i = 0; i < n; i++) add(cx, 0, i / n, { br: i < n / 2 ? i / (n / 2) : (n - i) / (n / 2) }); }
+        else if (e === 'type') { for (let c = 1; c < R.w + st; c += st) add(cx, 0, c / R.w, { cols: c }); }
+        else if (e === 'bounce') {
+            const b = px - R.w, rng = Math.abs(b), pos = [];
+            for (let s = 0; s <= rng; s += st) pos.push(Math.round(b * (rng ? s / rng : 0)));
+            const all = pos.concat(pos.slice(1, -1).reverse()); all.forEach((ox, i) => add(ox, 0, i / all.length));
+        }
+        else if (e === 'wave') { const per = 8; for (let i = 0; i < per; i += st) add(cx, 0, i / per, { wave: { A: Math.max(1, ch / 4), per, ph: 2 * Math.PI * i / per } }); }
+        else { const n = animCol ? 24 : 1; for (let i = 0; i < n; i++) add(cx, 0, i / n); }
+        if (e.startsWith('scroll')) {            // drop fully blank frames at both ends (glyph side-bearings, off-screen start/end)
+            const bg = hex2rgb($('fxBg').value), blank = m => m.every(r => r.every(c => c.r === bg[0] && c.g === bg[1] && c.b === bg[2]));
+            while (F.length > 1 && blank(F[0])) F.shift();
+            while (F.length > 1 && blank(F[F.length - 1])) F.pop();
+        }
+        return F;
+    }
+
+    /* ---- preview ---- */
+    let frames = [], pi = 0, timer = null, playing = true;
+    function drawPrev() {
+        if (!frames.length) return;
+        const m = frames[pi % frames.length], ch = m.length, px = m[0].length, cell = clamp(Math.floor(Math.min(760 / px, 300 / ch)), 3, 40);
+        const cv = $('fxPrev'); cv.width = px * cell; cv.height = ch * cell;
+        const c = cv.getContext('2d'); c.fillStyle = '#05070d'; c.fillRect(0, 0, cv.width, cv.height);
+        for (let y = 0; y < ch; y++) for (let x = 0; x < px; x++) {
+            const p = m[y][x]; c.fillStyle = (p.r | p.g | p.b) ? `rgb(${p.r},${p.g},${p.b})` : '#10151f';
+            c.beginPath(); c.arc((x + .5) * cell, (y + .5) * cell, cell * .42, 0, 7); c.fill();
+        }
+    }
+    function schedule() {
+        clearInterval(timer);
+        if (playing) timer = setInterval(() => { pi++; drawPrev(); }, Math.max(20, +$('fxWait').value || 60));
+    }
+    function refresh() {
+        frames = gen(); pi = 0; drawPrev(); schedule();
+        const w = +$('fxWait').value || 0;
+        $('fxInfo').textContent = `${frames.length} frames · ${(frames.length * w / 1000).toFixed(1)} s` + (frames.length >= 1500 ? ' (capped 1500)' : '');
+    }
+    let deb = null; const later = () => { clearTimeout(deb); deb = setTimeout(refresh, 120); };
+
+    /* ---- frame helpers ---- */
+    function afterChange() {
+        $('frameSlider').max = Math.max(0, frameData.length - 1);
+        showFrame(currentFrameIndex); rebuildAllFramesText(); updateStats(); updateFrameActionButtons(); autoSaveLocal();
+    }
+    function mkFrame(m, wait) { return { matrix: m, wait, lines: generateHexLines(m, m.length, m[0].length, isRbgMode()), image: null, isManual: true }; }
+    function insertAt(mats, wait, pos) {
+        frameData.splice(pos, 0, ...mats.map(m => mkFrame(m, wait)));
+        currentFrameIndex = pos + mats.length - 1; afterChange();
+    }
+    function targets() { return $('fxTarget').value === 'all' ? frameData.map((_, i) => i) : (frameData.length ? [currentFrameIndex] : []); }
+    function applyT(fn) {
+        const t = targets(); if (!t.length) { showToast('⚠️ No frames yet.'); return; }
+        t.forEach(i => { const f = frameData[i], m = fn(clone(f.matrix)); Object.assign(f, mkFrame(m, f.wait || 0)); });
+        afterChange();
+    }
+    const pix = fn => m => m.map(r => r.map(c => { const o = fn(c.r, c.g, c.b); return { r: clamp(Math.round(o[0]), 0, 255), g: clamp(Math.round(o[1]), 0, 255), b: clamp(Math.round(o[2]), 0, 255) }; }));
+    const shift = (m, dx, dy) => { const H = m.length, W = m[0].length; return Array.from({ length: H }, (_, y) => Array.from({ length: W }, (_, x) => m[(((y - dy) % H) + H) % H][(((x - dx) % W) + W) % W])); };
+    const bright = f => pix((r, g, b) => [r * f, g * f, b * f]);
+    const ops = {
+        flipH: () => applyT(m => m.map(r => r.slice().reverse())),
+        flipV: () => applyT(m => m.slice().reverse()),
+        inv: () => applyT(pix((r, g, b) => [255 - r, 255 - g, 255 - b])),
+        gray: () => applyT(pix((r, g, b) => { const v = r * .3 + g * .59 + b * .11; return [v, v, v]; })),
+        sl: () => applyT(m => shift(m, -(+$('fxShift').value || 1), 0)), sr: () => applyT(m => shift(m, +$('fxShift').value || 1, 0)),
+        su: () => applyT(m => shift(m, 0, -(+$('fxShift').value || 1))), sd: () => applyT(m => shift(m, 0, +$('fxShift').value || 1)),
+        hue: () => { const d = +$('fxHue').value; applyT(pix((r, g, b) => { if (!(r | g | b)) return [0, 0, 0]; const h = rgb2hsv(r, g, b); return hsv(h[0] + d, h[1], h[2]); })); },
+        br: () => applyT(bright(+$('fxBr').value / 100)),
+        rep: () => { const a = hex2rgb($('fxFrom').value), z = hex2rgb($('fxTo').value), tol = +$('fxTol').value || 0; applyT(pix((r, g, b) => (Math.abs(r - a[0]) <= tol && Math.abs(g - a[1]) <= tol && Math.abs(b - a[2]) <= tol) ? z : [r, g, b])); },
+        dedupe: () => {
+            const blank = f => !f.lines.length, segs = []; let cur = null;
+            frameData.forEach((f, i) => { if (blank(f)) cur = null; else { if (!cur) { cur = { s: i, e: i }; segs.push(cur); } cur.e = i; } });
+            const sig = g => frameData.slice(g.s, g.e + 1).map(f => f.lines.join('|')).join('#');
+            const sg = frameData.map(f => f.lines.join('|')), n = sg.length;
+            for (let q = 2; q <= n / 2; q++) {                       // whole list = the same block repeated back-to-back
+                if (n % q === 0 && sg.every((x, i) => x === sg[i % q])) {
+                    frameData.length = q; currentFrameIndex = Math.min(currentFrameIndex, q - 1); afterChange();
+                    showToast(`✂ Removed ${n - q} repeated frames (${n / q} passes → 1).`); return;
+                }
+            }
+            if (segs.length < 2 || segs.some(g => sig(g) !== sig(segs[0]))) { showToast('No identical repeated passes found.'); return; }
+            let end = segs[0].e; while (end + 1 < segs[1].s && blank(frameData[end + 1])) end++;
+            const removed = frameData.length - (end + 1);
+            frameData.length = end + 1; currentFrameIndex = Math.min(currentFrameIndex, end); afterChange();
+            showToast(`✂ Removed ${removed} repeated frames (${segs.length} passes → 1).`);
+        },
+        rev: () => { if (frameData.length < 2) return; frameData.reverse(); currentFrameIndex = frameData.length - 1 - currentFrameIndex; afterChange(); },
+        pp: () => { if (frameData.length < 3) { showToast('⚠️ Need 3+ frames.'); return; } const back = frameData.slice(1, -1).reverse().map(f => Object.assign({}, f, { matrix: clone(f.matrix), lines: f.lines.slice() })); frameData.push(...back); afterChange(); },
+        dup: () => { if (!frameData.length) return; const f = frameData[currentFrameIndex], n = clamp(+$('fxDup').value || 1, 1, 100); frameData.splice(currentFrameIndex + 1, 0, ...Array.from({ length: n }, () => Object.assign({}, f, { matrix: clone(f.matrix), lines: f.lines.slice() }))); currentFrameIndex += n; afterChange(); },
+        scr: () => {
+            if (!frameData.length) return; const f = frameData[currentFrameIndex], d = $('fxSdir').value, st = Math.max(1, +$('fxStep').value || 1);
+            const n = Math.floor((d === 'l' || d === 'r' ? f.matrix[0].length : f.matrix.length) / st), out = [];
+            for (let k = 1; k < n; k++) { const s = k * st; out.push(shift(clone(f.matrix), d === 'l' ? -s : d === 'r' ? s : 0, d === 'u' ? -s : d === 'd' ? s : 0)); }
+            insertAt(out, +$('fxWait').value || f.wait || 0, currentFrameIndex + 1);
+        },
+        fout: () => { if (!frameData.length) return; const f = frameData[currentFrameIndex], n = 8; insertAt(Array.from({ length: n }, (_, k) => bright(1 - (k + 1) / n)(clone(f.matrix))), +$('fxWait').value || f.wait || 0, currentFrameIndex + 1); },
+        fin: () => { if (!frameData.length) return; const f = frameData[currentFrameIndex], n = 8; insertAt(Array.from({ length: n }, (_, k) => bright((k + 1) / (n + 1))(clone(f.matrix))), +$('fxWait').value || f.wait || 0, currentFrameIndex); },
+    };
+    document.querySelectorAll('[data-fx]').forEach(b => b.addEventListener('click', () => ops[b.dataset.fx]()));
+
+    $('fxAddBtn').addEventListener('click', () => {
+        if (!frames.length) refresh();
+        const mode = $('fxIns').value, wait = +$('fxWait').value || 0;
+        if (mode === 'replace') { if (frameData.length && !confirm('Replace ALL existing frames?')) return; frameData.length = 0; currentFrameIndex = 0; }
+        const sg = l => l.join('|');
+        const newSig = frames.map(m => sg(generateHexLines(m, m.length, m[0].length, isRbgMode()))).find(x => x);
+        if (mode !== 'replace' && newSig && frameData.some(f => sg(f.lines) === newSig) &&
+            !confirm('This animation is already in the frame list.\nAdd ANOTHER copy? (every copy makes the upload longer)')) return;
+        const pos = mode === 'end' || mode === 'replace' ? frameData.length : (frameData.length ? currentFrameIndex + 1 : 0);
+        insertAt(frames.map(clone), wait, pos);
+        showToast(`✅ ${frames.length} frames added.`);
+    });
+    $('fxPlayBtn').addEventListener('click', () => { playing = !playing; $('fxPlayBtn').textContent = playing ? '⏸ Pause' : '▶ Play'; schedule(); });
+    ['fxCh', 'fxPx', 'fxSize'].forEach(id => $(id).addEventListener('input', () => { touched = true; }));
+    ['fxText', 'fxFont', 'fxSize', 'fxCh', 'fxPx', 'fxEffect', 'fxStep', 'fxWait', 'fxY', 'fxColMode', 'fxC1', 'fxC2', 'fxBg', 'fxAnim', 'fxCrisp', 'fxVC']
+        .forEach(id => { $(id).addEventListener('input', later); $(id).addEventListener('change', later); });
+    document.querySelector('[data-tab="tab-fx"]').addEventListener('click', () => { syncDims(); refresh(); });
+    syncDims(); setTimeout(() => { syncDims(); refresh(); }, 300);
+})();
+</script>
+<script>
+/* ===== pixel editor: fit / zoom / pan / size sync ===== */
+let edTouched = false;
+function edZoom(d) { cellOverride = d === 0 ? 0 : Math.max(8, Math.min(48, Math.round(cellW) + d * 3)); initPixelCanvas(); }
+function togglePan() {
+    panMode = !panMode;
+    pixelCanvas.style.touchAction = panMode ? 'pan-x pan-y' : 'none';
+    const b = document.getElementById('panBtn'); b.style.background = panMode ? '#2a8a5a' : ''; b.textContent = panMode ? '✋ Pan ON' : '✋ Pan';
+}
+['matrixChannels', 'matrixPixels'].forEach(id => document.getElementById(id).addEventListener('input', () => { edTouched = true; }));
+document.querySelector('[data-tab="tab-matrix"]').addEventListener('click', () => {
+    if (!edTouched) { const s = getSettings(); document.getElementById('matrixChannels').value = Math.min(MAX_CH, s.channels); document.getElementById('matrixPixels').value = Math.min(256, s.pixels); }
+    setTimeout(initPixelCanvas, 0);
+});
+const edH = document.getElementById('edHScroll'), edBox = document.getElementById('gridScroll');
+function edSyncSlider() {
+    const max = Math.max(0, edBox.scrollWidth - edBox.clientWidth);
+    edH.max = max; edH.value = edBox.scrollLeft; edH.style.display = max > 2 ? 'block' : 'none';
+}
+edH.addEventListener('input', () => { edBox.scrollLeft = +edH.value; });
+edBox.addEventListener('scroll', () => { edH.value = edBox.scrollLeft; });
+const _edInit = initPixelCanvas;
+initPixelCanvas = function () { _edInit(); edSyncSlider(); };
+setTimeout(edSyncSlider, 50);
+let edRz = null;
+window.addEventListener('resize', () => { clearTimeout(edRz); edRz = setTimeout(() => { if (document.getElementById('tab-matrix').classList.contains('active')) initPixelCanvas(); }, 200); });
+</script>
+<script>
+/* ===== Direct send: SoifGo Bluetooth sub, line by line, waits for "next" ===== */
+(function () {
+    const BT_ICON = '<svg width="14" height="18" viewBox="0 0 14 18" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:4px;"><path d="M1.5 5l11 8-5.5 4.5V.5L12.5 5l-11 8"/></svg>';
+    const ACK = 'next';          // word the microcontroller answers after every line
+    const TIMEOUT_MS = 10000;    // stop if no "next" arrives within this time
+    let queue = [], idx = 0, running = false, waiting = false, rxBuf = '', timer = null;
+    const $ = id => document.getElementById(id);
+
+    function status(t, color) { const s = $('sendStatus'); s.textContent = t; s.style.color = color || '#4aba6a'; }
+    let bridgeName = '';
+    function bridge() {
+        if (window.soifgo && window.soifgo.CallSub) { bridgeName = 'soifgo'; return window.soifgo; }
+        if (window.soifgod && window.soifgod.CallSub) { bridgeName = 'soifgod'; return window.soifgod; }
+        bridgeName = 'none'; return null;
+    }
+    let lastRx = '(nothing received yet)', rxCount = 0;
+    function dbg() { return ' | bridge: ' + bridgeName + ' | RX#' + rxCount + ': ' + lastRx; }
+    function paint() {
+        const n = queue.length, done = Math.min(idx, n);
+        $('directFill').style.width = (n ? done * 100 / n : 0) + '%';
+        const btn = $('directBtn');
+        btn.innerHTML = running ? `⏹ Stop ${done}/${n}` : BT_ICON + 'Direct';
+        btn.style.background = running ? '#8a2a2a' : '#8a4a1a';
+    }
+    function info(t) { $('directInfo').textContent = t || ''; }
+    function end(msg, color) {
+        running = false; waiting = false; clearTimeout(timer); timer = null;
+        paint(); status(msg, color); info(msg);
+    }
+    function sendCurrent() {
+        if (!running) return;
+        if (idx >= queue.length) { end('✅ Direct send finished (' + queue.length + ' lines)'); return; }
+        const line = queue[idx];
+        rxBuf = ''; waiting = true;
+        try {
+            bridge().CallSub('html_bluetooth_rx', true, line);   // SoifGo appends CR+LF itself
+        } catch (e) { end('⚠️ Send failed at line ' + (idx + 1), '#aa6a4a'); return; }
+        if (/^LOOP$/i.test(line)) {                       // LOOP never returns until STOP: no "next" to wait for
+            idx++; end('✅ Direct send finished — LOOP started on the device'); return;
+        }
+        paint();
+        info('Line ' + (idx + 1) + '/' + queue.length + ': ' + (line.length > 40 ? line.slice(0, 40) + '…' : line) + dbg());
+        status('📤 Sending ' + (idx + 1) + '/' + queue.length, '#e0a04a');
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            if (!running || !waiting) return;
+            const last = idx === queue.length - 1;
+            end(last ? '⚠️ All lines sent, but the last "' + ACK + '" did not arrive'
+                     : '⚠️ No "' + ACK + '" after line ' + (idx + 1) + '/' + queue.length + ' — stopped. Check Bluetooth.', '#aa6a4a');
+            info(($('directInfo').textContent || '') + dbg());
+        }, TIMEOUT_MS);
+    }
+    function gotAck() {
+        if (!running || !waiting) return;
+        waiting = false; clearTimeout(timer); timer = null;
+        idx++; paint();
+        setTimeout(sendCurrent, 0);
+    }
+
+    // Receive callback of SoifGo Bluetooth (name looks swapped; this is the RECEIVE one)
+    const prevRx = window.html_bluetooth_tx;
+    window.html_bluetooth_tx = function (data) {
+        try { if (typeof prevRx === 'function') prevRx(data); } catch (e) {}
+        rxCount++; lastRx = String(data).replace(/\r/g,'\\r').replace(/\n/g,'\\n').slice(0, 60);
+        if ($('directBox').style.display !== 'none' && running) info('Line ' + (idx + 1) + '/' + queue.length + dbg());
+        if (!running || !waiting) return;
+        if (/error|FULL|SD not ready|SD init FAIL/i.test(String(data))) {   // device reported a problem
+            end('⚠️ Device error at line ' + (idx + 1) + ': ' + String(data).trim().slice(0, 60), '#aa6a4a'); return;
+        }
+        rxBuf = (rxBuf + String(data)).toLowerCase().slice(-200);   // "next" may arrive in pieces
+        const i = rxBuf.indexOf(ACK);
+        if (i >= 0) { rxBuf = rxBuf.slice(i + ACK.length); gotAck(); }
+    };
+
+    window.toggleDirectSend = function () {
+        if (running) { end('⏹ Stopped at line ' + (idx + 1) + '/' + queue.length, '#aa6a4a'); return; }
+        if (!lastOutput) { alert('No data to send.'); return; }
+        if (!bridge()) { status('⚠️ SoifGo not available', '#8a9aba'); return; }
+        queue = lastOutput.split(/\r?\n/).map(l => l.trim()).filter(Boolean);   // snapshot
+        if (!queue.length) { alert('No data to send.'); return; }
+        idx = 0; running = true;
+        $('directBox').style.display = 'block';
+        sendCurrent();
+    };
+})();
+</script>
+</body>
+</html>
