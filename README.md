@@ -47,7 +47,6 @@ Built with **B4A (Basic4Android)**.
 
 ## Features
 
-<<<<<<< HEAD
 | Area | What you get |
 |---|---|
 | **WebView bridge** | One HTML page per button, with two-way communication between JavaScript and native Android (`window.soifgo`). |
@@ -128,9 +127,6 @@ window.soifgo.CallSub('SubName', true, arg1, arg2, arg3);
 
 Register every receiver on `window`:
 
-```js
-function html_bluetooth_tx(data) { /* ... */ }
-=======
 ```javascript
 /* ============================================================================
    SoifGo WebView Bridge — COMPLETE Sub & Receiver reference
@@ -161,7 +157,6 @@ function btSend(text) {
 function html_bluetooth_tx(data) {
   console.log('BT >>', data);
 }
->>>>>>> 7b95d24221ceb6ada507bc598b58acacfc65624e
 window.html_bluetooth_tx = html_bluetooth_tx;
 
 /* ================================ 2) SENSORS ==============================
