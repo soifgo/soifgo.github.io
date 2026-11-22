@@ -498,6 +498,58 @@
       th, td { padding: 4px 6px; }
     }
 
+
+    [hidden] { display: none !important; }
+
+    .micro-picker { border-color: var(--accent); }
+    .micro-picker p { color: var(--muted); }
+    .micro-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 1rem;
+    }
+    .micro-btn {
+      text-align: start;
+      background: var(--bg);
+      color: var(--fg);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      cursor: pointer;
+      font: inherit;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: border-color 0.2s, background 0.2s, transform 0.1s;
+      touch-action: manipulation;
+    }
+    .micro-btn:hover { border-color: var(--accent3); }
+    .micro-btn:active { transform: scale(0.98); }
+    .micro-btn strong { font-size: 1.1rem; }
+    .micro-btn small { color: var(--muted); font-size: 0.8rem; }
+    .micro-btn .micro-tag {
+      align-self: flex-start;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      padding: 1px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .micro-btn[aria-pressed="true"] {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 12%, var(--card-bg));
+    }
+    .micro-btn[aria-pressed="true"] .micro-tag {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .micro-current { margin-top: 0.9rem; font-size: 0.9rem; color: var(--muted); }
+    .micro-current strong { color: var(--accent); }
+
     hr { border: none; border-top: 2px solid var(--border); margin: 1.5rem 0; }
     .text-center { text-align: center; }
   </style>
@@ -518,11 +570,13 @@
   <nav class="nav" aria-label="Table of Contents">
     <div class="nav-inner">
       <a href="#overview">Overview</a>
+      <a href="#micro-picker">Microcontroller</a>
       <a href="#features">Features</a>
       <a href="#dance-mode">Dance Mode</a>
-      <a href="#sound">Sound</a>
+      <a href="#sound" data-micro="128">Sound</a>
       <a href="#solid-color">Solid Color</a>
-      <a href="#arduino">Arduino</a>
+      <a href="#arduino" data-micro="arduino">Arduino</a>
+      <a href="#stm32" data-micro="stm32">STM32</a>
       <a href="#addressing">Addressing</a>
       <a href="#color-fix">Color Fix</a>
       <a href="#downloads">Downloads</a>
@@ -532,9 +586,38 @@
   <div class="container">
 
     <h1 id="overview">RANGMANG</h1>
-    <p><strong>RANGMANG</strong> is an RGB controller based on the ATmega128 microcontroller, Programmed with serial communication.</p>
+    <p><strong>RANGMANG</strong> is a serial RGB controller for addressable LED strips. It is available on four microcontrollers; ATmega128 is the main and most complete version.</p>
 
     <img src="rangmang_pic.jpg" alt="RANGMANG RGB Controller Module" loading="lazy">
+
+    <div class="card micro-picker" id="micro-picker">
+      <h2>Choose your microcontroller</h2>
+      <p>RANGMANG works on four different chips. Pick yours below and this page will show only the documentation for it.</p>
+      <div class="micro-grid" role="group" aria-label="Microcontroller">
+        <button type="button" class="micro-btn" data-pick="128" aria-pressed="true">
+          <strong>ATmega128</strong>
+          <span class="micro-tag">Main &middot; Default</span>
+          <small>Most complete. Dance D1&ndash;D98 with sound effects, up to 999 pixels.</small>
+        </button>
+        <button type="button" class="micro-btn" data-pick="328" aria-pressed="false">
+          <strong>ATmega328</strong>
+          <span class="micro-tag">Light</span>
+          <small>Bascom firmware. Dance D1&ndash;D55, up to 450 pixels.</small>
+        </button>
+        <button type="button" class="micro-btn" data-pick="arduino" aria-pressed="false">
+          <strong>Arduino</strong>
+          <span class="micro-tag">Light &middot; Example</span>
+          <small>ATmega328P with FastLED sketch.</small>
+        </button>
+        <button type="button" class="micro-btn" data-pick="stm32" aria-pressed="false">
+          <strong>STM32 / ARM</strong>
+          <span class="micro-tag">Light &middot; Example</span>
+          <small>ARM example version.</small>
+        </button>
+      </div>
+      <p class="micro-current">Showing documentation for: <strong id="microCurrent">ATmega128</strong></p>
+    </div>
+
 
     <div class="card" id="features">
       <h2>LED Strip Types and Features</h2>
@@ -564,22 +647,22 @@
         </table>
       </div>
 
-      <p>
+      <p data-micro="128 328">
         Official download link for USBasp Programmer: You can find complete files and information about the USBasp programmer on the developer's official website:
         <a href="https://www.fischl.de/usbasp" target="_blank" rel="noopener">fischl.de/usbasp</a>.
       </p>
     </div>
 
-    <div class="card">
+    <div data-micro="128" class="card">
       <h2>PCB and Schematic Files Atmega 128A</h2>
       <img src="rangmang_schematics_128a.png" alt="ATmega128A PCB Schematic" loading="lazy">
     </div>
-        <div class="card">
+        <div data-micro="128" class="card">
       <h2>Schematic : Microphone </h2>
       <img src="microphone.png" alt="microphone" loading="lazy">
     </div>
 
-    <div class="card">
+    <div data-micro="328" class="card">
       <h2>PCB and Schematic Files Atmega 328P</h2>
       <img src="rangmang_schematics_328p.png" alt="ATmega328P PCB Schematic" loading="lazy">
     </div>
@@ -602,7 +685,7 @@
 
       <ul>
         <li><strong>A (Address)</strong> – Module address (1–98 for specific module, 99 for all).</li>
-        <li><strong>D (Mode)</strong> – Dance styles (ATmega128: 1–98, ATmega328: 1–55), or 99 for random dance selection. On ATmega128, D93–D97 are sound-reactive and D98 picks one of them at random (see <a href="#sound">Sound-Reactive Effects</a>).</li>
+        <li><strong>D (Mode)</strong> – Dance styles (<span data-micro="128">1–98</span><span data-micro="328 arduino stm32">1–55</span>), or 99 for random dance selection.<span data-micro="128"> D93–D97 are sound-reactive and D98 picks one of them at random (see <a href="#sound">Sound-Reactive Effects</a>).</span></li>
         <li><strong>R / G / B</strong> – Color intensity values. Normal range: 0–250.
           <ul><li>251–255 → Random Red / Green / Blue</li></ul>
         </li>
@@ -610,8 +693,8 @@
         <li><strong>E (Dance Time 2)</strong> – Milliseconds per pixel move (second timing), range: 0–999.</li>
         <li><strong>M (Pixel Count)</strong> – Number of dancing pixels.
           <ul>
-            <li>ATmega328: range 1–450</li>
-            <li>ATmega128: range 1–999</li>
+            <li data-micro="328 arduino stm32">Range 1–450</li>
+            <li data-micro="128">Range 1–999</li>
           </ul>
         </li>
       </ul>
@@ -640,7 +723,7 @@
       </div>
     </div>
 
-    <div class="card" id="sound">
+    <div data-micro="128" class="card" id="sound">
       <h2>Sound-Reactive Effects (ATmega128 only)</h2>
       <p>
         The ATmega128 version includes microphone-driven effects. The analog input
@@ -682,14 +765,14 @@
     </div>
 
     <div class="card" id="solid-color">
-      <h2>RANGMANG Fixed Color Mode Configuration (ATmega128 – 999 Pixels)</h2>
+      <h2>RANGMANG Fixed Color Mode Configuration <span data-micro="128">(ATmega128 – 999 Pixels)</span><span data-micro="328 arduino stm32">(ATmega328 – 450 Pixels)</span></h2>
 
       <ul>
         <li><strong>A (Address)</strong> – Module address (1–98 for specific module, 99 for all).</li>
         <li><strong>D (Mode)</strong> – Must always be 0 (D0) for solid color.</li>
         <li><strong>R / G / B</strong> – Color intensity values, range: 0–255.</li>
-        <li><strong>S (Start Pixel)</strong> – Start position for colored pixels, range: 0–999.</li>
-        <li><strong>E (End Pixel)</strong> – End position for colored pixels, range: 0–999.</li>
+        <li><strong>S (Start Pixel)</strong> – Start position for colored pixels, range: <span data-micro="128">0–999</span><span data-micro="328 arduino stm32">0–450</span>.</li>
+        <li><strong>E (End Pixel)</strong> – End position for colored pixels, range: <span data-micro="128">0–999</span><span data-micro="328 arduino stm32">0–450</span>.</li>
         <li><strong>M (Memory Slot)</strong> – Memory control: 0 (M0) without save, 1–99 for saving to slots.</li>
       </ul>
 
@@ -734,7 +817,7 @@ Use a single wire to solder and connect the input and output pins of the regulat
       </ul>
     </div>
 
-    <div class="card">
+    <div data-micro="128" class="card">
       <h2>RANGMANG ATmega128 – 999 Pixels</h2>
       <pre>' Inputs format: ADRGBSEM (Leading zeros are optional)
 ' Example: A1D0R0G0B0S0E0M0
@@ -760,7 +843,7 @@ Use a single wire to solder and connect the input and output pins of the regulat
 ' M: 1 TO 999   SET HOW MANY PIXELS DANCING (IN SOUND EFFECTS M ALSO SETS SENSITIVITY)</pre>
     </div>
 
-    <div class="card">
+    <div data-micro="328" class="card">
       <h2>RANGMANG ATmega328 – 450 Pixels</h2>
       <pre>' Inputs format: ADRGBSEM (Leading zeros are optional)
 ' Example: A1D0R0G0B0S0E0M0
@@ -788,9 +871,9 @@ Use a single wire to solder and connect the input and output pins of the regulat
 ' M: 1 TO 450   SET HOW MANY PIXELS DANCING</pre>
     </div>
 
-    <div class="card" id="arduino">
+    <div data-micro="arduino" class="card" id="arduino">
       <h2>RANGMANG Arduino Version (ATmega328P)</h2>
-      <p>This is an Arduino equivalent of the ATmega328 Bascom firmware above. It uses the same serial protocol (9600 baud, <code>ADRGBSEM</code> commands, dance modes D1&ndash;D55 and D99, memory slots M1&ndash;M98, M996&ndash;M999, and address change with <code>CH1=2</code>), so the Soifgo app and your existing commands work the same way.</p>
+      <p>This is an Arduino equivalent of the ATmega328 Bascom firmware. It uses the same serial protocol (9600 baud, <code>ADRGBSEM</code> commands, dance modes D1&ndash;D55 and D99, memory slots M1&ndash;M98, M996&ndash;M999, and address change with <code>CH1=2</code>), so the Soifgo app and your existing commands work the same way.</p>
       <p><strong>How to use:</strong> install the <em>FastLED</em> library in the Arduino IDE, connect the LED data line to pin <strong>D5</strong>, set <code>NUM_LEDS</code> to your pixel count, and upload. For strips with swapped green/blue (some WS2811), change <code>COLOR_ORDER</code> to <code>RBG</code>.</p>
       <h3>Wiring</h3>
       <pre class="ignore">LED strip (WS2812B)      Arduino / power
@@ -1603,6 +1686,17 @@ void Snak_rainbow_bl() {
 </pre>
     </div>
 
+    <div data-micro="stm32" class="card" id="stm32">
+      <h2>RANGMANG STM32 / ARM Version</h2>
+      <div class="note-box">
+        <h3>Light version &middot; Example</h3>
+        <p>
+          The documentation and files for the STM32 (ARM) example are not published yet and will be added here.
+          Meanwhile, the sections below that are shared by all versions (addressing, color swap fix, power notes and hardware assembly) still apply.
+        </p>
+      </div>
+    </div>
+
     <div class="card" id="addressing">
       <h2>✅ Module Addressing Instructions</h2>
       <pre>To address a module, simply follow the method below.
@@ -1631,7 +1725,7 @@ Address 99 is a shared address that applies to all modules.
 
 Therefore, each module will respond and act to its assigned address (between 1 and 98) as well as to the shared address 99.</pre>
 
-      <p>
+      <p data-micro="128 328">
         In each microcontroller's folder, the software directory "dude 6.4" is available. Using the file "Program Chip.bat," you simply need to connect the USBasp to the microcontroller and then click on "Program Chip.bat" to program the microcontroller.
       </p>
     </div>
@@ -1723,9 +1817,9 @@ Actual Code to Write for WS2811: R: 10, G: 44, B: 123</pre>
       <h2>Downloads</h2>
       <div class="download-box">
         <p><a href="soifgo_rangmang_design.zip" download>📦 Download soifgo_rangmang_design</a></p>
-        <p><a href="Atmega128.zip" download>📦 Download Atmega128 File</a></p>
-        <p><a href="Atmega328P.zip" download>📦 Download Atmega328P File</a></p>
-        <p><a href="Rangmang_Arduino.ino" download>📦 Download Arduino Sketch (Rangmang_Arduino.ino)</a></p>
+        <p data-micro="128"><a href="Atmega128.zip" download>📦 Download Atmega128 File</a></p>
+        <p data-micro="328"><a href="Atmega328P.zip" download>📦 Download Atmega328P File</a></p>
+        <p data-micro="arduino"><a href="Rangmang_Arduino.ino" download>📦 Download Arduino Sketch (Rangmang_Arduino.ino)</a></p>
       </div>
     </div>
 
@@ -1782,6 +1876,63 @@ Actual Code to Write for WS2811: R: 10, G: 44, B: 123</pre>
         updateIcon(next);
       });
     })();
+  </script>
+
+  <script>
+  (function () {
+    var KEY = 'soifgo-micro';
+    var DEFAULT = '128';
+    var NAMES = { '128': 'ATmega128', '328': 'ATmega328', 'arduino': 'Arduino (ATmega328P)', 'stm32': 'STM32 / ARM' };
+
+    function isValid(v) { return Object.prototype.hasOwnProperty.call(NAMES, v); }
+
+    function initial() {
+      var m = /[?&]mcu=([a-z0-9]+)/i.exec(location.search);
+      if (m && isValid(m[1].toLowerCase())) return m[1].toLowerCase();
+      try {
+        var saved = localStorage.getItem(KEY);
+        if (saved && isValid(saved)) return saved;
+      } catch (e) {}
+      return DEFAULT;
+    }
+
+    function apply(mcu, remember) {
+      var els = document.querySelectorAll('[data-micro]');
+      for (var i = 0; i < els.length; i++) {
+        var list = els[i].getAttribute('data-micro').split(' ');
+        els[i].hidden = list.indexOf(mcu) === -1;
+      }
+      var btns = document.querySelectorAll('.micro-btn');
+      for (var j = 0; j < btns.length; j++) {
+        btns[j].setAttribute('aria-pressed', btns[j].getAttribute('data-pick') === mcu ? 'true' : 'false');
+      }
+      var label = document.getElementById('microCurrent');
+      if (label) label.textContent = NAMES[mcu];
+      document.documentElement.setAttribute('data-mcu', mcu);
+      if (remember) { try { localStorage.setItem(KEY, mcu); } catch (e) {} }
+    }
+
+    function revealHashTarget() {
+      var id = location.hash.slice(1);
+      var el = id ? document.getElementById(id) : null;
+      if (el && el.hidden) {
+        var first = el.getAttribute('data-micro').split(' ')[0];
+        apply(first, true);
+      }
+      if (el) el.scrollIntoView();
+    }
+
+    var btns = document.querySelectorAll('.micro-btn');
+    for (var k = 0; k < btns.length; k++) {
+      btns[k].addEventListener('click', function () {
+        apply(this.getAttribute('data-pick'), true);
+      });
+    }
+
+    apply(initial(), false);
+    if (location.hash) revealHashTarget();
+    window.addEventListener('hashchange', revealHashTarget);
+  })();
   </script>
 
   <script src="https://cdn.staticfile.net/translate.js/3.18.66/translate.js"></script>
@@ -2012,4 +2163,4 @@ Actual Code to Write for WS2811: R: 10, G: 44, B: 123</pre>
   </script>
 
 </body>
-</html>
+</html>
