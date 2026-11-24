@@ -114,6 +114,7 @@ window.soifgo.CallSub('SubName', true, arg1, arg2, arg3);
 | `sensor_move` | 0 | Start the accelerometer |
 | `sensor_magno` | 0 | Start the magnetometer |
 | `sensor_barometer` | 0 | Start the barometer |
+| `camera_permission` | 0 | Ask for camera permission (answer arrives in `html_camera_status`) |
 | `connecte_mqtt_ai` | 2 · `address`, `id` | MQTT connect, step 1 |
 | `connecte_mqtt_up` | 2 · `username`, `password` | MQTT auth, step 2 (optional) |
 | `mqtt_publish` | 3 · `topic`, `message`, `qos` | Publish, and auto-subscribe to the topic |
@@ -308,6 +309,7 @@ function voiceStart() {
    sensor_move                   0                      start motion sensor
    sensor_magno                  0                      start magnetic sensor
    sensor_barometer              0                      start barometer
+   camera_permission             0                      ask camera permission
    connecte_mqtt_ai              2  address, id         MQTT connect step 1
    connecte_mqtt_up              2  user, pass          MQTT connect step 2
    mqtt_publish                  3  topic, msg, qos     publish + auto-subscribe
@@ -323,6 +325,7 @@ function voiceStart() {
    html_sensor_movex/y/z         data
    html_sensor_magnox/y/z        data
    html_sensor_barometer         data
+   html_camera_status            'true' | 'false'
    mqtt_rx                       topic, message
    html_mqtt_status              'true' | 'false'
    api_rx                        number
@@ -336,6 +339,7 @@ function voiceStart() {
 | `html_sensor_movex` / `movey` / `movez` | `data` |
 | `html_sensor_magnox` / `magnoy` / `magnoz` | `data` |
 | `html_sensor_barometer` | `data` (hPa, 3 decimals) |
+| `html_camera_status` | `'true'` / `'false'` — a **string**; the answer to `camera_permission` |
 | `mqtt_rx` | `topic`, `message` |
 | `html_mqtt_status` | `'true'` / `'false'` — a **string**, not a boolean |
 | `api_rx` | `number` |

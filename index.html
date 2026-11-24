@@ -1965,6 +1965,13 @@ SoifGo is a free Android app that runs HTML tools written by AI, offline. Each i
         that request and shows the user one prompt to allow the microphone. The prompt appears only once;
         later requests still run in the code, but nothing is asked again.
       </p>
+      <p>
+        <b>The camera has one Sub and one receiver.</b> Call <code>CallSub('camera_permission', true)</code>
+        (0 arguments) in <code>window.onload</code> after a short delay. SoifGo answers by calling
+        <code>html_camera_status(data)</code> with the string <code>'true'</code> or <code>'false'</code>.
+        Open the camera with <code>getUserMedia</code> only after <code>'true'</code>. A page that asks only
+        for video does not trigger the microphone prompt. No image is stored or sent.
+      </p>
 
       <h3>The one call shape (3 rules)</h3>
       <p>
@@ -1992,6 +1999,7 @@ SoifGo is a free Android app that runs HTML tools written by AI, offline. Each i
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>sensor_move</code></td><td style="padding:6px 8px; border:1px solid var(--border);">0</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('sensor_move', true)</code>: starts the movement sensor</td></tr>
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>sensor_magno</code></td><td style="padding:6px 8px; border:1px solid var(--border);">0</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('sensor_magno', true)</code>: starts the magnetic sensor</td></tr>
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>sensor_barometer</code></td><td style="padding:6px 8px; border:1px solid var(--border);">0</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('sensor_barometer', true)</code>: starts the barometer (air pressure)</td></tr>
+            <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>camera_permission</code></td><td style="padding:6px 8px; border:1px solid var(--border);">0</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('camera_permission', true)</code>: asks for the camera permission; the answer arrives in <code>html_camera_status</code></td></tr>
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>connecte_mqtt_ai</code></td><td style="padding:6px 8px; border:1px solid var(--border);">2</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('connecte_mqtt_ai', true, address, id)</code>: connects to the broker</td></tr>
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>connecte_mqtt_up</code></td><td style="padding:6px 8px; border:1px solid var(--border);">2</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('connecte_mqtt_up', true, username, password)</code>: connects with a login (both values must be non-empty)</td></tr>
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>mqtt_publish</code></td><td style="padding:6px 8px; border:1px solid var(--border);">3</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('mqtt_publish', true, topic, message, qos)</code>: publishes (works only while connected)</td></tr>
@@ -2008,6 +2016,7 @@ SoifGo is a free Android app that runs HTML tools written by AI, offline. Each i
       <ul>
         <li><code>html_bluetooth_tx(data)</code>: RECEIVES Bluetooth text, Classic or BLE (the name looks swapped, but this is the receive callback)</li>
         <li><code>html_sensor_light(data)</code>, <code>html_sensor_movex(data)</code>, <code>html_sensor_movey(data)</code>, <code>html_sensor_movez(data)</code>, <code>html_sensor_magnox(data)</code>, <code>html_sensor_magnoy(data)</code>, <code>html_sensor_magnoz(data)</code>, <code>html_sensor_barometer(data)</code>: one value each, as a string</li>
+        <li><code>html_camera_status(data)</code>: the string 'true' or 'false' (camera permission result; compare with <code>=== 'true'</code>)</li>
         <li><code>mqtt_rx(topic, message)</code>, <code>html_mqtt_status(connected)</code> (the string 'true' or 'false'), <code>api_rx(number)</code></li>
       </ul>
 

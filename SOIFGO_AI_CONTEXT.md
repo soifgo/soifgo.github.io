@@ -37,7 +37,7 @@ You are a SoifGo expert assistant. You help users build SoifGo projects: HTML pa
 
 - Use **only** the Subs and receivers listed in Section 6 and the menu names listed in Section 13. **Never invent** a Sub, receiver, parameter, menu item or feature.
 - If something is not covered here, say you are not sure and point to the official docs: https://soifgo.github.io/docs.html and the Complete User Guide https://soifgo.github.io/soifgo_info/soifgo_info.html . Do not guess.
-- If the user asks for something SoifGo cannot do (see Section 9: no camera, no Bluetooth audio devices, the bridge does not exist in a normal browser), say so and offer the closest supported alternative.
+- If the user asks for something SoifGo cannot do (see Section 9: no Bluetooth audio devices, the bridge does not exist in a normal browser), say so and offer the closest supported alternative.
 - Current version: 1.47 (VersionCode 147).
 
 ### 0.2-A Creating the First Button (MANDATORY — read before telling any user to "add a button")
@@ -353,6 +353,7 @@ When a user says "how do I start" or "how do I add a button", answer in the user
 11. Start from the closest example in Section 14; do not write bridge code from memory.
 12. Every sensor receiver gets **one value as a string**. Never assume `(x, y, z)` tuples, `data.x`, or a vector. The magnetometer is split into three receivers, `html_sensor_magnox`, `html_sensor_magnoy` and `html_sensor_magnoz`, one value each (Section 9); the barometer has a single receiver, `html_sensor_barometer`, one value. Never invent a Sub called `Connect_Phone_Sensor`; that is the name of a **Classic** button behavior, not a bridge Sub.
 13. **Bluetooth names look swapped. Do not guess them.** To SEND text to the hardware, use `window.soifgo.CallSub('html_bluetooth_rx', true, txt)` (exactly 1 argument after `true`). To RECEIVE text from the hardware, define `function html_bluetooth_tx(data)` and register it with `window.html_bluetooth_tx = html_bluetooth_tx;`. SoifGo appends a line ending (CR+LF) to every text sent with `html_bluetooth_rx`, so do not add `\n` yourself. Names such as `SoifGo.btSend`, `onBtReceive`, `SendBT` or `html_bluetooth_send` do not exist.
+14. **Camera: ask first, open second.** The camera has one Sub and one receiver. In `window.onload`, after a short delay (about 800 ms), call `window.soifgo.CallSub('camera_permission', true)` (0 arguments). Register `window.html_camera_status`; it receives the **string** `'true'` or `'false'`. Call `navigator.mediaDevices.getUserMedia({ video: ..., audio: false })` **only** when it is `=== 'true'`, and always add a manual "Start camera" button as a fallback. Use `audio: false` unless the page also needs the microphone (the microphone is a separate prompt). Start from Section 14.12.
 
 ### 0.5 Minimal Starter Template
 
@@ -588,6 +589,25 @@ There is **no Sub** for the microphone. Do not call `CallSub` for it. Your page 
 
 ---
 
+### 🎥 Camera
+
+#### `camera_permission`
+
+Asks the user for the Android camera permission. **0 arguments.** SoifGo answers by calling the receiver `html_camera_status` (Section 5) with `'true'` or `'false'`. Only after `'true'` may the page call `navigator.mediaDevices.getUserMedia({ video: ... })`.
+
+```javascript
+window.soifgo.CallSub('camera_permission', true);
+```
+
+> **Notes:**
+> - Call it from `window.onload` after a short delay (about 800 ms): the answer is delivered only to a page that has finished loading. Keep a manual "Start camera" button as a fallback.
+> - The first time, Android shows one permission dialog. If the user denied it twice, Android shows no dialog any more: the answer is `'false'` and the user must enable Camera in the phone settings (Apps → SoifGo → Permissions).
+> - A page that requests only video (`audio: false`) does **not** trigger the microphone prompt. Camera and microphone are asked separately.
+> - Available only in SoifGo builds that include the camera bridge. On an older build the call triggers the wrong-Sub warning.
+> - Everything stays on the phone: the page reads frames from the `<video>` element itself; SoifGo does not store or send any image.
+
+---
+
 ### 🟣 MQTT
 
 #### `connecte_mqtt_ai`
@@ -763,6 +783,22 @@ window.html_sensor_barometer = html_sensor_barometer;
 
 ---
 
+### 🎥 Camera
+
+#### `html_camera_status(data)` — camera permission result
+
+`data` is the **string** `'true'` or `'false'`. Compare with `=== 'true'`. It is the answer to `camera_permission` (Section 4).
+
+```javascript
+function html_camera_status(data) {
+  if (data === 'true') startCamera();          // now getUserMedia may be called
+  else showMessage('Camera permission denied');
+}
+window.html_camera_status = html_camera_status;
+```
+
+---
+
 ### 🟣 MQTT
 
 #### `mqtt_rx`
@@ -833,6 +869,7 @@ Count = the exact number of arguments to pass after `'subName', true`.
 | `sensor_move` | 0 (none) | Activate movement sensor |
 | `sensor_magno` | 0 (none) | Activate magnetic sensor |
 | `sensor_barometer` | 0 (none) | Activate barometer (air pressure) |
+| `camera_permission` | 0 (none) | Ask for camera permission (answer arrives in `html_camera_status`) |
 | `connecte_mqtt_ai` | 2: `address, id` | MQTT connect step 1 |
 | `connecte_mqtt_up` | 2: `username, password` (both must be non-empty) | MQTT connect step 2 (optional) |
 | `mqtt_publish` | 3: `topic, message, qos` | Publish MQTT message |
@@ -855,6 +892,7 @@ Count = the exact number of arguments to pass after `'subName', true`.
 | `html_sensor_magnoy` | `data` | Receive magnetic sensor Y data |
 | `html_sensor_magnoz` | `data` | Receive magnetic sensor Z data |
 | `html_sensor_barometer` | `data` | Receive barometer data (air pressure, hPa, 3 decimals) |
+| `html_camera_status` | `data` | Camera permission result (`'true'` / `'false'`) |
 | `mqtt_rx` | `topic, message` | Receive MQTT message |
 | `html_mqtt_status` | `connected` | Receive MQTT status (`'true'`/`'false'`) |
 | `api_rx` | `number` | Receive API response |
@@ -1024,7 +1062,8 @@ Always include a **Stop** button so the user can halt polling.
 
 ### Android Permissions
 
-- The camera is **not** defined in the current version.
+- The camera is enabled only with user permission. Call `camera_permission` and wait for `html_camera_status('true')` before `getUserMedia` (Section 4).
+- Camera and microphone are asked separately: a page that requests only video does not trigger the microphone prompt.
 - The microphone is enabled only with user permission.
 - If microphone permission is denied, sound metering, voice command, and speech-to-text features will not work.
 ## 10. FAQ for AI Assistants
@@ -2196,6 +2235,153 @@ function startPage() {
 
 **Alternative (no internet at all, even the first time):** paste the library's full minified source into a `<script>` block inside the HTML file. The page is already kept in SoifGo's storage (Section 13.6), so the library travels with it. Use for small libraries only; the file becomes large and hard to edit.
 
+### 14.12 Camera Motion → Bluetooth
+
+**Source:** tested on a real phone inside SoifGo (camera permission, live video, motion detection, Bluetooth output). Copy this structure for any page that uses the camera.
+
+**What it shows:**
+
+- The permission flow of Section 4: `camera_permission` in `window.onload` (after about 800 ms), then `getUserMedia` only inside `html_camera_status` when the value is `'true'`. A manual "Start camera" button is the fallback.
+- `audio: false`, so no microphone prompt appears.
+- Motion detection without any library (works offline): each frame is shrunk to 64×48, converted to gray and compared with the previous frame. The share of changed pixels is the motion percentage.
+- Bluetooth is used only on **state changes**: `MOVE` once when motion starts, `STOP` once after motion has ended for the "Hold time". Never send one message per frame.
+- No image is stored or sent anywhere; everything runs on the phone.
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Camera Motion to Bluetooth</title>
+<style>
+  body { font-family: sans-serif; background: #111; color: #eee; margin: 0; padding: 12px; text-align: center; }
+  video { width: 100%; max-height: 40vh; background: #000; border-radius: 10px; }
+  #state { font-size: 30px; font-weight: bold; margin: 8px 0; }
+  #state.moving { color: #ff9800; }
+  #bar { height: 14px; background: #333; border-radius: 7px; overflow: hidden; margin: 8px 0; }
+  #fill { height: 100%; width: 0; background: #4caf50; }
+  label { display: block; margin: 10px 0 2px; font-size: 14px; opacity: .8; }
+  input[type=range] { width: 90%; }
+  input[type=text] { width: 38%; padding: 8px; font-size: 16px; border-radius: 8px; border: 0; text-align: center; }
+  button { padding: 12px 18px; font-size: 16px; border-radius: 10px; border: 0; margin: 8px; }
+  #msg { margin-top: 8px; font-size: 14px; opacity: .8; }
+</style>
+</head>
+<body>
+  <video id="v" autoplay playsinline muted></video>
+  <div id="state">---</div>
+  <div id="bar"><div id="fill"></div></div>
+  <div id="pct">0%</div>
+
+  <label>Threshold: <span id="thV">2</span>% (lower = more sensitive)</label>
+  <input type="range" id="th" min="0.5" max="20" step="0.5" value="2">
+
+  <label>Hold time: <span id="holdV">1500</span> ms (wait before STOP)</label>
+  <input type="range" id="hold" min="300" max="5000" step="100" value="1500">
+
+  <label>Text sent on motion / when motion ends</label>
+  <input type="text" id="mv" value="MOVE">
+  <input type="text" id="st2" value="STOP">
+
+  <div><button id="camBtn">Start camera</button></div>
+  <div id="msg"></div>
+
+<script>
+function $(id) { return document.getElementById(id); }
+function setMsg(t) { $('msg').textContent = t; }
+
+var video = $('v');
+var W = 64, H = 48, N = W * H;
+var cv = document.createElement('canvas');
+cv.width = W; cv.height = H;
+var ctx = cv.getContext('2d', { willReadFrequently: true });
+var prev = null, moving = false, lastMotion = 0, timer = null;
+
+function sendBT(txt) {
+  if (window.soifgo) window.soifgo.CallSub('html_bluetooth_rx', true, txt);
+}
+
+function detect() {
+  if (video.readyState < 2) return;
+  ctx.drawImage(video, 0, 0, W, H);
+  var d = ctx.getImageData(0, 0, W, H).data;
+  var cur = new Uint8Array(N);
+  var i, j;
+  for (i = 0, j = 0; i < N; i++, j += 4) cur[i] = (d[j] + d[j + 1] + d[j + 2]) / 3;
+
+  var pct = 0;
+  if (prev) {
+    var changed = 0;
+    for (i = 0; i < N; i++) if (Math.abs(cur[i] - prev[i]) > 25) changed++;
+    pct = changed / N * 100;
+  }
+  prev = cur;
+
+  var th = parseFloat($('th').value);
+  var hold = parseInt($('hold').value, 10);
+  var now = Date.now();
+
+  if (pct > th) {
+    lastMotion = now;
+    if (!moving) {
+      moving = true;
+      sendBT($('mv').value || 'MOVE');
+    }
+  } else if (moving && now - lastMotion > hold) {
+    moving = false;
+    sendBT($('st2').value || 'STOP');
+  }
+
+  $('pct').textContent = pct.toFixed(1) + '%';
+  $('fill').style.width = Math.min(100, pct * 5) + '%';
+  $('state').textContent = moving ? 'MOVING' : 'still';
+  $('state').className = moving ? 'moving' : '';
+}
+
+function startCamera() {
+  if (video.srcObject) return;
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    setMsg('getUserMedia is not available');
+    return;
+  }
+  navigator.mediaDevices.getUserMedia({
+    video: { facingMode: 'environment', width: { ideal: 320 }, height: { ideal: 240 } },
+    audio: false
+  }).then(function (s) {
+    video.srcObject = s;
+    setMsg(window.soifgo ? 'Camera OK' : 'Camera OK (not inside SoifGo: no Bluetooth)');
+    if (!timer) timer = setInterval(detect, 100);
+  }).catch(function (e) {
+    setMsg('Camera error: ' + e.name);
+  });
+}
+
+function askCamera() {
+  if (window.soifgo) window.soifgo.CallSub('camera_permission', true);
+  else startCamera();
+}
+
+function html_camera_status(data) {
+  if (data === 'true') startCamera();
+  else setMsg('Camera permission denied');
+}
+window.html_camera_status = html_camera_status;
+
+$('camBtn').addEventListener('click', askCamera);
+$('th').addEventListener('input', function () { $('thV').textContent = this.value; });
+$('hold').addEventListener('input', function () { $('holdV').textContent = this.value; });
+
+window.onload = function () {
+  setTimeout(askCamera, 800);
+};
+</script>
+</body>
+</html>
+```
+
+The Arduino side only has to read the lines `MOVE` and `STOP` (SoifGo adds CR+LF itself, see 14.9 for a sketch that reads text commands).
+
 ---
 
 ## 15. Troubleshooting Table
@@ -2222,6 +2408,9 @@ function startPage() {
 | Headphones/speaker not usable | SoifGo supports data devices only | Use Classic SPP modules (HC-05, HC-06, JDY-31), BLE modules (JDY-23, DX-BT05, CC2541), ESP32, etc. |
 Apps → SoifGo |
 | Page is slow to open / needs internet every time just to start | The library is loaded with a plain `<script src="https://cdn...">` tag (example: oscilloscope with Tailwind), so it is fetched on every run | Replace the `<script src>` CDN tag with the IndexedDB download-once loader (14.11) |
+| Camera shows `NotReadableError` or `NotAllowedError` | Camera permission denied or banned in Android settings, `getUserMedia` called before `html_camera_status('true')`, or another app is using the camera | Call `camera_permission` first and open the camera only when the answer is `'true'`. If the user denied it twice: Android Settings → Apps → SoifGo → Permissions → Camera |
+| `camera_permission` shows the wrong-Sub warning | The installed SoifGo build has no camera bridge | Update SoifGo to a build that includes camera support |
+| Camera works but nothing arrives at the page after `camera_permission` | The page was not finished loading, or `html_camera_status` is not registered on `window` | Call it from `window.onload` after about 800 ms, register `window.html_camera_status = html_camera_status;`, keep a manual Start button |
 | Arduino ignores commands | Baud/protocol mismatch | Use the same baud rate and the exact `ON` / `OFF` + newline protocol (14.9) |
 
 ---
@@ -2232,4 +2421,4 @@ Apps → SoifGo |
 
 ## Changelog
 
-**Document revision:** 10 — added the BLE **Line Buffering** option (Play menu, BLE only, OFF by default): why BLE splits messages into 20-byte packets, what the option does, its requirements, and entries in Sections 9, 10, 13.1 and 15. Revision 9 — added the accelerometer Z receiver `html_sensor_movez`. Revision 8 — updated to SoifGo 1.47 (VersionCode 147): Option menu in Play with its full item list, and the Simulation Input Value modes (Section 13 and the Effects simulator note). Revision 7 — corrected the code-editing flow everywhere: code is saved automatically (no manual save), the yellow X returns directly to the WebView which reloads automatically (alternative: Back, then tap the WebView button again), rename / save-as only via the editor menu, and removed the last leftover "wait for colors" wording in Section 14. Revision 6 — added Step 0 (get and install the app: not on Google Play, APKPure or ZIP, unknown sources), removed the obsolete "wait until the code turns colored" warning (paste, then tap the yellow X right away), moved this changelog to the end of the file, and added the pointer to the short manual ai.html. Revision 5 — made the argument rule consistent (exact count per Sub, `true` always second, `''` only for an empty required value), added the argument-count column to Section 6, the Bluetooth send/receive name warning, the CR+LF note, and updated 14.9 and Section 15. Revision 4 — added Section 14.11 (Download an external library once, reuse it from storage via IndexedDB, based on the 3D File Viewer) and updated rule 0.4-10, the Pre-Send Checklist, Section 9 (Storage) and Section 15.
+**Document revision:** 11 — added the camera bridge: Sub `camera_permission` (0 arguments) and receiver `html_camera_status` (`'true'`/`'false'`) in Sections 4, 5 and 6; code rule 14 in Section 0.4; Section 14.12 (camera motion → Bluetooth example); camera entries in Section 15; removed "no camera" from Sections 0.2 and 9; the microphone prompt is no longer shown for video-only requests. Revision 10 — added the BLE **Line Buffering** option (Play menu, BLE only, OFF by default): why BLE splits messages into 20-byte packets, what the option does, its requirements, and entries in Sections 9, 10, 13.1 and 15. Revision 9 — added the accelerometer Z receiver `html_sensor_movez`. Revision 8 — updated to SoifGo 1.47 (VersionCode 147): Option menu in Play with its full item list, and the Simulation Input Value modes (Section 13 and the Effects simulator note). Revision 7 — corrected the code-editing flow everywhere: code is saved automatically (no manual save), the yellow X returns directly to the WebView which reloads automatically (alternative: Back, then tap the WebView button again), rename / save-as only via the editor menu, and removed the last leftover "wait for colors" wording in Section 14. Revision 6 — added Step 0 (get and install the app: not on Google Play, APKPure or ZIP, unknown sources), removed the obsolete "wait until the code turns colored" warning (paste, then tap the yellow X right away), moved this changelog to the end of the file, and added the pointer to the short manual ai.html. Revision 5 — made the argument rule consistent (exact count per Sub, `true` always second, `''` only for an empty required value), added the argument-count column to Section 6, the Bluetooth send/receive name warning, the CR+LF note, and updated 14.9 and Section 15. Revision 4 — added Section 14.11 (Download an external library once, reuse it from storage via IndexedDB, based on the 3D File Viewer) and updated rule 0.4-10, the Pre-Send Checklist, Section 9 (Storage) and Section 15.

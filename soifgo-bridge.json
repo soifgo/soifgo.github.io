@@ -2,7 +2,7 @@
   "$schema_note": "Machine-readable summary of the SoifGo WebView bridge. Source of truth: https://soifgo.github.io/SOIFGO_AI_CONTEXT.md (Sections 3-6, 8, 9). If this file and the Markdown disagree, the Markdown wins.",
   "name": "SoifGo WebView bridge",
   "soifgo_version": "1.47",
-  "spec_revision": 2,
+  "spec_revision": 3,
   "namespace": "window.soifgo",
   "call_syntax": "window.soifgo.CallSub(subName, true, arg1?, arg2?, arg3?)",
   "rules": {
@@ -22,6 +22,7 @@
     { "name": "sensor_move", "group": "sensors", "arg_count": 0, "args": [], "purpose": "Activate accelerometer (X, Y and Z).", "delivers_to": ["html_sensor_movex", "html_sensor_movey", "html_sensor_movez"], "notes": ["Z is the axis perpendicular to the screen and reflects movement along it; not for tilt (use X and Y) and gives no height or floor."] },
     { "name": "sensor_magno", "group": "sensors", "arg_count": 0, "args": [], "purpose": "Activate magnetometer (X, Y, Z).", "delivers_to": ["html_sensor_magnox", "html_sensor_magnoy", "html_sensor_magnoz"], "notes": ["Three separate receivers, one value each.", "Do not promise a tilt-compensated compass built on accelerometer Z (html_sensor_movez)."] },
     { "name": "sensor_barometer", "group": "sensors", "arg_count": 0, "args": [], "purpose": "Activate barometer (air pressure).", "delivers_to": ["html_sensor_barometer"], "notes": ["Independent of the other sensor Subs.", "Call inside window.onload.", "One receiver, one value as string."] },
+    { "name": "camera_permission", "group": "camera", "arg_count": 0, "args": [], "purpose": "Ask the user for the Android camera permission.", "delivers_to": ["html_camera_status"], "notes": ["Call inside window.onload after a short delay (about 800 ms).", "Call getUserMedia only after html_camera_status('true').", "A video-only request (audio:false) does not trigger the microphone prompt.", "Needs a SoifGo build that includes the camera bridge; older builds show the wrong-Sub warning."] },
     { "name": "connecte_mqtt_ai", "group": "mqtt", "arg_count": 2, "args": [ { "name": "address", "type": "string", "note": "tcp://host:1883 or ssl://host:8883; empty -> tcp://test.mosquitto.org:1883" }, { "name": "id", "type": "string", "note": "Client ID; empty -> auto soifgo_XXXX" } ],
       "purpose": "MQTT connect, step 1." },
     { "name": "connecte_mqtt_up", "group": "mqtt", "arg_count": 2, "args": [ { "name": "username", "type": "string" }, { "name": "password", "type": "string" } ],
@@ -49,6 +50,7 @@
     { "name": "html_sensor_magnoy", "args": ["data"], "value_format": "3 decimals as string" },
     { "name": "html_sensor_magnoz", "args": ["data"], "value_format": "3 decimals as string" },
     { "name": "html_sensor_barometer", "args": ["data"], "value_format": "3 decimals as string", "notes": ["Air pressure from the phone barometer in hPa; one receiver, one value."] },
+    { "name": "html_camera_status", "args": ["data"], "value_format": "string 'true' or 'false'", "notes": ["Result of camera_permission. Arrives as a STRING; compare with === 'true'."] },
     { "name": "mqtt_rx", "args": ["topic", "message"] },
     { "name": "html_mqtt_status", "args": ["connected"], "notes": ["Arrives as the STRING 'true' or 'false'. 'false' is truthy; compare with === 'true'."] },
     { "name": "api_rx", "args": ["number"], "notes": ["May be plain (86846.51) or B4A Map string ({usd=86750}); handle both."] }
@@ -60,7 +62,7 @@
     "Accelerometer Z (html_sensor_movez) is not a tilt axis: use X and Y for a tilt level. It gives no height or floor by itself; use the barometer (html_sensor_barometer) for pressure, but do not promise an exact altitude or floor number.",
     "Magnetometer is delivered as three separate receivers (X, Y, Z).",
     "Barometer is delivered as one receiver (html_sensor_barometer), one string value.",
-    "Camera is not defined in the current version.",
+    "Camera: call camera_permission first and open the camera with getUserMedia only after html_camera_status is 'true'. Camera and microphone are separate prompts.",
     "Headphones/speakers are not supported; data devices only."
   ],
   "bluetooth_modules": {

@@ -842,6 +842,11 @@ localStorage.removeItem('my_key');</code></pre>
             <td>Activate barometer (air pressure) stream.</td>
           </tr>
           <tr>
+            <td><code>camera_permission</code></td>
+            <td><span class="tag act">ACT</span></td>
+            <td>Ask for the camera permission (0 arguments). The answer arrives in <code>html_camera_status</code>; call <code>getUserMedia</code> only after <code>'true'</code>.</td>
+          </tr>
+          <tr>
             <td><code>connecte_mqtt_ai(address, id)</code></td>
             <td><span class="tag send">SEND</span></td>
             <td>MQTT connect step 1 — broker URL + client ID.</td>
@@ -933,6 +938,11 @@ localStorage.removeItem('my_key');</code></pre>
             <td><code>html_sensor_barometer(data)</code></td>
             <td><span class="tag recv">RECV</span></td>
             <td>Barometer (air pressure) value in hPa, 3 decimals.</td>
+          </tr>
+          <tr>
+            <td><code>html_camera_status(data)</code></td>
+            <td><span class="tag recv">RECV</span></td>
+            <td>Camera permission result: the string <code>'true'</code> or <code>'false'</code>.</td>
           </tr>
           <tr>
             <td><code>mqtt_rx(topic, message)</code></td>
