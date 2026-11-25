@@ -2,6 +2,8 @@
  * GIF209 — Open Source STM32 LED Controller
  * Author : Saeid Moghadam
  * Version: 1.0 (2026)
+ * Speed patch: see the SPEED OPTIONS block below (original design and
+ *              protocol unchanged; credit: GIF209, Saeid Moghadam).
  * Web    : https://soifgo.github.io/gif209/gif209.html
  *
  * GIF209 on STM32F030K6T6 (LQFP32) — 19 channels
@@ -22,10 +24,23 @@
 #define BASE_SECTOR  2000u
 #define MAX_LINE     511
 #define MAX_FRAMES   60000u
-#define STRIP_LEN    100
+#define STRIP_LEN    220
 
 #define NUM_CH       19
 
+/* ---------------- SPEED OPTIONS ----------------
+ * SKIP_UNCHANGED : do not re-send a channel whose pixels are identical to what
+ *                  the strip already shows (WS2812 keeps its last frame).
+ *                  Every channel is still re-sent after REFRESH_EVERY+ch skipped
+ *                  frames (staggered), so a strip that was powered late or got a
+ *                  glitch recovers by itself. Set 0 to get the old behaviour.
+ * LATCH_US       : low time the strips need to latch (same 300 us as before),
+ *                  but now it is only waited when the SAME channel is sent
+ *                  again before enough time has passed (see send_channel).
+ */
+#define SKIP_UNCHANGED  1
+#define REFRESH_EVERY   16
+#define LATCH_US        300u
 #include <stdint.h>
 
 /* ---------------- registers ---------------- */
@@ -437,7 +452,17 @@ static const chan_t chan[NUM_CH] = {
     {GPA, 8}     /* ch19 PA8   pin 18 */
 };
 
-static uint8_t px[STRIP_LEN * 3];
+#define PX_BYTES   (STRIP_LEN * 3)
+#define PX_WORDS   ((PX_BYTES + 3) / 4)
+typedef uint32_t __attribute__((may_alias)) u32a;
+static uint8_t px[PX_WORDS * 4] __attribute__((aligned(4)));   /* padding bytes stay 0 */
+
+#if SKIP_UNCHANGED
+static uint32_t last_hash[NUM_CH];
+static uint8_t  age[NUM_CH];        /* 0 = no valid hash yet; else 1 + skipped sends since the last real send */
+#endif
+static uint8_t  last_k;             /* channel that was really sent last (0 = none yet) */
+#define LATCH_BYTES (LATCH_US / 10u + 2u)   /* one byte = 8 bits * 1.25 us = 10 us */
 static uint8_t touched[NUM_CH];
 static uint8_t ao;
 static uint8_t nch = NUM_CH;
@@ -460,27 +485,88 @@ static void channels_init(void)
 
 static void clear_px(void)
 {
-    for (uint16_t i = 0; i < STRIP_LEN * 3; i++) px[i] = 0;
+    u32a *w = (u32a *)px;
+    for (uint16_t i = 0; i < PX_WORDS; i++) w[i] = 0;
 }
+
+#if SKIP_UNCHANGED
+/* 32-bit hash of the pixel buffer. Each step is a bijection, so a change in a
+ * single word always changes the hash; the shift keeps top-bit flips of two
+ * different words from cancelling each other. */
+static uint32_t px_hash(void)
+{
+    const u32a *w = (const u32a *)px;
+    uint32_t h = 0x811C9DC5u;
+    for (uint16_t i = 0; i < PX_WORDS; i++) {
+        h = (h ^ w[i]) * 0x9E3779B1u;
+        h ^= h >> 15;
+    }
+    return h;
+}
+#endif
 
 static void send_channel(uint8_t k)
 {
     const chan_t *c = &chan[k - 1];
-    ws_send(px, STRIP_LEN * 3, c->base + 0x18, 1u << c->pin);
-    latch_gap();
+#if SKIP_UNCHANGED
+    uint32_t h = px_hash();
+    uint8_t  a = age[k - 1];
+    if (a != 0 && h == last_hash[k - 1] && a <= REFRESH_EVERY + k) {
+        age[k - 1] = (uint8_t)(a + 1);      /* strip already shows exactly this */
+        return;
+    }
+    last_hash[k - 1] = h;
+    age[k - 1] = 1;
+#endif
+    /* The strip latches after >= LATCH_US of low level on ITS line. If any
+     * other channel was sent in between, that data (>= LATCH_BYTES) kept this
+     * line low long enough, so the wait is only needed when the same channel
+     * is sent twice in a row (or when a strip is so short that one send is
+     * shorter than the latch time). */
+    if (k == last_k || PX_BYTES < LATCH_BYTES) latch_gap();
+    ws_send(px, PX_BYTES, c->base + 0x18, 1u << c->pin);
+    last_k = k;
 }
 
 /* ---------------- ARGBSE interpreter ---------------- */
-static uint8_t hexv(uint8_t c)
-{
-    if (c >= '0' && c <= '9') return (uint8_t)(c - '0');
-    if (c >= 'A' && c <= 'F') return (uint8_t)(c - 'A' + 10);
-    if (c >= 'a' && c <= 'f') return (uint8_t)(c - 'a' + 10);
-    return 0;
-}
+static const uint8_t hex_tab[256] = {
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0, 0, 0,
+     0,10,11,12,13,14,15, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0,10,11,12,13,14,15, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+};
+static inline uint8_t hexv(uint8_t c) { return hex_tab[c]; }   /* same result as the old if-chain: non-hex -> 0 */
 static uint8_t hex2(const uint8_t *p) { return (uint8_t)((hexv(p[0]) << 4) | hexv(p[1])); }
 
-static uint16_t slen(const char *s) { uint16_t n = 0; while (s[n]) n++; return n; }
+static uint16_t __attribute__((unused)) slen(const char *s) { uint16_t n = 0; while (s[n]) n++; return n; }
+
+/* one pass over the line: returns its length, *wp = position of the first
+ * "wait" (or -1). Same results as slen() + find_str(s, "wait"). */
+static uint16_t scan_line(const char *s, int16_t *wp)
+{
+    int16_t  w = -1;
+    uint16_t n = 0;
+    char     c;
+    while ((c = s[n]) != 0) {
+        if (c == 'w' && w < 0 && s[n + 1] == 'a' && s[n + 2] == 'i' && s[n + 3] == 't')
+            w = (int16_t)n;
+        n++;
+    }
+    *wp = w;
+    return n;
+}
 
 /* position of first occurrence of w in s, or -1 */
 static int16_t find_str(const char *s, const char *w)
@@ -544,10 +630,8 @@ static void do_wait(void)
 
 /* Runs the commands that come BEFORE "wait" (if any), then do_wait().
  * Line: AARRGGBBSSEE...[wait=N]  or just  wait=N  */
-static void execute_line(const char *line)
+static void execute_line_n(const char *line, int16_t wp, uint16_t len)
 {
-    int16_t  wp  = find_str(line, "wait");
-    uint16_t len = (wp >= 0) ? (uint16_t)wp : slen(line);
     uint16_t n   = len / 12;
     uint16_t off = len - n * 12;
     if (off > 1) off = 1;
@@ -561,10 +645,12 @@ static void execute_line(const char *line)
         touched[a - 1] = 1;
         if (ao != a) { flush_px(); clear_px(); }
         ao = a;
-        for (uint16_t i = s; i <= e && i < STRIP_LEN; i++) {
-            px[i * 3]     = g;
-            px[i * 3 + 1] = r;
-            px[i * 3 + 2] = b;
+        uint16_t last = (e < STRIP_LEN) ? e : (STRIP_LEN - 1);
+        uint8_t *q = px + s * 3;
+        for (uint16_t i = s; i <= last; i++) {      /* s >= STRIP_LEN: no iteration, as before */
+            *q++ = g;
+            *q++ = r;
+            *q++ = b;
         }
         pend = a;                 /* sent once per channel (flush_px) */
     }
@@ -572,8 +658,14 @@ static void execute_line(const char *line)
     if (wp >= 0) do_wait();
 }
 
+static void execute_line(const char *line)
+{
+    int16_t  wp;
+    uint16_t len = scan_line(line, &wp);
+    execute_line_n(line, wp, (wp >= 0) ? (uint16_t)wp : len);
+}
+
 /* ---------------- application ---------------- */
-static uint8_t  blk[512];
 static uint8_t  line[MAX_LINE + 1];
 static uint8_t  sd_ok;
 static uint8_t  recording;
@@ -581,6 +673,11 @@ static uint16_t frames;
 
 #define MULTI_BATCH 2
 static uint8_t multi_buf[MULTI_BATCH * 512];
+/* RAM saver: the single-sector buffer shares memory with the play buffer.
+ * They are never used at the same time: play_all() only uses blk for
+ * load_header() before its loop and for the one-sector fallback, which copies
+ * blk onto multi_buf[0..511] (now the same bytes). */
+#define blk multi_buf
 
 static int is_cmd(const uint8_t *a, uint16_t len, const char *w)
 {
@@ -765,10 +862,12 @@ static void play_all(uint8_t loop)
                 uint8_t *frame_data = multi_buf + b * 512;
                 frame_data[511] = 0;
 
-                int is_wait_line = has_str((const char *)frame_data, "wait");
-                uint32_t w = is_wait_line ? read_num_after((const char *)frame_data, "wait=") : 0;
+                int16_t  wp;
+                uint16_t flen = scan_line((const char *)frame_data, &wp);   /* one pass instead of three */
+                int is_wait_line = (wp >= 0);
+                uint32_t w = is_wait_line ? read_num_after((const char *)frame_data + wp, "wait=") : 0;
 
-                execute_line((const char *)frame_data);
+                execute_line_n((const char *)frame_data, wp, is_wait_line ? (uint16_t)wp : flen);
 
                 uint32_t dly = (is_wait_line && w) ? w : play_delay;
                 if (dly && delay_ms_chk(dly)) {

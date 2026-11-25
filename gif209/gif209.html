@@ -429,12 +429,12 @@
             <tr><th>Feature</th><th>Specification</th></tr>
             <tr><td>Microcontroller</td><td>STM32F030K6T6 (ARM Cortex-M0, 48 MHz, LQFP32)</td></tr>
             <tr><td>Channels</td><td>19 independent LED data lines (A1–A19)</td></tr>
-            <tr><td>Pixels per Channel</td><td>220 by default (4,180 total). The protocol supports up to 256 (<code>00</code>–<code>FF</code>).</td></tr>
+            <tr><td>Pixels per Channel</td><td>220 by default (<code>STRIP_LEN</code> in <code>main.c</code>), 4,180 pixels in total for 19 channels. The protocol range is <code>00</code>–<code>FF</code> (up to 256), but pixels at or above <code>STRIP_LEN</code> are ignored.</td></tr>
             <tr><td>Storage</td><td>SD Card via SPI1 (Raw access, no filesystem)</td></tr>
             <tr><td>Communication</td><td>Bluetooth HC-05 (UART, 115200 baud; set the module with <code>AT+UART=115200,0,0</code>)</td></tr>
             <tr><td>Supported LEDs</td><td>WS2812, WS2812B, WS2811, WS2813, WS2815</td></tr>
         </table>
-        <p><strong>Why 220 pixels?</strong> The channels are sent one after another, so more pixels per channel means a lower frame rate. The limit is set to 220 (<code>STRIP_LEN</code> in <code>main.c</code>) to avoid frame drops on this microcontroller, and it is enough for normal displays. If speed is not critical for you, or if you migrate to a faster processor, you can change <code>STRIP_LEN</code> from 220 up to 256. After the change, check the RAM usage of the build: the STM32F030K6 has only 4 KB of RAM. Large banners need a stronger microcontroller and modified code.</p>
+        <p><strong>Why 220 pixels?</strong> The channels are sent one after another, so more pixels per channel means a lower frame rate. The limit is set to 220 (<code>STRIP_LEN</code> in <code>main.c</code>) to avoid frame drops on this microcontroller, and it is enough for normal displays. If speed is not critical for you, or if you migrate to a faster processor, you can increase <code>STRIP_LEN</code> from 220 up to 256. After the change, check the RAM usage of the build: the STM32F030K6 has only 4 KB of RAM. Large banners need a stronger microcontroller and modified code.</p>
     </div>
 
     <h2>Pinout &amp; Channel Map</h2>
@@ -527,6 +527,7 @@
         <tr><td><strong>E</strong></td><td>End Pixel</td><td>0 – 255</td><td>00 – FF</td></tr>
     </table>
     <p><em>Example:</em> <code>01FF00000005</code> sets Channel 1, pixels 0 to 5, to Red (FF0000).</p>
+    <p><strong>Several commands in one line:</strong> you can join up to 41 commands (492 characters) in a single line, for example <code>01FF00000005</code><code>02001000FF0A</code>, optionally followed by <code>wait=N</code> at the very end of the line. The commands run first; then the controller sends the pending data, clears the channels not touched in this frame, and waits N milliseconds. The maximum line length is 511 characters.</p>
 
     <h3>2. Control Commands</h3>
     <table>
@@ -543,6 +544,7 @@
         <tr><td><code>ERASE</code></td><td>Clears the recording header (frames=0)</td><td><code>ERASED</code>, then <code>next</code></td></tr>
         <tr><td><code>INFO</code></td><td>Shows current status (frames, channels, delay, auto)</td><td><code>frames=.. ch=..</code>, then <code>next</code></td></tr>
         <tr><td><code>DUMP</code></td><td>Sends raw data of all stored frames to terminal (for debugging)</td><td><code>HDR raw:...</code>, then <code>next</code></td></tr>
+        <tr><td><code>TEST5</code> / <code>TEST10</code></td><td>Diagnostic: waits 5 or 10 seconds (useful to test the link and timing)</td><td><code>START</code>, then <code>END</code> after the pause</td></tr>
         <tr><td><code>DUMP=N</code></td><td>Sends the raw data of frame number N only (for debugging)</td><td><code>HDR raw:...</code>, then <code>next</code></td></tr>
         <tr><td><code>CH=N</code></td><td>Sets the number of active channels (1 – 19) and saves it on the SD card</td><td><code>OK CH=N</code>, then <code>next</code></td></tr>
         <tr><td><code>DELAY=N</code></td><td>Sets the default delay between frames in milliseconds (used when a frame has no <code>wait=N</code>) and saves it on the SD card</td><td><code>OK DELAY=N</code>, then <code>next</code></td></tr>
@@ -677,6 +679,1125 @@
         <p>Get the source code, PCB schematics, and the latest firmware updates from the repository.</p>
         <a href="ALL_File.zip" download class="download-link">📦 Download ALL_File.zip</a>
         <p style="margin-top:16px;font-size:0.9em;"><strong>License:</strong> free to use, modify and share, with no restrictions and no follow-up. The only requirement is to credit the source <span class="ignore">(GIF209, Saeid Moghadam)</span> .</p>
+    </div>
+
+    <!-- ===== Firmware source & reference for AI assistants and developers ===== -->
+    <h2 id="for-ai">Firmware Source &amp; Quick Reference <span class="badge">AI &amp; Developers</span></h2>
+    <div class="card" id="gif209-reference">
+        <p>This section gives a plain-text summary and the complete firmware source of GIF209, so developers, search engines and AI assistants can answer questions about it accurately. When you use or quote this information, please credit the source: <strong class="ignore">GIF209, Saeid Moghadam</strong> – <a href="https://soifgo.github.io/gif209/gif209.html" class="ignore">https://soifgo.github.io/gif209/gif209.html</a></p>
+
+        <h3>Quick facts</h3>
+        <ul>
+            <li><strong>What it is:</strong> open-source STM32F030K6T6 controller for up to 19 independent WS2812/WS2811 LED data channels, with SD card record/play and Bluetooth (UART) control.</li>
+            <li><strong>Firmware:</strong> one bare-metal C file, <code>main.c</code> (about 1079 lines). No HAL, no CMSIS: peripherals are accessed directly through registers.</li>
+            <li><strong>Clock:</strong> internal HSI, divided by 2 and multiplied by 12 through the PLL = 48 MHz.</li>
+            <li><strong>Bluetooth:</strong> USART1 on PA9 (TX) and PA10 (RX), speed set by <code>UART_BAUD</code> (115200 by default). Reception uses a circular DMA ring buffer (256 bytes) so no data is lost while LEDs are being updated.</li>
+            <li><strong>SD card:</strong> SPI1 on PA4 (CS), PA5 (SCK), PA6 (MISO), PA7 (MOSI). Raw sector access with no filesystem: the header is stored at sector 2000 (<code>BASE_SECTOR</code>) and frames start at sector 2001, one line per sector, up to 60000 frames (<code>MAX_FRAMES</code>).</li>
+            <li><strong>LED output:</strong> each channel is one GPIO pin; the firmware writes the GPIO BSRR register to produce the WS2812 waveform. Channels are sent one after another, so more pixels per channel means a lower frame rate. Pixels per channel is the <code>STRIP_LEN</code> constant in <code>main.c</code>.</li>
+            <li><strong>Speed options (compile-time, in <code>main.c</code>):</strong> <code>SKIP_UNCHANGED</code> (default 1) skips re-sending a channel whose pixels are identical to what the strip already shows; every channel is still re-sent after <code>REFRESH_EVERY</code> (16) skipped frames plus its channel number, staggered, so a strip powered late or hit by a glitch recovers by itself. Set it to 0 for the old behaviour. <code>LATCH_US</code> (300 µs) is the low time the strips need to latch; it is now waited only when the same channel is sent twice in a row. The protocol is unchanged.</li>
+            <li><strong>SWD is not available</strong> because PA13/PA14 are LED outputs (channels 3 and 4). Flash with the BOOT0 jumper and the UART bootloader (PA9/PA10), or with ST-LINK while the BOOT jumper is installed.</li>
+            <li><strong>Auto play on boot (inverted logic):</strong> <code>AUTO=0</code> means auto-loop is ON, <code>AUTO=1</code> means OFF.</li>
+        </ul>
+
+        <h3>Line format</h3>
+        <p>Each line sent over Bluetooth ends with a newline. A pixel command is 12 hex characters <code>AARRGGBBSSEE</code> (channel, red, green, blue, start pixel, end pixel). One line can hold up to 41 such commands (492 characters), optionally followed by <code>wait=N</code> at the end of the line. The commands run first; then <code>wait</code> sends pending data, clears channels that were not touched in this frame, and waits N milliseconds. The line limit is <code>MAX_LINE</code> = 511 characters. Most commands are answered with <code>next</code>, so the sender can send the following line.</p>
+
+        <h3>Text commands</h3>
+        <p><code>REC</code>, <code>END</code>, <code>PLAY</code>, <code>LOOP</code>, <code>STOP</code>, <code>ERASE</code>, <code>INFO</code>, <code>DUMP</code>, <code>DUMP=N</code>, <code>CH=N</code>, <code>DELAY=N</code>, <code>AUTO=0</code>, <code>AUTO=1</code>, <code>wait</code>, <code>wait=N</code>. The diagnostic commands <code>TEST5</code> and <code>TEST10</code> answer <code>START</code>, pause 5 or 10 seconds, then answer <code>END</code>. See the Command Protocol table above for the meaning of each command.</p>
+
+        <h3>Common questions</h3>
+        <ul>
+            <li><strong>Nothing happens after connecting Bluetooth.</strong> The module speed does not match <code>UART_BAUD</code>. Set the module to 115200 or change <code>UART_BAUD</code> to 9600 and flash again.</li>
+            <li><strong>How do I use more pixels per channel?</strong> Change <code>STRIP_LEN</code> in <code>main.c</code> (the protocol supports up to 256) and check RAM use: the STM32F030K6 has only 4 KB.</li>
+            <li><strong>Why can I not debug with SWD?</strong> PA13 and PA14 are reconfigured as LED outputs a few microseconds after start.</li>
+            <li><strong>Why does my SD card ask to be formatted?</strong> GIF209 writes raw sectors without a filesystem. Use a spare card.</li>
+            <li><strong>Do I need a 3.3V to 5V level shifter?</strong> Usually not with a short data wire and a common ground, but add one (for example 74HCT125) if you see flicker or wrong colors on the first LEDs.</li>
+        </ul>
+
+        <h3>Complete source: main.c</h3>
+        <p><a href="main.c" download>⬇ Download main.c</a> (plain text, the same code as below)</p>
+        <details>
+            <summary style="cursor:pointer;color:var(--accent3);font-weight:600;">Show full source code of main.c</summary>
+            <pre class="ignore" translate="no"><code class="language-c" translate="no">/* ============================================================
+ * GIF209 — Open Source STM32 LED Controller
+ * Author : Saeid Moghadam
+ * Version: 1.0 (2026)
+ * Speed patch: see the SPEED OPTIONS block below (original design and
+ *              protocol unchanged; credit: GIF209, Saeid Moghadam).
+ * Web    : https://soifgo.github.io/gif209/gif209.html
+ *
+ * GIF209 on STM32F030K6T6 (LQFP32) — 19 channels
+ *   PA13/PA14 (SWD) are used as LED outputs (ch3/ch4), so SWD is NOT
+ *   available. Flash via the BOOT0 jumper + UART bootloader (PA9/PA10).
+ *   Bluetooth (USART1) -&gt; 19 x WS2812 channels, record/play from SD
+ *
+ *  AUTO logic (INVERTED):
+ *    auto_play = 0  -&gt;  AUTO ON  (play LOOP on boot)
+ *    auto_play = 1  -&gt;  AUTO OFF (wait for command)
+ *
+ *  Line format (new): AARRGGBBSSEE...AARRGGBBSSEE[wait=N]
+ *    up to 41 commands (492 chars) + optional wait=N at the END of the line.
+ *    Commands run first, then wait (flush + clear untouched channels + delay).
+ * ============================================================ */
+
+#define UART_BAUD    115200u
+#define BASE_SECTOR  2000u
+#define MAX_LINE     511
+#define MAX_FRAMES   60000u
+#define STRIP_LEN    220
+
+#define NUM_CH       19
+
+/* ---------------- SPEED OPTIONS ----------------
+ * SKIP_UNCHANGED : do not re-send a channel whose pixels are identical to what
+ *                  the strip already shows (WS2812 keeps its last frame).
+ *                  Every channel is still re-sent after REFRESH_EVERY+ch skipped
+ *                  frames (staggered), so a strip that was powered late or got a
+ *                  glitch recovers by itself. Set 0 to get the old behaviour.
+ * LATCH_US       : low time the strips need to latch (same 300 us as before),
+ *                  but now it is only waited when the SAME channel is sent
+ *                  again before enough time has passed (see send_channel).
+ */
+#define SKIP_UNCHANGED  1
+#define REFRESH_EVERY   16
+#define LATCH_US        300u
+#include &lt;stdint.h&gt;
+
+/* ---------------- registers ---------------- */
+#define RCC_CR        (*(volatile uint32_t *)0x40021000)
+#define RCC_CFGR      (*(volatile uint32_t *)0x40021004)
+#define RCC_AHBENR    (*(volatile uint32_t *)0x40021014)
+#define RCC_APB2ENR   (*(volatile uint32_t *)0x40021018)
+#define FLASH_ACR     (*(volatile uint32_t *)0x40022000)
+
+#define GPIOA_MODER   (*(volatile uint32_t *)0x48000000)
+#define GPIOA_OSPEEDR (*(volatile uint32_t *)0x48000008)
+#define GPIOA_PUPDR   (*(volatile uint32_t *)0x4800000C)
+#define GPIOA_BSRR    (*(volatile uint32_t *)0x48000018)
+#define GPIOA_AFRL    (*(volatile uint32_t *)0x48000020)
+#define GPIOA_AFRH    (*(volatile uint32_t *)0x48000024)
+
+#define SPI1_CR1      (*(volatile uint32_t *)0x40013000)
+#define SPI1_CR2      (*(volatile uint32_t *)0x40013004)
+#define SPI1_SR       (*(volatile uint32_t *)0x40013008)
+#define SPI1_DR8      (*(volatile uint8_t  *)0x4001300C)
+
+#define USART1_CR1    (*(volatile uint32_t *)0x40013800)
+#define USART1_BRR    (*(volatile uint32_t *)0x4001380C)
+#define USART1_ISR    (*(volatile uint32_t *)0x4001381C)
+#define USART1_ICR    (*(volatile uint32_t *)0x40013820)
+#define USART1_RDR    (*(volatile uint32_t *)0x40013824)
+#define USART1_TDR    (*(volatile uint32_t *)0x40013828)
+#define USART1_CR3    (*(volatile uint32_t *)0x40013808)
+
+/* DMA1 channel 3 = USART1_RX (default mapping on F030) */
+#define DMA1_CCR3     (*(volatile uint32_t *)0x40020030)
+#define DMA1_CNDTR3   (*(volatile uint32_t *)0x40020034)
+#define DMA1_CPAR3    (*(volatile uint32_t *)0x40020038)
+#define DMA1_CMAR3    (*(volatile uint32_t *)0x4002003C)
+
+#define RX_RING 256u                 /* must be a power of 2 */
+static uint8_t  rx_ring[RX_RING];
+static uint16_t rx_tail;
+static uint8_t  stop_idx;
+
+#define SYST_CSR      (*(volatile uint32_t *)0xE000E010)
+#define SYST_RVR      (*(volatile uint32_t *)0xE000E014)
+#define SYST_CVR      (*(volatile uint32_t *)0xE000E018)
+
+/* ---------------- clock: HSI/2 * 12 = 48 MHz ---------------- */
+static void clock_init_48mhz(void)
+{
+    FLASH_ACR = 0x11;
+    RCC_CFGR &amp;= ~(0xFu &lt;&lt; 18);
+    RCC_CFGR |=  (10u &lt;&lt; 18);
+    RCC_CR   |=  (1u &lt;&lt; 24);
+    while (!(RCC_CR &amp; (1u &lt;&lt; 25)));
+    RCC_CFGR &amp;= ~3u;
+    RCC_CFGR |=  2u;
+    while ((RCC_CFGR &amp; 0xC) != 0x8);
+}
+
+static void systick_init(void)
+{
+    SYST_RVR = 48000 - 1;
+    SYST_CVR = 0;
+    SYST_CSR = 5;
+}
+
+static void delay_ms(uint32_t n)
+{
+    while (n--) {
+        (void)SYST_CSR;
+        while (!(SYST_CSR &amp; (1u &lt;&lt; 16)));
+    }
+}
+
+/* ---------------- UART ---------------- */
+static void Bluetooth_Init(void)
+{
+    RCC_APB2ENR |= (1u &lt;&lt; 14);
+
+    GPIOA_MODER &amp;= ~((3u &lt;&lt; 18) | (3u &lt;&lt; 20));
+    GPIOA_MODER |=  ((2u &lt;&lt; 18) | (2u &lt;&lt; 20));
+    GPIOA_AFRH  &amp;= ~((0xFu &lt;&lt; 4) | (0xFu &lt;&lt; 8));
+    GPIOA_AFRH  |=  ((1u &lt;&lt; 4) | (1u &lt;&lt; 8));
+
+    USART1_BRR = (48000000u + UART_BAUD / 2u) / UART_BAUD;
+    USART1_CR3 = (1u &lt;&lt; 6) | (1u &lt;&lt; 12);          /* DMAR + OVRDIS */
+
+    /* circular DMA: hardware keeps filling rx_ring even while we are busy */
+    RCC_AHBENR |= (1u &lt;&lt; 0);                       /* DMA1 clock */
+    DMA1_CCR3   = 0;
+    DMA1_CPAR3  = 0x40013824u;                     /* USART1_RDR */
+    DMA1_CMAR3  = (uint32_t)(uintptr_t)rx_ring;
+    DMA1_CNDTR3 = RX_RING;
+    DMA1_CCR3   = (1u &lt;&lt; 7) | (1u &lt;&lt; 5) | (1u &lt;&lt; 0); /* MINC | CIRC | EN */
+    rx_tail = 0;
+
+    USART1_CR1 = (1u &lt;&lt; 0) | (1u &lt;&lt; 2) | (1u &lt;&lt; 3);
+}
+
+static inline uint16_t rx_head(void)
+{
+    return (uint16_t)(RX_RING - DMA1_CNDTR3) &amp; (RX_RING - 1u);
+}
+
+static void Bluetooth_SendChar(char c)
+{
+    while (!(USART1_ISR &amp; (1u &lt;&lt; 7)));
+    USART1_TDR = (uint8_t)c;
+}
+
+static void Bluetooth_SendString(const char *s)
+{
+    while (*s) Bluetooth_SendChar(*s++);
+}
+
+static char Bluetooth_ReceiveChar(void)
+{
+    for (;;) {
+        if (rx_tail != rx_head()) {
+            uint8_t c = rx_ring[rx_tail];
+            rx_tail = (uint16_t)((rx_tail + 1u) &amp; (RX_RING - 1u));
+            return (char)c;
+        }
+        if (USART1_ISR &amp; 0x0E) USART1_ICR = 0x0E;
+    }
+}
+
+static void Bluetooth_SendNum(uint32_t v)
+{
+    char t[11]; int n = 0;
+    if (v == 0) t[n++] = &#x27;0&#x27;;
+    while (v) { t[n++] = (char)(&#x27;0&#x27; + v % 10); v /= 10; }
+    while (n) Bluetooth_SendChar(t[--n]);
+}
+
+static void Bluetooth_SendHex(uint32_t v)
+{
+    const char *h = &quot;0123456789ABCDEF&quot;;
+    for (int i = 28; i &gt;= 0; i -= 4)
+        Bluetooth_SendChar(h[(v &gt;&gt; i) &amp; 15]);
+}
+
+/* ---------------- SPI + SD card ---------------- */
+#define CS_HIGH()  (GPIOA_BSRR = (1u &lt;&lt; 4))
+#define CS_LOW()   (GPIOA_BSRR = (1u &lt;&lt; (4 + 16)))
+
+static uint8_t sd_hc;
+static uint8_t sd_r1;
+#define SD_RUN_BR  1  /* 48MHz / 4 = 12 MHz ; 1 =&gt; 24 MHz (if SD errors, set back to 2) */
+
+static void spi_config(uint32_t br)
+{
+    SPI1_CR1 = 0;
+    SPI1_CR2 = (7u &lt;&lt; 8) | (1u &lt;&lt; 12);
+    SPI1_CR1 = (br &lt;&lt; 3) | (1u &lt;&lt; 2) | (1u &lt;&lt; 8) | (1u &lt;&lt; 9);
+    SPI1_CR1 |= (1u &lt;&lt; 6);
+}
+
+static void spi_init(void)
+{
+    RCC_APB2ENR |= (1u &lt;&lt; 12);
+
+    GPIOA_MODER   &amp;= ~(0xFFu &lt;&lt; 8);
+    GPIOA_MODER   |=  (1u &lt;&lt; 8) | (2u &lt;&lt; 10) | (2u &lt;&lt; 12) | (2u &lt;&lt; 14);
+    GPIOA_OSPEEDR |=  (0xFFu &lt;&lt; 8);
+    GPIOA_PUPDR   &amp;= ~(3u &lt;&lt; 12);
+    GPIOA_PUPDR   |=  (1u &lt;&lt; 12);
+    GPIOA_AFRL    &amp;= ~(0xFFFu &lt;&lt; 20);
+
+    CS_HIGH();
+    spi_config(6);
+}
+
+static uint8_t spi_xfer(uint8_t b)
+{
+    while (!(SPI1_SR &amp; (1u &lt;&lt; 1)));
+    SPI1_DR8 = b;
+    while (!(SPI1_SR &amp; (1u &lt;&lt; 0)));
+    return SPI1_DR8;
+}
+
+/* Pipelined block read: keeps the SPI FIFO busy instead of waiting per byte */
+static void spi_read_block(uint8_t *buf, uint16_t n)
+{
+    uint16_t sent = 0, got = 0;
+    while (got &lt; n) {
+        if (sent &lt; n &amp;&amp; (uint16_t)(sent - got) &lt; 3 &amp;&amp; (SPI1_SR &amp; (1u &lt;&lt; 1))) {
+            SPI1_DR8 = 0xFF;
+            sent++;
+        }
+        if (SPI1_SR &amp; (1u &lt;&lt; 0)) buf[got++] = SPI1_DR8;
+    }
+}
+
+static void sd_release(void)
+{
+    CS_HIGH();
+    spi_xfer(0xFF);
+}
+
+static uint8_t sd_cmd(uint8_t cmd, uint32_t arg, uint8_t crc)
+{
+    spi_xfer(0xFF);
+    spi_xfer(0x40 | cmd);
+    spi_xfer((uint8_t)(arg &gt;&gt; 24));
+    spi_xfer((uint8_t)(arg &gt;&gt; 16));
+    spi_xfer((uint8_t)(arg &gt;&gt; 8));
+    spi_xfer((uint8_t)arg);
+    spi_xfer(crc);
+    for (int i = 0; i &lt; 200; i++) {
+        uint8_t r = spi_xfer(0xFF);
+        if (!(r &amp; 0x80)) return r;
+    }
+    return 0xFF;
+}
+
+static uint8_t sd_init(void)
+{
+    uint8_t r, ocr[4], v2 = 0;
+    uint32_t t;
+
+    spi_init();
+    for (int i = 0; i &lt; 10; i++) spi_xfer(0xFF);
+
+    CS_LOW();
+    r = sd_cmd(0, 0, 0x95);
+    if (r != 0x01) { sd_r1 = r; sd_release(); return 1; }
+
+    r = sd_cmd(8, 0x1AA, 0x87);
+    if (r == 0x01) {
+        for (int i = 0; i &lt; 4; i++) ocr[i] = spi_xfer(0xFF);
+        if (ocr[2] != 0x01 || ocr[3] != 0xAA) { sd_r1 = ocr[3]; sd_release(); return 2; }
+        v2 = 1;
+    }
+
+    t = 2000;
+    uint8_t noresp = 0;
+    do {
+        sd_cmd(55, 0, 0xFF);
+        r = sd_cmd(41, v2 ? 0x40000000u : 0, 0xFF);
+        if (r == 0) break;
+        if (r == 0xFF &amp;&amp; ++noresp &gt; 50) break;
+        delay_ms(1);
+    } while (--t);
+    if (r != 0) { sd_r1 = r; sd_release(); return 3; }
+
+    sd_hc = 0;
+    if (v2) {
+        r = sd_cmd(58, 0, 0xFF);
+        if (r != 0) { sd_r1 = r; sd_release(); return 4; }
+        for (int i = 0; i &lt; 4; i++) ocr[i] = spi_xfer(0xFF);
+        sd_hc = (ocr[0] &amp; 0x40) ? 1 : 0;
+    }
+    if (!sd_hc) {
+        r = sd_cmd(16, 512, 0xFF);
+        if (r != 0) { sd_r1 = r; sd_release(); return 5; }
+    }
+    sd_release();
+
+    spi_config(SD_RUN_BR);
+    return 0;
+}
+
+static uint8_t sd_read(uint32_t sector, uint8_t *buf)
+{
+    uint8_t r = 0xFF;
+    CS_LOW();
+    sd_r1 = sd_cmd(17, sd_hc ? sector : (sector &lt;&lt; 9), 0xFF);
+    if (sd_r1 != 0) { sd_release(); return 1; }
+    for (uint32_t t = 100000; t; t--) {
+        r = spi_xfer(0xFF);
+        if (r != 0xFF) break;
+    }
+    if (r != 0xFE) { sd_release(); return 2; }
+    spi_read_block(buf, 512);
+    spi_xfer(0xFF); spi_xfer(0xFF);
+    sd_release();
+    return 0;
+}
+
+static uint8_t sd_write(uint32_t sector, const uint8_t *buf)
+{
+    uint8_t r;
+    CS_LOW();
+    sd_r1 = sd_cmd(24, sd_hc ? sector : (sector &lt;&lt; 9), 0xFF);
+    if (sd_r1 != 0) { sd_release(); return 1; }
+    spi_xfer(0xFF);
+    spi_xfer(0xFE);
+    for (int i = 0; i &lt; 512; i++) spi_xfer(buf[i]);
+    spi_xfer(0xFF); spi_xfer(0xFF);
+    r = spi_xfer(0xFF);
+    if ((r &amp; 0x1F) != 0x05) { sd_release(); return 2; }
+    uint32_t t;
+    for (t = 200000; t; t--)
+        if (spi_xfer(0xFF) == 0xFF) break;
+    sd_release();
+    return t ? 0 : 3;
+}
+
+/* Read multiple blocks using CMD18 */
+static uint8_t sd_read_multi(uint32_t sector, uint8_t *buf, uint16_t count)
+{
+    uint8_t r = 0xFF;
+    CS_LOW();
+    sd_r1 = sd_cmd(18, sd_hc ? sector : (sector &lt;&lt; 9), 0xFF);
+    if (sd_r1 != 0) { sd_release(); return 1; }
+
+    for (uint16_t i = 0; i &lt; count; i++) {
+        for (uint32_t t = 100000; t; t--) {
+            r = spi_xfer(0xFF);
+            if (r != 0xFF) break;
+        }
+        if (r != 0xFE) {
+            CS_LOW(); sd_cmd(12, 0, 0xFF); sd_release();
+            return 2;
+        }
+        spi_read_block(buf + i * 512, 512);
+        spi_xfer(0xFF); spi_xfer(0xFF);
+    }
+    sd_cmd(12, 0, 0xFF);
+    for (uint32_t t = 100000; t; t--)
+        if (spi_xfer(0xFF) == 0xFF) break;
+    sd_release();
+    return 0;
+}
+
+/* ---------------- WS2812 driver ---------------- */
+#define A_NOPS 16
+#define B_NOPS 17
+#define C_NOPS 15
+#define STR_(x) #x
+#define XSTR(x) STR_(x)
+
+__attribute__((naked, noinline))
+static void ws_send(const uint8_t *p, uint32_t n, uint32_t bsrr, uint32_t mask)
+{
+    __asm volatile(
+        &quot;.syntax unified            \n&quot;
+        &quot;push   {r4, r5, r6}        \n&quot;
+        &quot;lsls   r4, r3, #16         \n&quot;
+        &quot;cmp    r1, #0              \n&quot;
+        &quot;beq    9f                  \n&quot;
+    &quot;10:                            \n&quot;
+        &quot;ldrb   r5, [r0]            \n&quot;
+        &quot;adds   r0, r0, #1          \n&quot;
+        &quot;lsls   r5, r5, #24         \n&quot;
+        &quot;movs   r6, #8              \n&quot;
+    &quot;11:                            \n&quot;
+        &quot;lsls   r5, r5, #1          \n&quot;
+        &quot;str    r3, [r2]            \n&quot;
+        &quot;.rept &quot; XSTR(A_NOPS) &quot;     \n&quot;
+        &quot;nop                        \n&quot;
+        &quot;.endr                      \n&quot;
+        &quot;bcs    12f                 \n&quot;
+        &quot;str    r4, [r2]            \n&quot;
+    &quot;12:                            \n&quot;
+        &quot;.rept &quot; XSTR(B_NOPS) &quot;     \n&quot;
+        &quot;nop                        \n&quot;
+        &quot;.endr                      \n&quot;
+        &quot;str    r4, [r2]            \n&quot;
+        &quot;.rept &quot; XSTR(C_NOPS) &quot;     \n&quot;
+        &quot;nop                        \n&quot;
+        &quot;.endr                      \n&quot;
+        &quot;subs   r6, r6, #1          \n&quot;
+        &quot;bne    11b                 \n&quot;
+        &quot;subs   r1, r1, #1          \n&quot;
+        &quot;bne    10b                 \n&quot;
+    &quot;9:                             \n&quot;
+        &quot;pop    {r4, r5, r6}        \n&quot;
+        &quot;bx     lr                  \n&quot;
+    );
+}
+
+static void latch_gap(void)
+{
+    int32_t start = (int32_t)SYST_CVR;
+    for (;;) {
+        int32_t d = start - (int32_t)SYST_CVR;
+        if (d &lt; 0) d += 48000;
+        if (d &gt;= 14400) break;
+    }
+}
+
+/* ---------------- channels ---------------- */
+#define GPA 0x48000000u
+#define GPB 0x48000400u
+#define GPF 0x48001400u
+typedef struct { uint32_t base; uint8_t pin; } chan_t;
+
+/* Channel order around the LQFP32 package (PCB routing order):
+ * ch1 = pin 21 ... ch10 = pin 30, then wraps to ch11 = pin 2 ... ch19 = pin 18. */
+static const chan_t chan[NUM_CH] = {
+    {GPA, 11},   /* ch1  PA11  pin 21 */
+    {GPA, 12},   /* ch2  PA12  pin 22 */
+    {GPA, 13},   /* ch3  PA13  pin 23 (former SWDIO) */
+    {GPA, 14},   /* ch4  PA14  pin 24 (former SWCLK) */
+    {GPA, 15},   /* ch5  PA15  pin 25 */
+    {GPB, 3},    /* ch6  PB3   pin 26 */
+    {GPB, 4},    /* ch7  PB4   pin 27 */
+    {GPB, 5},    /* ch8  PB5   pin 28 */
+    {GPB, 6},    /* ch9  PB6   pin 29 */
+    {GPB, 7},    /* ch10 PB7   pin 30 */
+    {GPF, 0},    /* ch11 PF0   pin 2 */
+    {GPF, 1},    /* ch12 PF1   pin 3 */
+    {GPA, 0},    /* ch13 PA0   pin 6 */
+    {GPA, 1},    /* ch14 PA1   pin 7 */
+    {GPA, 2},    /* ch15 PA2   pin 8 */
+    {GPA, 3},    /* ch16 PA3   pin 9 */
+    {GPB, 0},    /* ch17 PB0   pin 14 */
+    {GPB, 1},    /* ch18 PB1   pin 15 */
+    {GPA, 8}     /* ch19 PA8   pin 18 */
+};
+
+#define PX_BYTES   (STRIP_LEN * 3)
+#define PX_WORDS   ((PX_BYTES + 3) / 4)
+typedef uint32_t __attribute__((may_alias)) u32a;
+static uint8_t px[PX_WORDS * 4] __attribute__((aligned(4)));   /* padding bytes stay 0 */
+
+#if SKIP_UNCHANGED
+static uint32_t last_hash[NUM_CH];
+static uint8_t  age[NUM_CH];        /* 0 = no valid hash yet; else 1 + skipped sends since the last real send */
+#endif
+static uint8_t  last_k;             /* channel that was really sent last (0 = none yet) */
+#define LATCH_BYTES (LATCH_US / 10u + 2u)   /* one byte = 8 bits * 1.25 us = 10 us */
+static uint8_t touched[NUM_CH];
+static uint8_t ao;
+static uint8_t nch = NUM_CH;
+static uint32_t play_delay = 0;
+static uint8_t  auto_play = 0;
+static uint8_t  boot_loop = 0;
+
+static void channels_init(void)
+{
+    RCC_AHBENR |= (1u &lt;&lt; 17) | (1u &lt;&lt; 18) | (1u &lt;&lt; 22);
+    for (int k = 0; k &lt; NUM_CH; k++) {
+        volatile uint32_t *g = (volatile uint32_t *)chan[k].base;
+        uint8_t pin = chan[k].pin;
+        g[6] = 1u &lt;&lt; (pin + 16);
+        g[3] &amp;= ~(3u &lt;&lt; (pin * 2));                 /* no pull (PA13/PA14 reset to pull-up/down) */
+        g[0] = (g[0] &amp; ~(3u &lt;&lt; (pin * 2))) | (1u &lt;&lt; (pin * 2));
+        g[2] |= 3u &lt;&lt; (pin * 2);
+    }
+}
+
+static void clear_px(void)
+{
+    u32a *w = (u32a *)px;
+    for (uint16_t i = 0; i &lt; PX_WORDS; i++) w[i] = 0;
+}
+
+#if SKIP_UNCHANGED
+/* 32-bit hash of the pixel buffer. Each step is a bijection, so a change in a
+ * single word always changes the hash; the shift keeps top-bit flips of two
+ * different words from cancelling each other. */
+static uint32_t px_hash(void)
+{
+    const u32a *w = (const u32a *)px;
+    uint32_t h = 0x811C9DC5u;
+    for (uint16_t i = 0; i &lt; PX_WORDS; i++) {
+        h = (h ^ w[i]) * 0x9E3779B1u;
+        h ^= h &gt;&gt; 15;
+    }
+    return h;
+}
+#endif
+
+static void send_channel(uint8_t k)
+{
+    const chan_t *c = &amp;chan[k - 1];
+#if SKIP_UNCHANGED
+    uint32_t h = px_hash();
+    uint8_t  a = age[k - 1];
+    if (a != 0 &amp;&amp; h == last_hash[k - 1] &amp;&amp; a &lt;= REFRESH_EVERY + k) {
+        age[k - 1] = (uint8_t)(a + 1);      /* strip already shows exactly this */
+        return;
+    }
+    last_hash[k - 1] = h;
+    age[k - 1] = 1;
+#endif
+    /* The strip latches after &gt;= LATCH_US of low level on ITS line. If any
+     * other channel was sent in between, that data (&gt;= LATCH_BYTES) kept this
+     * line low long enough, so the wait is only needed when the same channel
+     * is sent twice in a row (or when a strip is so short that one send is
+     * shorter than the latch time). */
+    if (k == last_k || PX_BYTES &lt; LATCH_BYTES) latch_gap();
+    ws_send(px, PX_BYTES, c-&gt;base + 0x18, 1u &lt;&lt; c-&gt;pin);
+    last_k = k;
+}
+
+/* ---------------- ARGBSE interpreter ---------------- */
+static const uint8_t hex_tab[256] = {
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0, 0, 0,
+     0,10,11,12,13,14,15, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0,10,11,12,13,14,15, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+};
+static inline uint8_t hexv(uint8_t c) { return hex_tab[c]; }   /* same result as the old if-chain: non-hex -&gt; 0 */
+static uint8_t hex2(const uint8_t *p) { return (uint8_t)((hexv(p[0]) &lt;&lt; 4) | hexv(p[1])); }
+
+static uint16_t __attribute__((unused)) slen(const char *s) { uint16_t n = 0; while (s[n]) n++; return n; }
+
+/* one pass over the line: returns its length, *wp = position of the first
+ * &quot;wait&quot; (or -1). Same results as slen() + find_str(s, &quot;wait&quot;). */
+static uint16_t scan_line(const char *s, int16_t *wp)
+{
+    int16_t  w = -1;
+    uint16_t n = 0;
+    char     c;
+    while ((c = s[n]) != 0) {
+        if (c == &#x27;w&#x27; &amp;&amp; w &lt; 0 &amp;&amp; s[n + 1] == &#x27;a&#x27; &amp;&amp; s[n + 2] == &#x27;i&#x27; &amp;&amp; s[n + 3] == &#x27;t&#x27;)
+            w = (int16_t)n;
+        n++;
+    }
+    *wp = w;
+    return n;
+}
+
+/* position of first occurrence of w in s, or -1 */
+static int16_t find_str(const char *s, const char *w)
+{
+    for (int16_t p = 0; s[p]; p++) {
+        uint16_t i = 0;
+        while (w[i] &amp;&amp; s[p + i] == w[i]) i++;
+        if (!w[i]) return p;
+    }
+    return -1;
+}
+
+static int has_str(const char *s, const char *w)
+{
+    return find_str(s, w) &gt;= 0;
+}
+
+static uint32_t read_num_after(const char *s, const char *key)
+{
+    uint32_t v = 0;
+    for (; *s; s++) {
+        uint16_t i = 0;
+        while (key[i] &amp;&amp; s[i] == key[i]) i++;
+        if (!key[i]) {
+            s += i;
+            while (*s &gt;= &#x27;0&#x27; &amp;&amp; *s &lt;= &#x27;9&#x27;) {
+                v = v * 10 + (uint32_t)(*s - &#x27;0&#x27;);
+                s++;
+                if (v &gt; 1000000) v = 1000000;
+            }
+            return v;
+        }
+    }
+    return 0;
+}
+
+static uint8_t  pend = 0;   /* channel whose pixels are painted but not yet sent */
+static uint32_t lit  = 0;   /* bit (k-1) = channel k currently shows something   */
+
+static void flush_px(void)
+{
+    if (pend) {
+        send_channel(pend);
+        lit |= 1u &lt;&lt; (pend - 1);
+        pend = 0;
+    }
+}
+
+static void do_wait(void)
+{
+    flush_px();
+    for (uint8_t k = 1; k &lt;= NUM_CH; k++)       /* NUM_CH, not nch: an old SD header may still say 17 */
+        if (!touched[k - 1] &amp;&amp; (lit &amp; (1u &lt;&lt; (k - 1)))) {
+            clear_px();
+            send_channel(k);
+            lit &amp;= ~(1u &lt;&lt; (k - 1));
+        }
+    for (uint8_t k = 0; k &lt; NUM_CH; k++) touched[k] = 0;
+    ao = 0;
+}
+
+/* Runs the commands that come BEFORE &quot;wait&quot; (if any), then do_wait().
+ * Line: AARRGGBBSSEE...[wait=N]  or just  wait=N  */
+static void execute_line_n(const char *line, int16_t wp, uint16_t len)
+{
+    uint16_t n   = len / 12;
+    uint16_t off = len - n * 12;
+    if (off &gt; 1) off = 1;
+
+    for (uint16_t k = 0; k &lt; n; k++) {
+        const uint8_t *p = (const uint8_t *)line + off + k * 12;
+        uint8_t a = hex2(p),     r = hex2(p + 2), g = hex2(p + 4);
+        uint8_t b = hex2(p + 6), s = hex2(p + 8), e = hex2(p + 10);
+        if (a &lt; 1 || a &gt; NUM_CH) continue;
+
+        touched[a - 1] = 1;
+        if (ao != a) { flush_px(); clear_px(); }
+        ao = a;
+        uint16_t last = (e &lt; STRIP_LEN) ? e : (STRIP_LEN - 1);
+        uint8_t *q = px + s * 3;
+        for (uint16_t i = s; i &lt;= last; i++) {      /* s &gt;= STRIP_LEN: no iteration, as before */
+            *q++ = g;
+            *q++ = r;
+            *q++ = b;
+        }
+        pend = a;                 /* sent once per channel (flush_px) */
+    }
+
+    if (wp &gt;= 0) do_wait();
+}
+
+static void execute_line(const char *line)
+{
+    int16_t  wp;
+    uint16_t len = scan_line(line, &amp;wp);
+    execute_line_n(line, wp, (wp &gt;= 0) ? (uint16_t)wp : len);
+}
+
+/* ---------------- application ---------------- */
+static uint8_t  line[MAX_LINE + 1];
+static uint8_t  sd_ok;
+static uint8_t  recording;
+static uint16_t frames;
+
+#define MULTI_BATCH 2
+static uint8_t multi_buf[MULTI_BATCH * 512];
+/* RAM saver: the single-sector buffer shares memory with the play buffer.
+ * They are never used at the same time: play_all() only uses blk for
+ * load_header() before its loop and for the one-sector fallback, which copies
+ * blk onto multi_buf[0..511] (now the same bytes). */
+#define blk multi_buf
+
+static int is_cmd(const uint8_t *a, uint16_t len, const char *w)
+{
+    uint16_t i = 0;
+    for (; w[i]; i++)
+        if (i &gt;= len || (a[i] | 0x20) != (w[i] | 0x20)) return 0;
+    return i == len;
+}
+
+static uint8_t save_header(void)
+{
+    for (int i = 0; i &lt; 512; i++) blk[i] = 0;
+    blk[0] = &#x27;R&#x27;; blk[1] = &#x27;M&#x27;; blk[2] = &#x27;G&#x27;; blk[3] = &#x27;2&#x27;;
+    blk[4] = (uint8_t)(frames &amp; 0xFF);
+    blk[5] = (uint8_t)(frames &gt;&gt; 8);
+    blk[6] = nch;
+    blk[7]  = (uint8_t)(play_delay &amp; 0xFF);
+    blk[8]  = (uint8_t)((play_delay &gt;&gt; 8) &amp; 0xFF);
+    blk[9]  = (uint8_t)((play_delay &gt;&gt; 16) &amp; 0xFF);
+    blk[10] = (uint8_t)((play_delay &gt;&gt; 24) &amp; 0xFF);
+    blk[11] = auto_play;
+    return sd_write(BASE_SECTOR, blk);
+}
+
+static uint16_t load_header(void)
+{
+    if (sd_read(BASE_SECTOR, blk)) return 0;
+    if (blk[0] != &#x27;R&#x27; || blk[1] != &#x27;M&#x27; || blk[2] != &#x27;G&#x27; || blk[3] != &#x27;2&#x27;) return 0;
+    if (blk[6] &gt;= 1 &amp;&amp; blk[6] &lt;= NUM_CH) nch = blk[6];
+    play_delay = (uint32_t)blk[7] | ((uint32_t)blk[8] &lt;&lt; 8) |
+                 ((uint32_t)blk[9] &lt;&lt; 16) | ((uint32_t)blk[10] &lt;&lt; 24);
+    auto_play = blk[11];
+    if (auto_play &gt; 1) auto_play = 0;
+    return (uint16_t)(blk[4] | (blk[5] &lt;&lt; 8));
+}
+
+static void report_error(const char *what, uint8_t e)
+{
+    Bluetooth_SendString(what);
+    Bluetooth_SendNum(e);
+    Bluetooth_SendString(&quot; r1=&quot;);
+    Bluetooth_SendHex(sd_r1);
+    Bluetooth_SendString(&quot;\r\n&quot;);
+}
+
+static void uart_flush_rx(void)
+{
+    rx_tail = rx_head();
+    if (USART1_ISR &amp; 0x0E) USART1_ICR = 0x0E;
+}
+
+/* Drains the RX ring; returns 1 only when the word &quot;STOP&quot; (any case) arrives.
+ * Everything else (e.g. &quot;OK+LOST&quot; sent by the BT module on disconnect, line
+ * noise, CR/LF) is ignored. */
+static int uart_stop_seen(void)
+{
+    static const char w[] = &quot;stop&quot;;
+    while (rx_tail != rx_head()) {
+        uint8_t c = rx_ring[rx_tail];
+        rx_tail = (uint16_t)((rx_tail + 1u) &amp; (RX_RING - 1u));
+        c |= 0x20;
+        if (c == (uint8_t)w[stop_idx]) {
+            if (++stop_idx == 4) { stop_idx = 0; return 1; }
+        } else {
+            stop_idx = (c == &#x27;s&#x27;) ? 1 : 0;
+        }
+    }
+    return 0;
+}
+
+/* delay that can be interrupted by STOP; returns 1 if stopped */
+static int delay_ms_chk(uint32_t n)
+{
+    while (n--) {
+        (void)SYST_CSR;
+        while (!(SYST_CSR &amp; (1u &lt;&lt; 16)))
+            if (uart_stop_seen()) return 1;
+    }
+    return 0;
+}
+
+/* -------- DUMP -------- */
+static void dump_frame(uint16_t idx)
+{
+    Bluetooth_SendString(&quot;[&quot;);
+    Bluetooth_SendNum(idx);
+    Bluetooth_SendString(&quot;] &quot;);
+    for (int i = 0; i &lt; 512; i++) {
+        uint8_t c = blk[i];
+        if (c == 0) break;
+        if (c &gt;= 32 &amp;&amp; c &lt; 127) Bluetooth_SendChar((char)c);
+        else {
+            Bluetooth_SendString(&quot;&lt;&quot;);
+            Bluetooth_SendHex(c);
+            Bluetooth_SendString(&quot;&gt;&quot;);
+        }
+    }
+    Bluetooth_SendString(&quot;\r\n&quot;);
+}
+
+static void do_dump(uint16_t only)
+{
+    if (!sd_ok) { Bluetooth_SendString(&quot;SD not ready\r\n&quot;); return; }
+    uart_flush_rx(); delay_ms(50); uart_flush_rx();
+
+    if (sd_read(BASE_SECTOR, blk)) { report_error(&quot;hdr read err=&quot;, sd_r1); return; }
+    Bluetooth_SendString(&quot;HDR raw: &quot;);
+    for (int i = 0; i &lt; 16; i++) { Bluetooth_SendHex(blk[i]); Bluetooth_SendChar(&#x27; &#x27;); }
+    Bluetooth_SendString(&quot;\r\n&quot;);
+
+    uint16_t n = (uint16_t)(blk[4] | (blk[5] &lt;&lt; 8));
+    uint32_t d = (uint32_t)blk[7] | ((uint32_t)blk[8] &lt;&lt; 8) |
+                 ((uint32_t)blk[9] &lt;&lt; 16) | ((uint32_t)blk[10] &lt;&lt; 24);
+    Bluetooth_SendString(&quot;HDR frames=&quot;);
+    Bluetooth_SendNum(n);
+    Bluetooth_SendString(&quot; nch=&quot;);
+    Bluetooth_SendNum(blk[6]);
+    Bluetooth_SendString(&quot; delay=&quot;);
+    Bluetooth_SendNum(d);
+    Bluetooth_SendString(&quot; auto=&quot;);
+    Bluetooth_SendNum(blk[11]);
+    Bluetooth_SendString(&quot;\r\n&quot;);
+
+    if (n == 0 || n &gt; MAX_FRAMES) { Bluetooth_SendString(&quot;(no frames)\r\n&quot;); return; }
+
+    if (only == 0xFFFF) {
+        if (blk[0] != &#x27;R&#x27; || blk[1] != &#x27;M&#x27; || blk[2] != &#x27;G&#x27; || blk[3] != &#x27;2&#x27;) {
+            Bluetooth_SendString(&quot;HDR tag BAD!\r\n&quot;);
+            return;
+        }
+        for (uint16_t i = 0; i &lt; n; i++) {
+            uint8_t e = sd_read(BASE_SECTOR + 1 + i, blk);
+            if (e) { report_error(&quot;read err=&quot;, e); return; }
+            dump_frame(i);
+        }
+        Bluetooth_SendString(&quot;DUMP DONE\r\n&quot;);
+    } else {
+        if (only &gt;= n) { Bluetooth_SendString(&quot;index out of range\r\n&quot;); return; }
+        uint8_t e = sd_read(BASE_SECTOR + 1 + only, blk);
+        if (e) { report_error(&quot;read err=&quot;, e); return; }
+        dump_frame(only);
+    }
+}
+
+/* -------- PLAY / LOOP -------- */
+static void play_all(uint8_t loop)
+{
+    uint16_t n = load_header();
+    if (!n) { Bluetooth_SendString(&quot;EMPTY\r\n&quot;); return; }
+
+    uart_flush_rx();
+    delay_ms(100);
+    uart_flush_rx();
+    stop_idx = 0;
+
+    Bluetooth_SendString(&quot;PLAY n=&quot;);
+    Bluetooth_SendNum(n);
+    Bluetooth_SendString(&quot; delay=&quot;);
+    Bluetooth_SendNum(play_delay);
+    Bluetooth_SendString(&quot;\r\n&quot;);
+
+    do {
+        uint16_t i = 0;
+        while (i &lt; n) {
+            uint16_t batch = (n - i &gt; MULTI_BATCH) ? MULTI_BATCH : (n - i);
+
+            uint8_t e = sd_read_multi(BASE_SECTOR + 1 + i, multi_buf, batch);
+            if (e) {
+                e = sd_read(BASE_SECTOR + 1 + i, blk);
+                if (e) { flush_px(); report_error(&quot;read error=&quot;, e); return; }
+                batch = 1;
+                for (int j = 0; j &lt; 512; j++) multi_buf[j] = blk[j];
+            }
+
+            for (uint16_t b = 0; b &lt; batch; b++) {
+                if (uart_stop_seen()) {
+                    flush_px();
+                    Bluetooth_SendString(&quot;STOPPED\r\n&quot;);
+                    return;
+                }
+
+                uint8_t *frame_data = multi_buf + b * 512;
+                frame_data[511] = 0;
+
+                int16_t  wp;
+                uint16_t flen = scan_line((const char *)frame_data, &amp;wp);   /* one pass instead of three */
+                int is_wait_line = (wp &gt;= 0);
+                uint32_t w = is_wait_line ? read_num_after((const char *)frame_data + wp, &quot;wait=&quot;) : 0;
+
+                execute_line_n((const char *)frame_data, wp, is_wait_line ? (uint16_t)wp : flen);
+
+                uint32_t dly = (is_wait_line &amp;&amp; w) ? w : play_delay;
+                if (dly &amp;&amp; delay_ms_chk(dly)) {
+                    flush_px();
+                    Bluetooth_SendString(&quot;STOPPED\r\n&quot;);
+                    return;
+                }
+            }
+            i += batch;
+        }
+    } while (loop);
+
+    flush_px();
+    Bluetooth_SendString(&quot;PLAY DONE\r\n&quot;);
+}
+
+static void handle_line(uint16_t len)
+{
+    line[len] = 0;
+
+    /* Add STOP command */
+    if (is_cmd(line, len, &quot;STOP&quot;)) {
+        Bluetooth_SendString(&quot;STOPPED\r\n&quot;);
+        recording = 0;
+        Bluetooth_SendString(&quot;next\r\n&quot;);   /* ack, so the phone can send the next line */
+        return;
+    }
+
+    if (is_cmd(line, len, &quot;REC&quot;) || is_cmd(line, len, &quot;END&quot;) || is_cmd(line, len, &quot;PLAY&quot;) ||
+        is_cmd(line, len, &quot;LOOP&quot;) || is_cmd(line, len, &quot;INFO&quot;) || is_cmd(line, len, &quot;ERASE&quot;) ||
+        is_cmd(line, len, &quot;DUMP&quot;) || is_cmd(line, len, &quot;TEST5&quot;) || is_cmd(line, len, &quot;TEST10&quot;)) {
+
+        if (is_cmd(line, len, &quot;TEST5&quot;)) {
+            Bluetooth_SendString(&quot;START\r\n&quot;);
+            delay_ms(5000);
+            Bluetooth_SendString(&quot;END\r\n&quot;);
+            return;
+        }
+        if (is_cmd(line, len, &quot;TEST10&quot;)) {
+            Bluetooth_SendString(&quot;START\r\n&quot;);
+            delay_ms(10000);
+            Bluetooth_SendString(&quot;END\r\n&quot;);
+            return;
+        }
+
+        if (!sd_ok) { Bluetooth_SendString(&quot;SD not ready\r\n&quot;); return; }
+
+        if (is_cmd(line, len, &quot;REC&quot;)) {
+            frames = 0;
+            uint8_t e = save_header();
+            if (e) { recording = 0; report_error(&quot;write error=&quot;, e); return; }
+            recording = 1;
+            Bluetooth_SendString(&quot;REC OK\r\n&quot;);
+        } else if (is_cmd(line, len, &quot;END&quot;)) {
+            recording = 0;
+            uint8_t e = save_header();
+            if (e) { report_error(&quot;write error=&quot;, e); return; }
+            Bluetooth_SendString(&quot;SAVED &quot;);
+            Bluetooth_SendNum(frames);
+            Bluetooth_SendString(&quot;\r\n&quot;);
+        } else if (is_cmd(line, len, &quot;PLAY&quot;)) {
+            play_all(0);
+        } else if (is_cmd(line, len, &quot;LOOP&quot;)) {
+            play_all(1);
+        } else if (is_cmd(line, len, &quot;DUMP&quot;)) {
+            do_dump(0xFFFF);
+        } else if (is_cmd(line, len, &quot;ERASE&quot;)) {
+            frames = 0;
+            uint8_t e = save_header();
+            if (e) { report_error(&quot;write error=&quot;, e); return; }
+            Bluetooth_SendString(&quot;ERASED\r\n&quot;);
+        } else {                                          /* INFO */
+            uint16_t n = load_header();
+            Bluetooth_SendString(&quot;frames=&quot;);
+            Bluetooth_SendNum(n);
+            Bluetooth_SendString(&quot; ch=&quot;);
+            Bluetooth_SendNum(nch);
+            Bluetooth_SendString(&quot; delay=&quot;);
+            Bluetooth_SendNum(play_delay);
+            Bluetooth_SendString(&quot; auto=&quot;);
+            Bluetooth_SendNum(auto_play);
+            if (auto_play == 0) Bluetooth_SendString(&quot; (ON)&quot;);
+            else Bluetooth_SendString(&quot; (OFF)&quot;);
+            Bluetooth_SendString(&quot;\r\n&quot;);
+        }
+        Bluetooth_SendString(&quot;next\r\n&quot;);   /* ack for REC / END / PLAY / LOOP(after STOP) / INFO / ERASE / DUMP */
+        return;
+    }
+
+    if (has_str((const char *)line, &quot;DUMP=&quot;)) {
+        uint32_t v = read_num_after((const char *)line, &quot;DUMP=&quot;);
+        do_dump((uint16_t)v);
+        Bluetooth_SendString(&quot;next\r\n&quot;);
+        return;
+    }
+
+    if (has_str((const char *)line, &quot;CH=&quot;)) {
+        uint32_t v = read_num_after((const char *)line, &quot;CH=&quot;);
+        if (v &gt;= 1 &amp;&amp; v &lt;= NUM_CH) {
+            nch = (uint8_t)v;
+            if (sd_ok) save_header();
+            Bluetooth_SendString(&quot;OK CH=&quot;);
+            Bluetooth_SendNum(nch);
+            Bluetooth_SendString(&quot;\r\n&quot;);
+        }
+        Bluetooth_SendString(&quot;next\r\n&quot;);
+        return;
+    }
+
+    if (has_str((const char *)line, &quot;DELAY=&quot;)) {
+        play_delay = read_num_after((const char *)line, &quot;DELAY=&quot;);
+        if (sd_ok) save_header();
+        Bluetooth_SendString(&quot;OK DELAY=&quot;);
+        Bluetooth_SendNum(play_delay);
+        Bluetooth_SendString(&quot;\r\n&quot;);
+        Bluetooth_SendString(&quot;next\r\n&quot;);
+        return;
+    }
+
+    if (has_str((const char *)line, &quot;AUTO=&quot;)) {
+        uint32_t v = read_num_after((const char *)line, &quot;AUTO=&quot;);
+        auto_play = (v &gt; 0) ? 1 : 0;
+        if (sd_ok) save_header();
+        Bluetooth_SendString(&quot;OK AUTO=&quot;);
+        Bluetooth_SendNum(auto_play);
+        Bluetooth_SendString(&quot;\r\n&quot;);
+        Bluetooth_SendString(&quot;next\r\n&quot;);
+        return;
+    }
+
+    if (recording) {
+        /* both command lines and (merged) wait lines are stored as-is, one per sector */
+        if (frames &gt;= MAX_FRAMES) { Bluetooth_SendString(&quot;FULL\r\n&quot;); return; }
+        for (uint16_t i = 0; i &lt; 512; i++)
+            blk[i] = (i &lt; len) ? line[i] : 0;
+        uint8_t e = sd_write(BASE_SECTOR + 1 + frames, blk);
+        if (e) { report_error(&quot;write error=&quot;, e); return; }
+        frames++;
+        Bluetooth_SendString(&quot;next\r\n&quot;);
+        return;
+    }
+
+    /* live mode: execute_line() flushes by itself when the line contains wait */
+    execute_line((const char *)line);
+    if (!has_str((const char *)line, &quot;wait&quot;)) flush_px();
+    Bluetooth_SendString(&quot;next\r\n&quot;);
+}
+
+static void Bluetooth_Task(void)
+{
+    static uint16_t len = 0;
+
+    if (boot_loop) {
+        boot_loop = 0;
+        handle_line(4);
+        return;
+    }
+
+    char c = Bluetooth_ReceiveChar();
+
+    if (c == &#x27;\r&#x27; || c == &#x27;\n&#x27;) {
+        if (!len) return;
+        uint16_t n = len;
+        len = 0;
+        handle_line(n);
+    } else if (len &lt; MAX_LINE) {
+        line[len++] = (uint8_t)c;
+    }
+}
+
+int main(void)
+{
+    clock_init_48mhz();
+    systick_init();
+    RCC_AHBENR |= (1u &lt;&lt; 17);
+    Bluetooth_Init();
+    channels_init();
+    for (uint8_t k = 1; k &lt;= NUM_CH; k++) { clear_px(); send_channel(k); }
+
+    delay_ms(300);
+    uint8_t e = 1;
+    for (uint8_t tries = 0; tries &lt; 5 &amp;&amp; e; tries++) {
+        e = sd_init();
+        if (e) delay_ms(200);
+    }
+    if (e) {
+        Bluetooth_SendString(&quot;SD init FAIL step=&quot;);
+        Bluetooth_SendNum(e);
+        Bluetooth_SendString(&quot; r1=&quot;);
+        Bluetooth_SendHex(sd_r1);
+        Bluetooth_SendString(&quot;\r\n&quot;);
+    } else {
+        sd_ok = 1;
+        frames = load_header();
+        Bluetooth_SendString(&quot;SD init OK\r\n&quot;);
+
+        if (auto_play == 0 &amp;&amp; frames &gt; 0) {
+            line[0] = &#x27;L&#x27;; line[1] = &#x27;O&#x27;; line[2] = &#x27;O&#x27;; line[3] = &#x27;P&#x27;;
+            boot_loop = 1;
+            Bluetooth_SendString(&quot;AUTO LOOP QUEUED\r\n&quot;);
+        } else {
+            Bluetooth_SendString(&quot;AUTO OFF or EMPTY\r\n&quot;);
+        }
+    }
+
+    for (;;)
+        Bluetooth_Task();
+}
+</code></pre>
+        </details>
     </div>
 
     <!-- ===== Back to Home & Footer (aligned with CMI209) ===== -->
