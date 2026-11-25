@@ -168,6 +168,7 @@
       "HTTP REST API send and receive",
       "Phone sensors: light, motion, magnetometer, barometer",
       "Microphone and speech recognition",
+      "Camera access for computer-vision projects: one permission call, then getUserMedia in your page",
       "WebView with full HTML, CSS and JavaScript",
       "Offline support for Bluetooth and sensors",
       "No ads and no in-app purchases"
@@ -1344,7 +1345,7 @@
 
       <p class="hero-sub">
         SoifGo also connects your pages to Arduino, ESP32, ESP8266 and Raspberry Pi
-        through Bluetooth (Classic and BLE), MQTT and HTTP, and can read the phone's sensors and microphone.
+        through Bluetooth (Classic and BLE), MQTT and HTTP, and can read the phone's sensors, microphone and camera.
       </p>
 
       <div class="cta-row">
@@ -1926,7 +1927,17 @@ SoifGo is a free Android app that runs HTML tools written by AI, offline. Each i
 
       <div class="faq-item">
         <strong>What can I actually do inside the WebView?</strong>
-        <p>You can send and receive Bluetooth data, read phone sensors (light, motion, magnetometer, barometer), use the microphone and speech recognition in more languages, connect to MQTT brokers, call HTTP APIs, store data with <code>localStorage</code>, and use native <code>alert/confirm/prompt</code> dialogs. On top of that, the WebView itself is a full modern browser engine — so Canvas 2D, WebGL 3D, SVG, Web Audio, Gamepad, Web Workers, and any JavaScript library (Chart.js, Three.js, D3.js, TensorFlow.js…) all work out of the box.</p>
+        <p>You can send and receive Bluetooth data, read phone sensors (light, motion, magnetometer, barometer), use the microphone and speech recognition in more languages, use the camera, connect to MQTT brokers, call HTTP APIs, store data with <code>localStorage</code>, and use native <code>alert/confirm/prompt</code> dialogs. On top of that, the WebView itself is a full modern browser engine — so Canvas 2D, WebGL 3D, SVG, Web Audio, Gamepad, Web Workers, and any JavaScript library (Chart.js, Three.js, D3.js, TensorFlow.js…) all work out of the box.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>What can I do with the phone camera?</strong>
+        <p>Your page asks for permission with one call, <code>CallSub('camera_permission', true)</code>, then opens the camera with <code>getUserMedia</code> and processes the frames inside the page. SoifGo itself does not store or send the image; what your page does with it is up to your code. You can use any HTML computer-vision library, such as OpenCV.js, TensorFlow.js or MediaPipe (keep the library and model files with your page so it can work offline). Two ideas to start from:</p>
+        <ul>
+          <li><strong>Fire alert:</strong> spot flames and where they are in the frame, then raise an alarm or send the news wherever you want. In an advanced setup, a Bluetooth-controlled robotic arm with a water sprayer can aim at the fire. Results depend on your design, and this is not a replacement for a certified fire-safety system.</li>
+          <li><strong>Your own gestures:</strong> record your own hand and body movements, save them in the page, and map each one to an output: speech in your own dialect or sign style, or a command sent over Bluetooth, an API, a server or MQTT, or hardware that reacts to your movements. Accuracy depends on how many examples you record.</li>
+        </ul>
+        <p>The rest is up to your creativity. SoifGo's idea is that your imagination can become a good web app, and you do not need to write code: give an AI assistant such as Claude the address of this site (or the <a href="https://soifgo.github.io/llms.txt">llms.txt</a> and <a href="https://soifgo.github.io/SOIFGO_AI_CONTEXT.md">SOIFGO_AI_CONTEXT.md</a> files, or the guide inside the app), describe your idea, and with a little care you can have a personal app without coding. Speed depends on your phone's model and CPU, so test on your own device and send any error back to the AI to fix.</p>
       </div>
 
       <div class="faq-item">
