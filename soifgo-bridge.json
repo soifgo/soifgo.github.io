@@ -17,7 +17,10 @@
   "subs": [
     { "name": "html_bluetooth_rx", "group": "bluetooth", "arg_count": 1, "args": [ { "name": "txt", "type": "string" } ],
       "purpose": "SEND text to the connected Bluetooth module.",
-      "notes": ["Name looks swapped but is correct: _rx = send.", "SoifGo appends CR+LF; do not add \\n.", "Works only while a module is connected.", "Same Sub for Classic SPP and BLE."] },
+      "notes": ["Name looks swapped but is correct: _rx = send.", "By default SoifGo appends CR+LF; do not add \\n. Change it with bluetooth_eol.", "Works only while a module is connected.", "Same Sub for Classic SPP and BLE."] },
+    { "name": "bluetooth_eol", "group": "bluetooth", "arg_count": 1, "args": [ { "name": "mode", "type": "string", "note": "CRLF (default), CR, LF, STXETX, NULL or NON; any other value is ignored" } ],
+      "purpose": "Set the line ending that html_bluetooth_rx adds after the text.",
+      "notes": ["CRLF = bytes 13 10, CR = 13, LF = 10, STXETX = byte 2 + text + byte 3 (no CR+LF), NULL = byte 0, NON = nothing added.", "Call once in window.onload, before html_bluetooth_rx. Do not call it when CR+LF is wanted.", "SoifGo resets it to CRLF whenever the WebView closes."] },
     { "name": "sensor_light", "group": "sensors", "arg_count": 0, "args": [], "purpose": "Activate light sensor.", "delivers_to": ["html_sensor_light"], "notes": ["Independent of the other sensor Subs.", "Call inside window.onload."] },
     { "name": "sensor_move", "group": "sensors", "arg_count": 0, "args": [], "purpose": "Activate accelerometer (X, Y and Z).", "delivers_to": ["html_sensor_movex", "html_sensor_movey", "html_sensor_movez"], "notes": ["Z is the axis perpendicular to the screen and reflects movement along it; not for tilt (use X and Y) and gives no height or floor."] },
     { "name": "sensor_magno", "group": "sensors", "arg_count": 0, "args": [], "purpose": "Activate magnetometer (X, Y, Z).", "delivers_to": ["html_sensor_magnox", "html_sensor_magnoy", "html_sensor_magnoz"], "notes": ["Three separate receivers, one value each.", "Do not promise a tilt-compensated compass built on accelerometer Z (html_sensor_movez)."] },

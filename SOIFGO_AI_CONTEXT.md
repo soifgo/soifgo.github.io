@@ -352,7 +352,7 @@ When a user says "how do I start" or "how do I add a button", answer in the user
 10. No external libraries unless the user asks or the feature clearly needs one; plain HTML/CSS/JS works offline. **If a library is used, download it only ONCE and reuse the stored copy on every later run** — never make the page fetch it again each time it is opened. Use the IndexedDB loader pattern in **Section 14.11** (taken from the working 3D File Viewer). A bare `<script src="https://cdn...">` is only acceptable for a quick one-off test.
 11. Start from the closest example in Section 14; do not write bridge code from memory.
 12. Every sensor receiver gets **one value as a string**. Never assume `(x, y, z)` tuples, `data.x`, or a vector. The magnetometer is split into three receivers, `html_sensor_magnox`, `html_sensor_magnoy` and `html_sensor_magnoz`, one value each (Section 9); the barometer has a single receiver, `html_sensor_barometer`, one value. Never invent a Sub called `Connect_Phone_Sensor`; that is the name of a **Classic** button behavior, not a bridge Sub.
-13. **Bluetooth names look swapped. Do not guess them.** To SEND text to the hardware, use `window.soifgo.CallSub('html_bluetooth_rx', true, txt)` (exactly 1 argument after `true`). To RECEIVE text from the hardware, define `function html_bluetooth_tx(data)` and register it with `window.html_bluetooth_tx = html_bluetooth_tx;`. SoifGo appends a line ending (CR+LF) to every text sent with `html_bluetooth_rx`, so do not add `\n` yourself. Names such as `SoifGo.btSend`, `onBtReceive`, `SendBT` or `html_bluetooth_send` do not exist.
+13. **Bluetooth names look swapped. Do not guess them.** To SEND text to the hardware, use `window.soifgo.CallSub('html_bluetooth_rx', true, txt)` (exactly 1 argument after `true`). To RECEIVE text from the hardware, define `function html_bluetooth_tx(data)` and register it with `window.html_bluetooth_tx = html_bluetooth_tx;`. By default SoifGo appends a line ending (CR+LF) to every text sent with `html_bluetooth_rx`, so do not add `\n` yourself. To use a different line ending, call `window.soifgo.CallSub('bluetooth_eol', true, mode)` (1 argument) once in `window.onload`, before the first send (see Section 4). Never invent other names for it. Names such as `SoifGo.btSend`, `onBtReceive`, `SendBT` or `html_bluetooth_send` do not exist.
 14. **Camera: ask first, open second.** The camera has one Sub and one receiver. In `window.onload`, after a short delay (about 800 ms), call `window.soifgo.CallSub('camera_permission', true)` (0 arguments). Register `window.html_camera_status`; it receives the **string** `'true'` or `'false'`. Call `navigator.mediaDevices.getUserMedia({ video: ..., audio: false })` **only** when it is `=== 'true'`, and always add a manual "Start camera" button as a fallback. Use `audio: false` unless the page also needs the microphone (the microphone is a separate prompt). Start from Section 14.12.
 
 ### 0.5 Minimal Starter Template
@@ -531,7 +531,7 @@ window.soifgo.CallSub('html_bluetooth_rx', true, txt);
 
 Sends text to the connected Bluetooth device. **Takes exactly 1 argument after `true`.**
 
-> ⚠️ The name looks swapped: `html_bluetooth_rx` is the **SEND** Sub. The **RECEIVE** callback is `html_bluetooth_tx` (Section 5). SoifGo itself appends a line ending (CR+LF) to the text, so do not add `\n`. Sending works only while a Bluetooth module is connected; otherwise the app shows a "disconnected" message and nothing is sent.
+> ⚠️ The name looks swapped: `html_bluetooth_rx` is the **SEND** Sub. The **RECEIVE** callback is `html_bluetooth_tx` (Section 5). By default SoifGo itself appends a line ending (CR+LF) to the text, so do not add `\n`; the ending can be changed with `bluetooth_eol` (below). Sending works only while a Bluetooth module is connected; otherwise the app shows a "disconnected" message and nothing is sent.
 
 | Parameter | Type | Description |
 |---|---|---|
@@ -539,6 +539,32 @@ Sends text to the connected Bluetooth device. **Takes exactly 1 argument after `
 
 ```js
 window.soifgo.CallSub('html_bluetooth_rx', true, 'ON');
+```
+
+#### `bluetooth_eol`
+
+```js
+window.soifgo.CallSub('bluetooth_eol', true, mode);
+```
+
+Sets the line ending that `html_bluetooth_rx` adds after the text. **Takes exactly 1 argument after `true`.** `mode` is one of `'CRLF'` (default, bytes 13 10), `'CR'` (13), `'LF'` (10), `'STXETX'` (byte 2 + text + byte 3, no CR+LF), `'NULL'` (byte 0) or `'NON'` (nothing added). Any other value is ignored and the current mode stays.
+
+| `mode` | Bytes sent after the text | Notes |
+|---|---|---|
+| `'CRLF'` | 13 10 | **Default.** Used when the page never calls `bluetooth_eol` |
+| `'CR'` | 13 | |
+| `'LF'` | 10 | |
+| `'STXETX'` | none, but byte 2 goes before and byte 3 after the text | Framed protocols; no CR+LF is added |
+| `'NULL'` | 0 | |
+| `'NON'` | nothing | Raw text only |
+
+> Call `bluetooth_eol` **once in `window.onload`, before the first send**, and only when the page needs an ending other than CRLF. SoifGo resets the ending to `'CRLF'` every time the WebView is closed, so a page never inherits the setting of an earlier page. A page that is happy with CR+LF must not call it at all.
+
+```js
+window.onload = function () {
+  if (window.soifgo) window.soifgo.CallSub('bluetooth_eol', true, 'NON');
+};
+// later: window.soifgo.CallSub('html_bluetooth_rx', true, 'ABC');  // sends 41 42 43 only
 ```
 
 ---
@@ -865,6 +891,7 @@ Count = the exact number of arguments to pass after `'subName', true`.
 | Sub | Arguments after `true` (count) | Purpose |
 |---|---|---|
 | `html_bluetooth_rx` | 1: `txt` | SEND text to Bluetooth (name looks swapped) |
+| `bluetooth_eol` | 1: `mode` | Set the line ending added by `html_bluetooth_rx`: `'CRLF'` (default), `'CR'`, `'LF'`, `'STXETX'`, `'NULL'`, `'NON'`. Call once in `window.onload` before sending; SoifGo resets it to CRLF when the WebView closes |
 | `sensor_light` | 0 (none) | Activate light sensor |
 | `sensor_move` | 0 (none) | Activate movement sensor |
 | `sensor_magno` | 0 (none) | Activate magnetic sensor |
@@ -1943,7 +1970,7 @@ window.onload = render;
 
 **Protocol (both sides must match):**
 - Baud rate: **9600** (HC-05 / HC-06 default data mode; other modules may use a different default, check the module's datasheet).
-- Phone → Arduino: `ON` or `OFF`. SoifGo appends CR+LF itself when sending with `html_bluetooth_rx`, so the page sends only the word. The sketch treats `\r` or `\n` as the end of a command and ignores empty lines.
+- Phone → Arduino: `ON` or `OFF`. By default SoifGo appends CR+LF itself when sending with `html_bluetooth_rx`, so the page sends only the word. The sketch treats `\r` or `\n` as the end of a command and ignores empty lines.
 - Arduino → phone: `A0=<number>` followed by a newline, every 500 ms.
 
 **Wiring (Arduino Uno + HC-05):** HC-05 TX → pin 10, HC-05 RX → pin 11 (through a voltage divider, 5 V → 3.3 V), VCC 5 V, GND common. Pair the module in Android Settings first (default PIN is usually `1234` or `0000`).
@@ -2395,6 +2422,7 @@ The Arduino side only has to read the lines `MOVE` and `STOP` (SoifGo adds CR+LF
 | `CallSub` does nothing, a warning sound/message appears, or the app closes | Second argument is not `true`, wrong number of arguments, a wrong or invented Sub name, or no Bluetooth/MQTT connection | Pass `true`, pass exactly the Sub's count from Section 6, copy the Sub name exactly, and connect first. If SoifGo shows the wrong-Sub warning, the correct Sub list is now on the clipboard: paste it into the AI and rewrite the call from it |
 | Bluetooth sending does nothing | The receive name was used to send, an invented Sub name was used, or no module is connected | Send with `html_bluetooth_rx`, receive with `html_bluetooth_tx`, and connect the module first |
 | Arduino sees an extra blank line after each command | `\n` was added in JavaScript, but SoifGo already appends CR+LF | Send the text without `\n` |
+| Arduino needs a different line ending (only CR, only LF, no ending, a 0 byte, or STX/ETX framing) | The default is CR+LF | Call `bluetooth_eol` once in `window.onload` with `'CR'`, `'LF'`, `'NON'`, `'NULL'` or `'STXETX'` before sending |
 | MQTT shows "Connected" when it is not | `'false'` string is truthy | Compare `=== 'true'` |
 | MQTT messages never arrive | Never published/subscribed to that topic, or topic case differs | Publish once to the topic (auto-subscribes); topics are case-sensitive |
 | `api_recive` fails or the app closes | Only 1 argument passed (missing `key`) | Pass both `address` and `key` |
@@ -2421,4 +2449,4 @@ Apps → SoifGo |
 
 ## Changelog
 
-**Document revision:** 11 — added the camera bridge: Sub `camera_permission` (0 arguments) and receiver `html_camera_status` (`'true'`/`'false'`) in Sections 4, 5 and 6; code rule 14 in Section 0.4; Section 14.12 (camera motion → Bluetooth example); camera entries in Section 15; removed "no camera" from Sections 0.2 and 9; the microphone prompt is no longer shown for video-only requests. Revision 10 — added the BLE **Line Buffering** option (Play menu, BLE only, OFF by default): why BLE splits messages into 20-byte packets, what the option does, its requirements, and entries in Sections 9, 10, 13.1 and 15. Revision 9 — added the accelerometer Z receiver `html_sensor_movez`. Revision 8 — updated to SoifGo 1.47 (VersionCode 147): Option menu in Play with its full item list, and the Simulation Input Value modes (Section 13 and the Effects simulator note). Revision 7 — corrected the code-editing flow everywhere: code is saved automatically (no manual save), the yellow X returns directly to the WebView which reloads automatically (alternative: Back, then tap the WebView button again), rename / save-as only via the editor menu, and removed the last leftover "wait for colors" wording in Section 14. Revision 6 — added Step 0 (get and install the app: not on Google Play, APKPure or ZIP, unknown sources), removed the obsolete "wait until the code turns colored" warning (paste, then tap the yellow X right away), moved this changelog to the end of the file, and added the pointer to the short manual ai.html. Revision 5 — made the argument rule consistent (exact count per Sub, `true` always second, `''` only for an empty required value), added the argument-count column to Section 6, the Bluetooth send/receive name warning, the CR+LF note, and updated 14.9 and Section 15. Revision 4 — added Section 14.11 (Download an external library once, reuse it from storage via IndexedDB, based on the 3D File Viewer) and updated rule 0.4-10, the Pre-Send Checklist, Section 9 (Storage) and Section 15.
+**Document revision:** 12 — added the Sub `bluetooth_eol` (1 argument) that sets the Bluetooth line ending (`CRLF` default, `CR`, `LF`, `STXETX`, `NULL`, `NON`); SoifGo resets it to CRLF whenever the WebView closes; updated rule 0.4-13, Sections 4, 6, 14.9 and 15. Revision 11 — added the camera bridge: Sub `camera_permission` (0 arguments) and receiver `html_camera_status` (`'true'`/`'false'`) in Sections 4, 5 and 6; code rule 14 in Section 0.4; Section 14.12 (camera motion → Bluetooth example); camera entries in Section 15; removed "no camera" from Sections 0.2 and 9; the microphone prompt is no longer shown for video-only requests. Revision 10 — added the BLE **Line Buffering** option (Play menu, BLE only, OFF by default): why BLE splits messages into 20-byte packets, what the option does, its requirements, and entries in Sections 9, 10, 13.1 and 15. Revision 9 — added the accelerometer Z receiver `html_sensor_movez`. Revision 8 — updated to SoifGo 1.47 (VersionCode 147): Option menu in Play with its full item list, and the Simulation Input Value modes (Section 13 and the Effects simulator note). Revision 7 — corrected the code-editing flow everywhere: code is saved automatically (no manual save), the yellow X returns directly to the WebView which reloads automatically (alternative: Back, then tap the WebView button again), rename / save-as only via the editor menu, and removed the last leftover "wait for colors" wording in Section 14. Revision 6 — added Step 0 (get and install the app: not on Google Play, APKPure or ZIP, unknown sources), removed the obsolete "wait until the code turns colored" warning (paste, then tap the yellow X right away), moved this changelog to the end of the file, and added the pointer to the short manual ai.html. Revision 5 — made the argument rule consistent (exact count per Sub, `true` always second, `''` only for an empty required value), added the argument-count column to Section 6, the Bluetooth send/receive name warning, the CR+LF note, and updated 14.9 and Section 15. Revision 4 — added Section 14.11 (Download an external library once, reuse it from storage via IndexedDB, based on the 3D File Viewer) and updated rule 0.4-10, the Pre-Send Checklist, Section 9 (Storage) and Section 15.

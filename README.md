@@ -102,7 +102,7 @@ window.soifgo.CallSub('SubName', true, arg1, arg2, arg3);
 - The second argument is **always** `true` (runs on the UI thread).
 - Pass **exactly** the number of arguments the Sub defines (0–3). Use `''` for an empty value; never drop an argument and never add extras.
 - Always guard with `if (window.soifgo)`. Outside SoifGo the bridge is `undefined`.
-- SoifGo appends CR+LF to Bluetooth text, so send `'ON'`, not `'ON\n'`.
+- By default SoifGo appends CR+LF to Bluetooth text, so send `'ON'`, not `'ON\n'`. To change the ending call `bluetooth_eol` (below).
 - ⚠️ `html_bluetooth_rx` **sends** and `html_bluetooth_tx` **receives**. The names look swapped; they are correct.
 
 ### Subs (page → SoifGo)
@@ -110,6 +110,7 @@ window.soifgo.CallSub('SubName', true, arg1, arg2, arg3);
 | Sub | Args after `true` | Purpose |
 |---|---|---|
 | `html_bluetooth_rx` | 1 · `txt` | Send text over Bluetooth |
+| `bluetooth_eol` | 1 · `mode` | Line ending for `html_bluetooth_rx`: `'CRLF'` (default), `'CR'`, `'LF'`, `'STXETX'`, `'NULL'`, `'NON'`. Call once in `window.onload`, before sending; reset to CRLF when the WebView closes |
 | `sensor_light` | 0 | Start the light sensor |
 | `sensor_move` | 0 | Start the accelerometer |
 | `sensor_magno` | 0 | Start the magnetometer |
@@ -144,7 +145,8 @@ Register every receiver on `window`:
 /* ============================== 1) BLUETOOTH ==============================
    SEND    : html_bluetooth_rx  (1 arg)  ← name looks swapped
    RECEIVE : html_bluetooth_tx  (1 arg)  ← name looks swapped
-   SoifGo appends CR+LF itself, so send only the word: 'ON'
+   SoifGo appends CR+LF itself by default, so send only the word: 'ON'
+   Other ending: CallSub('bluetooth_eol', true, 'CR'|'LF'|'STXETX'|'NULL'|'NON') in window.onload
    ------------------------------------------------------------------------- */
 
 // ---- SEND ----
@@ -305,6 +307,7 @@ function voiceStart() {
 /* ============================ QUICK CHEAT SHEET ===========================
    SUB (send)                    ARGS after true        PURPOSE
    html_bluetooth_rx             1  txt                 send text over BT
+   bluetooth_eol                 1  mode                BT line ending (default CRLF)
    sensor_light                  0                      start light sensor
    sensor_move                   0                      start motion sensor
    sensor_magno                  0                      start magnetic sensor

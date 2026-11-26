@@ -19,6 +19,7 @@ If you cannot open or load the long Markdown file, use the short HTML manual ins
 - Second argument: the B4A `callUIThread` flag. Always `true` for SoifGo subs (Sub runs on the UI thread, no value is returned to JavaScript). It is required.
 - Arguments: Up to 3 after the boolean. Empty strings must be passed as `''`, not omitted.
 - Send to Bluetooth: `window.soifgo.CallSub('html_bluetooth_rx', true, TEXT)`
+- Bluetooth line ending: SoifGo adds CR+LF by default. To change it call `window.soifgo.CallSub('bluetooth_eol', true, MODE)` once in `window.onload` before sending; MODE is `'CRLF'` (default), `'CR'`, `'LF'`, `'STXETX'`, `'NULL'` or `'NON'`. It resets to CRLF whenever the WebView closes.
 - Receive from Bluetooth: define `function html_bluetooth_tx(data) { }` and attach with `window.html_bluetooth_tx = html_bluetooth_tx;`
 - Bluetooth module families (both tested): Classic SPP = HC-05, HC-06, JDY-31; BLE = JDY-23, DX-BT05, CC2541. Classic modules work in the default Classic mode. To connect to a BLE module, open the Play menu, tap the last item (Classic Bluetooth) and choose Bluetooth Low Energy (BLE). Scanning and connecting then work the same way, and the code does not change: the same `html_bluetooth_rx` and `html_bluetooth_tx` are used for both families.
 - Pairing: for Classic modules (HC-05, HC-06, JDY-31), pair the module in Android Settings first.

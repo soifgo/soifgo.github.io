@@ -2019,6 +2019,7 @@ SoifGo is a free Android app that runs HTML tools written by AI, offline. Each i
           </thead>
           <tbody>
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>html_bluetooth_rx</code></td><td style="padding:6px 8px; border:1px solid var(--border);">1</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('html_bluetooth_rx', true, txt)</code>: SENDS text over Bluetooth, Classic or BLE (the name looks swapped, but this is the send Sub)</td></tr>
+            <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>bluetooth_eol</code></td><td style="padding:6px 8px; border:1px solid var(--border);">1</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('bluetooth_eol', true, mode)</code>: sets the line ending that <code>html_bluetooth_rx</code> adds after the text. <code>mode</code> is one of <code>'CRLF'</code> (default), <code>'CR'</code>, <code>'LF'</code>, <code>'STXETX'</code>, <code>'NULL'</code>, <code>'NON'</code>. Call it once in <code>window.onload</code>, before sending, and only when the page needs an ending other than CRLF</td></tr>
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>sensor_light</code></td><td style="padding:6px 8px; border:1px solid var(--border);">0</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('sensor_light', true)</code>: starts the light sensor</td></tr>
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>sensor_move</code></td><td style="padding:6px 8px; border:1px solid var(--border);">0</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('sensor_move', true)</code>: starts the movement sensor</td></tr>
             <tr><td style="padding:6px 8px; border:1px solid var(--border);"><code>sensor_magno</code></td><td style="padding:6px 8px; border:1px solid var(--border);">0</td><td style="padding:6px 8px; border:1px solid var(--border);"><code>CallSub('sensor_magno', true)</code>: starts the magnetic sensor</td></tr>
@@ -2059,10 +2060,23 @@ function html_bluetooth_tx(data) {
 window.html_bluetooth_tx = html_bluetooth_tx;</code></pre>
       </div>
       <p>
-        SoifGo already appends a line ending (CR+LF) to every text sent with
+        By default SoifGo appends a line ending (CR+LF) to every text sent with
         <code>html_bluetooth_rx</code>, so do not add <code>\n</code> yourself.
         Bluetooth sending works only while a Bluetooth module is connected.
       </p>
+      <p>
+        To use another line ending, call <code>bluetooth_eol</code> once in <code>window.onload</code>,
+        before the first send. <code>mode</code> is <code>'CRLF'</code> (default, bytes 13 10),
+        <code>'CR'</code> (13), <code>'LF'</code> (10), <code>'STXETX'</code> (byte 2 + text + byte 3, no CR+LF),
+        <code>'NULL'</code> (byte 0) or <code>'NON'</code> (nothing added). SoifGo resets it to CRLF
+        whenever the WebView is closed. If CR+LF is fine, do not call it.
+      </p>
+      <div class="plain-code-wrap">
+        <button class="copy-btn" type="button" onclick="copyPlain(this)">📋 Copy code</button>
+        <pre><code class="plain-code">window.onload = function () {
+  if (window.soifgo) window.soifgo.CallSub('bluetooth_eol', true, 'NON');
+};</code></pre>
+      </div>
     </section>
 
     <!-- AI Resources Section Moved to the End -->
@@ -2120,6 +2134,7 @@ window.soifgo.CallSub('mqtt_publish', true, 'soifgo/led', 'ON', '0');</code></pr
             <code>html_bluetooth_rx</code>; the <u>receive</u> callback is
             <code>html_bluetooth_tx</code>. Do NOT guess — copy them exactly.<br><br>
             - Send: <code>html_bluetooth_rx</code>, exactly <b>1 argument</b> after <code>true</code> (<code>txt</code>).<br>
+            - Line ending (optional): SoifGo adds CR+LF by default. To change it, call <code>bluetooth_eol</code> (exactly <b>1 argument</b>: <code>'CRLF'</code>, <code>'CR'</code>, <code>'LF'</code>, <code>'STXETX'</code>, <code>'NULL'</code> or <code>'NON'</code>) once in <code>window.onload</code>, before sending. It resets to CRLF whenever the WebView closes.<br>
             - Receive: you define <code>html_bluetooth_tx(data)</code> and register it on <code>window</code>.<br><br>
             <b>Complete script (paste as-is; both directions covered):</b><br>
             <button class="copy-btn" type="button" onclick="copyPlain(this)">📋 Copy code</button>

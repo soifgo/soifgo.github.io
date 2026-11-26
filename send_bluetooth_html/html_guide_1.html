@@ -1143,6 +1143,45 @@ window.soifgo.CallSub('api_recive', true, address, key);</code></pre>
         <li><span class="ignore">SoifGo</span> sends the text to the connected Bluetooth device.</li>
       </ol>
     </div>
+
+    <h3>↩️ Line Ending (optional)</h3>
+    <p>
+      By default <span class="ignore">SoifGo</span> adds <strong>CR+LF</strong> (bytes 13 and 10) after every text sent with
+      <code>html_bluetooth_rx</code>, so do not add <code>\n</code> yourself. If your hardware needs a different ending,
+      call <code>bluetooth_eol</code> <strong>once in <code>window.onload</code></strong>, before the first send.
+    </p>
+
+    <div class="file-name">📄 Change the line ending</div>
+
+    <pre class="line-numbers"><code class="language-javascript">window.onload = function () {
+  if (window.soifgo) window.soifgo.CallSub('bluetooth_eol', true, 'NON');
+};
+
+function sendBluetooth() {
+  const txt = document.getElementById('txt').value;
+  window.soifgo.CallSub('html_bluetooth_rx', true, txt);   // sends only the text, nothing added
+}</code></pre>
+
+    <div class="table-wrap">
+    <table>
+      <tr><th>mode</th><th>What is sent</th></tr>
+      <tr><td><code>'CRLF'</code></td><td>text + 13 10 (default)</td></tr>
+      <tr><td><code>'CR'</code></td><td>text + 13</td></tr>
+      <tr><td><code>'LF'</code></td><td>text + 10</td></tr>
+      <tr><td><code>'STXETX'</code></td><td>2 + text + 3 (no CR+LF)</td></tr>
+      <tr><td><code>'NULL'</code></td><td>text + 0</td></tr>
+      <tr><td><code>'NON'</code></td><td>text only</td></tr>
+    </table>
+    </div>
+
+    <div class="note-success">
+      <strong>✅ Good to know:</strong>
+      <ul>
+        <li><code>bluetooth_eol</code> takes exactly <strong>1 argument</strong> after <code>true</code>. Any other value is ignored.</li>
+        <li><span class="ignore">SoifGo</span> resets it to <code>'CRLF'</code> whenever the WebView is closed.</li>
+        <li>If CR+LF is fine for your hardware, do not call it at all.</li>
+      </ul>
+    </div>
   </div>
 
   <div class="card" id="bluetooth-receive">
